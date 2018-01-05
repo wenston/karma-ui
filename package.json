@@ -15,6 +15,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "css-loader": "^0.28.7",
+    "express": "^4.16.2",
     "html-webpack-plugin": "^2.30.1",
     "postcss-loader": "^2.0.10",
     "style-loader": "^0.19.1",
@@ -22,6 +23,9 @@
     "vue-loader": "^13.6.2",
     "vue-style-loader": "^3.0.3",
     "vue-template-compiler": "^2.5.13",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "webpack-dev-middleware": "^2.0.3",
+    "webpack-dev-server": "^2.9.7",
+    "webpack-hot-middleware": "^2.21.0"
   }
 }
