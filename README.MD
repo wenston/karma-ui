@@ -1,3 +1,3 @@
 ### karma-ui
 
-用vue写的ui组件库
+用vue写的ui组件库。
