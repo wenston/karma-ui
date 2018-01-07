@@ -7,6 +7,11 @@
         <li>
           <a href="">postcss</a>
         </li>
+        <li>
+          <k-button type="primary">按钮</k-button>
+          <k-button type="warning">按钮</k-button>
+          <k-button type="danger">按钮</k-button>
+        </li>
       </div>
     </div>
   </div>

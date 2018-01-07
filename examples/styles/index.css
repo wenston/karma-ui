@@ -1,20 +1,2 @@
 @import 'var';
-
-a {
-  color:color(red b(30%));
-  filter:blur(10px)
-}
-.text-center {
-  text-align: center;
-}
-.box {
-  border:1px solid var(--border-color);
-  background-color: var(--bg-color);
-  padding:20px;
-  display: flex;
-  & .list {
-    border:2px solid var(--primary-color);
-    padding:20px;
-    @extend .text-center;
-  }
-}
+@import 'base';

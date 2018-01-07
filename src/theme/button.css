@@ -1,0 +1,69 @@
+.k-btn {
+  display: inline-block;
+  padding: .43em 1em;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  text-align: center;
+  white-space: nowrap;
+  border:1px solid var(--input-border-color);
+  border-radius: 2px;
+  cursor: pointer;
+  vertical-align: middle;
+  text-decoration: none;
+  transition:.25s;
+  outline: 0;
+  &+& {
+    margin-left:10px;
+  }
+  &.k-btn-default {
+    background-color:var(--default-color);
+    border-color:var(--input-border-color);
+    &:not([disabled]) {
+      &:hover,
+      &:focus {
+        border-color:var(--primary-color);
+      }
+      &:active {
+        border-color:var(--primary-color);
+        box-shadow:inset 1px 3px 5px rgba(0,0,0,.2);
+      }
+    }
+  }
+
+  @each $type in (primary,warning,danger) {
+      &.k-btn-$(type) {
+        background-color:var(--$(type)-color);
+        border-color:var(--$(type)-color);
+        color:#fff;
+        &:not([disabled]) {
+          &:hover,
+          &:focus {
+            border-color:color(var(--$(type)-color) b(8%));
+            background-color:color(var(--$(type)-color) b(8%));
+          }
+          &:active {
+            box-shadow:inset 1px 3px 5px rgba(0,0,0,.2);
+          }
+        }
+      }
+  }
+  
+  &[disabled] {
+    pointer-events: none;
+    opacity: .5;
+    cursor:not-allowed;
+  }
+  
+  &.k-btn-block {
+    display:block;
+    width: 100%;
+  }
+  & >span+.loading {
+
+    position: relative;
+    top:-4px;
+    margin-left:15px;
+
+  }
+}
