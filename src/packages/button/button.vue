@@ -1,10 +1,10 @@
 <script>
-import LoadingIcon from '../zLoading/loadingIcon.vue';
+// import LoadingIcon from '../zLoading/loadingIcon.vue';
 export default {
-  name:'ZButton',
-  components: {
-    LoadingIcon
-  },
+  name:'KButton',
+  // components: {
+  //   LoadingIcon
+  // },
   props: {
     tag: {
       type:String,
