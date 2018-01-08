@@ -5,8 +5,11 @@ import App from './App'
 
 //karma-ui引入
 import * as UI from 'karma-ui'
-
 Vue.use(UI.KButton)
+
+//单个引入
+// import {KButton} from 'karma-ui';
+// Vue.use(KButton)
 
 new Vue({
   components: {App},

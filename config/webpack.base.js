@@ -34,15 +34,15 @@ module.exports = {
     }, {
       test: /\.css$/,
       include: [resolve('src'), resolve('examples')],
-      use: [
-        {
+      use: [{
           loader: 'style-loader'
         },
         {
           loader: 'css-loader',
-          options: { importLoaders: 1 }
-        }
-        , {
+          options: {
+            importLoaders: 1
+          }
+        }, {
           loader: 'postcss-loader'
         }
       ]

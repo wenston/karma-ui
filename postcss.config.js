@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 module.exports = {
   plugins: {
     'precss': {},//支持嵌套、mixins等类sass写法
@@ -9,7 +10,6 @@ module.exports = {
     },
     'postcss-normalize': {
       forceImport: true
-    },
-    // 'postcss-partial-import': {}
+    }
   },
 }

@@ -30,12 +30,12 @@
       }
     }
   }
-
-  @each $type in (primary,warning,danger) {
-      &.k-btn-$(type) {
+  $types:primary,warning,danger;
+  @each $type in $types {
+      &.k-btn-$type {
+        color:#fff;
         background-color:var(--$(type)-color);
         border-color:var(--$(type)-color);
-        color:#fff;
         &:not([disabled]) {
           &:hover,
           &:focus {
@@ -53,6 +53,14 @@
     pointer-events: none;
     opacity: .5;
     cursor:not-allowed;
+  }
+
+  @each $size in 
+    (huge,large,big,medium,small,mini){
+    &.k-btn-$size {
+      padding:var(--button-$(size));
+      font-size:var(--button-$(size)-font-size);
+    }
   }
   
   &.k-btn-block {

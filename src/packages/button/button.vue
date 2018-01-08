@@ -41,7 +41,7 @@ export default {
         href={this.href}
         target={this.target}
         class={{
-          'k-btn':true,
+          ['k-btn']:true,
           ['k-btn-'+this.type]:true,
           ['k-btn-'+this.size]:true,
           'k-btn-block':this.block

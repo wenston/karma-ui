@@ -10,7 +10,7 @@ const port = 1024
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
     publicPath: devConfig.output.publicPath,
     quiet: true,
-    noInfo: false,
+    noInfo: true,
     stats: {
         colors: true
     },
@@ -27,7 +27,7 @@ devMiddleware.waitUntilValid(() => {
     app.listen(port, '', () => {
         console.log('可以开始啦：http://localhost:' + port)
         // https://www.npmjs.com/package/opn
-        opn('http://localhost:' + port, { app: 'chrome' })
+        // opn('http://localhost:' + port, { app: 'chrome' })
     })
 
 })

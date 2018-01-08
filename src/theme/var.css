@@ -1,10 +1,27 @@
 :root {
   --default-color:#f1f1f1;
-  --primary-color:#674cff;
-  --danger-color:#ff3b3b;
-  --warning-color:#ffc800;
+  --primary-color:#558fe3;
+  --danger-color:#F06C3C;
+  --warning-color:#f9aa33;
+  --success-color:#40ab56;
+  --disabled-color:#e9e9e9;
   /* input */
   --input-border-color:#dcdcdc;
-  
 
+
+  /* button */
+  /* button padding*/
+  --button-huge:.78em 1.5em;
+  --button-large:.65em 1.35em;
+  --button-big:.6em 1.2em;
+  --button-medium:.43em 1em;
+  --button-small:.42em 1em;
+  --button-mini:.3em .5em;
+  /* button font-size */
+  --button-huge-font-size:18px;
+  --button-large-font-size:16px;
+  --button-big-font-size:14px;
+  --button-medium-font-size:14px;
+  --button-small-font-size:12px;
+  --button-mini-font-size:12px;
 }
