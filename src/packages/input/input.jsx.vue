@@ -52,17 +52,6 @@ export default {
   computed: {
     isInput() {
       return this.tag.toLowerCase() === "input";
-    },
-    needValidate() {
-      return (
-        this.validate &&
-        this.validateOptions.type !== undefined &&
-        this.validateOptions.type !== ""
-      );
-    },
-    needParseFloat() {
-      let t = this.validateOptions.type
-      return this.needValidate && /(int|currency)/.test(t)
     }
   },
   render() {
@@ -132,8 +121,11 @@ export default {
           this.oldValue = parseFloat(this.oldValue).toFixed(errorType.digits)
         }else if(errorType.clear) {//清空
           this.oldValue = ''
+        }else if(errorType.value) {
+          this.oldValue = errorType.value
         }
       }
+      // console.log(this.oldValue)
       setTimeout(() => {
         this.$emit(
           "bianbianbian",
@@ -174,7 +166,7 @@ export default {
     value(val,oldVal) {
       // console.log(val)
       let old = oldVal;
-      if(this.needParseFloat) {
+      if(this.isIntOrCurrency) {
         old = parseFloat(old);
         old = isNaN(old)?'':old<0?'':old;
       }

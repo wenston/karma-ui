@@ -43,6 +43,12 @@
       <k-icon which="success"></k-icon>
       <k-icon which="arrow" type="up"></k-icon>
     </div>
+    <div>
+      <k-input-number v-model="buy"
+        :min="1"
+        :max="20"
+        :step="5"></k-input-number><span>{{buy}}</span>
+    </div>
   </div>
 </template>
 
@@ -57,7 +63,8 @@ export default {
         1:'北京',
         2:'上海',
         3:'广州'
-      }
+      },
+      buy:1,
     }
   }
 };

@@ -88,6 +88,10 @@
   --radio-border-color:var(--input-border-color);
   --radio-hover-border-color:var(--primary-color);
   
+  /*input-number*/
+  --input-number-btn-bg-color:var(--default-color);
+  --input-number-hover-btn-bg-color:color(var(--default-color) b(+5%));
+
 
   /*css icon*/
   --icon-delete:#ccc;

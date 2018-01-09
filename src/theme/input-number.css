@@ -1,0 +1,24 @@
+
+.k-input-number,
+.k-input-number--right {
+  cursor: pointer;
+  background-color: var(--input-number-btn-bg-color);
+  border-right: 1px solid var(--input-border-color);
+  &:hover {
+    background-color: var(--input-number-hover-btn-bg-color);
+  }
+  & .k-input-number__sign {
+    @extend .k-center;
+  }
+}
+.k-input-number--right {
+  border-right: none;
+  border-left: 1px solid var(--input-border-color);
+}
+.k-input-number--disabled {
+  pointer-events: none;
+  .k-input-number,
+  .k-input-number--right {
+    background-color:var(--disabled-color);
+  }
+}
