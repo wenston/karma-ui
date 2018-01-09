@@ -7,6 +7,7 @@
 @import 'select';
 @import 'option';
 @import 'radio';
+@import 'tips';
 * {
   box-sizing: border-box;
 }

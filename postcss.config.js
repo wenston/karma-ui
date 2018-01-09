@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 module.exports = {
   plugins: {
-    'precss': {},//支持嵌套、mixins等类sass写法
+    'precss': {},//https://github.com/jonathantneal/precss
     'postcss-color-function': {},//color函数https://github.com/postcss/postcss-color-function
     'postcss-import': {},//支持@import
     'postcss-cssnext': {

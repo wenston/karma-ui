@@ -45,8 +45,8 @@
     </div>
     <div>
       <k-input-number v-model="buy"
-        :min="1"
-        :max="20"
+        :min="4"
+        :max="21"
         :step="5"></k-input-number><span>{{buy}}</span>
     </div>
   </div>
@@ -64,8 +64,18 @@ export default {
         2:'上海',
         3:'广州'
       },
-      buy:1,
+      buy:3,
     }
+  },
+  mounted () {
+    this.$nextTick(()=>{
+      this.$tips({
+        content:(
+          '<k-button>按钮</k-button>'
+        ),
+        type:'success'
+      })
+    })
   }
 };
 </script>

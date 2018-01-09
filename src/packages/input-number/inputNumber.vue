@@ -54,6 +54,7 @@ export default {
       validate: {
         type: "int>0",
         max:this.max,
+        min:this.min,
         when: "input",
         showTips: false,
         useOldValue: true

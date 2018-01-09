@@ -5,6 +5,7 @@ import KSelect from 'karma-ui/packages/select/index.js';
 import KOption from 'karma-ui/packages/option/index.js';
 import KRadio from 'karma-ui/packages/radio/index.js';
 import KInputNumber from 'karma-ui/packages/input-number/index.js';
+import Tips from 'karma-ui/packages/tips/index.js';
 import KIcon from 'karma-ui/icon/css/index.js';
 
 
@@ -15,5 +16,6 @@ export {
   KOption,
   KRadio,
   KInputNumber,
+  Tips,
   KIcon,
 }
