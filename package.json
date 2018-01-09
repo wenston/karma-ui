@@ -9,6 +9,10 @@
   },
   "author": "wenston",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wenston/karma-ui.git"
+  },
   "devDependencies": {
     "autoprefixer": "^7.2.4",
     "babel-core": "^6.26.0",
