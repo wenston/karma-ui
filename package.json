@@ -38,6 +38,7 @@
     "postcss-normalize": "^4.0.0",
     "precss": "^2.0.0",
     "style-loader": "^0.19.1",
+    "svg-inline-loader": "^0.8.0",
     "vue": "^2.5.13",
     "vue-loader": "^13.6.2",
     "vue-router": "^3.0.1",

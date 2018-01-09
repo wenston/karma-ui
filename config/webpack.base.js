@@ -52,6 +52,10 @@ module.exports = {
       use: [{
         loader: 'vue-loader'
       }]
+    }, {
+      test: /\.svg$/,
+      include: [resolve('src'), resolve('examples')],
+      loader: 'svg-inline-loader'
     }]
   },
 }

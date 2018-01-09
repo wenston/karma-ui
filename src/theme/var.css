@@ -1,13 +1,43 @@
 :root {
+  /*base color*/
   --default-color:#f1f1f1;
-  --primary-color:#558fe3;
+  --primary-color:#3086F6;
   --danger-color:#F06C3C;
   --warning-color:#f9aa33;
   --success-color:#40ab56;
   --disabled-color:#e9e9e9;
+
+  /*过渡*/
+  --transition:.25s ease-out;
+  /*圆角弧度*/
+  --radius: 2px;
   /* input */
   --input-border-color:#dcdcdc;
+  --input-width: 150px;
+  --input-placeholder-color: #bbb;
+  --input-padding:0 0.5em;
 
+  /*input组件里包括了textarea*/
+  --input-textarea-padding:0.5em;
+  --input-textarea-line-height:1.5;
+
+  /*input size*/
+  --input-huge:50px;
+  --input-large:44px;
+  --input-big:36px;
+  --input-medium:30px;
+  --input-small:24px;
+  --input-mini:20px;
+
+  /*input font-size*/
+  --input-huge-font-size: 14px;
+  --input-large-font-size: 14px;
+  --input-big-font-size: 12px;
+  --input-medium-font-size: 12px;
+  --input-small-font-size: 12px;
+  --input-mini-font-size: 12px;
+
+  --input-focus-active-shadow:inset 1px 2px 3px rgba(0, 0, 0, 0.1);
 
   /* button */
   /* button padding*/
@@ -24,4 +54,10 @@
   --button-medium-font-size:14px;
   --button-small-font-size:12px;
   --button-mini-font-size:12px;
+
+
+  /*css icon*/
+  --icon-delete:#ccc;
+  --icon-arrow: #ccc;
+  --icon-plus-minus: #ccc;
 }

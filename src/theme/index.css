@@ -1,2 +1,8 @@
 @import 'var';
+@import 'common';
+@import 'icon';
 @import 'button';
+@import 'input';
+* {
+  box-sizing: border-box;
+}

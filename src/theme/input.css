@@ -1,0 +1,108 @@
+.k-input-section {
+  display: inline-block;
+  position: relative;
+  width: var(--input-width);
+  & .k-input,
+  & .k-textarea {
+    border:1px solid var(--input-border-color);
+    outline: 0;
+    font-size: 12px;
+    line-height: 1;
+    vertical-align: middle;
+    width:100%;
+    border-radius: var(--radius);
+    padding: 0 0.5em;
+    transition: var(--transition);
+    &:hover {
+      border-color: var(--primary-color);
+    }
+    &:focus,
+    &:active {
+      border-color: var(--primary-color);
+      box-shadow:var(--input-focus-active-shadow);
+    }
+    &.k-input-disabled {
+      background-color:var(--disabled-color);
+    }
+    &::placeholder {
+      color: var(--input-placeholder-color);
+    }
+  }
+  &.k-input-block {
+    @extend .k-block;
+  }
+  & .k-input-prepend,
+  & .k-input-append {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border: 1px solid transparent;
+    overflow: hidden;
+
+    & > * {
+      @extend .k-center;
+    }
+  }
+  & .k-input-append {
+    left: auto;
+    right: 0;
+  }
+  @each $name in (huge, large, big, medium, small, mini) {
+    &.k-input-$(name) {
+      & .k-input {
+        height: var(--input-$(name));
+        font-size: var(--input-$(name)-font-size);
+      }
+      
+      & .k-textarea {
+        height: calc(var(--input-$(name))*2);
+      }
+      
+      & .k-input-prepend,
+      & .k-input-append {
+        width: var(--input-$(name));
+      }
+
+      & .k-input-prepend {
+        & ~ .k-input {
+          padding-left: var(--input-$(name));
+        }
+      }
+
+      & .k-input-append {
+        & ~ .k-input {
+          padding-right: var(--input-$(name));
+        }
+      }
+    }
+  }
+
+  & .k-input-clearable {
+    @extend .k-center;
+    width: 14px;
+    height: 14px;
+    left: auto;
+    right: 6px;
+    display: none;
+  }
+  &:hover {
+    & .k-input-clearable {
+      display: inline-block;
+
+    }
+    & .k-input {
+      padding-right: 22px;
+    }
+  }
+  & .k-textarea {
+    padding: var(--input-textarea-padding);
+    line-height: var(--input-textarea-line-height);
+  }
+}
+/*
+
+
+
+
+}*/
