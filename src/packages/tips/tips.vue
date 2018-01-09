@@ -1,16 +1,4 @@
-<template>
-  <div class="k-tips"
-    v-if="visible"
-    :style="styles">
-    <div class="k-tips__tag">
-      <i :class="[
-        'k-tips__icon',
-        ['k-tips__icon--'+type]
-        ]"></i>
-    </div>
-    <div v-html="content" class="k-tips__cont"></div>
-  </div>
-</template>
+
 <script>
   const baseStyle = {
     "min-width":'180px',
@@ -29,6 +17,27 @@
         type:'success',//'error','warning'
         timer:null
       }
+    },
+    render() {
+      let tip = null;
+      if(this.visible) {
+        tip = (
+
+          <div class="k-tips"
+            style={this.styles}>
+            <div class="k-tips__tag">
+              <i class={{
+                'k-tips__icon':true,
+                ['k-tips__icon--'+this.type]:true
+              }}></i>
+            </div>
+            <div class="k-tips__cont">
+              {this.content}
+            </div>
+          </div>
+        )
+      }
+      return tip
     },
     methods: {
       setType(type) {

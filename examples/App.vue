@@ -36,6 +36,14 @@
           :label="v"
           :selected="curCity==k">{{v}}</k-option>
       </k-select>
+      <k-select v-model="curCity1"
+        clearable>
+        <k-option v-for="(v,k) in citys"
+          :key="k"
+          :value="k"
+          :label="v"
+          :selected="curCity1==k">{{v}}</k-option>
+      </k-select>
     </div>
     <div>
       <k-radio v-model="b" value=1 >是</k-radio>
@@ -59,6 +67,7 @@ export default {
       text:'撒旦法',
       b:"0",
       curCity:1,
+      curCity1:2,
       citys:{
         1:'北京',
         2:'上海',
@@ -70,9 +79,6 @@ export default {
   mounted () {
     this.$nextTick(()=>{
       this.$tips({
-        content:(
-          '<k-button>按钮</k-button>'
-        ),
         type:'success'
       })
     })
