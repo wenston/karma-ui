@@ -1,11 +1,11 @@
 <template>
   <div v-clickoutside="hideIt"
     v-esc="hideIt"
-    :class="css.select"
+    class="k-select"
     @click="toggleList"
     @mouseover="showDeleteBtn"
     @mouseout="hideDeleteBtn">
-    <z-input :class="{[css.active]:ifOptionList}"
+    <z-input :class="{'k-select__active':ifOptionList}"
       :placeholder="placeholder"
       readonly
       :size="size"
@@ -24,29 +24,26 @@
         :type="arrowType"
         ></z-icon>
     </z-input>
-    <transition :leave-active-class="css.leaveActive"
-      :leave-to-class="css.leaveTo">
-      <!-- 如果是v-if，则子组件不会被created/mounted，直到显示子组件的时候，才会实例化。所以初始化值时就初始化不上了 -->
-      <ul :class="css.optionList" v-show="ifOptionList"
-        ref="list">
-        <slot></slot>
-      </ul>
-    </transition>
+    <!-- 如果是v-if，则子组件不会被created/mounted，直到显示子组件的时候，才会实例化。所以初始化值时就初始化不上了 -->
+    <ul class="k-select__list" v-show="ifOptionList"
+      ref="list">
+      <slot></slot>
+    </ul>
     
   </div>
 </template>
 
 <script>
-import ZIcon from "../icon/icon.vue";
-import ZInput from "../input/input.jsx.vue";
-import clickoutside from "../util/clickoutside.js";
-import esc from "../util/esc.js";
-import emitter from "../mixins/emitter.js";
+import ZIcon from "karma-ui/icon/css/icon.vue";
+import ZInput from "karma-ui/packages/input/input.jsx.vue";
+import clickoutside from "karma-ui/util/clickoutside.js";
+import esc from "karma-ui/util/esc.js";
+import emitter from "karma-ui/mixins/emitter.js";
 
 export default {
   mixins: [emitter],
-  name: "ZSelect",
-  componentName: "ZSelect",
+  name: "KSelect",
+  componentName: "KSelect",
   components: {
     ZInput,
     ZIcon
@@ -139,7 +136,7 @@ export default {
       this._change(opt);
     });
     this.$on("optionReady", () => {
-      this.broadcast("ZOption", "iNeedValue", this.modelKey);
+      this.broadcast("KOption", "iNeedValue", this.modelKey);
     });
   },
   watch: {
@@ -147,7 +144,7 @@ export default {
       if (n === undefined || n === "") {
         this._change({});
       } else {
-        this.broadcast("ZOption", "iNeedValue", n);
+        this.broadcast("KOption", "iNeedValue", n);
       }
     },
     ifOptionList(val) {
@@ -162,37 +159,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" module="css">
-@import "../style/var.scss";
-.leave-active {
-  // transition: .25s ease-out;
-}
-.leave-to {
-  // opacity: 0;
-}
-.select {
-  display: inline-block;
-  vertical-align: middle;
-  position: relative;
-  .option-list {
-    position: absolute;
-    width: 100%;
-    border: 1px solid $z-color-primary;
-    border-top: none;
-    z-index: 99;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-    max-height: 300px;
-    overflow-y: auto;
-  }
-  input {
-    cursor: default;
-  }
-  .active {
-    input {
-      border-color: $z-color-primary;
-    }
-  }
-}
-</style>

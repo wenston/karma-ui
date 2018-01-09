@@ -1,0 +1,24 @@
+.k-select {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  .k-select__list {
+    padding:0;
+    margin:0;
+    font-size:12px;
+    position: absolute;
+    width: 100%;
+    border: 1px solid var(--primary-color);
+    border-top: none;
+    z-index: var(--select-option-z-index);
+    background-color: var(--select-option-bg-color);
+    box-shadow: var(--select-option-box-shadow);
+    max-height: var(--select-option-max-height);
+    overflow-y: auto;
+  }
+  .k-select__active {
+    & > input {
+      border-color:var(--primary-color);
+    }
+  }
+}

@@ -42,9 +42,9 @@ export default {
         target={this.target}
         class={{
           ['k-btn']:true,
-          ['k-btn-'+this.type]:true,
-          ['k-btn-'+this.size]:true,
-          'k-btn-block':this.block
+          ['k-btn--'+this.type]:true,
+          ['k-btn--'+this.size]:true,
+          'k-btn--block':this.block
         }}
         onClick={this._click}
         disabled={this.disabled}>

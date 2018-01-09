@@ -12,3 +12,9 @@
   bottom: 0;
   margin: auto;
 }
+
+.k-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

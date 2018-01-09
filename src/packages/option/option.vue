@@ -1,9 +1,9 @@
 <template>
   <li :title="label"
     :class="[
-      css.option,
+      'k-option',
       {
-        [css.selected]:this.selected
+        'k-option--selected':this.selected
       }
     ]"
     @click.stop="_click"
@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import emitter from "../mixins/emitter.js";
+import emitter from "karma-ui/mixins/emitter.js";
 export default {
   mixins: [emitter],
-  componentName: "ZOption",
-  name: "ZOption",
+  componentName: "KOption",
+  name: "KOption",
   // inject: ['selectComponent'],
   props: {
     selected: Boolean,
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     _dispatch(k, v) {
-      this.dispatch("ZSelect", "getValue", {
+      this.dispatch("KSelect", "getValue", {
         k,
         v
       });
@@ -43,29 +43,7 @@ export default {
     });
   },
   mounted() {
-    this.dispatch('ZSelect','optionReady')
+    this.dispatch('KSelect','optionReady')
   }
 };
 </script>
-
-<style lang="scss" module="css">
-@import "../style/var.scss";
-.option {
-  height: 28px;
-  line-height: 28px;
-  padding: 0 6px;
-  transition: 0.25s;
-  cursor: pointer;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  &:hover {
-    background-color: darken($z-color-default, 3%);
-    color: $z-color-primary;
-  }
-  &.selected {
-    background-color: $z-color-primary;
-    color: #fff;
-  }
-}
-</style>

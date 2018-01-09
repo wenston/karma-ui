@@ -10,8 +10,8 @@
     line-height: 1;
     vertical-align: middle;
     width:100%;
-    border-radius: var(--radius);
-    padding: 0 0.5em;
+    border-radius: var(--input-radius);
+    padding: var(--input-padding);
     transition: var(--transition);
     &:hover {
       border-color: var(--primary-color);
@@ -100,9 +100,3 @@
     line-height: var(--input-textarea-line-height);
   }
 }
-/*
-
-
-
-
-}*/

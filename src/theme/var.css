@@ -1,14 +1,17 @@
 :root {
   /*base color*/
-  --default-color:#f1f1f1;
+  --default-color:#fcfcfc;
   --primary-color:#3086F6;
   --danger-color:#F06C3C;
   --warning-color:#f9aa33;
   --success-color:#40ab56;
   --disabled-color:#e9e9e9;
+  --bg-color:#fff;
 
   /*过渡*/
   --transition:.25s ease-out;
+  /*box-shadow*/
+  --box-shadow:0 2px 5px rgba(0, 0, 0, 0.15);
   /*圆角弧度*/
   --radius: 2px;
   /* input */
@@ -16,6 +19,7 @@
   --input-width: 150px;
   --input-placeholder-color: #bbb;
   --input-padding:0 0.5em;
+  --input-radius:var(--radius);
 
   /*input组件里包括了textarea*/
   --input-textarea-padding:0.5em;
@@ -47,6 +51,12 @@
   --button-medium:.43em 1em;
   --button-small:.42em 1em;
   --button-mini:.3em .5em;
+  /* button fontcolor*/
+  --button-color:#333;
+  /*圆角*/
+  --button-radius:var(--radius);
+  /*按钮之间的间距*/
+  --button-gutter:10px;
   /* button font-size */
   --button-huge-font-size:18px;
   --button-large-font-size:16px;
@@ -54,7 +64,30 @@
   --button-medium-font-size:14px;
   --button-small-font-size:12px;
   --button-mini-font-size:12px;
+  /*button active 内阴影*/
+  --button-active-box-shadow:var(inset 1px 3px 5px rgba(0,0,0,.2));
 
+  /* select */
+  --select-option-z-index:99;
+  --select-option-box-shadow:var(--box-shadow);
+  --select-option-max-height:251px;
+  --select-option-bg-color:var(--bg-color);
+  /* option */
+  --option-height:28px;
+  --option-padding:0 6px;
+  --option-hover-color:var(--primary-color);
+  --option-hover-bg-color:var(--default-color);
+  --option-selected-color:#fff;
+  --option-selected-bg-color:var(--primary-color);
+
+
+  /* radio */
+  --radio-font-size:12px;
+  --radio-size:14px;
+  --radio-gutter:20px;
+  --radio-border-color:var(--input-border-color);
+  --radio-hover-border-color:var(--primary-color);
+  
 
   /*css icon*/
   --icon-delete:#ccc;

@@ -1,0 +1,16 @@
+.k-option {
+  height: var(--option-height);
+  line-height: var(--option-height);
+  padding: var(--option-padding);
+  transition: var(--transition);
+  cursor: pointer;
+  @extend .k-ellipsis;
+  &:hover {
+    background-color: var(--option-hover-bg-color);
+    color: var(--option-hover-color);
+  }
+  &.k-option--selected {
+    background-color: var(--option-selected-bg-color);
+    color:var(--option-selected-color);
+  }
+}

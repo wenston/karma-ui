@@ -10,6 +10,9 @@ module.exports = {
     },
     'postcss-normalize': {
       forceImport: true
+    },
+    'postcss-atrule-bem': {//不能用在@each循环中，解析不了！
+
     }
   },
 }

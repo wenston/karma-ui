@@ -3,44 +3,50 @@
   line-height: 1;
   width: 14px;
   height: 14px;
-  & .k-icon-type {
-    display:inline-block;
-    line-height:1;
-    width:14px;
+
+  & .k-icon__container {
+    display: inline-block;
+    line-height: 1;
+    width: 14px;
     height: 14px;
-     position: relative;
+    position: relative;
     font-style: normal;
     transition: var(--transition);
+
     &:after,
     &:before {
       content: "";
       @extend .k-center;
     }
-    &.k-icon-delete {
+
+    &.k-icon__container--delete {
       border-radius: 100%;
       background-color: var(--icon-delete);
       color: #fff;
       cursor: pointer;
+
       &:after,
       &:before {
         width: 6px;
         height: 1px;
-        background-color:#fff;
+        background-color: #fff;
         transform: rotate(45deg);
       }
+
       &:after {
         transform: rotate(-45deg);
       }
+
       &:hover {
         background-color: color(var(--icon-delete) b(50%));
       }
-      
     }
 
-    &.k-icon-arrow {
+    &.k-icon__container--arrow {
       pointer-events: none;
-      &.k-icon-arrow-up,
-      &.k-icon-arrow-down {
+
+      &.k-icon__container--arrow--up,
+      &.k-icon__container--arrow--down {
         &:after,
         &:before {
           width: 0;
@@ -51,7 +57,8 @@
           top: 5px;
         }
       }
-      &.k-icon-arrow-up {
+
+      &.k-icon__container--arrow--up {
         &:after,
         &:before {
           border-color: transparent transparent var(--icon-arrow);
@@ -60,38 +67,41 @@
       }
     }
 
-    &.k-icon-success {
-      background-color:var(--success-color);
+    &.k-icon__container--success {
+      background-color: var(--success-color);
       border-radius: 100%;
       pointer-events: none;
+
       &:before,
       &:after {
         opacity: 0.8;
       }
+
       &:before {
         height: 2.5px;
         width: 4.5px;
         margin-top: 2.5px;
         transform: rotate(-50deg);
-          border-style: solid;
-          border-color: transparent transparent #fff #fff;
-          border-width: 1.5px;
+        border-style: solid;
+        border-color: transparent transparent #fff #fff;
+        border-width: 1.5px;
       }
     }
 
-    &.k-icon-minus,
-    &.k-icon-plus {
+    &.k-icon__container--minus,
+    &.k-icon__container--plus {
       &:after {
         width: 8px;
         height: 1px;
-        background-color:var(--icon-plus-minus);
+        background-color: var(--icon-plus-minus);
       }
     }
-    &.k-icon-plus {
+
+    &.k-icon__container--plus {
       &:before {
         width: 1px;
         height: 8px;
-        background-color:var(--icon-plus-minus);
+        background-color: var(--icon-plus-minus);
       }
     }
   }

@@ -3,6 +3,9 @@
 @import 'icon';
 @import 'button';
 @import 'input';
+@import 'select';
+@import 'option';
+@import 'radio';
 * {
   box-sizing: border-box;
 }

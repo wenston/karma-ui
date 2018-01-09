@@ -1,22 +1,24 @@
+
+$types:primary,warning,danger,success;
 .k-btn {
   display: inline-block;
-  padding: .43em 1em;
+  padding: var(--button-medium);
   font-size: 14px;
   font-weight: 400;
-  color: #333;
+  color: var(--button-color);
   text-align: center;
   white-space: nowrap;
   border:1px solid var(--input-border-color);
-  border-radius: 2px;
+  border-radius: var(--button-radius);
   cursor: pointer;
   vertical-align: middle;
   text-decoration: none;
-  transition:.25s;
+  transition:var(--transition);
   outline: 0;
   &+& {
-    margin-left:10px;
+    margin-left:var(--button-gutter);
   }
-  &.k-btn-default {
+  &.k-btn--default {
     background-color:var(--default-color);
     border-color:var(--input-border-color);
     &:not([disabled]) {
@@ -30,17 +32,16 @@
       }
     }
   }
-  $types:primary,warning,danger;
   @each $type in $types {
-      &.k-btn-$type {
+      &.k-btn--$type {
         color:#fff;
         background-color:var(--$(type)-color);
         border-color:var(--$(type)-color);
         &:not([disabled]) {
           &:hover,
           &:focus {
-            border-color:color(var(--$(type)-color) b(8%));
-            background-color:color(var(--$(type)-color) b(8%));
+            border-color:color(var(--$(type)-color) s(+12%) l(+12%));
+            background-color:color(var(--$(type)-color) s(+12%) l(+12%));
           }
           &:active {
             box-shadow:inset 1px 3px 5px rgba(0,0,0,.2);
@@ -57,13 +58,13 @@
 
   @each $size in 
     (huge,large,big,medium,small,mini){
-    &.k-btn-$size {
+    &.k-btn--$size {
       padding:var(--button-$(size));
       font-size:var(--button-$(size)-font-size);
     }
   }
   
-  &.k-btn-block {
+  &.k-btn--block {
     display:block;
     width: 100%;
   }

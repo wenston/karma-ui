@@ -5,7 +5,7 @@
  * which(type):delete,arrow(up,down),success,plus,minus
  */
 export default {
-  name:'KIcon',
+  name: "KIcon",
   props: {
     which: String,
     type: String
@@ -25,12 +25,12 @@ export default {
       }
     }
     return (
-      <div class='k-icon'>
+      <div class="k-icon">
         <i
           class={{
-            'k-icon-type': true,
-            ['k-icon-'+this.which]: true,
-            ['k-icon-'+type]:type,
+            "k-icon__container": true,
+            ["k-icon__container--" + this.which]: true,
+            ["k-icon__container--" + this.which + "--" + this.type]: type
           }}
         >
           {content}
