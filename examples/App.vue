@@ -1,8 +1,10 @@
 <template>
   <div>
-    <h1>karma-ui</h1>
-    <div class="box">
-      <h3>测试</h3>
+    <div>
+      <h1 v-pin:0="{backgroundColor:'#ccc',boxSahdow:'0 3px 5px rgba(0,0,0,.3)'}">karma-ui</h1>
+    </div>
+    <div class="box" v-dnd="{handlerClass:'handle'}">
+      <h3 class="handle">测试</h3>
       <div class="list">
         <k-button type="primary" size="huge">按钮</k-button>
           <k-button type="warning" size="large">按钮</k-button>
@@ -62,9 +64,10 @@
         text="嗯嗯"></k-checkbox>{{bb}}
     </div>
     <div>
+      <k-button @click="show=!show">弹出框</k-button>
       <k-area v-model="areaCode"></k-area>
     </div>
-    
+    <k-popup :show.sync="show"></k-popup>
   </div>
 </template>
 
@@ -72,6 +75,7 @@
 export default {
   data() {
     return {
+      show:false,
       text:'撒旦法',
       b:"0",
       bb:true,

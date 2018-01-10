@@ -7,8 +7,13 @@ import KRadio from 'karma-ui/packages/radio/index.js';
 import KCheckbox from 'karma-ui/packages/checkbox/index.js';
 import KInputNumber from 'karma-ui/packages/input-number/index.js';
 import KArea from 'karma-ui/packages/area/index.js';
+import KPopup from 'karma-ui/packages/popup/index.js';
 import Tips from 'karma-ui/packages/tips/index.js';
+//css图标
 import KIcon from 'karma-ui/icon/css/index.js';
+//指令
+import Dnd from 'karma-ui/directives/dnd/index.js';
+import Pin from 'karma-ui/directives/pin/index.js';
 
 
 export {
@@ -21,5 +26,8 @@ export {
   KInputNumber,
   Tips,
   KArea,
+  KPopup,
   KIcon,
+  Dnd,
+  Pin,
 }
