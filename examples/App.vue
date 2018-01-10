@@ -52,6 +52,8 @@
       <k-radio v-model="b" value=0 >否</k-radio>
       <k-icon which="success"></k-icon>
       <k-icon which="arrow" type="up"></k-icon>
+      <k-icon which="exclamation"
+        ></k-icon>
     </div>
     <div>
       <k-input-number v-model="buy"

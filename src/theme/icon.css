@@ -6,6 +6,7 @@
 
   & .k-icon__container {
     display: inline-block;
+    vertical-align: baseline;
     line-height: 1;
     width: 14px;
     height: 14px;
@@ -17,6 +18,30 @@
     &:before {
       content: "";
       @extend .k-center;
+    }
+
+    &.k-icon__container--exclamation {
+      border-radius: 100%;
+      background-color:var(--danger-color);
+      &:before,
+      &:after {
+        content: '';
+        @extend .k-center;
+        background-color: #fff;
+        opacity: .8;
+      }
+
+      &:before {
+        height: 5px;
+        width: 2px;
+        margin-top: 3px;
+      }
+
+      &:after {
+        width: 2px;
+        height: 1.5px;
+        margin-top: 70%;
+      }
     }
 
     &.k-icon__container--delete {
