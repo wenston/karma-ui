@@ -1,5 +1,6 @@
 
-$types:primary,warning,danger,success;
+$types: primary, warning, danger, success;
+
 .k-btn {
   display: inline-block;
   padding: var(--button-medium);
@@ -8,71 +9,76 @@ $types:primary,warning,danger,success;
   color: var(--button-color);
   text-align: center;
   white-space: nowrap;
-  border:1px solid var(--input-border-color);
+  border: 1px solid var(--input-border-color);
   border-radius: var(--button-radius);
   cursor: pointer;
   vertical-align: middle;
   text-decoration: none;
-  transition:var(--transition);
+  transition: var(--transition);
   outline: 0;
-  &+& {
-    margin-left:var(--button-gutter);
+
+  & + & {
+    margin-left: var(--button-gutter);
   }
+
   &.k-btn--default {
-    background-color:var(--default-color);
-    border-color:var(--input-border-color);
+    background-color: var(--default-color);
+    border-color: var(--input-border-color);
+
     &:not([disabled]) {
       &:hover,
       &:focus {
-        border-color:var(--primary-color);
+        border-color: var(--primary-color);
       }
+
       &:active {
-        border-color:var(--primary-color);
-        box-shadow:inset 1px 3px 5px rgba(0,0,0,.2);
+        border-color: var(--primary-color);
+        box-shadow: inset 1px 3px 5px rgba(0, 0, 0, .2);
       }
     }
   }
+
   @each $type in $types {
-      &.k-btn--$type {
-        color:#fff;
-        background-color:var(--$(type)-color);
-        border-color:var(--$(type)-color);
-        &:not([disabled]) {
-          &:hover,
-          &:focus {
-            border-color:color(var(--$(type)-color) s(+12%) l(+12%));
-            background-color:color(var(--$(type)-color) s(+12%) l(+12%));
-          }
-          &:active {
-            box-shadow:inset 1px 3px 5px rgba(0,0,0,.2);
-          }
+    &.k-btn--$type {
+      color: #fff;
+      background-color: var(--$(type)-color);
+      border-color: var(--$(type)-color);
+
+      &:not([disabled]) {
+        &:hover,
+        &:focus {
+          border-color: color(var(--$(type)-color) s(+12%) l(+12%));
+          background-color: color(var(--$(type)-color) s(+12%) l(+12%));
+        }
+
+        &:active {
+          box-shadow: inset 1px 3px 5px rgba(0, 0, 0, .2);
         }
       }
+    }
   }
-  
+
   &[disabled] {
     pointer-events: none;
     opacity: .5;
-    cursor:not-allowed;
+    cursor: not-allowed;
   }
 
-  @each $size in 
-    (huge,large,big,medium,small,mini){
+  @each $size in (huge, large, big, medium, small, mini) {
     &.k-btn--$size {
-      padding:var(--button-$(size));
-      font-size:var(--button-$(size)-font-size);
+      padding: var(--button-$(size));
+      font-size: var(--button-$(size)-font-size);
     }
   }
-  
+
   &.k-btn--block {
-    display:block;
+    display: block;
     width: 100%;
   }
-  & >span+.loading {
 
+  & > span + .k-btn__loading {
     position: relative;
-    top:-4px;
-    margin-left:15px;
-
+    top: -4px;
+    margin-left: 15px;
   }
 }

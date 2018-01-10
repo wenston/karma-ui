@@ -6,7 +6,7 @@
     <div class="box" v-dnd="{handlerClass:'handle'}">
       <h3 class="handle">测试</h3>
       <div class="list">
-        <k-button type="primary" size="huge">按钮</k-button>
+        <k-button type="primary" size="huge" loading>按钮</k-button>
           <k-button type="warning" size="large">按钮</k-button>
           <k-button type="danger" size="big">按钮</k-button>
           <k-button>默认按钮</k-button>
@@ -91,11 +91,8 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(()=>{
-      this.$tips({
-        type:'error'
-      }).hide(1500)
-    })
+    this.$loading().show();
+    
   }
 };
 </script>

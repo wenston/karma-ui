@@ -141,7 +141,14 @@
   --popup-footer-padding: 10px 15px 20px;
   --popup-footer-text-align: center;
 
-
+  /*loading*/
+  --loading-bg-color:color(rgb(60,70,80) a(80%));
+  --loading-z-index:99999999;
+  --loading-radius:calc(var(--radius)*2);
+  --loading-width:150px;
+  --loading-height:120px;
+  --loading-text-font-size:12px;
+  --loading-text-color:#fff;
 
   /*css icon*/
   --icon-delete: #ccc;

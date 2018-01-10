@@ -1,10 +1,10 @@
 <script>
-// import LoadingIcon from '../zLoading/loadingIcon.vue';
+import LoadingIcon from 'karma-ui/packages/loading/loadingIcon.vue';
 export default {
   name:'KButton',
-  // components: {
-  //   LoadingIcon
-  // },
+  components: {
+    LoadingIcon
+  },
   props: {
     tag: {
       type:String,
@@ -27,12 +27,12 @@ export default {
   render() {
     let LoadingComp = null;
     let Content = null;
-    // if(this.loading) {
-    //   LoadingComp = (
-    //     <LoadingIcon size={this.size}
-    //     class={{[this.css.loading]:true}} />
-    //   )
-    // }
+    if(this.loading) {
+      LoadingComp = (
+        <LoadingIcon size={this.size}
+        class="k-btn__loading" />
+      )
+    }
     if(this.$slots.default) {
       Content = <span>{this.$slots.default}</span>
     }

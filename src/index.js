@@ -9,6 +9,7 @@ import KInputNumber from 'karma-ui/packages/input-number/index.js';
 import KArea from 'karma-ui/packages/area/index.js';
 import KPopup from 'karma-ui/packages/popup/index.js';
 import Tips from 'karma-ui/packages/tips/index.js';
+import Loading from 'karma-ui/packages/loading/index.js';
 //css图标
 import KIcon from 'karma-ui/icon/css/index.js';
 //指令
@@ -24,10 +25,11 @@ export {
   KRadio,
   KCheckbox,
   KInputNumber,
-  Tips,
   KArea,
   KPopup,
   KIcon,
+  Tips,
+  Loading,
   Dnd,
   Pin,
 }
