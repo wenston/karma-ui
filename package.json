@@ -2,10 +2,11 @@
   "name": "karma-ui",
   "version": "1.0.0",
   "description": "Vue UI",
-  "main": "index.js",
+  "main": "lib/karma-ui-index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "set NODE_ENV=DEV&node config/dev-server.js"
+    "dev": "set NODE_ENV=DEV&node config/dev-server.js",
+    "build:lib": "webpack --config config/webpack.build.lib.js"
   },
   "author": "wenston",
   "license": "ISC",
@@ -30,6 +31,7 @@
     "css-loader": "^0.28.7",
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.16.2",
+    "extract-text-webpack-plugin": "^3.0.2",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
     "opn": "^5.1.0",

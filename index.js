@@ -1,1 +1,1 @@
-console.log(' z --- ui')
+console.log(' karma-ui')
