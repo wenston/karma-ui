@@ -57,6 +57,14 @@
         :max="21"
         :step="5"></k-input-number><span>{{buy}}</span>
     </div>
+    <div>
+      <k-checkbox v-model="bb"
+        text="嗯嗯"></k-checkbox>{{bb}}
+    </div>
+    <div>
+      <k-area v-model="areaCode"></k-area>
+    </div>
+    
   </div>
 </template>
 
@@ -66,8 +74,10 @@ export default {
     return {
       text:'撒旦法',
       b:"0",
+      bb:true,
       curCity:1,
       curCity1:2,
+      areaCode:'410102',
       citys:{
         1:'北京',
         2:'上海',
@@ -79,8 +89,8 @@ export default {
   mounted () {
     this.$nextTick(()=>{
       this.$tips({
-        type:'success'
-      })
+        type:'error'
+      }).hide(1500)
     })
   }
 };

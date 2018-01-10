@@ -80,7 +80,7 @@
       &:before {
         height: 2.5px;
         width: 4.5px;
-        margin-top: 2.5px;
+        margin-top: 3px;
         transform: rotate(-50deg);
         border-style: solid;
         border-color: transparent transparent #fff #fff;

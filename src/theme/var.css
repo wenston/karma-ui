@@ -1,12 +1,17 @@
 :root {
   /*base color*/
   --default-color: #fcfcfc;
-  --primary-color: #3086f6;
-  --danger-color: #f06c3c;
-  --warning-color: #f9aa33;
+  --primary-color: #378cee;
+  --danger-color: #de3400;
+  --warning-color: #ffac2c;
   --success-color: #40ab56;
   --disabled-color: #e9e9e9;
   --bg-color: #fff;
+  /*文本颜色*/
+  --font-color-1:#333;
+  --font-color-2:#666;
+  --font-color-3:#999;
+  --font-color-4:#ccc;
 
   /*过渡*/
   --transition: .25s ease-out;
@@ -51,7 +56,7 @@
   --button-small: .42em 1em;
   --button-mini: .3em .5em;
   /* button fontcolor*/
-  --button-color: #333;
+  --button-color: var(--font-color-1);
   /*圆角*/
   --button-radius: var(--radius);
   /*按钮之间的间距*/
@@ -100,6 +105,27 @@
   --tips-cont-color: #fff;
   --tips-cont-font-size:14px;
   --tips-cont-text-align:center;
+
+  /*checkbox*/
+  --checkbox-gutter:20px;
+  --checkbox-line-height:20px;
+  --checkbox-border-color:var(--input-border-color);
+  --checkbox-bg-color:#fff;
+  --checkbox-radius:var(--radius);
+  --checkbox-hover-border-color:var(--primary-color);
+
+  --checkbox-checked-border-color:var(--primary-color);
+  --checkbox-checked-bg-color:var(--primary-color);
+
+  --checkbox-disabled-border-color:color(var(--disabled-color) b(+5%));
+  --checkbox-disabled-bg-color:var(--disabled-color);
+
+  --checkbox-checked-disabled-border-color:color(var(--disabled-color) b(+30%));
+
+  --checkbox-text-color:var(--font-color-2);
+  --checkbox-text-font-size:12px;
+  --checkbox-checked-text-color:var(--primary-color);
+
 
   /*css icon*/
   --icon-delete: #ccc;

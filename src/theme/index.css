@@ -1,4 +1,5 @@
 @import 'var';
+@import 'base';
 @import 'common';
 @import 'icon';
 @import 'button';
@@ -7,7 +8,6 @@
 @import 'select';
 @import 'option';
 @import 'radio';
+@import 'checkbox';
+@import 'area';
 @import 'tips';
-* {
-  box-sizing: border-box;
-}
