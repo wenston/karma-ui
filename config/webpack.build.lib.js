@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const resolve = function (dir) {
   return path.resolve(__dirname, '..', dir)
@@ -8,13 +9,14 @@ const resolve = function (dir) {
 
 module.exports = {
   entry: {
-    main: ['./src/index.js']
+    index: ['./src/index.js']
   },
   output: {
-    filename: 'karma-ui-[name].js',
+    filename: '[name].js',
+    chunkFilename: '[id].js',
     path: resolve('lib'),
     library:'karma-ui',
-    libraryTarget: 'var'
+    libraryTarget: 'commonjs2'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -31,7 +33,10 @@ module.exports = {
     }
   },
   plugins: [
-    new ExtractTextPlugin('karma-ui-theme.css')
+    new ExtractTextPlugin('karma-ui-theme.css'),
+    new CleanWebpackPlugin('lib', {
+      root:resolve('')
+    })
   ],
   module: {
     rules: [{
