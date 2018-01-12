@@ -1,13 +1,14 @@
 {
   "name": "karma-ui",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Vue UI",
-  "main": "lib",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "set NODE_ENV=DEV&node config/dev-server.js",
     "build:lib": "webpack --config config/webpack.build.lib.js"
   },
+  "style": "lib/theme/index.css",
   "author": "wenston",
   "license": "ISC",
   "repository": {

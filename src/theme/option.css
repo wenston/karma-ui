@@ -4,6 +4,7 @@
   padding: var(--option-padding);
   transition: var(--transition);
   cursor: pointer;
+  text-align: left;
   @extend .k-ellipsis;
   &:hover {
     background-color: var(--option-hover-bg-color);

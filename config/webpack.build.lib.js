@@ -33,7 +33,7 @@ module.exports = {
     }
   },
   plugins: [
-    new ExtractTextPlugin('karma-ui-theme.css'),
+    new ExtractTextPlugin('theme/[name].css'),
     new CleanWebpackPlugin('lib', {
       root:resolve('')
     })
