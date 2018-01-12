@@ -4,10 +4,8 @@ import Vue from 'vue'
 import App from './App'
 
 //karma-ui引入
-import * as UI from 'karma-ui'
-for(let ui in UI) {
-  Vue.use(UI[ui])
-}
+import UI from 'karma-ui'
+Vue.use(UI);
 // Vue.use(UI.KButton)
 // Vue.use(UI.KInput)
 // Vue.use(UI.KSelect)

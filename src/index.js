@@ -16,8 +16,7 @@ import KIcon from 'karma-ui/icon/css/index.js';
 import Dnd from 'karma-ui/directives/dnd/index.js';
 import Pin from 'karma-ui/directives/pin/index.js';
 
-
-export {
+let obj = {
   KButton,
   KInput,
   KSelect,
@@ -32,4 +31,35 @@ export {
   Loading,
   Dnd,
   Pin,
+};
+
+// obj.install = (Vue,opts) => {
+//   for(let comp in obj) {
+//     Vue.use(obj[comp])
+//   }
+// }
+
+export default {
+  install(Vue,opts) {
+    for (let comp in obj) {
+      Vue.use(obj[comp])
+    }
+  }
 }
+
+// export {
+//   KButton,
+//   KInput,
+//   KSelect,
+//   KOption,
+//   KRadio,
+//   KCheckbox,
+//   KInputNumber,
+//   KArea,
+//   KPopup,
+//   KIcon,
+//   Tips,
+//   Loading,
+//   Dnd,
+//   Pin,
+// }

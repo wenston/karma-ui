@@ -18,7 +18,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      'karma-ui': resolve('lib'),
+      'karma-ui': resolve('src'),
       'vue$': 'vue/dist/vue.esm.js'
     }
   },
