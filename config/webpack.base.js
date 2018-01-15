@@ -43,7 +43,20 @@ module.exports = {
             importLoaders: 1
           }
         }, {
-          loader: 'postcss-loader'
+          loader: 'postcss-loader',
+          options: {
+            ident:'postcss',
+            plugins:[
+              require('postcss-import')(),
+              require('precss')(),
+              require('postcss-color-function')(),
+              require('postcss-cssnext')(),
+              require('postcss-atrule-bem')(),
+              require('postcss-normalize')({
+                forceImport:true
+              }),
+            ]
+          }
         }
       ]
     }, {

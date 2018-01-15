@@ -33,12 +33,6 @@ let obj = {
   Pin,
 };
 
-// obj.install = (Vue,opts) => {
-//   for(let comp in obj) {
-//     Vue.use(obj[comp])
-//   }
-// }
-
 export default {
   install(Vue,opts) {
     for (let comp in obj) {
@@ -46,20 +40,3 @@ export default {
     }
   }
 }
-
-// export {
-//   KButton,
-//   KInput,
-//   KSelect,
-//   KOption,
-//   KRadio,
-//   KCheckbox,
-//   KInputNumber,
-//   KArea,
-//   KPopup,
-//   KIcon,
-//   Tips,
-//   Loading,
-//   Dnd,
-//   Pin,
-// }
