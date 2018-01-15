@@ -44,19 +44,7 @@ module.exports = {
           }
         }, {
           loader: 'postcss-loader',
-          options: {
-            ident:'postcss',
-            plugins:[
-              require('postcss-import')(),
-              require('precss')(),
-              require('postcss-color-function')(),
-              require('postcss-cssnext')(),
-              require('postcss-atrule-bem')(),
-              require('postcss-normalize')({
-                forceImport:true
-              }),
-            ]
-          }
+          options: require('./postcssconfig.js')
         }
       ]
     }, {

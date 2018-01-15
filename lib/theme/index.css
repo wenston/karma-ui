@@ -133,7 +133,47 @@ template {
 [hidden] {
   display: none;
 }
+:root {
+  /*base color*/
+  /*文本颜色*/
 
+  /*过渡*/
+  /*box-shadow*/
+  /*圆角弧度*/
+  /* input */
+
+  /*input组件里包括了textarea*/
+
+  /*input size*/
+
+  /*input font-size*/
+
+  /* button */
+  /* button padding*/
+  /* button fontcolor*/
+  /*圆角*/
+  /*按钮之间的间距*/
+  /* button font-size */
+  /*button active 内阴影*/
+
+  /* select */
+  /* option */
+
+
+  /* radio */
+
+  /*input-number*/
+
+  /* tips */
+
+  /*checkbox*/
+
+  /*popup*/
+
+  /*loading*/
+
+  /*css icon*/
+}
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -592,7 +632,8 @@ template {
   padding: 0 6px;
   -webkit-transition: .25s ease-out;
   transition: .25s ease-out;
-  cursor: pointer
+  cursor: pointer;
+  text-align: left
 }
 .k-option:hover {
   background-color: #fcfcfc;
