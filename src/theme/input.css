@@ -90,9 +90,9 @@
     & .k-input-clearable {
       display: inline-block;
 
-    }
-    & .k-input {
-      padding-right: 22px;
+      & + .k-input {
+        padding-right: 22px;
+      }
     }
   }
   & .k-textarea {
