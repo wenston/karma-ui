@@ -74,11 +74,11 @@ export const validate = {
             msg = '不能小于最小值'
           }
         }
-        return {
-          fail,
-          msg,
-          errorType
-        }
+      }
+      return {
+        fail,
+        msg,
+        errorType
       }
     },
     toValidate(val, successCallback, errorCallback) {
