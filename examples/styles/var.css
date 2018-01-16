@@ -1,6 +1,5 @@
 :root {
-  --border-color:#dcdcdc;
-  --bg-color:#fcfcfc;
+  --bg-color:#fffcf3;
   
-  --primary-color:#674cff;
+  --home-nav-bg-color:rgb(60,70,80);
 }

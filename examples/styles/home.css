@@ -1,0 +1,13 @@
+.home {
+  display:flex;
+  .home__nav {
+    width:20vw;
+    min-height:100vh;
+    min-width:260px;
+    background-color:var(--home-nav-bg-color);
+  }
+  .home__content {
+    flex:1;
+    min-height:100vh;
+  }
+}
