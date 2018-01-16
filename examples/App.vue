@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h1 v-pin:0="{backgroundColor:'#ccc',boxSahdow:'0 3px 5px rgba(0,0,0,.3)'}">karma-ui</h1>
+      <h1>karma-ui</h1>
     </div>
     <div>
       <k-carousel indicator-position="center">
@@ -78,7 +78,17 @@
       <k-button @click="show=!show">弹出框</k-button>
       <k-area v-model="areaCode"></k-area>
     </div>
+    <div>
+      <div v-pin.bottom="{backgroundColor:'#ccc',boxSahdow:'0 3px 5px rgba(0,0,0,.3)'}">
+        这是要吸顶的
+      </div>
+    </div>
+    <div>
+      <div v-for="n in 70"
+        :key="n">{{Math.floor(Math.random()*n*100)}}</div>
+    </div>
     <k-popup :show.sync="show"></k-popup>
+
   </div>
 </template>
 

@@ -6,11 +6,6 @@ import App from './App'
 //karma-ui引入
 import UI from 'karma-ui'
 Vue.use(UI);
-// Vue.use(UI.KButton)
-// Vue.use(UI.KInput)
-// Vue.use(UI.KSelect)
-// Vue.use(UI.KOption)
-// Vue.use(UI.KIcon)
 
 //单个引入
 // import {KButton} from 'karma-ui';
