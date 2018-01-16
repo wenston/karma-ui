@@ -172,6 +172,8 @@ template {
 
   /*loading*/
 
+  /* carousel */
+
   /*css icon*/
 }
 * {
@@ -774,6 +776,55 @@ template {
 }
 .k-area {
   display: inline-block;
+}
+.k-carousel {
+  overflow: hidden;
+  position: relative;
+}
+.k-carousel .k-carousel__container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-transition: .5s cubic-bezier(0,0,0,1);
+    transition: .5s cubic-bezier(0,0,0,1);
+  }
+.k-carousel .k-carousel__indicator {
+    position: absolute;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    bottom: 10px
+  }
+.k-carousel .k-carousel__indicator.k-carousel__indicator--center {
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+}
+.k-carousel .k-carousel__indicator.k-carousel__indicator--right {
+  right: 20px;
+}
+.k-carousel .k-carousel__button {
+    list-style: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 100%;
+    background-color: rgba(255, 255, 255, .3);
+    border: 2px solid #ccc;
+    cursor: pointer
+    
+  }
+.k-carousel .k-carousel__button:not(:last-child) {
+  margin-right:5px;
+}
+.k-carousel .k-carousel__button.k-carousel__button--active {
+  background-color: #fff;
+  border:2px solid rgb(163, 163, 163);
+}
+.k-carousel-item {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: center;
 }
 .k-tips {
   position: fixed;
