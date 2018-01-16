@@ -79,7 +79,7 @@
       <k-area v-model="areaCode"></k-area>
     </div>
     <div>
-      <div v-pin.bottom="{backgroundColor:'#ccc',boxSahdow:'0 3px 5px rgba(0,0,0,.3)'}">
+      <div v-pin:30.bottom="{backgroundColor:'#ccc',boxSahdow:'0 3px 5px rgba(0,0,0,.3)'}">
         这是要吸顶的
       </div>
     </div>

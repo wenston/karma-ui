@@ -17,18 +17,21 @@ export default {
         const arg = parseFloat(binding.arg) || 0;
         //修饰符
         const modi = binding.modifiers; //{top:true}//{bottom:true}//默认top
-        let isTop = modi.top;
-        if (modi.bottom) {
-          isTop = false
+        let isTop = false;
+        let isBottom = false;
+        if (!('top' in modi) && !('bottom' in modi)) {
+          isTop = true
+        } else {
+          isTop = !!modi.top;
+          isBottom = !!modi.bottom;
         }
-
-        //吸顶后的样式：binding.value
-        const style = binding.value;
-        //注意：不一定会插入到dom中！
-        const parentNode = el.parentNode;
+        const style = binding.value; //吸顶后的样式：binding.value
+        const parentNode = el.parentNode; //注意：不一定会插入到dom中！
         let elWidth = -1;
         const position = getStyle(el, 'position');
         let elTop = -1;
+        let isTopPining = false;
+        let isBottomPining = false;
         el.___zPinFn = (e) => {
 
           let scrollTop = scroll().top;
@@ -44,6 +47,7 @@ export default {
 
           if (isTop) {
             if (scrollTop >= elTop - arg) {
+              isTopPining = true;
               // if(elWidth<0) 
               elWidth = getStyle(el, 'width');
               //修复因吸顶导致的页面高度塌陷进而造成页面的抖动问题
@@ -54,14 +58,18 @@ export default {
               setStyle(el, {
                 position: 'fixed',
                 top: arg + 'px',
+                bottom: 'auto',
                 width: elWidth
               })
               if (style) setStyle(el, style)
             } else {
-              el.removeAttribute('style');
+              isTopPining = false;
+              !isBottomPining && el.removeAttribute('style');
             }
-          } else {
-            if (scrollTop + window.innerHeight - parseFloat(height) <= elTop) {
+          }
+          if (isBottom) {
+            if (scrollTop + window.innerHeight - parseFloat(height) - arg <= elTop) {
+              isBottomPining = true;
               elWidth = getStyle(el, 'width');
               setStyle(parentNode, {
                 height
@@ -69,11 +77,13 @@ export default {
               setStyle(el, {
                 position: 'fixed',
                 bottom: arg + 'px',
+                top: 'auto',
                 width: elWidth
               })
               if (style) setStyle(el, style)
             } else {
-              el.removeAttribute('style')
+              isBottomPining = false;
+              !isTopPining && el.removeAttribute('style')
             }
           }
 
