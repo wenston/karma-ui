@@ -80,7 +80,7 @@
     </div>
     <div>
       <div v-pin:30.bottom="{backgroundColor:'#ccc',boxSahdow:'0 3px 5px rgba(0,0,0,.3)'}">
-        这是要吸顶的
+        这是要吸底的
       </div>
     </div>
     <div>
@@ -118,23 +118,22 @@ export default {
 </script>
 <style>
 * {
-  padding:0;
+  padding: 0;
   margin: 0;
 }
 h3 {
-  margin:0;
+  margin: 0;
 }
 .carouseltest {
   height: 300px;
   line-height: 300px;
   font-size: 50px;
-
 }
-  .carouseltest:nth-child(2n-1) {
-    background-color: #444;
-  }
-  .carouseltest:nth-child(2n) {
-    background-color: #eee;
-  }
+.carouseltest:nth-child(2n-1) {
+  background-color: #444;
+}
+.carouseltest:nth-child(2n) {
+  background-color: #eee;
+}
 </style>
 
