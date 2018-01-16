@@ -150,6 +150,15 @@
   --loading-text-font-size:12px;
   --loading-text-color:#fff;
 
+  /* carousel */
+  --carousel-transition:.5s cubic-bezier(0,0,0,1);
+  --carousel-button-gutter:5px;
+  --carousel-button-border:2px solid #ccc;
+  --carousel-button-bg-color:color(#fff a(30%));
+  --carousel-button-size:14px;
+  --carousel-button-active-bg-color:#fff;
+  --carousel-button-active-border:2px solid color(#ccc shade(20%));
+
   /*css icon*/
   --icon-delete: #ccc;
   --icon-arrow: #ccc;

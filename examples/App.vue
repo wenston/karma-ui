@@ -3,6 +3,15 @@
     <div>
       <h1 v-pin:0="{backgroundColor:'#ccc',boxSahdow:'0 3px 5px rgba(0,0,0,.3)'}">karma-ui</h1>
     </div>
+    <div>
+      <k-carousel indicator-position="center">
+        <k-carousel-item v-for="n in 6"
+          class="carouseltest"
+          :key="n">
+          <h3>{{n}}</h3>
+        </k-carousel-item>
+      </k-carousel>
+    </div>
     <div class="box" v-dnd="{handlerClass:'handle'}">
       <h3 class="handle">测试</h3>
       <div class="list">
@@ -77,24 +86,45 @@
 export default {
   data() {
     return {
-      show:false,
-      text:'撒旦法',
-      b:"0",
-      bb:true,
-      curCity:1,
-      curCity1:2,
-      areaCode:'410102',
-      citys:{
-        1:'北京',
-        2:'上海',
-        3:'广州'
+      show: false,
+      text: "撒旦法",
+      b: "0",
+      bb: true,
+      curCity: 1,
+      curCity1: 2,
+      areaCode: "410102",
+      citys: {
+        1: "北京",
+        2: "上海",
+        3: "广州"
       },
-      buy:3,
-    }
+      buy: 3
+    };
   },
-  mounted () {
+  mounted() {
     this.$loading().show();
-    
   }
 };
 </script>
+<style>
+* {
+  padding:0;
+  margin: 0;
+}
+h3 {
+  margin:0;
+}
+.carouseltest {
+  height: 300px;
+  line-height: 300px;
+  font-size: 50px;
+
+}
+  .carouseltest:nth-child(2n-1) {
+    background-color: #444;
+  }
+  .carouseltest:nth-child(2n) {
+    background-color: #eee;
+  }
+</style>
+

@@ -578,7 +578,7 @@ template {
 .k-input-section:hover .k-input-clearable {
   display: inline-block;
 }
-.k-input-section:hover .k-input {
+.k-input-section:hover .k-input-clearable + .k-input {
   padding-right: 22px;
 }
 .k-input-section .k-textarea {
