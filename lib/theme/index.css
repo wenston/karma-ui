@@ -206,7 +206,7 @@ template {
 }
 .k-icon .k-icon__container {
   display: inline-block;
-  vertical-align: baseline;
+  vertical-align: middle;
   line-height: 1;
   width: 14px;
   height: 14px;
@@ -302,7 +302,7 @@ template {
 }
 .k-btn {
   display: inline-block;
-  padding: .43em 1em;
+  padding: 4.5px 12px;
   font-size: 14px;
   font-weight: 400;
   color: #333;
@@ -316,6 +316,7 @@ template {
   -webkit-transition: .25s ease-out;
   transition: .25s ease-out;
   outline: 0;
+  line-height: normal;
 }
 .k-btn + .k-btn {
     margin-left: 10px;
@@ -326,6 +327,8 @@ template {
 }
 .k-btn.k-btn--default:not([disabled]):hover, .k-btn.k-btn--default:not([disabled]):focus {
   border-color: #378cee;
+  background-color: rgb(245, 249, 254);
+  color:#378cee;
 }
 .k-btn.k-btn--default:not([disabled]):active {
   border-color: #378cee;
@@ -390,27 +393,27 @@ template {
   cursor: not-allowed;
 }
 .k-btn.k-btn--huge {
-  padding: .78em 1.5em;
+  padding: 13.5px 24px;
   font-size: 18px;
 }
 .k-btn.k-btn--large {
-  padding: .65em 1.35em;
+  padding: 10px 20px;
   font-size: 16px;
 }
 .k-btn.k-btn--big {
-  padding: .6em 1.2em;
+  padding: 8.5px 18px;
   font-size: 14px;
 }
 .k-btn.k-btn--medium {
-  padding: .43em 1em;
+  padding: 4.5px 12px;
   font-size: 14px;
 }
 .k-btn.k-btn--small {
-  padding: .42em 1em;
+  padding: 4.5px 8px;
   font-size: 12px;
 }
 .k-btn.k-btn--mini {
-  padding: .3em .5em;
+  padding: 2.5px 8px;
   font-size: 12px;
 }
 .k-btn.k-btn--block {
@@ -425,6 +428,7 @@ template {
 .k-input-section {
   display: inline-block;
   position: relative;
+  line-height: normal;
   width: 150px
 }
 .k-input-section .k-input, .k-input-section .k-textarea {
@@ -609,6 +613,7 @@ template {
   display: inline-block;
   vertical-align: middle;
   position: relative;
+  line-height: normal;
 }
 .k-select .k-select__list {
     padding:0;
@@ -653,11 +658,11 @@ template {
     width: 14px;
     height: 14px;
     border-radius: 100%;
-    border: 1px solid #dcdcdc;
+    border: 1px solid rgb(198, 198, 198);
     -webkit-transition:.25s ease-out;
     transition:.25s ease-out;
     position: relative;
-    vertical-align: bottom
+    vertical-align: middle
   }
 .k-radio .k-radio__icon:after {
   content:'';
