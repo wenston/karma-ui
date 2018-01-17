@@ -1,6 +1,7 @@
 .k-input-section {
   display: inline-block;
   position: relative;
+  line-height: normal;
   width: var(--input-width);
   & .k-input,
   & .k-textarea {

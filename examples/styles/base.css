@@ -5,4 +5,14 @@
 }
 body {
   background-color: var(--bg-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 2.25;
+  color:var(--font-color-1);
+}
+:any-link {
+  color:var(--font-color-3);
+  text-decoration: none;
+  &:hover {
+    color:var(--font-color-5);
+  }
 }

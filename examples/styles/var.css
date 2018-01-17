@@ -1,5 +1,16 @@
 :root {
+  --font-color-1:#333;
+  --font-color-2:#666;
+  --font-color-3:#999;
+  --font-color-4:#ccc;
+  --font-color-5:#fff;
+
   --bg-color:#fffcf3;
-  
   --home-nav-bg-color:rgb(60,70,80);
+
+  --code-color:#ff1199;
+
+  --pre-code-bg-color:#f1f1f1;
+  --pre-code-border:1px solid color(var(--pre-code-bg-color) b(15%));
+  --pre-code-font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }

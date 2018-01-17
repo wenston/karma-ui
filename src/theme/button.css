@@ -29,6 +29,8 @@ $types: primary, warning, danger, success;
       &:hover,
       &:focus {
         border-color: var(--primary-color);
+        background-color: color(var(--primary-color) tint(95%));
+        color:var(--primary-color);
       }
 
       &:active {
