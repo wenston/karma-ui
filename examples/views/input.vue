@@ -12,6 +12,10 @@
     </div>
     <h3 class="layout__title">输入验证</h3>
     <div>
+      目前有验证金额(含小数)/身份证/正整数
+    </div>
+    <h4 class="layout__title">金额验证</h4>
+    <div>
       <div>
         <k-input v-model="money1"
           :validate="{

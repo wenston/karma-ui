@@ -10,7 +10,7 @@
     border: 1px solid var(--radio-border-color);
     transition:var(--transition);
     position: relative;
-    vertical-align: bottom;
+    vertical-align: middle;
     &:after {
       content:'';
       @extend .k-center;

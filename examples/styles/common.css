@@ -4,7 +4,7 @@
   flex-direction: column;
   .layout__title {
     margin-bottom:20px;
-    padding-bottom:12px;
+    padding-bottom:8px;
     border-bottom: 1px solid color(var(--bg-color) b(12%));
     &:not(:first-child) {
       margin-top: 40px;

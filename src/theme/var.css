@@ -89,7 +89,7 @@
   --radio-font-size: 12px;
   --radio-size: 14px;
   --radio-gutter: 20px;
-  --radio-border-color: var(--input-border-color);
+  --radio-border-color: color(var(--input-border-color) shade(10%));
   --radio-hover-border-color: var(--primary-color);
 
   /*input-number*/
@@ -109,7 +109,7 @@
   /*checkbox*/
   --checkbox-gutter: 20px;
   --checkbox-line-height: 20px;
-  --checkbox-border-color: var(--input-border-color);
+  --checkbox-border-color: color(var(--input-border-color) shade(10%));
   --checkbox-bg-color: #fff;
   --checkbox-radius: var(--radius);
   --checkbox-hover-border-color: var(--primary-color);

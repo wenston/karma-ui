@@ -30,6 +30,21 @@ export default {
       },{
         name:'input-number',
         title:'input-number 计数器'
+      },{
+        name:'radio',
+        title:'radio 单选框'
+      },{
+        name:'checkbox',
+        title:'checkbox 复选框'
+      },{
+        name:'select',
+        title:'select 下拉选择'
+      },{
+        name:'area',
+        title:'area 区域选择'
+      },{
+        name:'carousel',
+        title:'carousel 轮播图'
       }]
     }
   }

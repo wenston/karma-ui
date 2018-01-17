@@ -2,6 +2,7 @@
   display: inline-block;
   vertical-align: middle;
   position: relative;
+  line-height: normal;
   .k-select__list {
     padding:0;
     margin:0;
