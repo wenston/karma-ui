@@ -6,7 +6,7 @@
 
   & .k-icon__container {
     display: inline-block;
-    vertical-align: baseline;
+    vertical-align: middle;
     line-height: 1;
     width: 14px;
     height: 14px;
