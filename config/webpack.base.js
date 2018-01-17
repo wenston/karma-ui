@@ -51,7 +51,10 @@ module.exports = {
       test: /\.vue$/,
       include: [resolve('src'), resolve('examples')],
       use: [{
-        loader: 'vue-loader'
+        loader: 'vue-loader',
+        options: {
+          postcss: require('./postcssconfig.js').plugins
+        }
       }]
     }, {
       test: /\.svg$/,

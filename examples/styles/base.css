@@ -1,14 +1,18 @@
-.text-center {
-  text-align: center;
+* {
+  padding:0;
+  margin:0;
+  box-sizing: border-box;
 }
-.box {
-  border:1px solid var(--border-color);
+body {
   background-color: var(--bg-color);
-  padding:20px;
-  display: flex;
-  & .list {
-    border:2px solid var(--primary-color);
-    padding:20px;
-    @extend .text-center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 2.25;
+  color:var(--font-color-1);
+}
+:any-link {
+  color:var(--font-color-3);
+  text-decoration: none;
+  &:hover {
+    color:var(--font-color-5);
   }
 }

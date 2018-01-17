@@ -1,0 +1,29 @@
+.home {
+  display:flex;
+  .home__nav {
+    width:35vw;
+    min-height:100vh;
+    min-width:300px;
+    background-color:var(--home-nav-bg-color);
+    display: flex;
+    flex-direction: row-reverse;
+    padding:20px;
+    ul {
+      
+      li {
+        list-style: none;
+        height: 30px;
+        line-height: 30px;
+        text-align: right;
+        a.home__currentnav {
+          color:var(--font-color-5);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  .home__content {
+    flex:1;
+    min-height:100vh;
+  }
+}

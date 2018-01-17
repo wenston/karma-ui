@@ -49,12 +49,12 @@
 
   /* button */
   /* button padding*/
-  --button-huge: .78em 1.5em;
-  --button-large: .65em 1.35em;
-  --button-big: .6em 1.2em;
-  --button-medium: .43em 1em;
-  --button-small: .42em 1em;
-  --button-mini: .3em .5em;
+  --button-huge: 13.5px 24px;
+  --button-large: 10px 20px;
+  --button-big: 8.5px 18px;
+  --button-medium: 4.5px 12px;
+  --button-small: 4.5px 8px;
+  --button-mini: 2.5px 8px;
   /* button fontcolor*/
   --button-color: var(--font-color-1);
   /*圆角*/
@@ -89,7 +89,7 @@
   --radio-font-size: 12px;
   --radio-size: 14px;
   --radio-gutter: 20px;
-  --radio-border-color: var(--input-border-color);
+  --radio-border-color: color(var(--input-border-color) shade(10%));
   --radio-hover-border-color: var(--primary-color);
 
   /*input-number*/
@@ -109,7 +109,7 @@
   /*checkbox*/
   --checkbox-gutter: 20px;
   --checkbox-line-height: 20px;
-  --checkbox-border-color: var(--input-border-color);
+  --checkbox-border-color: color(var(--input-border-color) shade(10%));
   --checkbox-bg-color: #fff;
   --checkbox-radius: var(--radius);
   --checkbox-hover-border-color: var(--primary-color);

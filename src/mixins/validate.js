@@ -81,6 +81,26 @@ export const validate = {
         errorType
       }
     },
+    ["currency>0"](val) {
+      let fail,msg,errorType; 
+      if (reg.nonnegativeFloat.test(val)) { //如果是非负数
+        let d = this.validate_digits(val); //获取小数位数
+        if (d > this.validateOptions.digits) {
+          msg = `请保留0-${this.validateOptions.digits}位小数`;
+          errorType = {
+            digits: this.validateOptions.digits
+          };
+          fail = true;
+        }
+      } else {
+        msg = '请输入正数';
+        errorType = {
+          clear: true
+        };
+        fail = true;
+      }
+      return {fail,msg,errorType};
+    },
     toValidate(val, successCallback, errorCallback) {
       if (val === '' || typeof val === undefined) return;
       let errorType = null; //保存错误类型，在errorCallback中当做参数返回
@@ -99,36 +119,17 @@ export const validate = {
           msg = msg || '身份证号码不合法';
           fail = true;
         }
-      } else if (type === 'currency>0') { //不为0的金额，保留两位小数
-        if (!reg.nonzeroCurrency.test(val)) {
-          msg = msg || '金额不符合规则';
-          if (!this.validate_number()) {
-            msg = '不能包含字母或者特殊字符'
-          } else {
-            val = val + '';
-            let len = val.split('.')[1];
-            if (len && len.length > 2) {
-              msg = '请保留两位小数'
-            }
-          }
-          fail = true;
-        }
-      } else if (type === 'currency>=0') { //可以为0的金额，默认保留两位小数
-        if (reg.nonnegativeFloat.test(val)) { //如果是非负数
-          let d = this.validate_digits(val); //获取小数位数
-          if (d > this.validateOptions.digits) {
-            msg = `请保留0-${this.validateOptions.digits}位小数`;
-            errorType = {
-              digits: this.validateOptions.digits
-            };
+      } else if (type === 'currency>=0' || type === 'currency>0') { 
+        let vali = this['currency>0'](val);
+        fail = vali.fail;
+        msg = vali.msg;
+        errorType = vali.errorType;
+        if(type === 'currency>0') {
+          if(parseFloat(val)===0) {
             fail = true;
+            msg = '金额不能为0';
+            errorType = {clear:true};
           }
-        } else {
-          msg = '请输入正数';
-          errorType = {
-            clear: true
-          };
-          fail = true;
         }
       } else if (type === 'int>0') { //大于0 的正整数
         if (!reg.nonzeroInt.test(val)) {
@@ -147,10 +148,10 @@ export const validate = {
         errorType = _max_min.errorType;
       }
 
-      // this.validateOptions.showTips && fail && this.$tips()
-      //   .setContent(msg)
-      //   .setType('error')
-      //   .hide(2500);
+      this.validateOptions.showTips && fail && this.$tips()
+        .setContent(msg)
+        .setType('error')
+        .hide(2500);
 
       !fail && successCallback && successCallback();
       fail && errorCallback && errorCallback(errorType);
