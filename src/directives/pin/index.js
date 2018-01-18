@@ -48,7 +48,6 @@ export default {
 
           if (isTop) {
             if (scrollTop >= elTop - arg) {
-              console.log('top:',scrollTop,elTop)
               isTopPining = true;
               // if(elWidth<0) 
               elWidth = getStyle(el, 'width');
@@ -72,7 +71,6 @@ export default {
           if (isBottom) {
             let n = scrollTop + window.innerHeight - parseFloat(height) - arg;
             if (n>0 && n <= elTop) {
-              console.log('bottom:',scrollTop,window.innerHeight,height,elTop)
               isBottomPining = true;
               elWidth = getStyle(el, 'width');
               setStyle(parentNode, {
