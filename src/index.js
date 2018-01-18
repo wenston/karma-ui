@@ -12,6 +12,7 @@ import KCarousel from 'karma-ui/packages/carousel/index.js';
 import KCarouselItem from 'karma-ui/packages/carousel-item/index.js';
 import Tips from 'karma-ui/packages/tips/index.js';
 import Loading from 'karma-ui/packages/loading/index.js';
+import KToTop from 'karma-ui/packages/to-top/index.js';
 //css图标
 import KIcon from 'karma-ui/icon/css/index.js';
 //指令
@@ -28,6 +29,7 @@ let obj = {
   KInputNumber,
   KArea,
   KPopup,
+  KToTop,
   KIcon,
   Tips,
   Loading,

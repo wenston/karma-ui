@@ -163,4 +163,13 @@
   --icon-delete: #ccc;
   --icon-arrow: #ccc;
   --icon-plus-minus: #ccc;
+
+  /*to-top*/
+  --to-top-border:1px solid #ccc;
+  --to-top-bottom:50px;
+  --to-top-right:40px;
+  --to-top-btn-size:50px;
+  --to-top-btn-bg-color:#fff;
+  --to-top-icon-color:#ccc;
+  --to-top-icon-size:12px;
 }
