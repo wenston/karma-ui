@@ -38,6 +38,7 @@ export default {
           //为什么要用parentNode，因为当页面初始就滚动到了底下时，此时el已经是固定住了，所以计算出的el的offsetTop会不准确。但parentNode不会受影响！
 
           //el本身最好不要有margin-top，因为没有考虑！
+          //parentNode最好不要有padding-top，没有考虑它！
 
           //el本身可以有class，但不能有行间样式，因为会被清除！
           let top = offset(parentNode).top;
@@ -47,6 +48,7 @@ export default {
 
           if (isTop) {
             if (scrollTop >= elTop - arg) {
+              console.log('top:',scrollTop,elTop)
               isTopPining = true;
               // if(elWidth<0) 
               elWidth = getStyle(el, 'width');
@@ -68,7 +70,9 @@ export default {
             }
           }
           if (isBottom) {
-            if (scrollTop + window.innerHeight - parseFloat(height) - arg <= elTop) {
+            let n = scrollTop + window.innerHeight - parseFloat(height) - arg;
+            if (n>0 && n <= elTop) {
+              console.log('bottom:',scrollTop,window.innerHeight,height,elTop)
               isBottomPining = true;
               elWidth = getStyle(el, 'width');
               setStyle(parentNode, {

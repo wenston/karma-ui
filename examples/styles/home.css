@@ -23,7 +23,7 @@
     }
   }
   .home__content {
-    flex:1;
+    flex:auto;
     min-height:100vh;
   }
 }

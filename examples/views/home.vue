@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <nav class="home__nav">
-      <ul>
+      <ul v-pin.top.bottom>
         <li v-for="item in nav"
           :key="item.name">
           <router-link

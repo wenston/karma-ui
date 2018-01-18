@@ -35,4 +35,5 @@ code {
   display: inline-block;
   line-height: 1;
   font-size: 13px !important;
+  margin:0 3px;
 }
