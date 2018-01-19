@@ -80,7 +80,7 @@
   --option-height: 28px;
   --option-padding: 0 6px;
   --option-hover-color: var(--primary-color);
-  --option-hover-bg-color: var(--default-color);
+  --option-hover-bg-color: color(var(--primary-color) tint(90%));
   --option-selected-color: #fff;
   --option-selected-bg-color: var(--primary-color);
 

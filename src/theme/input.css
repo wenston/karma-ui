@@ -28,6 +28,9 @@
     &::placeholder {
       color: var(--input-placeholder-color);
     }
+    &[readonly] {
+      cursor: default;
+    }
   }
   &.k-input-block {
     @extend .k-block;
