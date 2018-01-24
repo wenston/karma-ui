@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "set NODE_ENV=DEV&node config/dev-server.js",
+    "dev": "node config/dev-server.js",
     "build:lib": "webpack --config config/webpack.build.lib.js"
   },
   "style": "lib/theme/index.css",

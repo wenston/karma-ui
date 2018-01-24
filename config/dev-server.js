@@ -27,7 +27,7 @@ devMiddleware.waitUntilValid(() => {
     app.listen(port, '', () => {
         console.log('可以开始啦：http://localhost:' + port)
         // https://www.npmjs.com/package/opn
-        // opn('http://localhost:' + port, { app: 'chrome' })
+        opn('http://localhost:' + port, { app: 'chrome' })
     })
 
 })
