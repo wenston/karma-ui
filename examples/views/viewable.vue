@@ -8,8 +8,10 @@
 
     </div>
     <div :class="css.h1" v-viewable="{viewable:v1,unviewable:v2}">
-      <div v-pin.top.bottom v-html="text">
-        
+      <div>
+          <!-- 注意：浮动元素的父级，必须是紧贴此元素的。否则会造成计算错误！ -->
+        <div v-pin.top.bottom v-html="text">
+        </div>
       </div>
     </div>
     <div :class="css.h3">
