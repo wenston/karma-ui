@@ -57,6 +57,12 @@ export default new VueRouter({
       component(res) {
         import ('../views/carousel.vue').then(comp => res(comp))
       }
+    }, {
+      path:'/viewable',
+      name:'viewable',
+      component(res) {
+        import ('../views/viewable.vue').then(comp => res(comp))
+      }
     }]
   }]
 })

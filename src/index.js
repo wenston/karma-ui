@@ -18,6 +18,7 @@ import KIcon from 'karma-ui/icon/css/index.js';
 //指令
 import Dnd from 'karma-ui/directives/dnd/index.js';
 import Pin from 'karma-ui/directives/pin/index.js';
+import Viewable from 'karma-ui/directives/viewable/index.js';
 
 let obj = {
   KButton,
@@ -37,6 +38,7 @@ let obj = {
   Pin,
   KCarousel,
   KCarouselItem,
+  Viewable
 };
 
 export default {
