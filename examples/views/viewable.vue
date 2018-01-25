@@ -30,6 +30,7 @@
 <script>
 export default {
   components: {
+    //也可以注册成全局的懒加载组件
     mycomp:()=>import('./area.vue')
   },
   data() {
