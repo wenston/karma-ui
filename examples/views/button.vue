@@ -44,9 +44,12 @@
     <h3 class="layout__title">有loading图标的按钮</h3>
     <div>
       <p><code>k-button</code>组件提供了一种loading样式</p>
-      <k-button type="primary" loading>加载中...</k-button>
+      <k-button type="primary" loading>加载中... </k-button>
       <div class="javascript" v-pre>
-        <pre>&lt;k-button type="primary" loading&gt;加载中...&lt;/k-button&gt;</pre>
+        <pre>&lt;k-button type="primary" loading&gt;加载中... &lt;/k-button&gt;</pre>
+      </div>
+      <div>
+        
       </div>
     </div>
     <h3 class="layout__title">disabled 不可用</h3>

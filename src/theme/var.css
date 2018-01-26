@@ -150,6 +150,7 @@
   --loading-text-font-size:12px;
   --loading-text-color:#fff;
 
+
   /* carousel */
   --carousel-transition:.5s cubic-bezier(0,0,0,1);
   --carousel-button-gutter:5px;

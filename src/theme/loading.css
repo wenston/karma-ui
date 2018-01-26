@@ -1,86 +1,27 @@
 .k-loading {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20px;
-  margin: auto;
-  background-color: var(--loading-bg-color);
-  z-index: var(--loading-z-index);
-  color: var(--loading-text-color);
-  border-radius: var(--loading-radius);
-  transition: var(--transition);
-
-  &.k-loading--fullscreen {
-    width: 100%;
-    height: 100%;
+  animation: k-loading-animate 1s steps(8) infinite;
+  &.k-loading--mini {
+    font-size: 12px;
   }
-
-  &.k-loading--default {
-    width: var(--loading-width);
-    height: var(--loading-height);
+  &.k-loading--small {
+    font-size: 14px;
   }
-
-  & .k-loading__content {
-    .k-loading__content__con {
-      margin-top: 12px;
-      text-align: center;
-
-      .k-loading__content__con__roll {
-        text-align: center;
-        margin-bottom: 15px;
-        height: 25px;
-      }
-    }
+  &.k-loading--medium {
+    font-size: 16px;
   }
-
-  & .k-loading__text {
-    font-size: var(--loading-text-font-size);
+  &.k-loading--big {
+    font-size: 18px;
+  }
+  &.k-loading--large {
+    font-size: 20px;
+  }
+  &.k-loading--huge {
+    font-size: 22px;
   }
 }
 
-.k-loading-icon {
-  width: 3px;
-  height: 3px;
-  border-radius: 100%; /* 圆角 */
-  display: inline-block;
-  animation: k-loading-icon-animate 1.2s steps(8) infinite;
-}
 
-.k-loading-icon--huge {
-  box-shadow: 0 -10px 0 1px #fff, 10px 0px #fff, 0 10px #fff, -10px 0 #fff, -7px -7px 0 0.5px #fff, 7px -7px 0 1.5px #fff, 7px 7px #fff, -7px 7px #fff; /* 左下 */
-}
-
-.k-loading-icon--large {
-  box-shadow: 0 -9px 0 1px #fff, 9px 0px #fff, 0 9px #fff, -9px 0 #fff, -6.3px -6.3px 0 0.5px #fff, 6.3px -6.3px 0 1.5px #fff, 6.3px 6.3px #fff, -6.3px 6.3px #fff; /* 左下 */
-}
-
-.k-loading-icon--big {
-  width: 2px;
-  height: 2px;
-  box-shadow: 0 -8px 0 1px #fff, 8px 0px #fff, 0 8px #fff, -8px 0 #fff, -5.6px -5.6px 0 0.5px #fff, 5.6px -5.6px 0 1.5px #fff, 5.6px 5.6px #fff, -5.6px 5.6px #fff; /* 左下 */
-}
-
-.k-loading-icon--medium {
-  width: 2px;
-  height: 2px;
-  box-shadow: 0 -7px 0 1px #fff, 7px 0px #fff, 0 7px #fff, -7px 0 #fff, -4.9px -4.9px 0 0.5px #fff, 4.9px -4.9px 0 1.5px #fff, 4.9px 4.9px #fff, -4.9px 4.9px #fff; /* 左下 */
-}
-
-.k-loading-icon--small {
-  width: 2px;
-  height: 2px;
-  box-shadow: 0 -6px 0 1px #fff, 6px 0px #fff, 0 6px #fff, -6px 0 #fff, -4.2px -4.2px 0 0.5px #fff, 4.2px -4.2px 0 1.5px #fff, 4.2px 4.2px #fff, -4.2px 4.2px #fff; /* 左下 */
-}
-
-.k-loading-icon--mini {
-  width: 1px;
-  height: 1px;
-  box-shadow: 0 -5px 0 1px #fff, 5px 0px #fff, 0 5px #fff, -5px 0 #fff, -3.5px -3.5px 0 0.2px #fff, 3.5px -3.5px 0 1px #fff, 3.5px 3.5px #fff, -3.5px 3.5px #fff; /* 左下 */
-}
-
-@keyframes k-loading-icon-animate {
+@keyframes k-loading-animate {
   0% {
     transform: rotate(0deg);
   }

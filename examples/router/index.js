@@ -63,6 +63,12 @@ export default new VueRouter({
       component(res) {
         import ('../views/viewable.vue').then(comp => res(comp))
       }
+    }, {
+      path:'/icon',
+      name:'icon',
+      component(res) {
+        import('../views/icon.vue').then(comp=>res(comp))
+      }
     }]
   }]
 })

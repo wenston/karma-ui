@@ -60,6 +60,9 @@ export default {
           {
             name: "carousel",
             title: "carousel 轮播图"
+          },{
+            name:'icon',
+            title:'icon 图标'
           }
         ],
         directives: [
