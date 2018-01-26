@@ -1,14 +1,16 @@
 
 .k-input-number,
 .k-input-number--right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  color: var(--input-number-btn-color);
   background-color: var(--input-number-btn-bg-color);
   border-right: 1px solid var(--input-border-color);
   &:hover {
     background-color: var(--input-number-hover-btn-bg-color);
-  }
-  & .k-input-number__sign {
-    @extend .k-center;
+    color:var(--input-number-btn-hover-color);
   }
 }
 .k-input-number--right {

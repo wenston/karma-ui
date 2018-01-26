@@ -10,6 +10,12 @@
         </div>
       </div>
     </div>
+    <h3 class="layout__title">可清除文本的输入框</h3>
+    <div>
+      <div>
+        <k-input v-model="clear" clearable></k-input>
+      </div>
+    </div>
     <h3 class="layout__title">输入验证</h3>
     <div>
       目前有验证金额(含小数)/身份证/正整数
@@ -37,7 +43,8 @@ export default {
   data() {
     return {
       greeting:'',
-      money1:''
+      money1:'',
+      clear:'可以清除的'
     }
   }
 }

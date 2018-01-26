@@ -17,6 +17,22 @@
     max-height: var(--select-option-max-height);
     overflow-y: auto;
   }
+  .k-select__down {
+    pointer-events: none;
+    width:var(--select-down-size);
+    height:var(--select-down-size);
+    font-size:var(--select-down-size);
+    color:var(--select-down-color);
+    transition: var(--transition);
+    &.k-select__down--up {
+      transform: rotate(180deg);
+    }
+  }
+  .k-select__clear {
+    color:var(--select-down-color);
+    transition: var(--transition);
+  }
+  
   .k-select__active {
     & > input {
       border-color:var(--primary-color);

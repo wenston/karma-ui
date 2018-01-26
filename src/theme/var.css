@@ -47,6 +47,10 @@
   --input-mini-font-size: 12px;
   --input-focus-active-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.1);
 
+  /* input clearable 颜色*/
+  --input-clearable-btn-color:#ccc;
+  --input-clearable-btn-hover-color:color(var(--input-clearable-btn-color) b(+50%));
+
   /* button */
   /* button padding*/
   --button-huge: 13.5px 24px;
@@ -72,6 +76,8 @@
   --button-active-box-shadow: var(inset 1px 3px 5px rgba(0, 0, 0, .2));
 
   /* select */
+  --select-down-size: 20px;
+  --select-down-color: color(var(--input-border-color) b(+20%));
   --select-option-z-index: 99;
   --select-option-box-shadow: var(--box-shadow);
   --select-option-max-height: 251px;
@@ -95,6 +101,8 @@
   /*input-number*/
   --input-number-btn-bg-color: var(--default-color);
   --input-number-hover-btn-bg-color: color(var(--default-color) b(+5%));
+  --input-number-btn-color: color(var(--input-border-color) b(+40%));
+  --input-number-btn-hover-color: var(--primary-color);
 
   /* tips */
   --tips-padding: 20px;
@@ -161,7 +169,6 @@
   --carousel-button-active-border:2px solid color(#ccc shade(20%));
 
   /*css icon*/
-  --icon-delete: #ccc;
   --icon-arrow: #ccc;
   --icon-plus-minus: #ccc;
 

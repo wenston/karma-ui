@@ -21,8 +21,8 @@ export default {
     target: String
   },
   render() {
-    let LoadingComp = null;
-    let Content = null;
+    let LoadingComp = null
+    let Content = null
     if (this.loading) {
       LoadingComp = (
         <i
@@ -36,7 +36,7 @@ export default {
       );
     }
     if (this.$slots.default) {
-      Content = <span>{this.$slots.default}</span>;
+      Content = <span>{this.$slots.default}</span>
     }
     return (
       <this.tag
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     _click(e) {
-      this.$emit("click", e);
+      this.$emit("click", e)
     }
   }
 };

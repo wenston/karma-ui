@@ -13,7 +13,7 @@
       :disabled="disabled"
       :styles="styles"
       >
-      <z-icon v-if="showDelete && clearable"
+      <!-- <z-icon v-if="showDelete && clearable"
         slot="append"
         which="delete"
         @click.native.stop="clear"
@@ -22,7 +22,15 @@
         slot="append"
         which="arrow"
         :type="arrowType"
-        ></z-icon>
+        ></z-icon> -->
+      <i class="k-icon-arrow_drop_down k-select__down"
+        :class="{'k-select__down--up':ifOptionList}"
+        @click.stop="clear"
+        v-if="showDelete && clearable"
+        slot="append"></i>
+      <i class="k-icon-cancel k-select__clear" 
+        slot="append"
+        v-else></i>
     </z-input>
     <!-- 如果是v-if，则子组件不会被created/mounted，直到显示子组件的时候，才会实例化。所以初始化值时就初始化不上了 -->
     <ul class="k-select__list" v-show="ifOptionList"
@@ -34,7 +42,6 @@
 </template>
 
 <script>
-import ZIcon from "karma-ui/icon/css/icon.vue";
 import ZInput from "karma-ui/packages/input/input.jsx.vue";
 import clickoutside from "karma-ui/util/clickoutside.js";
 import esc from "karma-ui/util/esc.js";
@@ -45,8 +52,7 @@ export default {
   name: "KSelect",
   componentName: "KSelect",
   components: {
-    ZInput,
-    ZIcon
+    ZInput
   },
   // provide() {
   //   return {
@@ -71,7 +77,7 @@ export default {
       type: String,
       default: "请选择"
     },
-    styles:Object,
+    styles: Object,
     disabled: Boolean,
     clearable: Boolean
   },

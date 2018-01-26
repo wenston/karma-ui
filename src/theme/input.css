@@ -3,38 +3,46 @@
   position: relative;
   line-height: normal;
   width: var(--input-width);
+
   & .k-input,
   & .k-textarea {
-    border:1px solid var(--input-border-color);
+    border: 1px solid var(--input-border-color);
     outline: 0;
     font-size: 12px;
     line-height: 1;
     vertical-align: middle;
-    width:100%;
+    width: 100%;
     border-radius: var(--input-radius);
     padding: var(--input-padding);
     transition: var(--transition);
+
     &:hover {
       border-color: var(--primary-color);
     }
+
     &:focus,
     &:active {
       border-color: var(--primary-color);
-      box-shadow:var(--input-focus-active-shadow);
+      box-shadow: var(--input-focus-active-shadow);
     }
+
     &.k-input-disabled {
-      background-color:var(--disabled-color);
+      background-color: var(--disabled-color);
     }
+
     &::placeholder {
       color: var(--input-placeholder-color);
     }
+
     &[readonly] {
       cursor: default;
     }
   }
+
   &.k-input-block {
     @extend .k-block;
   }
+
   & .k-input-prepend,
   & .k-input-append {
     position: absolute;
@@ -48,21 +56,23 @@
       @extend .k-center;
     }
   }
+
   & .k-input-append {
     left: auto;
     right: 0;
   }
+
   @each $name in (huge, large, big, medium, small, mini) {
     &.k-input-$(name) {
       & .k-input {
         height: var(--input-$(name));
         font-size: var(--input-$(name)-font-size);
       }
-      
+
       & .k-textarea {
         height: calc(var(--input-$(name))*2);
       }
-      
+
       & .k-input-prepend,
       & .k-input-append {
         width: var(--input-$(name));
@@ -87,18 +97,26 @@
     width: 14px;
     height: 14px;
     left: auto;
-    right: 6px;
+    right: 7px;
+    color: var(--input-clearable-btn-color);
     display: none;
+    cursor: pointer;
   }
+
   &:hover {
     & .k-input-clearable {
       display: inline-block;
+
+      &:hover {
+        color: var(--input-clearable-btn-hover-color);
+      }
 
       & + .k-input {
         padding-right: 22px;
       }
     }
   }
+
   & .k-textarea {
     padding: var(--input-textarea-padding);
     line-height: var(--input-textarea-line-height);

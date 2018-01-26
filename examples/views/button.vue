@@ -49,7 +49,11 @@
         <pre>&lt;k-button type="primary" loading&gt;加载中... &lt;/k-button&gt;</pre>
       </div>
       <div>
-        
+        <k-button type="warning" size="huge" loading>加载中... </k-button>
+        <k-button type="danger" size="large" loading>加载中... </k-button>
+        <k-button size="big" loading>加载中... </k-button>
+        <k-button type="success" size="small" loading>加载中... </k-button>
+        <k-button type="primary" size="mini" loading>加载中... </k-button>
       </div>
     </div>
     <h3 class="layout__title">disabled 不可用</h3>

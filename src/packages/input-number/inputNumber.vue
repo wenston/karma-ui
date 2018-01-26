@@ -13,9 +13,7 @@
     }"  
       slot="prepend"
       @click="minus">
-      <k-icon class="k-input-number__sign"
-        which="minus"
-        ></k-icon>
+      <i class="k-icon-minus"></i>
     </div>
     <div slot="append" 
       :class="{
@@ -23,8 +21,7 @@
         'k-input-number--disabled':max<=value
       }"
       @click="add">
-      <k-icon class="k-input-number__sign"
-        which="plus"></k-icon>
+      <i class="k-icon-add"></i>
     </div>
   </k-input>
 </template>
@@ -40,13 +37,11 @@
  * @augments disabled 是否禁用
  * 
  */
-import KInput from "karma-ui/packages/input/input.jsx.vue";
-import KIcon from "karma-ui/icon/css/icon.vue";
+import KInput from "karma-ui/packages/input/input.jsx.vue"
 export default {
   name:'KInputNumber',
   components: {
-    KInput,
-    KIcon
+    KInput
   },
   data() {
     return {
@@ -70,7 +65,7 @@ export default {
       type: Number,
       default: 1,
       validator(v) {
-        return v >= 1;
+        return v >= 1
       }
     },
     max: Number,
@@ -126,35 +121,35 @@ export default {
   methods: {
     minus() {
       if (!this.disabled) {
-        let v = this.value - this.step;
-        this.$emit("numberbian", v < this.min ? this.min : v);
+        let v = this.value - this.step
+        this.$emit("numberbian", v < this.min ? this.min : v)
       }
     },
     add() {
       if (!this.disabled) {
-        let v = this.value + this.step;
+        let v = this.value + this.step
         if (this.max) {
-          v = v > this.max ? this.max : v;
+          v = v > this.max ? this.max : v
         }
-        this.$emit("numberbian", v);
+        this.$emit("numberbian", v)
       }
     }
   },
   watch: {
     value(val, oldVal) {
-      this.inputValue = val;
-      this.$emit('change',val);
+      this.inputValue = val
+      this.$emit('change',val)
     },
     inputValue(val, oldVal) {
       if (val !== "") {
-        val = parseInt(val);
+        val = parseInt(val)
         if (val > this.max) {
-          val = this.max;
+          val = this.max
         } else if (val < this.min) {
-          val = this.min;
+          val = this.min
         }
       }
-      this.$emit("numberbian", val);
+      this.$emit("numberbian", val)
     }
   }
 };

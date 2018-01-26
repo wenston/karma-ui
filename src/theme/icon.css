@@ -44,29 +44,6 @@
       }
     }
 
-    &.k-icon__container--delete {
-      border-radius: 100%;
-      background-color: var(--icon-delete);
-      color: #fff;
-      cursor: pointer;
-
-      &:after,
-      &:before {
-        width: 6px;
-        height: 1px;
-        background-color: #fff;
-        transform: rotate(45deg);
-      }
-
-      &:after {
-        transform: rotate(-45deg);
-      }
-
-      &:hover {
-        background-color: color(var(--icon-delete) b(50%));
-      }
-    }
-
     &.k-icon__container--arrow {
       pointer-events: none;
 
