@@ -19,13 +19,20 @@
   white-space: nowrap;
 }
 
-.k-slide-down {
+/*//动画*/
+/*下拉*/
+.k-transition-slide-down-enter-active,
+.k-transition-slide-down-leave-active {
   transition: var(--transition);
-  transform-origin: top;
+  transform-origin:top;
+}
+.k-transition-slide-down-enter,
+.k-transition-slide-down-leave-to {
   transform:rotateX(90deg);
   opacity: 0;
-  &--active {
-    transform:rotateX(0deg);
-    opacity: 1;
-  }
+}
+.k-transition-slide-down-enter-to,
+.k-transition-slide-down-leave {
+  transform:rotateX(0deg);
+  opacity: 1;
 }

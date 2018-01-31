@@ -70,13 +70,13 @@
     <div>
       <k-button >
         删除
-        <k-icon which="delete"></k-icon>
+        <i class="k-icon-x"></i>
       </k-button>
       <div class="javascript" v-pre>
         <pre>&lt;k-button&gt;
   删除
-  &lt;k-icon which="delete"&gt;&lt;/k-icon&gt;
-&lt;/k-button&gt;</pre>
+  &lt;i class="k-icon-x"&gt;&lt;/i&gt;
+&lt;k-button&gt;</pre>
       </div>
       <div>
         <code>k-button</code>提供了一个默认slot，使用时，可以根据需要插入内容。

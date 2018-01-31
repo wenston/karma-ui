@@ -24,13 +24,13 @@
         slot="append"></i>
     </z-input>
     <!-- 如果是v-if，则子组件不会被created/mounted，直到显示子组件的时候，才会实例化。所以初始化值时就初始化不上了 -->
-    <ul class="k-select__list k-slide-down" 
-      :class="{'k-slide-down--active':ifOptionList}"
-      v-show="ifOptionList"
-      ref="list">
-      <slot></slot>
-    </ul>
-    
+    <transition name="k-transition-slide-down">
+      <ul class="k-select__list"
+        v-show="ifOptionList"
+        ref="list">
+        <slot></slot>
+      </ul>
+    </transition>
   </div>
 </template>
 
