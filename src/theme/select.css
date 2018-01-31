@@ -30,7 +30,14 @@
   }
   .k-select__clear {
     color:var(--select-down-color);
-    transition: var(--transition);
+    /* transition: var(--transition); */
+    width: var(--select-clear-size);
+    height: var(--select-clear-size);
+    font-size: var(--select-clear-size);
+    cursor: pointer;
+    &:hover {
+      color:var(--select-clear-hover-color);
+    }
   }
   
   .k-select__active {

@@ -18,3 +18,14 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.k-slide-down {
+  transition: var(--transition);
+  transform-origin: top;
+  transform:rotateX(90deg);
+  opacity: 0;
+  &--active {
+    transform:rotateX(0deg);
+    opacity: 1;
+  }
+}

@@ -13,27 +13,20 @@
       :disabled="disabled"
       :styles="styles"
       >
-      <!-- <z-icon v-if="showDelete && clearable"
+      <i class="k-icon-cancel k-select__clear" 
         slot="append"
-        which="delete"
-        @click.native.stop="clear"
-        ></z-icon>
-      <z-icon v-else
-        slot="append"
-        which="arrow"
-        :type="arrowType"
-        ></z-icon> -->
+        @click.stop="clear"
+        v-if="showDelete && clearable"></i>
       <i class="k-icon-arrow_drop_down k-select__down"
         :class="{'k-select__down--up':ifOptionList}"
         @click.stop="clear"
-        v-if="showDelete && clearable"
+        v-else
         slot="append"></i>
-      <i class="k-icon-cancel k-select__clear" 
-        slot="append"
-        v-else></i>
     </z-input>
     <!-- 如果是v-if，则子组件不会被created/mounted，直到显示子组件的时候，才会实例化。所以初始化值时就初始化不上了 -->
-    <ul class="k-select__list" v-show="ifOptionList"
+    <ul class="k-select__list k-slide-down" 
+      :class="{'k-slide-down--active':ifOptionList}"
+      v-show="ifOptionList"
       ref="list">
       <slot></slot>
     </ul>
@@ -91,9 +84,6 @@ export default {
   computed: {
     ifOptionList() {
       return this.showOptionList && this.$slots.default;
-    },
-    arrowType() {
-      return this.showOptionList ? "up" : "down";
     }
   },
   methods: {

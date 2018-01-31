@@ -78,6 +78,8 @@
   /* select */
   --select-down-size: 20px;
   --select-down-color: color(var(--input-border-color) b(+20%));
+  --select-clear-size: 16px;
+  --select-clear-hover-color: color(var(--select-down-color) b(+40%));
   --select-option-z-index: 99;
   --select-option-box-shadow: var(--box-shadow);
   --select-option-max-height: 251px;
@@ -86,7 +88,7 @@
   --option-height: 28px;
   --option-padding: 0 6px;
   --option-hover-color: var(--primary-color);
-  --option-hover-bg-color: color(var(--primary-color) tint(90%));
+  --option-hover-bg-color: color(var(--primary-color) tint(80%));
   --option-selected-color: #fff;
   --option-selected-bg-color: var(--primary-color);
 
