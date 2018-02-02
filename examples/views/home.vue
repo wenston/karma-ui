@@ -63,6 +63,9 @@ export default {
           },{
             name:'icon',
             title:'icon 图标'
+          },{
+            name:'loading',
+            title:'loading 加载中'
           }
         ],
         directives: [

@@ -69,6 +69,12 @@ export default new VueRouter({
       component(res) {
         import('../views/icon.vue').then(comp=>res(comp))
       }
+    }, {
+      path:'/loading',
+      name:'loading',
+      component(res) {
+        import('../views/loading.vue').then(comp=>res(comp))
+      }
     }]
   }]
 })

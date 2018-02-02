@@ -1,5 +1,7 @@
 .k-loading {
-  animation: k-loading-animate 1s steps(8) infinite;
+  .k-loading__icon {
+    animation: k-loading-animate 1s steps(8) infinite;
+  }
   &.k-loading--mini {
     font-size: 12px;
   }

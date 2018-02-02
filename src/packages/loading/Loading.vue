@@ -5,7 +5,8 @@
   <div class="k-loading__content">
     <div class="k-loading__content__con">
       <div class="k-loading__content__con__roll">
-        <loading-icon></loading-icon>
+        <!-- <loading-icon></loading-icon> -->
+        <i class="k-icon-spinner k-loading__icon"></i>
       </div>
       <div v-html="content" class="k-loading__text"></div>
     </div>
