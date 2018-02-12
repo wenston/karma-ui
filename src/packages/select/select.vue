@@ -102,7 +102,7 @@ export default {
         this.modelKey !== "" &&
         this.modelKey !== undefined
       ) {
-        this.showDelete = true;
+        this.showDelete = true
       }
     },
     hideDeleteBtn() {
@@ -111,41 +111,41 @@ export default {
         this.modelKey !== "" &&
         this.modelKey !== undefined
       ) {
-        this.showDelete = false;
+        this.showDelete = false
       }
     },
     toggleList() {
       if (!this.disabled) {
-        this.showOptionList = !this.showOptionList;
+        this.showOptionList = !this.showOptionList
       }
     },
     _change(obj) {
-      this.modelValue = obj.v;
-      this.$emit("bianbianbian", obj.k);
-      this.$emit("change", obj);
-      this.hideIt();
+      this.modelValue = obj.v
+      this.$emit("bianbianbian", obj.k)
+      this.$emit("change", obj)
+      this.hideIt()
     }
   },
   mounted() {},
   created() {
     this.$on("getValue", opt => {
-      this._change(opt);
+      this._change(opt)
     });
     this.$on("optionReady", () => {
-      this.broadcast("KOption", "iNeedValue", this.modelKey);
-    });
+      this.broadcast("KOption", "iNeedValue", this.modelKey)
+    })
   },
   watch: {
     modelKey(n) {
       if (n === undefined || n === "") {
-        this._change({});
+        this._change({})
       } else {
-        this.broadcast("KOption", "iNeedValue", n);
+        this.broadcast("KOption", "iNeedValue", n)
       }
     },
     ifOptionList(val) {
       if (!val) {
-        this.$el.querySelector("input").blur();
+        this.$el.querySelector("input").blur()
       }
     }
   },
