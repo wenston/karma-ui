@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import {scroll} from 'karma-ui/util/dom.js';
+import {scroll} from 'karma-ui/util/dom.js'
 export default {
   name: "KToTop",
   data() {
     return {
       visible: false
-    };
+    }
   },
   props: {
     distance: {
@@ -45,5 +45,5 @@ export default {
   beforeDestroy () {
     window.removeEventListener('scroll',this.onScroll)
   }
-};
+}
 </script>

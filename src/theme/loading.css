@@ -1,5 +1,11 @@
 .k-loading {
+  & .k-loading__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .k-loading__icon {
+    display: inline-block;
     animation: k-loading-animate 1s steps(8) infinite;
   }
   &.k-loading--mini {
