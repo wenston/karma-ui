@@ -1,6 +1,8 @@
 .k-checkbox {
-  &:not(:last-child) {
-    margin-right:var(--checkbox-gutter);
+
+  margin-right: var(--checkbox-gutter);
+  &:nth-last-of-type(1) {
+    margin-right:0;
   }
   display: inline-block;
   line-height: var(--checkbox-line-height);
