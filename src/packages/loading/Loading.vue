@@ -1,11 +1,16 @@
 <template>
 <div 
-  :class="['k-loading',isFullScreen?'k-loading--fullscreen':'k-loading--default']" 
+  :class="[
+    'k-loading',
+    isFullScreen?'k-loading--fullscreen':'k-loading--default']" 
   v-if="isShow">
   <div class="k-loading__content">
-    <i class="k-icon-spinner k-loading__icon"></i>
+    <loading-icon></loading-icon>
   </div>
-  <div v-html="content" class="k-loading__text"></div>
+  <div 
+    v-html="content" 
+    v-if="content"
+    class="k-loading__text"></div>
 </div>
 </template>
 <script>
@@ -15,7 +20,7 @@
  * 加载完成后，调用Vue.Loading().hide();
  * 不建议用在其他地方！
  */
-import loadingIcon from "./loadingIcon.vue";
+import loadingIcon from "./loadingIcon.vue"
 export default {
   name: "Loading",
   components: {
@@ -38,46 +43,46 @@ export default {
         start: 0,
         end: 0
       }
-    };
+    }
   },
   methods: {
     setSize(isFull) {
-      this.isFullScreen = isFull;
-      return this;
+      this.isFullScreen = isFull
+      return this
     },
     setContent(con) {
-      this.content = con;
-      return this;
+      this.content = con
+      return this
     },
     show() {
-      this.cp.start = this.cp.start + 1;
-      this.isShow = true;
-      return this;
+      this.cp.start = this.cp.start + 1
+      this.isShow = true
+      return this
     },
     hide(isForce /*是否强制手动关闭*/, delay /*延迟关闭*/) {
       if (isForce) {
-        this.cp.start = this.cp.end = 0;
+        this.cp.start = this.cp.end = 0
         if (delay) {
           setTimeout(() => {
-            this.isShow = false;
-          }, delay);
+            this.isShow = false
+          }, delay)
         } else {
-          this.isShow = false;
+          this.isShow = false
         }
       } else {
-        this.cp.end = this.cp.end + 1;
+        this.cp.end = this.cp.end + 1
         if (this.cp.start <= this.cp.end) {
           if (delay) {
             setTimeout(() => {
-              this.isShow = false;
-            }, delay);
+              this.isShow = false
+            }, delay)
           } else {
-            this.isShow = false;
+            this.isShow = false
           }
         }
       }
-      return this;
+      return this
     }
   }
-};
+}
 </script>

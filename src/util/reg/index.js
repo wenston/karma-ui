@@ -23,7 +23,7 @@ export const currency = /(^[1-9](\d+)?(\.\d{1,2})?$)|(^(0){1}$)|(^\d\.\d{1,2}?$)
 export const nonzeroCurrency = /^-?(?!0+(\.0*)?$)\d+(\.\d{0,2})?$/;
 
 //汉字
-export const chinese = /^[\u4e00-\u9fa5],{0,}$/;
+export const chinese = /^[\u4e00-\u9fa5]*$/;
 
 //密码 以字母开头，6-18位
 export const password = /^[a-zA-Z]\w{5,17}$/;

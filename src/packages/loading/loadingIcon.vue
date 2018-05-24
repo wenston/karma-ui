@@ -8,7 +8,11 @@ export default {
  },
  render() {
    return (
-     <i class="k-icon-spinner2" size={this.size}></i>
+     <i class={{
+       'k-loading__icon': true,
+       'k-icon-spinner2': true,
+       [`k-loading--${this.size}`]: true
+     }}></i>
    )
  }
 }

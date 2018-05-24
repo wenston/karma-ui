@@ -20,9 +20,13 @@ export default {
   mounted () {
     this.$nextTick(()=>{
       this.$loading({
-        content:'努力加载加载',
+        content:'加载中',
       }).show()
     })
+
+    setTimeout(()=>{
+      this.$loading().hide()
+    },3000)
   }
 }
 </script>

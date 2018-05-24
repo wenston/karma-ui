@@ -18,8 +18,8 @@ $types: primary, warning, danger, success;
   outline: 0;
   line-height: normal;
 
-  & + & {
-    margin-left: var(--button-gutter);
+  &:not(:last-child) {
+    margin-right: var(--button-gutter);
   }
 
   &.k-btn--default {

@@ -1,5 +1,9 @@
 <script>
+import loadingIcon from 'karma-ui/packages/loading/loadingIcon'
 export default {
+  components: {
+    loadingIcon
+  },
   name: "KButton",
   props: {
     tag: {
@@ -24,16 +28,7 @@ export default {
     let LoadingComp = null
     let Content = null
     if (this.loading) {
-      LoadingComp = (
-        <i
-          class={{
-            "k-loading": true,
-            "k-icon-spinner": true,
-            ["k-loading--" + this.size]: true
-          }}
-          size={this.size}
-        />
-      );
+      LoadingComp = <loadingIcon size={this.size} />
     }
     if (this.$slots.default) {
       Content = <span>{this.$slots.default}</span>
