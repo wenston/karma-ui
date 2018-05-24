@@ -21,18 +21,26 @@
 
 /*//动画*/
 /*下拉*/
-.k-transition-slide-down-enter-active,
-.k-transition-slide-down-leave-active {
+.k-transition-slide-down-enter-active {
   transition: var(--transition);
-  transform-origin:top;
+  transform-origin:0 0;
 }
-.k-transition-slide-down-enter,
-.k-transition-slide-down-leave-to {
+.k-transition-slide-down-enter {
   transform:rotateX(90deg);
   opacity: 0;
 }
-.k-transition-slide-down-enter-to,
-.k-transition-slide-down-leave {
+.k-transition-slide-down-enter-to
+ {
   transform:rotateX(0deg);
   opacity: 1;
+}
+
+.k-transition-slide-down-leave {
+  opacity: 1;
+  transform:rotateX(0deg);
+}
+
+.k-transition-slide-down-leave-to {
+  opacity: 0;
+  transform:rotateX(90deg);
 }
