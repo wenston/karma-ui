@@ -9,6 +9,7 @@ import KCheckbox from 'karma-ui/packages/checkbox/index.js'
 import KInputNumber from 'karma-ui/packages/input-number/index.js'
 import KArea from 'karma-ui/packages/area/index.js'
 import KPopup from 'karma-ui/packages/popup/index.js'
+import Dialog from 'karma-ui/packages/dialog/index.js'
 import KCarousel from 'karma-ui/packages/carousel/index.js'
 import KCarouselItem from 'karma-ui/packages/carousel-item/index.js'
 import Tips from 'karma-ui/packages/tips/index.js'
@@ -31,6 +32,7 @@ let obj = {
   KInputNumber,
   KArea,
   KPopup,
+  Dialog,
   KToTop,
   KIcon,
   Tips,

@@ -150,6 +150,8 @@
   --popup-content-bg-color: var(--bg-color);
   --popup-footer-padding: 10px 15px 20px;
   --popup-footer-text-align: center;
+  --popup-close-btn-color: #888;
+  --popup-close-btn-hover-color: #444;
 
   /*loading*/
   --loading-bg-color:color(rgb(60,70,80) a(80%));

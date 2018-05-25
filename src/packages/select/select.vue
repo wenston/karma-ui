@@ -35,10 +35,10 @@
 </template>
 
 <script>
-import ZInput from "karma-ui/packages/input/input.jsx.vue";
-import clickoutside from "karma-ui/util/clickoutside.js";
-import esc from "karma-ui/util/esc.js";
-import emitter from "karma-ui/mixins/emitter.js";
+import ZInput from "karma-ui/packages/input/input.jsx.vue"
+import clickoutside from "karma-ui/util/clickoutside.js"
+import esc from "karma-ui/util/esc.js"
+import emitter from "karma-ui/mixins/emitter.js"
 
 export default {
   mixins: [emitter],
@@ -79,22 +79,22 @@ export default {
       modelValue: "",
       showOptionList: false,
       showDelete: false
-    };
+    }
   },
   computed: {
     ifOptionList() {
-      return this.showOptionList && this.$slots.default;
+      return this.showOptionList && this.$slots.default
     }
   },
   methods: {
     hideIt(e) {
       if (!this.disabled) {
-        this.showOptionList = false;
+        this.showOptionList = false
       }
     },
     clear() {
-      this._change({});
-      this.showDelete = false;
+      this._change({})
+      this.showDelete = false
     },
     showDeleteBtn() {
       if (
@@ -130,7 +130,7 @@ export default {
   created() {
     this.$on("getValue", opt => {
       this._change(opt)
-    });
+    })
     this.$on("optionReady", () => {
       this.broadcast("KOption", "iNeedValue", this.modelKey)
     })
@@ -153,5 +153,5 @@ export default {
     clickoutside,
     esc
   }
-};
+}
 </script>

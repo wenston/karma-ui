@@ -37,12 +37,15 @@
   right: 10px;
   top: 14px;
   user-select: none;
+  font-size: 18px;
+  color: var(--popup-close-btn-color);
   cursor: pointer;
   transition: var(--transition);
 
   &:hover,
   &:active {
     transform: scale(1.1, 1.1);
+    color: var(--popup-close-btn-hover-color);
   }
 }
 
