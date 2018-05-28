@@ -98,9 +98,6 @@ export default {
   },
   directives: {
     dnd
-  },
-  created () {
-    console.log(this.$slots.default)
   }
 }
 </script>
