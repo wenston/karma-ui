@@ -15,7 +15,7 @@ module.exports = {
     filename: '[name].js',
     chunkFilename: '[id].js',
     path: resolve('lib'),
-    library:'karma-ui',
+    library: 'karma-ui',
     libraryTarget: 'commonjs2'
   },
   resolve: {
@@ -26,16 +26,16 @@ module.exports = {
   },
   externals: {
     vue: {
-      commonjs:'vue/dist/vue.esm.js',
-      commonjs2:'vue/dist/vue.esm.js',
-      amd:'vue/dist/vue.esm.js',
-      root:'vue/dist/vue.esm.js'
+      commonjs: 'vue/dist/vue.esm.js',
+      commonjs2: 'vue/dist/vue.esm.js',
+      amd: 'vue/dist/vue.esm.js',
+      root: 'vue/dist/vue.esm.js'
     }
   },
   plugins: [
     new ExtractTextPlugin('theme/[name].css'),
     new CleanWebpackPlugin('lib', {
-      root:resolve('')
+      root: resolve('')
     })
   ],
   module: {
@@ -71,6 +71,13 @@ module.exports = {
       test: /\.svg$/,
       include: [resolve('src')],
       loader: 'svg-inline-loader'
+    }, {
+      test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+      loader: 'url-loader',
+      options: {
+        limit: 10000,
+        name: 'fonts/[name].[hash:7].[ext]'
+      }
     }]
   },
 }

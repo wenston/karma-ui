@@ -148,6 +148,8 @@ template {
 
   /*input font-size*/
 
+  /* input clearable 颜色*/
+
   /* button */
   /* button padding*/
   /* button fontcolor*/
@@ -172,6 +174,7 @@ template {
 
   /*loading*/
 
+
   /* carousel */
 
   /*css icon*/
@@ -186,7 +189,7 @@ template {
   display: block;
   width: auto;
 }
-.k-center, .k-icon .k-icon__container:after, .k-icon .k-icon__container:before, .k-icon .k-icon__container.k-icon__container--exclamation:before, .k-icon .k-icon__container.k-icon__container--exclamation:after, .k-input-section .k-input-prepend > *, .k-input-section .k-input-append > *, .k-input-section .k-input-clearable, .k-input-number .k-input-number__sign, .k-input-number--right .k-input-number__sign, .k-radio .k-radio__icon:after, .k-tips .k-tips__tag .k-tips__icon--success:after, .k-tips .k-tips__tag .k-tips__icon--error:after, .k-tips .k-tips__tag .k-tips__icon--error:before {
+.k-center, .k-icon .k-icon__container:after, .k-icon .k-icon__container:before, .k-icon .k-icon__container.k-icon__container--exclamation:before, .k-icon .k-icon__container.k-icon__container--exclamation:after, .k-input-section .k-input-prepend > *, .k-input-section .k-input-append > *, .k-input-section .k-input-clearable, .k-radio .k-radio__icon:after, .k-tips .k-tips__tag .k-tips__icon--success:after, .k-tips .k-tips__tag .k-tips__icon--error:after, .k-tips .k-tips__tag .k-tips__icon--error:before {
   position: absolute;
   text-align: center;
   top: 0;
@@ -199,6 +202,35 @@ template {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+/*//动画*/
+/*下拉*/
+.k-transition-slide-down-enter-active {
+  -webkit-transition: .25s ease-out;
+  transition: .25s ease-out;
+  -webkit-transform-origin:0 0;
+          transform-origin:0 0;
+}
+.k-transition-slide-down-enter {
+  -webkit-transform:rotateX(90deg);
+          transform:rotateX(90deg);
+  opacity: 0;
+}
+.k-transition-slide-down-enter-to
+ {
+  -webkit-transform:rotateX(0deg);
+          transform:rotateX(0deg);
+  opacity: 1;
+}
+.k-transition-slide-down-leave {
+  opacity: 1;
+  -webkit-transform:rotateX(0deg);
+          transform:rotateX(0deg);
+}
+.k-transition-slide-down-leave-to {
+  opacity: 0;
+  -webkit-transform:rotateX(90deg);
+          transform:rotateX(90deg);
 }
 .k-icon {
   display: inline-block;
@@ -239,26 +271,6 @@ template {
   width: 2px;
   height: 1.5px;
   margin-top: 70%;
-}
-.k-icon .k-icon__container.k-icon__container--delete {
-  border-radius: 100%;
-  background-color: #ccc;
-  color: #fff;
-  cursor: pointer;
-}
-.k-icon .k-icon__container.k-icon__container--delete:after, .k-icon .k-icon__container.k-icon__container--delete:before {
-  width: 6px;
-  height: 1px;
-  background-color: #fff;
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
-}
-.k-icon .k-icon__container.k-icon__container--delete:after {
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-}
-.k-icon .k-icon__container.k-icon__container--delete:hover {
-  background-color: rgb(157, 157, 157);
 }
 .k-icon .k-icon__container.k-icon__container--arrow {
   pointer-events: none;
@@ -319,11 +331,11 @@ template {
   -webkit-transition: .25s ease-out;
   transition: .25s ease-out;
   outline: 0;
-  line-height: normal;
+  line-height: normal
 }
-.k-btn + .k-btn {
-    margin-left: 10px;
-  }
+.k-btn:not(:last-child) {
+  margin-right: 10px;
+}
 .k-btn.k-btn--default {
   background-color: #fcfcfc;
   border-color: #dcdcdc;
@@ -435,12 +447,12 @@ template {
   width: 150px
 }
 .k-input-section .k-input, .k-input-section .k-textarea {
-  border:1px solid #dcdcdc;
+  border: 1px solid #dcdcdc;
   outline: 0;
   font-size: 12px;
   line-height: 1;
   vertical-align: middle;
-  width:100%;
+  width: 100%;
   border-radius: 2px;
   padding: 0 0.5em;
   -webkit-transition: .25s ease-out;
@@ -451,11 +463,11 @@ template {
 }
 .k-input-section .k-input:focus, .k-input-section .k-input:active, .k-input-section .k-textarea:focus, .k-input-section .k-textarea:active {
   border-color: #378cee;
-  -webkit-box-shadow:inset 1px 2px 3px rgba(0, 0, 0, .1);
-          box-shadow:inset 1px 2px 3px rgba(0, 0, 0, .1);
+  -webkit-box-shadow: inset 1px 2px 3px rgba(0, 0, 0, .1);
+          box-shadow: inset 1px 2px 3px rgba(0, 0, 0, .1);
 }
 .k-input-section .k-input.k-input-disabled, .k-input-section .k-textarea.k-input-disabled {
-  background-color:#e9e9e9;
+  background-color: #e9e9e9;
 }
 .k-input-section .k-input::-webkit-input-placeholder, .k-input-section .k-textarea::-webkit-input-placeholder {
   color: #bbb;
@@ -584,11 +596,16 @@ template {
   width: 14px;
   height: 14px;
   left: auto;
-  right: 6px;
+  right: 7px;
+  color: #ccc;
   display: none;
+  cursor: pointer;
 }
 .k-input-section:hover .k-input-clearable {
   display: inline-block;
+}
+.k-input-section:hover .k-input-clearable:hover {
+  color: rgb(136, 136, 136);
 }
 .k-input-section:hover .k-input-clearable + .k-input {
   padding-right: 22px;
@@ -598,12 +615,23 @@ template {
   line-height: 1.5;
 }
 .k-input-number, .k-input-number--right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   cursor: pointer;
+  color: rgb(157, 157, 157);
   background-color: #fcfcfc;
   border-right: 1px solid #dcdcdc
 }
 .k-input-number:hover, .k-input-number--right:hover {
   background-color: rgb(240, 240, 240);
+  color:#378cee;
 }
 .k-input-number--right {
   border-right: none;
@@ -622,9 +650,9 @@ template {
   line-height: normal;
 }
 .k-select .k-select__list {
-    padding:0;
-    margin:0;
-    font-size:12px;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
     position: absolute;
     width: 100%;
     border: 1px solid #378cee;
@@ -635,9 +663,38 @@ template {
             box-shadow: 0 2px 5px rgba(0, 0, 0, .15);
     max-height: 251px;
     overflow-y: auto;
+    -webkit-transition: .25s ease-out;
+    transition: .25s ease-out;
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    will-change: transform;
   }
+.k-select .k-select__down {
+    pointer-events: none;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    color: rgb(183, 183, 183);
+    -webkit-transition: .25s ease-out;
+    transition: .25s ease-out
+  }
+.k-select .k-select__down.k-select__down--up {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+.k-select .k-select__clear {
+    color: rgb(183, 183, 183);
+    /* transition: var(--transition); */
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    cursor: pointer
+  }
+.k-select .k-select__clear:hover {
+  color: rgb(131, 131, 131);
+}
 .k-select .k-select__active > input {
-  border-color:#378cee;
+  border-color: #378cee;
 }
 .k-option {
   height: 28px;
@@ -649,7 +706,7 @@ template {
   text-align: left
 }
 .k-option:hover {
-  background-color: rgb(235, 244, 253);
+  background-color: rgb(215, 232, 252);
   color: #378cee;
 }
 .k-option.k-option--selected {
@@ -982,6 +1039,8 @@ template {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-size: 18px;
+  color: #888;
   cursor: pointer;
   -webkit-transition: .25s ease-out;
   transition: .25s ease-out
@@ -989,6 +1048,7 @@ template {
 .k-popup__close:hover, .k-popup__close:active {
   -webkit-transform: scale(1.1, 1.1);
           transform: scale(1.1, 1.1);
+  color: #444;
 }
 .k-popup__header {
   padding: 0 15px;
@@ -1028,76 +1088,71 @@ template {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 20px;
   margin: auto;
-  background-color: rgba(60, 70, 80, .8);
+  background-color:rgba(60, 70, 80, .8);
   z-index: 99999999;
-  color: #fff;
   border-radius: 4px;
-  -webkit-transition: .25s ease-out;
-  transition: .25s ease-out
-}
-.k-loading.k-loading--fullscreen {
-  width: 100%;
-  height: 100%;
-}
-.k-loading.k-loading--default {
-  width: 150px;
-  height: 120px;
-}
-.k-loading .k-loading__content .k-loading__content__con {
-      margin-top: 12px;
-      text-align: center;
-}
-.k-loading .k-loading__content .k-loading__content__con .k-loading__content__con__roll {
-        text-align: center;
-        margin-bottom: 15px;
-        height: 25px;
-      }
-.k-loading .k-loading__text {
+  width: 120px;
+  height: 100px;
+  color: #fff;
   font-size: 12px;
+  padding: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
-.k-loading-icon {
-  width: 3px;
-  height: 3px;
-  border-radius: 100%; /* 圆角 */
-  display: inline-block;
-  -webkit-animation: k-loading-icon-animate 1.2s steps(8) infinite;
-          animation: k-loading-icon-animate 1.2s steps(8) infinite;
+.k-loading__text {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+.k-loading .k-loading__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
-.k-loading-icon--huge {
-  -webkit-box-shadow: 0 -10px 0 1px #fff, 10px 0px #fff, 0 10px #fff, -10px 0 #fff, -7px -7px 0 0.5px #fff, 7px -7px 0 1.5px #fff, 7px 7px #fff, -7px 7px #fff;
-          box-shadow: 0 -10px 0 1px #fff, 10px 0px #fff, 0 10px #fff, -10px 0 #fff, -7px -7px 0 0.5px #fff, 7px -7px 0 1.5px #fff, 7px 7px #fff, -7px 7px #fff; /* 左下 */
-}
-.k-loading-icon--large {
-  -webkit-box-shadow: 0 -9px 0 1px #fff, 9px 0px #fff, 0 9px #fff, -9px 0 #fff, -6.3px -6.3px 0 0.5px #fff, 6.3px -6.3px 0 1.5px #fff, 6.3px 6.3px #fff, -6.3px 6.3px #fff;
-          box-shadow: 0 -9px 0 1px #fff, 9px 0px #fff, 0 9px #fff, -9px 0 #fff, -6.3px -6.3px 0 0.5px #fff, 6.3px -6.3px 0 1.5px #fff, 6.3px 6.3px #fff, -6.3px 6.3px #fff; /* 左下 */
-}
-.k-loading-icon--big {
-  width: 2px;
-  height: 2px;
-  -webkit-box-shadow: 0 -8px 0 1px #fff, 8px 0px #fff, 0 8px #fff, -8px 0 #fff, -5.6px -5.6px 0 0.5px #fff, 5.6px -5.6px 0 1.5px #fff, 5.6px 5.6px #fff, -5.6px 5.6px #fff;
-          box-shadow: 0 -8px 0 1px #fff, 8px 0px #fff, 0 8px #fff, -8px 0 #fff, -5.6px -5.6px 0 0.5px #fff, 5.6px -5.6px 0 1.5px #fff, 5.6px 5.6px #fff, -5.6px 5.6px #fff; /* 左下 */
-}
-.k-loading-icon--medium {
-  width: 2px;
-  height: 2px;
-  -webkit-box-shadow: 0 -7px 0 1px #fff, 7px 0px #fff, 0 7px #fff, -7px 0 #fff, -4.9px -4.9px 0 0.5px #fff, 4.9px -4.9px 0 1.5px #fff, 4.9px 4.9px #fff, -4.9px 4.9px #fff;
-          box-shadow: 0 -7px 0 1px #fff, 7px 0px #fff, 0 7px #fff, -7px 0 #fff, -4.9px -4.9px 0 0.5px #fff, 4.9px -4.9px 0 1.5px #fff, 4.9px 4.9px #fff, -4.9px 4.9px #fff; /* 左下 */
-}
-.k-loading-icon--small {
-  width: 2px;
-  height: 2px;
-  -webkit-box-shadow: 0 -6px 0 1px #fff, 6px 0px #fff, 0 6px #fff, -6px 0 #fff, -4.2px -4.2px 0 0.5px #fff, 4.2px -4.2px 0 1.5px #fff, 4.2px 4.2px #fff, -4.2px 4.2px #fff;
-          box-shadow: 0 -6px 0 1px #fff, 6px 0px #fff, 0 6px #fff, -6px 0 #fff, -4.2px -4.2px 0 0.5px #fff, 4.2px -4.2px 0 1.5px #fff, 4.2px 4.2px #fff, -4.2px 4.2px #fff; /* 左下 */
-}
-.k-loading-icon--mini {
-  width: 1px;
-  height: 1px;
-  -webkit-box-shadow: 0 -5px 0 1px #fff, 5px 0px #fff, 0 5px #fff, -5px 0 #fff, -3.5px -3.5px 0 0.2px #fff, 3.5px -3.5px 0 1px #fff, 3.5px 3.5px #fff, -3.5px 3.5px #fff;
-          box-shadow: 0 -5px 0 1px #fff, 5px 0px #fff, 0 5px #fff, -5px 0 #fff, -3.5px -3.5px 0 0.2px #fff, 3.5px -3.5px 0 1px #fff, 3.5px 3.5px #fff, -3.5px 3.5px #fff; /* 左下 */
-}
-@-webkit-keyframes k-loading-icon-animate {
+.k-loading__icon {
+    display: inline-block;
+    -webkit-animation: k-loading-animate 1s linear infinite;
+            animation: k-loading-animate 1s linear infinite;/*steps(8)*/
+  }
+.k-loading--mini {
+    font-size: 12px;
+  }
+.k-loading--small {
+    font-size: 14px;
+  }
+.k-loading--medium {
+    font-size: 16px;
+  }
+.k-loading--big {
+    font-size: 18px;
+  }
+.k-loading--large {
+    font-size: 20px;
+  }
+.k-loading--huge {
+    font-size: 22px;
+  }
+@-webkit-keyframes k-loading-animate {
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
@@ -1108,7 +1163,7 @@ template {
             transform: rotate(360deg);
   }
 }
-@keyframes k-loading-icon-animate {
+@keyframes k-loading-animate {
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
@@ -1172,4 +1227,393 @@ template {
 }
 .k-to-top .k-to-top__btn:hover .k-to-top__text {
         display: inline;
+}
+html {
+  line-height: 1.15;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+
+main {
+  display: block;
+}
+
+pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+a {
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+abbr[title] {
+  text-decoration: underline;
+  text-decoration: underline dotted;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+code,
+kbd,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+small {
+  font-size: 80%;
+}
+
+img {
+  border-style: none;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  margin: 0;
+}
+
+button {
+  overflow: visible;
+  text-transform: none;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+input {
+  overflow: visible;
+}
+
+legend {
+  box-sizing: border-box;
+  color: inherit;
+  display: table;
+  max-width: 100%;
+  padding: 0;
+  white-space: normal;
+}
+
+progress {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+select {
+  text-transform: none;
+}
+
+textarea {
+  overflow: auto;
+}
+
+[type="checkbox"],
+[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+[type="search"] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+}
+
+template {
+  display: none;
+}
+
+[hidden] {
+  display: none;
+}
+
+@font-face {
+  font-family: 'font';
+  src:
+    url(fonts/font.d89560a.ttf) format('truetype'),
+    url(fonts/font.27072e1.woff) format('woff'),
+    url(<svg xmlns="http://www.w3.org/2000/svg"><metadata>Generated by IcoMoon</metadata><defs><font id="font" horiz-adv-x="1024"><font-face units-per-em="1024" ascent="896" descent="-128"></font><missing-glyph horiz-adv-x="1024"></missing><glyph unicode=" " horiz-adv-x="0" d></glyph><glyph unicode="" glyph-name="error" d="M554 342v256h-84v-256h84zM554 170v86h-84v-86h84zM512 810c236 0 426-190 426-426s-190-426-426-426-426 190-426 426 190 426 426 426z"></glyph><glyph unicode="" glyph-name="phone" d="M282 436c62-120 162-220 282-282l94 94c12 12 30 16 44 10 48-16 100-24 152-24 24 0 42-18 42-42v-150c0-24-18-42-42-42-400 0-726 326-726 726 0 24 18 42 42 42h150c24 0 42-18 42-42 0-54 8-104 24-152 4-14 2-32-10-44z"></glyph><glyph unicode="" glyph-name="add" d="M810 342h-256v-256h-84v256h-256v84h256v256h84v-256h256v-84z"></glyph><glyph unicode="" glyph-name="keyboard_arrow_down" d="M316 562l196-196 196 196 60-60-256-256-256 256z"></glyph><glyph unicode="" glyph-name="keyboard_arrow_left" d="M658 210l-60-60-256 256 256 256 60-60-196-196z"></glyph><glyph unicode="" glyph-name="keyboard_arrow_right" d="M366 198l196 196-196 196 60 60 256-256-256-256z"></glyph><glyph unicode="" glyph-name="keyboard_arrow_up" d="M316 238l-60 60 256 256 256-256-60-60-196 196z"></glyph><glyph unicode="" glyph-name="arrow_drop_down" d="M298 470h428l-214-214z"></glyph><glyph unicode="" glyph-name="arrow_drop_up" d="M298 298l214 214 214-214h-428z"></glyph><glyph unicode="" glyph-name="cancel" d="M726 230l-154 154 154 154-60 60-154-154-154 154-60-60 154-154-154-154 60-60 154 154 154-154zM512 810c236 0 426-190 426-426s-190-426-426-426-426 190-426 426 190 426 426 426z"></glyph><glyph unicode="" glyph-name="unfold_more" d="M512 120l136 136 60-60-196-196-196 196 60 60zM512 648l-136-136-60 60 196 196 196-196-60-60z"></glyph><glyph unicode="" glyph-name="notifications" d="M768 214l86-86v-42h-684v42l86 86v212c0 132 70 240 192 270v30c0 36 28 64 64 64s64-28 64-64v-30c122-30 192-140 192-270v-212zM512-42c-48 0-86 38-86 84h172c0-46-40-84-86-84z"></glyph><glyph unicode="" glyph-name="person" d="M512 298c114 0 342-56 342-170v-86h-684v86c0 114 228 170 342 170zM512 384c-94 0-170 76-170 170s76 172 170 172 170-78 170-172-76-170-170-170z"></glyph><glyph unicode="" glyph-name="cached" d="M256 384h128l-170-170-172 170h128c0 188 154 342 342 342 66 0 130-20 182-54l-62-62c-36 20-76 30-120 30-142 0-256-114-256-256zM810 554l172-170h-128c0-188-154-342-342-342-66 0-130 20-182 54l62 62c36-20 76-30 120-30 142 0 256 114 256 256h-128z"></glyph><glyph unicode="" glyph-name="check_circle" d="M426 170l384 384-60 62-324-324-152 152-60-60zM512 810c236 0 426-190 426-426s-190-426-426-426-426 190-426 426 190 426 426 426z"></glyph><glyph unicode="" glyph-name="visibility" d="M512 512c70 0 128-58 128-128s-58-128-128-128-128 58-128 128 58 128 128 128zM512 170c118 0 214 96 214 214s-96 214-214 214-214-96-214-214 96-214 214-214zM512 704c214 0 396-132 470-320-74-188-256-320-470-320s-396 132-470 320c74 188 256 320 470 320z"></glyph><glyph unicode="" glyph-name="dots-three-horizontal" d="M512.051 471.040c-62.208 0-112.691-50.432-112.691-112.64s50.483-112.64 112.691-112.64c62.208 0 112.589 50.432 112.589 112.64s-50.381 112.64-112.589 112.64zM153.651 471.040c-62.208 0-112.691-50.432-112.691-112.64s50.483-112.64 112.691-112.64c62.208 0 112.589 50.483 112.589 112.64s-50.381 112.64-112.589 112.64zM870.451 471.040c-62.208 0-112.691-50.432-112.691-112.64s50.483-112.64 112.691-112.64c62.208 0 112.589 50.432 112.589 112.64s-50.381 112.64-112.589 112.64z"></glyph><glyph unicode="" glyph-name="circle-with-minus" d="M512 788.48c-237.517 0-430.080-192.563-430.080-430.080s192.563-430.080 430.080-430.080 430.080 192.563 430.080 430.080c0 237.517-192.563 430.080-430.080 430.080zM768 307.2h-512v102.4h512v-102.4z"></glyph><glyph unicode="" glyph-name="circle-with-plus" d="M512 788.48c-237.517 0-430.080-192.563-430.080-430.080s192.563-430.080 430.080-430.080 430.080 192.563 430.080 430.080c0 237.517-192.563 430.080-430.080 430.080zM768 307.2h-204.8v-204.8h-102.4v204.8h-204.8v102.4h204.8v204.8h102.4v-204.8h204.8v-102.4z"></glyph><glyph unicode="" glyph-name="lock-open" d="M808.96 460.8h-92.16v122.88c0 148.326-68.352 235.52-204.8 235.52-136.499 0-204.8-87.194-204.8-235.52v-20.48h102.4v41.011c0 73.984 40.806 112.589 102.4 112.589s102.4-38.605 102.4-112.589v-143.411h-409.6c-28.314 0-51.2-33.075-51.2-61.389v-399.411c0-28.109 21.914-58.317 48.691-66.918l61.286-19.814c26.829-8.55 71.782-15.667 99.942-15.667h296.96c28.109 0 73.114 7.117 99.891 15.718l61.235 19.814c26.829 8.55 48.794 38.758 48.794 66.867v399.411c0 28.314-33.178 61.389-61.44 61.389z"></glyph><glyph unicode="" glyph-name="lock" d="M808.96 460.8h-92.16v122.88c0 148.326-68.352 235.52-204.8 235.52-136.499 0-204.8-87.194-204.8-235.52v-122.88h-102.4c-28.314 0-51.2-33.075-51.2-61.389v-399.411c0-28.109 21.914-58.317 48.691-66.918l61.286-19.814c26.829-8.55 71.782-15.667 99.942-15.667h296.96c28.109 0 73.114 7.117 99.891 15.718l61.235 19.814c26.829 8.55 48.794 38.758 48.794 66.867v399.411c0 28.314-33.178 61.389-61.44 61.389zM614.4 460.8h-204.8v143.411c0 73.984 40.806 112.589 102.4 112.589s102.4-38.605 102.4-112.589v-143.411z"></glyph><glyph unicode="" glyph-name="search" d="M898.304 78.49l-193.485 193.485c29.184 47.872 45.978 104.192 45.978 164.352 0 174.95-151.603 326.502-326.554 326.502-174.95 0.051-316.723-141.773-316.723-316.723 0-174.899 151.603-326.502 326.502-326.502 58.214 0 112.64 15.821 159.488 43.213l194.509-194.611c19.046-18.995 49.92-18.995 68.915 0l48.282 48.282c18.995 18.995 12.083 43.008-6.912 62.003zM205.005 446.106c0 121.139 98.15 219.29 219.238 219.29 121.139 0 229.069-107.878 229.069-229.069 0-121.088-98.202-219.29-219.29-219.29-121.139 0.051-229.018 107.981-229.018 229.069z"></glyph><glyph unicode="" glyph-name="home" d="M1024 288l-192 192v288h-128v-160l-192 192-512-512v-32h128v-320h320v192h128v-192h320v320h128z"></glyph><glyph unicode="" glyph-name="check" d="M883.2 669.867c-17.067 17.067-42.667 17.067-59.733 0l-439.467-439.467-183.467 183.467c-17.067 17.067-42.667 17.067-59.733 0s-17.067-42.667 0-59.733l213.333-213.333c8.533-8.533 17.067-12.8 29.867-12.8s21.333 4.267 29.867 12.8l469.333 469.333c17.067 17.067 17.067 42.667 0 59.733z"></glyph><glyph unicode="" glyph-name="share" d="M768 182.17c-32.41 0-61.645-12.595-83.814-32.87l-304.026 177.306c2.355 9.626 3.84 19.661 3.84 29.901s-1.485 20.224-3.84 29.85l300.8 175.565c22.835-21.35 53.35-34.56 87.040-34.56 70.605 0 128 57.395 128 128s-57.395 128-128 128-128-57.395-128-128c0-10.24 1.485-20.275 3.84-29.85l-300.8-175.565c-22.835 21.299-53.35 34.56-87.040 34.56-70.605 0-128-57.395-128-128s57.395-128 128-128c33.69 0 64.205 13.21 87.040 34.56l304.026-177.306c-2.15-8.96-3.43-18.33-3.43-27.955 0-68.71 55.654-124.365 124.365-124.365s124.365 55.706 124.365 124.365-55.654 124.365-124.365 124.365z"></glyph><glyph unicode="" glyph-name="signal" d="M512 153.6c-56.013 0-101.427-45.773-101.427-102.4 0-56.525 45.414-102.4 101.427-102.4s101.376 45.875 101.376 102.4c0 56.576-45.363 102.4-101.376 102.4zM296.96 268.39l71.68-72.397c79.155 79.974 207.565 79.974 286.771 0l71.629 72.397c-118.733 119.962-311.347 119.962-430.080 0zM153.6 413.286l71.68-72.397c158.31 159.898 415.027 159.898 573.389 0l71.731 72.397c-197.888 199.885-518.912 199.885-716.8 0zM10.189 558.080l71.68-72.397c237.517 239.923 622.643 239.923 860.211 0l71.68 72.397c-277.094 279.91-726.426 279.91-1003.571 0z"></glyph><glyph unicode="" glyph-name="minus" d="M810.667 426.667h-597.333c-25.6 0-42.667-17.067-42.667-42.667s17.067-42.667 42.667-42.667h597.333c25.6 0 42.667 17.067 42.667 42.667s-17.067 42.667-42.667 42.667z"></glyph><glyph unicode="" glyph-name="minus-square" d="M810.667 810.667h-597.333c-72.533 0-128-55.467-128-128v-597.333c0-72.533 55.467-128 128-128h597.333c72.533 0 128 55.467 128 128v597.333c0 72.533-55.467 128-128 128zM853.333 85.333c0-25.6-17.067-42.667-42.667-42.667h-597.333c-25.6 0-42.667 17.067-42.667 42.667v597.333c0 25.6 17.067 42.667 42.667 42.667h597.333c25.6 0 42.667-17.067 42.667-42.667v-597.333zM682.667 426.667h-341.333c-25.6 0-42.667-17.067-42.667-42.667s17.067-42.667 42.667-42.667h341.333c25.6 0 42.667 17.067 42.667 42.667s-17.067 42.667-42.667 42.667z"></glyph><glyph unicode="" glyph-name="plus-square" d="M810.667 810.667h-597.333c-72.533 0-128-55.467-128-128v-597.333c0-72.533 55.467-128 128-128h597.333c72.533 0 128 55.467 128 128v597.333c0 72.533-55.467 128-128 128zM853.333 85.333c0-25.6-17.067-42.667-42.667-42.667h-597.333c-25.6 0-42.667 17.067-42.667 42.667v597.333c0 25.6 17.067 42.667 42.667 42.667h597.333c25.6 0 42.667-17.067 42.667-42.667v-597.333zM682.667 426.667h-128v128c0 25.6-17.067 42.667-42.667 42.667s-42.667-17.067-42.667-42.667v-128h-128c-25.6 0-42.667-17.067-42.667-42.667s17.067-42.667 42.667-42.667h128v-128c0-25.6 17.067-42.667 42.667-42.667s42.667 17.067 42.667 42.667v128h128c25.6 0 42.667 17.067 42.667 42.667s-17.067 42.667-42.667 42.667z"></glyph><glyph unicode="" glyph-name="x" d="M571.733 384l226.133 226.133c17.067 17.067 17.067 42.667 0 59.733s-42.667 17.067-59.733 0l-226.133-226.133-226.133 226.133c-17.067 17.067-42.667 17.067-59.733 0s-17.067-42.667 0-59.733l226.133-226.133-226.133-226.133c-17.067-17.067-17.067-42.667 0-59.733 8.533-8.533 17.067-12.8 29.867-12.8s21.333 4.267 29.867 12.8l226.133 226.133 226.133-226.133c8.533-8.533 21.333-12.8 29.867-12.8s21.333 4.267 29.867 12.8c17.067 17.067 17.067 42.667 0 59.733l-226.133 226.133z"></glyph><glyph unicode="" glyph-name="cloud" d="M829.248 475.424c-13.984 146.016-135.552 260.576-285.248 260.576-115.808 0-214.944-68.736-260.672-167.36-13.76 4.352-28.096 7.36-43.296 7.36-79.52 0-144-64.512-144-144 0-15.808 3.168-30.752 7.872-44.928-61.856-36.064-103.872-102.24-103.872-179.008 0-114.88 93.12-208 208-208v-0.064l575.968 0.064c132.576 0 240 107.424 240 240 0 116.992-83.872 214.176-194.752 235.36zM784 64.064v-0.064h-575.968c-79.392 0.064-144 64.64-144 144.064 0 51.2 26.976 97.44 72.128 123.744 43.872 25.184 46.88 30.176 28.48 75.424-3.104 9.312-4.608 17.408-4.608 24.736 0 44.128 35.872 80 80 80 0 0 20.992 1.504 43.296-7.36 36.704-14.624 40.704-0.64 58.048 37.088 36.704 79.136 116.224 130.304 202.624 130.304 115.2 0 210.432-87.136 221.568-202.688 3.936-45.824 3.936-45.824 51.68-56.736 82.752-15.808 142.752-88.384 142.752-172.512 0-97.056-78.944-176-176-176z"></glyph><glyph unicode="" glyph-name="star" d="M1020.192 494.176c-8.864 25.568-31.616 44.288-59.008 48.352l-266.432 39.616-115.808 240.448c-12.192 25.248-38.272 41.408-66.944 41.408s-54.752-16.16-66.944-41.408l-115.808-240.448-266.464-39.616c-27.36-4.064-50.112-22.784-58.944-48.352-8.8-25.632-2.144-53.856 17.184-73.12l195.264-194.944-45.28-270.432c-4.608-27.232 7.2-54.56 30.336-70.496 12.704-8.736 27.648-13.184 42.592-13.184 12.288 0 24.608 3.008 35.776 8.992l232.288 125.056 232.32-125.056c11.168-5.984 23.488-8.992 35.744-8.992 14.944 0 29.888 4.448 42.624 13.184 23.136 15.936 34.88 43.264 30.304 70.496l-45.312 270.432 195.328 194.944c19.296 19.296 25.92 47.52 17.184 73.12zM754.816 276.384c-16.384-16.32-23.808-39.328-20.064-61.888l45.312-270.432-232.32 124.992c-11.136 6.016-23.424 8.992-35.776 8.992-12.288 0-24.608-3.008-35.744-8.992l-232.32-124.992 45.312 270.432c3.776 22.56-3.648 45.568-20.032 61.888l-195.264 194.944 266.432 39.68c24.352 3.616 45.312 18.848 55.776 40.576l115.872 240.384 115.84-240.416c10.496-21.728 31.424-36.928 55.744-40.576l266.496-39.68-195.264-194.912z"></glyph><glyph unicode="" glyph-name="settings" d="M972.512 490.24l-98.048 19.648c-4.928 14.176-10.752 27.936-17.184 41.248l55.552 83.328c16.928 25.376 13.568 59.2-8 80.736l-61.568 61.568c-12.384 12.384-28.736 18.752-45.312 18.752-12.256 0-24.64-3.52-35.424-10.752l-83.328-55.52c-13.376 6.464-27.136 12.224-41.312 17.152l-19.648 98.080c-5.952 29.952-32.256 51.456-62.752 51.456h-87.040c-30.496 0-56.768-21.536-62.752-51.456l-19.648-98.080c-14.176-4.928-27.936-10.72-41.248-17.152l-83.296 55.52c-10.848 7.232-23.2 10.752-35.488 10.752-16.544 0-32.896-6.368-45.28-18.752l-61.536-61.568c-21.568-21.568-24.928-55.36-8-80.736l55.52-83.328c-6.464-13.344-12.224-27.104-17.152-41.28l-98.112-19.616c-29.92-5.984-51.456-32.256-51.456-62.752v-87.040c0-30.496 21.536-56.8 51.456-62.752l98.080-19.68c4.928-14.176 10.72-27.936 17.152-41.248l-55.488-83.328c-16.928-25.376-13.568-59.2 8-80.736l61.568-61.568c12.384-12.384 28.736-18.752 45.28-18.752 12.288 0 24.672 3.552 35.456 10.752l83.328 55.552c13.344-6.496 27.104-12.256 41.28-17.184l19.616-98.048c5.984-29.952 32.256-51.488 62.752-51.488h87.040c30.496 0 56.8 21.568 62.752 51.488l19.68 98.048c14.176 4.928 27.936 10.752 41.248 17.184l83.328-55.552c10.816-7.2 23.2-10.752 35.424-10.752 16.576 0 32.928 6.368 45.312 18.752l61.568 61.568c21.568 21.568 24.928 55.36 8 80.736l-55.552 83.328c6.496 13.376 12.256 27.136 17.184 41.312l98.048 19.616c29.92 5.92 51.488 32.256 51.488 62.752v87.040c0 30.496-21.568 56.768-51.488 62.752zM861.888 320.8c-22.24-4.448-40.448-20.32-47.872-41.76-4.128-11.808-8.928-23.264-14.304-34.368-9.952-20.448-8.256-44.576 4.32-63.424l55.552-83.328-61.568-61.568-83.328 55.552c-10.688 7.136-23.072 10.752-35.488 10.752-9.504 0-19.072-2.112-27.872-6.368-11.136-5.376-22.56-10.24-34.432-14.368-21.376-7.424-37.248-25.632-41.696-47.872l-19.68-98.112h-87.040l-19.616 98.112c-4.448 22.24-20.32 40.448-41.728 47.872-11.808 4.128-23.296 8.928-34.4 14.304-8.832 4.32-18.368 6.432-27.904 6.432-12.448 0-24.8-3.616-35.488-10.752l-83.328-55.552-61.568 61.568 55.52 83.328c12.576 18.88 14.208 43.008 4.384 63.36-5.376 11.136-10.208 22.56-14.336 34.432-7.424 21.376-25.664 37.248-47.872 41.696l-98.080 19.68-0.064 87.072 98.112 19.616c22.208 4.448 40.448 20.32 47.872 41.728 4.128 11.808 8.896 23.296 14.304 34.4 9.92 20.416 8.256 44.544-4.352 63.392l-55.488 83.328 61.536 61.568 83.328-55.52c10.688-7.136 23.072-10.752 35.488-10.752 9.504 0 19.040 2.112 27.872 6.368 11.104 5.376 22.56 10.208 34.4 14.336 21.408 7.424 37.28 25.664 41.728 47.872l19.648 98.080 87.040 0.032 19.616-98.112c4.448-22.208 20.32-40.448 41.76-47.872 11.808-4.128 23.264-8.896 34.368-14.304 8.864-4.288 18.368-6.4 27.936-6.4 12.448 0 24.8 3.616 35.488 10.752l83.328 55.52 61.568-61.568-55.552-83.328c-12.576-18.88-14.176-42.976-4.384-63.36 5.376-11.104 10.24-22.56 14.368-34.4 7.424-21.408 25.632-37.28 47.872-41.728l98.048-19.648 0.096-87.040-98.112-19.648zM512 607.968c-123.68 0-224-100.32-224-224 0-123.712 100.32-224 224-224s224 100.32 224 224c0 123.68-100.32 224-224 224zM512 187.936c-108.224 0-196 87.808-196 196 0 108.224 87.776 196 196 196 108.192 0 196-87.776 196-196 0-108.192-87.808-196-196-196zM512 511.968c-70.72 0-128-57.28-128-128 0-70.688 57.28-128 128-128 70.688 0 128 57.312 128 128s-57.312 128-128 128zM512 287.936c-52.992 0-96 43.008-96 96s43.008 96 96 96 96-43.008 96-96c0-52.992-43.008-96-96-96z"></glyph><glyph unicode="" glyph-name="pen" d="M940.64 813.44c-52.64 52.576-121.952 82.56-190.272 82.56-57.632 0-110.688-21.376-149.44-60.064l-155.744-156.928c-0.48-0.448-1.024-0.736-1.504-1.216-0.256-0.256-0.416-0.608-0.672-0.832l0.064-0.064-330.528-333.088c-15.232-15.136-26.272-33.984-32.416-54.56l-75.168-272.256c-0.064-0.736-4.96-22.112-4.96-32.992 0-61.824 50.208-112 112.128-112 12.32 0 36.16 5.888 37.024 6.016l271.296 71.328c20.608 6.112 39.328 17.248 54.56 32.512l488.416 492.256c88.832 88.896 78.816 237.888-22.784 339.328zM512.448 134.56c-2.624 28.864-10.784 57.184-23.008 84.064l302.56 302.528c18.496-58.432 8.992-119.552-31.552-160.128-0.256-0.256-0.576-0.416-0.8-0.672l0.448-0.416-247.296-249.28c0 7.968 0.384 15.776-0.352 23.904zM473.376 247.808c-11.936 19.616-25.504 38.56-42.304 55.328-19.552 19.552-41.984 34.88-65.408 47.744l305.024 305.024c23.936-10.624 46.88-25.76 67.136-46.016 17.312-17.248 30.688-36.576 40.992-56.672l-305.44-305.408zM335.552 366.016c-29.632 11.936-60.672 18.752-91.776 19.168l246.496 248.384c37.728 36.8 92.672 47.392 146.784 33.984l-301.504-301.536zM133.344-59.936c-3.488-0.8-14.336-3.552-21.696-4.064-26.304 0.32-47.648 21.696-47.648 48 0.384 5.376 2.528 14.624 3.264 17.984l33.696 122.048c36.576 0.992 75.936-13.248 106.88-44.256 31.424-31.36 46.208-71.488 44.608-108.512l-119.104-31.2zM283.968-20.384c-0.768 42.944-18.24 87.616-53.504 122.816-33.344 33.376-76.992 52.64-120.512 54.368l31.872 115.424c2.304 7.68 6.88 15.264 12.512 21.888 64.192 45.952 162.912 32.384 231.488-36.256 72.544-72.512 83.744-178.752 27.872-242.176-3.712-1.952-7.456-3.808-11.488-4.992l-118.24-31.072zM918.112 519.296l-53.888-54.304c0 7.232 0.864 14.176 0.192 21.568-5.632 61.92-34.496 121.792-81.376 168.608-52.128 52.16-121.248 82.080-189.696 82.272l52.992 53.44c26.528 26.464 63.552 41.12 104.032 41.12 51.488 0 104.384-23.296 145.056-63.84 38.176-38.112 60.928-85.472 64.192-133.376 3.008-44.704-11.744-85.696-41.504-115.488z"></glyph><glyph unicode="" glyph-name="like" d="M933.248 560.896c-40 10.496-134.048 10.368-271.616 14.016 6.496 30.016 8 57.088 8 105.152 0 114.816-83.648 215.936-157.632 215.936-52.256 0-95.328-42.72-96-95.264-0.704-64.448-20.64-175.744-128-232.192-7.872-4.16-30.4-15.264-33.696-16.704l1.696-1.44c-16.8 14.496-40.096 25.6-64 25.6h-96c-52.928 0-96-43.072-96-96v-512c0-52.928 43.072-96 96-96h96c38.080 0 69.952 23.008 85.376 55.264 0.384-0.128 1.056-0.32 1.504-0.384 2.112-0.576 4.608-1.184 7.648-1.984 0.576-0.16 0.864-0.224 1.472-0.384 18.432-4.576 53.92-13.056 129.76-30.496 16.256-3.712 102.144-22.016 191.104-22.016h174.944c53.312 0 91.744 20.512 114.624 61.696 0.32 0.64 7.68 15.008 13.696 34.432 4.512 14.624 6.176 35.328 0.736 56.32 34.368 23.616 45.44 59.328 52.64 82.56 12.064 38.112 8.448 66.752 0.064 87.264 19.328 18.24 35.808 46.048 42.752 88.512 4.32 26.304-0.32 53.376-12.448 75.904 18.112 20.352 26.368 45.952 27.328 69.632l0.384 6.688c0.224 4.192 0.416 6.784 0.416 16 0 40.416-28 91.968-90.752 109.888zM224-32c0-17.696-14.304-32-32-32h-96c-17.696 0-32 14.304-32 32v512c0 17.696 14.304 32 32 32h96c17.696 0 32-14.304 32-32v-512zM959.264 430.88c-0.64-15.808-7.264-46.88-63.264-46.88-48 0-64 0-64 0-8.864 0-16-7.168-16-16s7.136-16 16-16c0 0 14.016 0 62.016 0s54.304-39.808 51.2-59.008c-3.968-23.872-15.168-68.992-69.216-68.992-53.984 0-76 0-76 0-8.864 0-16-7.136-16-16 0-8.8 7.136-16 16-16 0 0 38.016 0 63.008 0 54.016 0 49.248-41.184 41.504-65.76-10.208-32.288-16.448-62.24-84.512-62.24-23.008 0-52.192 0-52.192 0-8.864 0-16-7.136-16-16 0-8.8 7.136-16 16-16 0 0 22.176 0 50.176 0 35.008 0 36.64-33.12 32.992-44.992-4-12.992-8.736-22.624-8.928-23.072-9.664-17.44-25.248-27.936-58.24-27.936h-174.944c-87.872 0-175.040 19.936-177.28 20.448-132.928 30.624-139.936 32.992-148.288 35.36 0 0-27.072 4.576-27.072 28.192l-0.224 441.984c0 15.008 9.568 28.576 25.408 33.344 1.984 0.768 4.672 1.6 6.592 2.4 146.176 60.544 190.688 193.28 192 302.272 0.192 15.328 12 32 32 32 33.824 0 93.632-67.904 93.632-151.936 0-75.872-3.072-88.992-29.632-168.064 320 0 317.76-4.608 345.984-12 35.008-10.016 38.016-39.008 38.016-48.992 0-10.976-0.32-9.376-0.736-20.128zM144 64c-26.496 0-48-21.504-48-48s21.504-48 48-48 48 21.504 48 48-21.504 48-48 48zM144 0c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16z"></glyph><glyph unicode="" glyph-name="calendar" d="M938.688 800h-138.688v64c0 17.696-14.304 32-32 32s-32-14.304-32-32v-64h-192v64c0 17.696-14.336 32-32 32s-32-14.304-32-32v-64h-192v64c0 17.696-14.336 32-32 32s-32-14.304-32-32v-64h-138.656c-47.136 0-85.344-38.176-85.344-85.312v-757.344c0-47.136 38.208-85.344 85.344-85.344h853.344c47.136 0 85.312 38.208 85.312 85.344v757.344c0 47.136-38.176 85.312-85.312 85.312zM960-42.656c0-11.776-9.568-21.344-21.312-21.344h-853.344c-11.776 0-21.344 9.568-21.344 21.344v757.344c0 11.744 9.568 21.312 21.344 21.312h138.656v-64c0-17.696 14.336-32 32-32s32 14.304 32 32v64h192v-64c0-17.696 14.336-32 32-32s32 14.304 32 32v64h192v-64c0-17.696 14.304-32 32-32s32 14.304 32 32v64h138.688c11.744 0 21.312-9.568 21.312-21.312v-757.344zM224 512h128v-96h-128zM224 352h128v-96h-128zM224 192h128v-96h-128zM448 192h128v-96h-128zM448 352h128v-96h-128zM448 512h128v-96h-128zM672 192h128v-96h-128zM672 352h128v-96h-128zM672 512h128v-96h-128z"></glyph><glyph unicode="" glyph-name="profile" d="M864 896h-768c-52.8 0-96-43.2-96-96v-832c0-52.8 43.2-96 96-96h768c52.8 0 96 43.2 96 96v832c0 52.8-43.2 96-96 96zM832 0h-704v768h704v-768zM256 320h448v-64h-448zM256 192h448v-64h-448zM320 608c0 53.019 42.981 96 96 96s96-42.981 96-96c0-53.019-42.981-96-96-96s-96 42.981-96 96zM480 512h-128c-52.8 0-96-28.8-96-64v-64h320v64c0 35.2-43.2 64-96 64z"></glyph><glyph unicode="" glyph-name="qrcode" d="M320 832h-256v-256h256v256zM384 896v0-384h-384v384h384zM128 768h128v-128h-128zM960 832h-256v-256h256v256zM1024 896v0-384h-384v384h384zM768 768h128v-128h-128zM320 192h-256v-256h256v256zM384 256v0-384h-384v384h384zM128 128h128v-128h-128zM448 896h64v-64h-64zM512 832h64v-64h-64zM448 768h64v-64h-64zM512 704h64v-64h-64zM448 640h64v-64h-64zM512 576h64v-64h-64zM448 512h64v-64h-64zM448 384h64v-64h-64zM512 320h64v-64h-64zM448 256h64v-64h-64zM512 192h64v-64h-64zM448 128h64v-64h-64zM512 64h64v-64h-64zM448 0h64v-64h-64zM512-64h64v-64h-64zM960 384h64v-64h-64zM64 384h64v-64h-64zM128 448h64v-64h-64zM0 448h64v-64h-64zM256 448h64v-64h-64zM320 384h64v-64h-64zM384 448h64v-64h-64zM576 384h64v-64h-64zM640 448h64v-64h-64zM704 384h64v-64h-64zM768 448h64v-64h-64zM832 384h64v-64h-64zM896 448h64v-64h-64zM960 256h64v-64h-64zM576 256h64v-64h-64zM640 320h64v-64h-64zM704 256h64v-64h-64zM832 256h64v-64h-64zM896 320h64v-64h-64zM960 128h64v-64h-64zM576 128h64v-64h-64zM640 192h64v-64h-64zM768 192h64v-64h-64zM832 128h64v-64h-64zM896 192h64v-64h-64zM960 0h64v-64h-64zM640 64h64v-64h-64zM704 0h64v-64h-64zM768 64h64v-64h-64zM832 0h64v-64h-64zM640-64h64v-64h-64zM768-64h64v-64h-64zM896-64h64v-64h-64z"></glyph><glyph unicode="" glyph-name="location" d="M512 896c-176.732 0-320-143.268-320-320 0-320 320-704 320-704s320 384 320 704c0 176.732-143.27 320-320 320zM512 380c-108.248 0-196 87.752-196 196s87.752 196 196 196 196-87.752 196-196-87.752-196-196-196zM388 576c0 68.483 55.517 124 124 124s124-55.517 124-124c0-68.483-55.517-124-124-124s-124 55.517-124 124z"></glyph><glyph unicode="" glyph-name="alarm" d="M512 768c-247.424 0-448-200.576-448-448s200.576-448 448-448 448 200.576 448 448-200.576 448-448 448zM512-40c-198.824 0-360 161.178-360 360 0 198.824 161.176 360 360 360 198.822 0 360-161.176 360-360 0-198.822-161.178-360-360-360zM934.784 608.826c16.042 28.052 25.216 60.542 25.216 95.174 0 106.040-85.96 192-192 192-61.818 0-116.802-29.222-151.92-74.596 131.884-27.236 245.206-105.198 318.704-212.578v0zM407.92 821.404c-35.116 45.374-90.102 74.596-151.92 74.596-106.040 0-192-85.96-192-192 0-34.632 9.174-67.122 25.216-95.174 73.5 107.38 186.822 185.342 318.704 212.578zM512 320v256h-64v-320h256v64z"></glyph><glyph unicode="" glyph-name="bubbles4" horiz-adv-x="1152" d="M480 768c-50.666 0-99.582-7.95-145.386-23.628-42.924-14.694-81.114-35.436-113.502-61.646-60.044-48.59-93.112-110.802-93.112-175.174 0-35.99 10.066-70.948 29.92-103.898 20.686-34.34 51.898-65.794 90.26-90.958 30.44-19.968 50.936-51.952 56.362-87.95 0.902-5.99 1.63-12.006 2.18-18.032 2.722 2.52 5.424 5.114 8.114 7.794 24.138 24.040 56.688 37.312 90.322 37.312 5.348 0 10.718-0.336 16.094-1.018 19.36-2.452 39.124-3.696 58.748-3.696 50.666 0 99.58 7.948 145.384 23.628 42.926 14.692 81.116 35.434 113.504 61.644 60.046 48.59 93.112 110.802 93.112 175.174s-33.066 126.582-93.112 175.174c-32.388 26.212-70.578 46.952-113.504 61.646-45.804 15.678-94.718 23.628-145.384 23.628zM480 896v0c265.096 0 480-173.914 480-388.448s-214.904-388.448-480-388.448c-25.458 0-50.446 1.62-74.834 4.71-103.106-102.694-222.172-121.108-341.166-123.814v25.134c64.252 31.354 116 88.466 116 153.734 0 9.106-0.712 18.048-2.030 26.794-108.558 71.214-177.97 179.988-177.97 301.89 0 214.534 214.904 388.448 480 388.448zM996 25.314c0-55.942 36.314-104.898 92-131.772v-21.542c-103.126 2.318-197.786 18.102-287.142 106.126-21.14-2.65-42.794-4.040-64.858-4.040-95.47 0-183.408 25.758-253.614 69.040 144.674 0.506 281.26 46.854 384.834 130.672 52.208 42.252 93.394 91.826 122.414 147.348 30.766 58.866 46.366 121.582 46.366 186.406 0 10.448-0.45 20.836-1.258 31.168 72.57-59.934 117.258-141.622 117.258-231.676 0-104.488-60.158-197.722-154.24-258.764-1.142-7.496-1.76-15.16-1.76-22.966z"></glyph><glyph unicode="" glyph-name="user" d="M576 189.388v52.78c70.498 39.728 128 138.772 128 237.832 0 159.058 0 288-192 288s-192-128.942-192-288c0-99.060 57.502-198.104 128-237.832v-52.78c-217.102-17.748-384-124.42-384-253.388h896c0 128.968-166.898 235.64-384 253.388z"></glyph><glyph unicode="" glyph-name="spinner" d="M384 768c0 70.692 57.308 128 128 128s128-57.308 128-128c0-70.692-57.308-128-128-128s-128 57.308-128 128zM655.53 655.53c0 70.692 57.308 128 128 128s128-57.308 128-128c0-70.692-57.308-128-128-128s-128 57.308-128 128zM832 384c0 35.346 28.654 64 64 64s64-28.654 64-64c0-35.346-28.654-64-64-64s-64 28.654-64 64zM719.53 112.47c0 35.346 28.654 64 64 64s64-28.654 64-64c0-35.346-28.654-64-64-64s-64 28.654-64 64zM448.002 0c0 0 0 0 0 0 0 35.346 28.654 64 64 64s64-28.654 64-64c0 0 0 0 0 0 0-35.346-28.654-64-64-64s-64 28.654-64 64zM176.472 112.47c0 0 0 0 0 0 0 35.346 28.654 64 64 64s64-28.654 64-64c0 0 0 0 0 0 0-35.346-28.654-64-64-64s-64 28.654-64 64zM144.472 655.53c0 0 0 0 0 0 0 53.019 42.981 96 96 96s96-42.981 96-96c0 0 0 0 0 0 0-53.019-42.981-96-96-96s-96 42.981-96 96zM56 384c0 39.765 32.235 72 72 72s72-32.235 72-72c0-39.765-32.235-72-72-72s-72 32.235-72 72z"></glyph><glyph unicode="" glyph-name="spinner2" d="M1024 384c-1.278 66.862-15.784 133.516-42.576 194.462-26.704 61-65.462 116.258-113.042 161.92-47.552 45.696-103.944 81.82-164.984 105.652-61.004 23.924-126.596 35.352-191.398 33.966-64.81-1.282-129.332-15.374-188.334-41.356-59.048-25.896-112.542-63.47-156.734-109.576-44.224-46.082-79.16-100.708-102.186-159.798-23.114-59.062-34.128-122.52-32.746-185.27 1.286-62.76 14.964-125.148 40.134-182.206 25.088-57.1 61.476-108.828 106.11-151.548 44.61-42.754 97.472-76.504 154.614-98.72 57.118-22.304 118.446-32.902 179.142-31.526 60.708 1.29 120.962 14.554 176.076 38.914 55.15 24.282 105.116 59.48 146.366 102.644 41.282 43.14 73.844 94.236 95.254 149.43 13.034 33.458 21.88 68.4 26.542 103.798 1.246-0.072 2.498-0.12 3.762-0.12 35.346 0 64 28.652 64 64 0 1.796-0.094 3.572-0.238 5.332h0.238zM922.306 214.052c-23.472-53.202-57.484-101.4-99.178-141.18-41.67-39.81-91-71.186-144.244-91.79-53.228-20.678-110.29-30.452-166.884-29.082-56.604 1.298-112.596 13.736-163.82 36.474-51.25 22.666-97.684 55.49-135.994 95.712-38.338 40.198-68.528 87.764-88.322 139.058-19.87 51.284-29.228 106.214-27.864 160.756 1.302 54.552 13.328 108.412 35.254 157.69 21.858 49.3 53.498 93.97 92.246 130.81 38.73 36.868 84.53 65.87 133.874 84.856 49.338 19.060 102.136 28.006 154.626 26.644 52.5-1.306 104.228-12.918 151.562-34.034 47.352-21.050 90.256-51.502 125.624-88.782 35.396-37.258 63.21-81.294 81.39-128.688 18.248-47.392 26.782-98.058 25.424-148.496h0.238c-0.144-1.76-0.238-3.536-0.238-5.332 0-33.012 24.992-60.174 57.086-63.624-6.224-34.822-16.53-68.818-30.78-100.992z"></glyph><glyph unicode="" glyph-name="stats-bars" d="M0 64h1024v-128h-1024zM128 320h128v-192h-128zM320 576h128v-448h-128zM512 384h128v-256h-128zM704 768h128v-640h-128z"></glyph><glyph unicode="" glyph-name="bin" d="M128 576v-640c0-35.2 28.8-64 64-64h576c35.2 0 64 28.8 64 64v640h-704zM320 0h-64v448h64v-448zM448 0h-64v448h64v-448zM576 0h-64v448h64v-448zM704 0h-64v448h64v-448zM848 768h-208v80c0 26.4-21.6 48-48 48h-224c-26.4 0-48-21.6-48-48v-80h-208c-26.4 0-48-21.6-48-48v-80h832v80c0 26.4-21.6 48-48 48zM576 768h-192v63.198h192v-63.198z"></glyph><glyph unicode="" glyph-name="switch" d="M640 749.412v-135.958c36.206-15.804 69.5-38.408 98.274-67.18 60.442-60.44 93.726-140.8 93.726-226.274s-33.286-165.834-93.726-226.274c-60.44-60.44-140.798-93.726-226.274-93.726s-165.834 33.286-226.274 93.726c-60.44 60.44-93.726 140.8-93.726 226.274s33.286 165.834 93.726 226.274c28.774 28.774 62.068 51.378 98.274 67.182v135.956c-185.048-55.080-320-226.472-320-429.412 0-247.424 200.578-448 448-448 247.424 0 448 200.576 448 448 0 202.94-134.95 374.332-320 429.412zM448 896h128v-512h-128z"></glyph><glyph unicode="" glyph-name="list" d="M384 832h640v-128h-640v128zM384 448h640v-128h-640v128zM384 64h640v-128h-640v128zM0 768c0 70.692 57.308 128 128 128s128-57.308 128-128c0-70.692-57.308-128-128-128s-128 57.308-128 128zM0 384c0 70.692 57.308 128 128 128s128-57.308 128-128c0-70.692-57.308-128-128-128s-128 57.308-128 128zM0 0c0 70.692 57.308 128 128 128s128-57.308 128-128c0-70.692-57.308-128-128-128s-128 57.308-128 128z"></glyph><glyph unicode="" glyph-name="flag" d="M0 896h128v-1024h-128v1024zM832 252.998c82.624 0 154.57 19.984 192 49.5v512c-37.43-29.518-109.376-49.502-192-49.502s-154.57 19.984-192 49.502v-512c37.43-29.516 109.376-49.5 192-49.5zM608 863.472c-46.906 19.94-115.52 32.528-192 32.528-96.396 0-180.334-19.984-224-49.502v-512c43.666 29.518 127.604 49.502 224 49.502 76.48 0 145.094-12.588 192-32.528v512z"></glyph></font></defs></svg>#font) format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'font' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  -webkit-font-feature-settings: normal;
+          font-feature-settings: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.k-icon-add:before {
+  content: "\E145";
+}
+
+.k-icon-arrow_drop_down:before {
+  content: "\E5C5";
+}
+
+.k-icon-arrow_drop_up:before {
+  content: "\E5C7";
+}
+
+.k-icon-cached:before {
+  content: "\E86A";
+}
+
+.k-icon-phone:before {
+  content: "\E0CD";
+}
+
+.k-icon-cancel:before {
+  content: "\E5C9";
+}
+
+.k-icon-check_circle:before {
+  content: "\E86C";
+}
+
+.k-icon-error:before {
+  content: "\E000";
+}
+
+.k-icon-keyboard_arrow_down:before {
+  content: "\E313";
+}
+
+.k-icon-keyboard_arrow_left:before {
+  content: "\E314";
+}
+
+.k-icon-keyboard_arrow_right:before {
+  content: "\E315";
+}
+
+.k-icon-keyboard_arrow_up:before {
+  content: "\E316";
+}
+
+.k-icon-notifications:before {
+  content: "\E7F4";
+}
+
+.k-icon-person:before {
+  content: "\E7FD";
+}
+
+.k-icon-visibility:before {
+  content: "\E8F4";
+}
+
+.k-icon-unfold_more:before {
+  content: "\E5D7";
+}
+
+.k-icon-check:before {
+  content: "\E90B";
+}
+
+.k-icon-minus:before {
+  content: "\E90E";
+}
+
+.k-icon-minus-square:before {
+  content: "\E90F";
+}
+
+.k-icon-plus-square:before {
+  content: "\E911";
+}
+
+.k-icon-x:before {
+  content: "\E912";
+}
+
+.k-icon-cloud:before {
+  content: "\E913";
+}
+
+.k-icon-star:before {
+  content: "\E914";
+}
+
+.k-icon-settings:before {
+  content: "\E915";
+}
+
+.k-icon-pen:before {
+  content: "\E916";
+}
+
+.k-icon-like:before {
+  content: "\E917";
+}
+
+.k-icon-calendar:before {
+  content: "\E918";
+}
+
+.k-icon-dots-three-horizontal:before {
+  content: "\E904";
+}
+
+.k-icon-circle-with-minus:before {
+  content: "\E905";
+}
+
+.k-icon-circle-with-plus:before {
+  content: "\E906";
+}
+
+.k-icon-lock-open:before {
+  content: "\E907";
+}
+
+.k-icon-lock:before {
+  content: "\E908";
+}
+
+.k-icon-search:before {
+  content: "\E909";
+}
+
+.k-icon-share:before {
+  content: "\E90C";
+}
+
+.k-icon-signal:before {
+  content: "\E90D";
+}
+
+.k-icon-home:before {
+  content: "\E90A";
+}
+
+.k-icon-profile:before {
+  content: "\E923";
+}
+
+.k-icon-qrcode:before {
+  content: "\E938";
+}
+
+.k-icon-location:before {
+  content: "\E948";
+}
+
+.k-icon-alarm:before {
+  content: "\E950";
+}
+
+.k-icon-bubbles4:before {
+  content: "\E970";
+}
+
+.k-icon-user:before {
+  content: "\E971";
+}
+
+.k-icon-spinner:before {
+  content: "\E97A";
+}
+
+.k-icon-stats-bars:before {
+  content: "\E99C";
+}
+
+.k-icon-bin:before {
+  content: "\E9AC";
+}
+
+.k-icon-switch:before {
+  content: "\E9B6";
+}
+
+.k-icon-list:before {
+  content: "\E9BB";
+}
+
+.k-icon-flag:before {
+  content: "\E9CC";
+}
+
+.k-icon-spinner2:before {
+  content: "\E97B";
 }
