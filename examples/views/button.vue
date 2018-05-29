@@ -44,9 +44,16 @@
     <h3 class="layout__title">有loading图标的按钮</h3>
     <div>
       <p><code>k-button</code>组件提供了一种loading样式</p>
-      <k-button type="primary" loading>加载中...</k-button>
+      <k-button type="primary" loading>加载中... </k-button>
       <div class="javascript" v-pre>
-        <pre>&lt;k-button type="primary" loading&gt;加载中...&lt;/k-button&gt;</pre>
+        <pre>&lt;k-button type="primary" loading&gt;加载中... &lt;/k-button&gt;</pre>
+      </div>
+      <div>
+        <k-button type="warning" size="huge" loading>加载中... </k-button>
+        <k-button type="danger" size="large" loading>加载中... </k-button>
+        <k-button size="big" loading>加载中... </k-button>
+        <k-button type="success" size="small" loading>加载中... </k-button>
+        <k-button type="primary" size="mini" loading>加载中... </k-button>
       </div>
     </div>
     <h3 class="layout__title">disabled 不可用</h3>
@@ -63,13 +70,13 @@
     <div>
       <k-button >
         删除
-        <k-icon which="delete"></k-icon>
+        <i class="k-icon-x"></i>
       </k-button>
       <div class="javascript" v-pre>
         <pre>&lt;k-button&gt;
   删除
-  &lt;k-icon which="delete"&gt;&lt;/k-icon&gt;
-&lt;/k-button&gt;</pre>
+  &lt;i class="k-icon-x"&gt;&lt;/i&gt;
+&lt;k-button&gt;</pre>
       </div>
       <div>
         <code>k-button</code>提供了一个默认slot，使用时，可以根据需要插入内容。

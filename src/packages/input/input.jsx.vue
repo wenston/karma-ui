@@ -1,14 +1,11 @@
 <script>
-import { validate } from "karma-ui/mixins/validate.js";
+import { validate } from "karma-ui/mixins/validate.js"
 export default {
   mixins: [validate],
-  components: {
-    KIcon: () => import("karma-ui/icon/css/icon.vue")
-  },
   name: "KInput",
   data() {
     return {
-      oldValue:''
+      oldValue: ""
     }
   },
   model: {
@@ -47,11 +44,11 @@ export default {
       default: "medium"
     },
     styles: Object,
-    inputStyles: Object,
+    inputStyles: Object
   },
   computed: {
     isInput() {
-      return this.tag.toLowerCase() === "input";
+      return this.tag.toLowerCase() === "input"
     }
   },
   render() {
@@ -60,30 +57,32 @@ export default {
         name: "select",
         value: { select: this.select }
       }
-    ];
+    ]
     let prepend = null,
-      append = null;
-    if(this.isInput) {
+      append = null
+    if (this.isInput) {
       if (this.$slots.prepend) {
-        prepend = <div class='k-input-prepend'>{this.$slots.prepend}</div>;
+        prepend = <div class="k-input-prepend">{this.$slots.prepend}</div>
       }
       if (this.$slots.append || this.$slots.default) {
-        append = <div class='k-input-append'>{this.$slots.append || this.$slots.default}</div>;
-      }
-      if (this.clearable && (this.value+'').trim() !== "") {
         append = (
-          <div class='k-input-clearable'>
-            <k-icon which="delete" nativeOnClick={this.toClear} />
+          <div class="k-input-append">
+            {this.$slots.append || this.$slots.default}
           </div>
-        );
+        )
+      }
+      if (this.clearable && (this.value + "").trim() !== "") {
+        append = (
+          <i class="k-input-clearable k-icon-cancel" onClick={this.toClear} />
+        )
       }
     }
     return (
       <div
         class={{
-          'k-input-section': true,
-          ['k-input-'+this.size]: true,
-          'k-input-block': this.block
+          "k-input-section": true,
+          ["k-input-" + this.size]: true,
+          "k-input-block": this.block
         }}
         style={this.styles}
       >
@@ -95,8 +94,8 @@ export default {
           domPropsValue={this.value}
           domPropsDisabled={this.disabled}
           class={{
-            [this.isInput?'k-input':'k-textarea']: true,
-            'k-input-disabled':this.disabled
+            [this.isInput ? "k-input" : "k-textarea"]: true,
+            "k-input-disabled": this.disabled
           }}
           style={this.inputStyles}
           onInput={() => this.handlerEvent($event)}
@@ -108,20 +107,22 @@ export default {
           onFocus={this.handlerEvent}
         />
       </div>
-    );
+    )
   },
   methods: {
     _successCallback() {
       //触发自定义valid事件
-      this.$emit("valid", this.value);
+      this.$emit("valid", this.value)
     },
     _errorCallback(errorType) {
-      if(errorType) {
-        if(errorType.digits) {//如果是小数位数问题
+      if (errorType) {
+        if (errorType.digits) {
+          //如果是小数位数问题
           this.oldValue = parseFloat(this.oldValue).toFixed(errorType.digits)
-        }else if(errorType.clear) {//清空
-          this.oldValue = ''
-        }else if(errorType.value) {
+        } else if (errorType.clear) {
+          //清空
+          this.oldValue = ""
+        } else if (errorType.value) {
           this.oldValue = errorType.value
         }
       }
@@ -130,21 +131,24 @@ export default {
         this.$emit(
           "bianbianbian",
           this.validateOptions.useOldValue ? this.oldValue : ""
-        );
+        )
         //触发自定义invalid事件
-        this.$emit("invalid", this.value);
-      });
+        this.$emit("invalid", this.value)
+      })
     },
     handlerEvent(e) {
-      let eType = e.type;
-      let val = (e.target.value + "").trim();
+      let eType = e.type
+      let val = (e.target.value + "").trim()
       //给v-model绑定的属性写入值
       if (eType === "input") {
         // console.log(val)
-        this.$emit("bianbianbian", val);
+        this.$emit("bianbianbian", val)
       }
       //验证用户输入
-      if (this.needValidate && eType === this.validateOptions.when.toLowerCase()) {
+      if (
+        this.needValidate &&
+        eType === this.validateOptions.when.toLowerCase()
+      ) {
         this.toValidate(
           //需要验证的那个值
           val,
@@ -152,23 +156,23 @@ export default {
           this._successCallback,
           //输入无效时的回调
           this._errorCallback
-        );
+        )
       }
       //向外发自定义事件，input/keyup/change等等类似原生的事件
       // console.log(eType)
-      this.$emit(eType, e);
+      this.$emit(eType, e)
     },
     toClear() {
-      this.$emit("bianbianbian", "");
+      this.$emit("bianbianbian", "")
     }
   },
   watch: {
-    value(val,oldVal) {
+    value(val, oldVal) {
       // console.log(val)
-      let old = oldVal;
-      if(this.isIntOrCurrency) {
-        old = parseFloat(old);
-        old = isNaN(old)?'':old<0?'':old;
+      let old = oldVal
+      if (this.isIntOrCurrency) {
+        old = parseFloat(old)
+        old = isNaN(old) ? "" : old < 0 ? "" : old
       }
       this.oldValue = old
     }
@@ -177,10 +181,10 @@ export default {
     select: {
       inserted(el, binding) {
         if (binding.value.select) {
-          el.select();
+          el.select()
         }
       }
     }
   }
-};
+}
 </script>

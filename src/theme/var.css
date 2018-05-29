@@ -47,6 +47,10 @@
   --input-mini-font-size: 12px;
   --input-focus-active-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.1);
 
+  /* input clearable 颜色*/
+  --input-clearable-btn-color:#ccc;
+  --input-clearable-btn-hover-color:color(var(--input-clearable-btn-color) b(+50%));
+
   /* button */
   /* button padding*/
   --button-huge: 13.5px 24px;
@@ -72,6 +76,10 @@
   --button-active-box-shadow: var(inset 1px 3px 5px rgba(0, 0, 0, .2));
 
   /* select */
+  --select-down-size: 20px;
+  --select-down-color: color(var(--input-border-color) b(+20%));
+  --select-clear-size: 16px;
+  --select-clear-hover-color: color(var(--select-down-color) b(+40%));
   --select-option-z-index: 99;
   --select-option-box-shadow: var(--box-shadow);
   --select-option-max-height: 251px;
@@ -80,7 +88,7 @@
   --option-height: 28px;
   --option-padding: 0 6px;
   --option-hover-color: var(--primary-color);
-  --option-hover-bg-color: color(var(--primary-color) tint(90%));
+  --option-hover-bg-color: color(var(--primary-color) tint(80%));
   --option-selected-color: #fff;
   --option-selected-bg-color: var(--primary-color);
 
@@ -95,6 +103,8 @@
   /*input-number*/
   --input-number-btn-bg-color: var(--default-color);
   --input-number-hover-btn-bg-color: color(var(--default-color) b(+5%));
+  --input-number-btn-color: color(var(--input-border-color) b(+40%));
+  --input-number-btn-hover-color: var(--primary-color);
 
   /* tips */
   --tips-padding: 20px;
@@ -140,15 +150,19 @@
   --popup-content-bg-color: var(--bg-color);
   --popup-footer-padding: 10px 15px 20px;
   --popup-footer-text-align: center;
+  --popup-close-btn-color: #888;
+  --popup-close-btn-hover-color: #444;
 
   /*loading*/
   --loading-bg-color:color(rgb(60,70,80) a(80%));
   --loading-z-index:99999999;
   --loading-radius:calc(var(--radius)*2);
-  --loading-width:150px;
-  --loading-height:120px;
+  --loading-width:120px;
+  --loading-height:100px;
   --loading-text-font-size:12px;
   --loading-text-color:#fff;
+  --loading-padding: 15px;
+
 
   /* carousel */
   --carousel-transition:.5s cubic-bezier(0,0,0,1);
@@ -160,7 +174,6 @@
   --carousel-button-active-border:2px solid color(#ccc shade(20%));
 
   /*css icon*/
-  --icon-delete: #ccc;
   --icon-arrow: #ccc;
   --icon-plus-minus: #ccc;
 

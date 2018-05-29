@@ -60,6 +60,18 @@ export default {
           {
             name: "carousel",
             title: "carousel 轮播图"
+          },{
+            name:'icon',
+            title:'icon 图标'
+          },{
+            name:'loading',
+            title:'loading 加载中'
+          },{
+            name:'popup',
+            title:'popup 弹出框'
+          },{
+            name:'dialog',
+            title:'dialog 对话框'
           }
         ],
         directives: [

@@ -13,40 +13,39 @@
       :disabled="disabled"
       :styles="styles"
       >
-      <z-icon v-if="showDelete && clearable"
+      <i class="k-icon-cancel k-select__clear" 
         slot="append"
-        which="delete"
-        @click.native.stop="clear"
-        ></z-icon>
-      <z-icon v-else
-        slot="append"
-        which="arrow"
-        :type="arrowType"
-        ></z-icon>
+        @click.stop="clear"
+        v-if="showDelete && clearable"></i>
+      <i class="k-icon-arrow_drop_down k-select__down"
+        :class="{'k-select__down--up':ifOptionList}"
+        @click.stop="clear"
+        v-else
+        slot="append"></i>
     </z-input>
     <!-- 如果是v-if，则子组件不会被created/mounted，直到显示子组件的时候，才会实例化。所以初始化值时就初始化不上了 -->
-    <ul class="k-select__list" v-show="ifOptionList"
-      ref="list">
-      <slot></slot>
-    </ul>
-    
+    <transition name="k-transition-slide-down">
+      <ul class="k-select__list"
+        v-show="ifOptionList"
+        ref="list">
+        <slot></slot>
+      </ul>
+    </transition>
   </div>
 </template>
 
 <script>
-import ZIcon from "karma-ui/icon/css/icon.vue";
-import ZInput from "karma-ui/packages/input/input.jsx.vue";
-import clickoutside from "karma-ui/util/clickoutside.js";
-import esc from "karma-ui/util/esc.js";
-import emitter from "karma-ui/mixins/emitter.js";
+import ZInput from "karma-ui/packages/input/input.jsx.vue"
+import clickoutside from "karma-ui/util/clickoutside.js"
+import esc from "karma-ui/util/esc.js"
+import emitter from "karma-ui/mixins/emitter.js"
 
 export default {
   mixins: [emitter],
   name: "KSelect",
   componentName: "KSelect",
   components: {
-    ZInput,
-    ZIcon
+    ZInput
   },
   // provide() {
   //   return {
@@ -71,7 +70,7 @@ export default {
       type: String,
       default: "请选择"
     },
-    styles:Object,
+    styles: Object,
     disabled: Boolean,
     clearable: Boolean
   },
@@ -80,25 +79,22 @@ export default {
       modelValue: "",
       showOptionList: false,
       showDelete: false
-    };
+    }
   },
   computed: {
     ifOptionList() {
-      return this.showOptionList && this.$slots.default;
-    },
-    arrowType() {
-      return this.showOptionList ? "up" : "down";
+      return this.showOptionList && this.$slots.default
     }
   },
   methods: {
     hideIt(e) {
       if (!this.disabled) {
-        this.showOptionList = false;
+        this.showOptionList = false
       }
     },
     clear() {
-      this._change({});
-      this.showDelete = false;
+      this._change({})
+      this.showDelete = false
     },
     showDeleteBtn() {
       if (
@@ -106,7 +102,7 @@ export default {
         this.modelKey !== "" &&
         this.modelKey !== undefined
       ) {
-        this.showDelete = true;
+        this.showDelete = true
       }
     },
     hideDeleteBtn() {
@@ -115,41 +111,41 @@ export default {
         this.modelKey !== "" &&
         this.modelKey !== undefined
       ) {
-        this.showDelete = false;
+        this.showDelete = false
       }
     },
     toggleList() {
       if (!this.disabled) {
-        this.showOptionList = !this.showOptionList;
+        this.showOptionList = !this.showOptionList
       }
     },
     _change(obj) {
-      this.modelValue = obj.v;
-      this.$emit("bianbianbian", obj.k);
-      this.$emit("change", obj);
-      this.hideIt();
+      this.modelValue = obj.v
+      this.$emit("bianbianbian", obj.k)
+      this.$emit("change", obj)
+      this.hideIt()
     }
   },
   mounted() {},
   created() {
     this.$on("getValue", opt => {
-      this._change(opt);
-    });
+      this._change(opt)
+    })
     this.$on("optionReady", () => {
-      this.broadcast("KOption", "iNeedValue", this.modelKey);
-    });
+      this.broadcast("KOption", "iNeedValue", this.modelKey)
+    })
   },
   watch: {
     modelKey(n) {
       if (n === undefined || n === "") {
-        this._change({});
+        this._change({})
       } else {
-        this.broadcast("KOption", "iNeedValue", n);
+        this.broadcast("KOption", "iNeedValue", n)
       }
     },
     ifOptionList(val) {
       if (!val) {
-        this.$el.querySelector("input").blur();
+        this.$el.querySelector("input").blur()
       }
     }
   },
@@ -157,5 +153,5 @@ export default {
     clickoutside,
     esc
   }
-};
+}
 </script>

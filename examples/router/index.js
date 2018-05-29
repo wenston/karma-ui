@@ -63,6 +63,30 @@ export default new VueRouter({
       component(res) {
         import ('../views/viewable.vue').then(comp => res(comp))
       }
+    }, {
+      path:'/icon',
+      name:'icon',
+      component(res) {
+        import('../views/icon.vue').then(comp=>res(comp))
+      }
+    }, {
+      path:'/loading',
+      name:'loading',
+      component(res) {
+        import('../views/loading.vue').then(comp=>res(comp))
+      }
+    }, {
+      path:'/popup',
+      name:'popup',
+      component(res) {
+        import('../views/popup.vue').then(comp=>res(comp))
+      }
+    }, {
+      path:'/dialog',
+      name:'dialog',
+      component(res) {
+        import('../views/dialog.vue').then(comp=>res(comp))
+      }
     }]
   }]
 })
