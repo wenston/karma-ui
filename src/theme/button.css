@@ -23,8 +23,8 @@ $types: primary, warning, danger, success;
   }
 
   &.k-btn--default {
-    background-color: var(--default-color);
-    border-color: var(--input-border-color);
+    background-color: var(--button-default-bg-color);
+    border-color: var(--button-default-border-color);
 
     &:not([disabled]) {
       &:hover,

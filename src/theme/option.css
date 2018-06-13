@@ -7,11 +7,20 @@
   text-align: left;
   @extend .k-ellipsis;
   &:hover {
-    background-color: var(--option-hover-bg-color);
     color: var(--option-hover-color);
+    background: linear-gradient(
+      130deg,
+      var(--option-hover-bg-color),
+      color(var(--option-hover-bg-color) tint(50%)),
+      white
+    );
   }
   &.k-option--selected {
-    background-color: var(--option-selected-bg-color);
-    color:var(--option-selected-color);
+    background: linear-gradient(
+      130deg,
+      var(--option-selected-bg-color),
+      color(var(--option-selected-bg-color) tint(80%))
+    );
+    color: var(--option-selected-color);
   }
 }
