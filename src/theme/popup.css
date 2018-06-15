@@ -63,7 +63,6 @@
     height: var(--popup-header-height);
     line-height: var(--popup-header-height);
     padding-left: 12px;
-    // border: 1px solid var(--popup-header-border-color);
 
     b {
       font-size: var(--popup-header-title-font-size);

@@ -3,14 +3,16 @@
   :class="[
     'k-loading',
     isFullScreen?'k-loading--fullscreen':'k-loading--default']" 
-  v-if="isShow">
+  v-show="isShow"
+  :style="{backgroundColor:loadingBgColor}">
   <div class="k-loading__content">
-    <loading-icon></loading-icon>
+    <loading-icon :style="{color:color}"></loading-icon>
   </div>
   <div 
     v-html="content" 
-    v-if="content"
-    class="k-loading__text"></div>
+    v-show="content"
+    class="k-loading__text"
+    :style="{color:color}"></div>
 </div>
 </template>
 <script>
@@ -42,10 +44,17 @@ export default {
       cp: {
         start: 0,
         end: 0
-      }
+      },
+      loadingBgColor: '',
+      color: '',
     }
   },
   methods: {
+    setOptions({text='',color='',backgroundColor=''}) {
+      this.setContent(text)
+      this.color = color
+      this.loadingBgColor = backgroundColor
+    },
     setSize(isFull) {
       this.isFullScreen = isFull
       return this

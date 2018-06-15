@@ -53,16 +53,23 @@
 
   /* button */
   /* button padding*/
-  --button-huge: 13.5px 30px;
-  --button-large: 10px 24px;
-  --button-big: 8.5px 20px;
-  --button-medium: 4.5px 12px;
-  --button-small: 4.5px 8px;
-  --button-mini: 2.5px 8px;
+  --button-huge: 0 30px;
+  --button-large: 0 24px;
+  --button-big: 0 20px;
+  --button-medium: 0 12px;
+  --button-small: 0 8px;
+  --button-mini: 0 8px;
+  /*button height*/
+  --button-huge-height: 50px;
+  --button-large-height: 40px;
+  --button-big-height: 36px;
+  --button-medium-height: 32px;
+  --button-small-height: 28px;
+  --button-mini-height: 24px;
   /* button fontcolor*/
   --button-color: var(--font-color-2);
   /*圆角*/
-  --button-radius: calc(var(--radius) + 1px);
+  --button-radius: calc(var(--radius) + 2px);
   /*按钮之间的间距*/
   --button-gutter: 15px;
   /* button font-size */
@@ -158,7 +165,7 @@
   --popup-close-btn-hover-color: white;
 
   /*loading*/
-  --loading-bg-color:color(rgb(60,70,80) a(80%));
+  --loading-bg-color:color(#07192c a(70%));
   --loading-z-index:99999999;
   --loading-radius:calc(var(--radius)*2);
   --loading-width:120px;
