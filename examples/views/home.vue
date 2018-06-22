@@ -72,6 +72,9 @@ export default {
           },{
             name:'dialog',
             title:'dialog 对话框'
+          },{
+            name:'pagination',
+            title:'pagination 分页器'
           }
         ],
         directives: [

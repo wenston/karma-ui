@@ -15,6 +15,7 @@ import KCarouselItem from 'karma-ui/packages/carousel-item/index.js'
 import Tips from 'karma-ui/packages/tips/index.js'
 import Loading from 'karma-ui/packages/loading/index.js'
 import KToTop from 'karma-ui/packages/to-top/index.js'
+import KPagination from 'karma-ui/packages/pagination/index.js'
 //css图标
 import KIcon from 'karma-ui/icon/css/index.js'
 //指令
@@ -41,7 +42,8 @@ let obj = {
   Pin,
   KCarousel,
   KCarouselItem,
-  Viewable
+  Viewable,
+  KPagination,
 }
 
 export default {

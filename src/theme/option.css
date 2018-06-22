@@ -11,7 +11,6 @@
     background: linear-gradient(
       130deg,
       var(--option-hover-bg-color),
-      color(var(--option-hover-bg-color) tint(50%)),
       white
     );
   }
@@ -19,7 +18,7 @@
     background: linear-gradient(
       130deg,
       var(--option-selected-bg-color),
-      color(var(--option-selected-bg-color) tint(80%))
+      var(--option-selected-bg-gradient-color)
     );
     color: var(--option-selected-color);
   }

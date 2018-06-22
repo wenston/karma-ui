@@ -87,6 +87,12 @@ export default new VueRouter({
       component(res) {
         import('../views/dialog.vue').then(comp=>res(comp))
       }
+    }, {
+      path:'/pagination',
+      name:'pagination',
+      component(res) {
+        import('../views/pagination.vue').then(comp=>res(comp))
+      }
     }]
   }]
 })
