@@ -212,6 +212,7 @@
   --pagi-default-border-color: var(--border-color);
   --pagi-hover-border-color: var(--primary-color);
   --pagi-hover-background-color: var(--primary-color);
-  --pagi-text-color: #a1a1a1;
+  --pagi-text-color: var(--font-color-2);
   --pagi-prev-next-icon-size: 18px;
+  --pagi-bg-color: white;
 }

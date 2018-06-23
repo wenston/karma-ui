@@ -4,9 +4,11 @@ ul.k-pagi {
   list-style: none;
   display: flex;
   align-items: center;
-  li {
+  transition: var(--transition);
+  > li {
     display: flex;
     align-items: center;
+    margin: 0 3px;
   }
   li.k-pagi-total {
     color: #333;
@@ -15,6 +17,7 @@ ul.k-pagi {
   }
   li {
     &.k-pagi-item {
+      background-color: var(--pagi-bg-color);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -25,8 +28,7 @@ ul.k-pagi {
       transition: var(--transition);
       cursor: pointer;
       color: var(--pagi-text-color);
-      font-size: 14px;
-      margin: 0 3px;
+      font-size: 12px;
       line-height: normal;
       &:hover:not(.k-pagi-dot) {
         border-color: var(--pagi-hover-border-color);
@@ -41,12 +43,6 @@ ul.k-pagi {
     &.k-pagi-prev,
     &.k-pagi-next {
       font-size: var(--pagi-prev-next-icon-size);
-    }
-    &.k-pagi-prev {
-      margin-left: 0;
-    }
-    &.k-pagi-next {
-      margin-right: 0;
     }
     &.k-pagi-dot {
       cursor: default;
@@ -69,6 +65,16 @@ ul.k-pagi {
     .k-input-section {
       width: 50px;
       margin:0 5px;
+    }
+  }
+  &.k-pagi-disabled-all {
+    pointer-events: none;
+    opacity: .60;
+  }
+  $orders: 0,1,2,3,4,5,6,7;
+  @each $order in $orders {
+    li.k-pagi-order-$order {
+      order:$order;
     }
   }
 }

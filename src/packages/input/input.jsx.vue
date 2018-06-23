@@ -105,6 +105,7 @@ export default {
           onKeypress={this.handlerEvent}
           onBlur={this.handlerEvent}
           onFocus={this.handlerEvent}
+          ref="input"
         />
       </div>
     )
@@ -164,6 +165,12 @@ export default {
     },
     toClear() {
       this.$emit("bianbianbian", "")
+    },
+    onFocus() {
+      this.$refs.input.focus()
+    },
+    onSelect() {
+      this.$refs.input.select()
     }
   },
   watch: {
