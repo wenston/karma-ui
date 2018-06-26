@@ -111,8 +111,16 @@ export default {
     }
   },
   watch: {
-    pageSize(s) {
-      this.modelPageSize = s
+    pageSize(s,os) {
+      if(s!=os) {
+        this.modelPageSize = s
+      }
+    },
+    modelPageSize(s,os) {
+      if(s!=os) {
+        this.$emit('update:pageSize', s)
+        this.$emit('size-change', s)
+      }
     }
   },
   computed: {
@@ -191,6 +199,8 @@ export default {
       } else {
         if (page != this.currentPage && this.total>0) {
           this.$emit("update:currentPage", page)
+          //事件，页码变动时
+          this.$emit('page-change', page)
         }
       }
     }
