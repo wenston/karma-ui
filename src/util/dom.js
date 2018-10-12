@@ -12,14 +12,23 @@ export const getStyle = (elem, prop) => {
   return window.getComputedStyle(elem, null)[prop]
 }
 
-export const offset = (elem) => {
+export const offset = (elem, parent) => {
   let left = elem.offsetLeft,
     top = elem.offsetTop,
     cur = elem.offsetParent;
-  while (cur) {
-    left += cur.offsetLeft;
-    top += cur.offsetTop
-    cur = cur.offsetParent;
+  if (!parent) {
+
+    while (cur) {
+      left += cur.offsetLeft;
+      top += cur.offsetTop
+      cur = cur.offsetParent;
+    }
+  } else {
+    while (cur != parent) {
+      left += cur.offsetLeft;
+      top += cur.offsetTop
+      cur = cur.offsetParent;
+    }
   }
   return {
     left,

@@ -1,16 +1,11 @@
 <template>
   <div class="k-scrollbar"
     @wheel="onWheel">
-    <scrollbar-y :show="showY"
-      :top="thumbYTop"
-      :height="thumbYHeight"></scrollbar-y>
-    <!-- <div class="k-scrollbar__y"
-      v-show="showY">
-      <div class="k-scrollbar__ytrack"></div>
-      <div class="k-scrollbar__ythumb"
-        :style="{top:thumbYTop+'%',height:thumbYHeight+'%'}"
-        ref="yThumb"></div>
-    </div> -->
+    <scrollbar-y 
+      :speed="speed"
+      :wrapper-height="wrapperHeight"
+      :content-height="contentHeight"
+      ref="y"></scrollbar-y>
     <div class="k-scrollbar__content" ref="content"
       :style="{marginTop:top*-1+'px',marginLeft:left*-1+'px'}">
       <slot></slot>
@@ -27,23 +22,18 @@ export default {
   },
   data(){
     return {
-      showY: false,
-      showX: false,
       speed: 50,
       top: 0,
       left: 0,
       maxScrollTop:0,
       maxScrollLeft: 0,
-      thumbYTop: 0,
-      thumbYHeight: 0,
+      contentHeight:0,//内容高度
+      wrapperHeight: 0,//scrollbar组件最外部容器的高度
     }
   },
   methods: {
     onWheel(e) {
       this.scrollY(e.deltaY)
-    },
-    scroll(x,y) {
-      
     },
     scrollY(y) {
       const s = this.speed,
@@ -61,16 +51,12 @@ export default {
       }
       this.top = top
       //滚动条thumb位置
-      this.thumbYTop = top/max*(100-this.thumbYHeight)
+      this.$refs.y.scroll(top)
 
     },
     getSize() {
       const el = this.$el,
-        content = this.$refs.content,
-        maxScrollTop = content.clientHeight - el.clientHeight,
-        maxScrollLeft = content.clientWidth - el.clientWidth
-      this.maxScrollTop = maxScrollTop < 0?0:maxScrollTop
-      this.maxScrollLeft = maxScrollLeft<0?0:maxScrollLeft
+        content = this.$refs.content
       return {
         elClientHeight: el.clientHeight,
         elClientWidth: el.clientWidth,
@@ -80,14 +66,13 @@ export default {
     },
     init() {
       const size = this.getSize()
-      
-      if(size.elClientHeight>=size.contentClientHeight) {
-        this.showY = false
-      }else{
-        this.thumbYHeight = size.elClientHeight/size.contentClientHeight*100
-        this.showY = true
-      }
-
+      this.contentHeight = size.contentClientHeight
+      this.wrapperHeight = size.elClientHeight
+      const
+        maxScrollTop = this.contentHeight - this.wrapperHeight,
+        maxScrollLeft = size.contentClientWidth - size.elClientWidth
+      this.maxScrollTop = maxScrollTop < 0?0:maxScrollTop
+      this.maxScrollLeft = maxScrollLeft<0?0:maxScrollLeft
 
     }
   },
@@ -98,6 +83,9 @@ export default {
   },
   updated() {
     this.init()
+    // console.log('updated')
+    // todo 1.内容变化后，重新计算内容scroll位置及滚动条thumb的位置
+    // todo 2.滚动时会频繁触发updated钩子函数，需加入节流
   }
 }
 </script>

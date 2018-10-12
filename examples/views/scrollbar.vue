@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     onChange() {
-      this.m = Math.ceil(Math.random()*50)
+      this.m = Math.ceil(Math.random()*30)
     }
   },
 }

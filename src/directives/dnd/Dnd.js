@@ -4,11 +4,13 @@ import {
   offset
 } from 'karma-ui/util/dom.js';
 export class Dnd {
-  constructor(el, handler) {
+  //如果有parent参数，则拖拽范围是parent内
+  constructor(el, handler, parent) {
     this.dx = 0;
     this.dy = 0;
     this.el = el;
     this.handler = handler;
+    this.parent = parent;
     this.eventDown = this.eventDown.bind(this);
     this.eventMove = this.eventMove.bind(this);
     this.eventUp = this.eventUp.bind(this);
@@ -18,8 +20,8 @@ export class Dnd {
     this.handler.addEventListener('mousedown', this.eventDown)
   }
   eventDown(e) {
-    const offsetLeft = offset(this.el).left;
-    const offsetTop = offset(this.el).top;
+    const offsetLeft = this.parent?offset(this.el,this.parent).left:offset(this.el).left;
+    const offsetTop = this.parent?offset(this.el,this.parent).top:offset(this.el).top;
     const position = getStyle(this.el, 'position');
     if (position === 'static' || position === 'relative') {
       setStyle(this.el, {
