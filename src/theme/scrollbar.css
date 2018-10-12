@@ -1,0 +1,26 @@
+.k-scrollbar {
+  overflow: hidden;
+  position: relative;
+  &__y {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 0;
+    &track {
+      width: 7px;
+      background-color: rgba(0,0,0,.08);
+      height: 100%;
+    }
+    &thumb {
+      transition: .25s;
+      position: absolute;
+      top:0;
+      left:0;
+      width: 7px;
+      background-color: rgba(0,0,0,.5);
+    }
+  }
+  &__content {
+    transition: .25s;
+  }
+}

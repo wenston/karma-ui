@@ -1,0 +1,28 @@
+.k-dp {
+  display: inline-block;
+  position: relative;
+  .k-dp__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--dp-icon-font-size);
+    color: var(--dp-icon-color);
+    pointer-events: none;
+  }
+  .k-dp__calendar {
+    position: absolute;
+    margin-top: 1px;
+    left: 0;
+    background-color: white;
+    border: var(--dp-calendar-border);
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    display: flex;
+    .k-dp__sidebar {}
+    .k-dp__panel {
+      .k-dp__header {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

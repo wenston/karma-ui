@@ -35,6 +35,7 @@
   --input-placeholder-color: #bbb;
   --input-padding: 0 0.5em;
   --input-radius: var(--radius);
+  --input-color: var(--font-color-2);
 
   /*input组件里包括了textarea*/
   --input-textarea-padding: 0.5em;
@@ -94,6 +95,8 @@
   --button-default-border-color: #ccc;
   /*button active 内阴影*/
   --button-active-box-shadow: var(inset 1px 3px 5px rgba(0, 0, 0, .2));
+  /*button 过渡*/
+  --button-transition: .15s ease;
 
   /* select */
   --select-down-size: 20px;
@@ -215,4 +218,10 @@
   --pagi-text-color: var(--font-color-2);
   --pagi-prev-next-icon-size: 18px;
   --pagi-bg-color: white;
+
+  /*date-picker*/
+  --dp-icon-font-size: 14px;
+  --dp-icon-color: var(--font-color-4);
+
+  --dp-calendar-border: 1px solid var(--border-color);
 }

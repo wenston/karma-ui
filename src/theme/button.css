@@ -15,7 +15,7 @@ $types: primary, warning, danger, success;
   cursor: pointer;
   vertical-align: middle;
   text-decoration: none;
-  transition: var(--transition);
+  transition: var(--button-transition);
   outline: 0;
 
   &:not(:last-child) {

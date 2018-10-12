@@ -58,40 +58,52 @@ export default new VueRouter({
         import ('../views/carousel.vue').then(comp => res(comp))
       }
     }, {
-      path:'/viewable',
-      name:'viewable',
+      path: '/viewable',
+      name: 'viewable',
       component(res) {
         import ('../views/viewable.vue').then(comp => res(comp))
       }
     }, {
-      path:'/icon',
-      name:'icon',
+      path: '/icon',
+      name: 'icon',
       component(res) {
-        import('../views/icon.vue').then(comp=>res(comp))
+        import('../views/icon.vue').then(comp => res(comp))
       }
     }, {
-      path:'/loading',
-      name:'loading',
+      path: '/loading',
+      name: 'loading',
       component(res) {
-        import('../views/loading.vue').then(comp=>res(comp))
+        import('../views/loading.vue').then(comp => res(comp))
       }
     }, {
-      path:'/popup',
-      name:'popup',
+      path: '/popup',
+      name: 'popup',
       component(res) {
-        import('../views/popup.vue').then(comp=>res(comp))
+        import('../views/popup.vue').then(comp => res(comp))
       }
     }, {
-      path:'/dialog',
-      name:'dialog',
+      path: '/dialog',
+      name: 'dialog',
       component(res) {
-        import('../views/dialog.vue').then(comp=>res(comp))
+        import('../views/dialog.vue').then(comp => res(comp))
       }
     }, {
-      path:'/pagination',
-      name:'pagination',
+      path: '/pagination',
+      name: 'pagination',
       component(res) {
-        import('../views/pagination.vue').then(comp=>res(comp))
+        import('../views/pagination.vue').then(comp => res(comp))
+      }
+    }, {
+      path: '/date-picker',
+      name: 'date-picker',
+      component(res) {
+        import('../views/date-picker.vue').then(comp => res(comp))
+      }
+    }, {
+      path: '/scrollbar',
+      name: 'scrollbar',
+      component(res) {
+        import('../views/scrollbar.vue').then(comp => res(comp))
       }
     }]
   }]

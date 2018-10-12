@@ -75,6 +75,12 @@ export default {
           },{
             name:'pagination',
             title:'pagination 分页器'
+          },{
+            name:'date-picker',
+            title:'date-picker 日期选择器'
+          },{
+            name:'scrollbar',
+            title:'scrollbar 滚动条'
           }
         ],
         directives: [

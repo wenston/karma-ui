@@ -6,6 +6,7 @@
 
   & .k-input,
   & .k-textarea {
+    color: var(--input-color);
     border: 1px solid var(--input-border-color);
     outline: 0;
     font-size: 12px;
@@ -15,10 +16,6 @@
     border-radius: var(--input-radius);
     padding: var(--input-padding);
     transition: var(--transition);
-
-    &:hover {
-      border-color: var(--primary-color);
-    }
 
     &:focus,
     &:active {
@@ -114,6 +111,10 @@
       & + .k-input {
         padding-right: 22px;
       }
+    }
+    & .k-input,
+    & .k-textarea {
+      border-color: var(--primary-color);
     }
   }
 
