@@ -8,6 +8,8 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 2.25;
   color:var(--font-color-1);
+  height: 100vh;
+  overflow: hidden;
 }
 :any-link {
   color:var(--font-color-3);

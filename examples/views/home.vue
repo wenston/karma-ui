@@ -16,9 +16,11 @@
         </template>
       </ul>
     </nav>
-    <div class="home__content">
-      <router-view></router-view>
-    </div>
+    <k-scrollbar class="home__content">
+
+        <router-view></router-view>
+
+    </k-scrollbar>
     <k-to-top></k-to-top>
   </div>
 </template>

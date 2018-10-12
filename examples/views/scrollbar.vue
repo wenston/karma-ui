@@ -3,7 +3,7 @@
   <k-scrollbar class="scrollbar-wrapper">
     <div v-for="n in m"
       :key="n">
-      这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容{{n}}
+      这是内容这是这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容{{m-n}}
     </div>
   </k-scrollbar>
   <div>
@@ -29,8 +29,9 @@ export default {
 </script>
 <style lang="postcss" scoped>
 .scrollbar-wrapper {
-  max-height: 500px;
-  min-height: 300px;
+  /* max-height: 500px; */
+  /* min-height: 300px; */
+  height: 50vh;
   border: 1px solid gold;
 }
 </style>

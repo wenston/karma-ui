@@ -1,14 +1,13 @@
 <template>
   <div class="k-scrollbar"
-    :class="{'k-scrollbar__transition':!dragging}"
     @wheel="onWheel">
-    <scrollbar-y 
-      :speed="speed"
+    <scrollbar-y :speed="speed"
       :wrapper-height="wrapperHeight"
       :content-height="contentHeight"
       ref="y"
       @dragging="onDragging"></scrollbar-y>
-    <div class="k-scrollbar__content" 
+    <div class="k-scrollbar__content"
+      :class="{'k-scrollbar-transition':!dragging}"
       ref="content"
       :style="{marginTop:top*-1+'px',marginLeft:left*-1+'px'}">
       <slot></slot>
@@ -18,6 +17,7 @@
 
 <script>
 import ScrollbarY from './ScrollbarY'
+// import {debounce} from 'karma-ui/util/throttle_debounce'
 export default {
   name: 'KScrollbar',
   components: {
@@ -51,7 +51,7 @@ export default {
       let top = 0
       if(y>0) {
         top = s + this.top
-      }else{
+      }else if(y<0){
         top = this.top - s
       }
       if(top<0) {
@@ -76,6 +76,7 @@ export default {
     },
     init() {
       const size = this.getSize()
+      console.log(size)
       this.contentHeight = size.contentClientHeight
       this.wrapperHeight = size.elClientHeight
       const
@@ -83,19 +84,36 @@ export default {
         maxScrollLeft = size.contentClientWidth - size.elClientWidth
       this.maxScrollTop = maxScrollTop < 0?0:maxScrollTop
       this.maxScrollLeft = maxScrollLeft<0?0:maxScrollLeft
-
+    },
+    resetContentPosition() {
+      //调整content内容区域的marginTop
+      const maxScrollTop = this.maxScrollTop
+      const top = this.top
+      if(top>maxScrollTop) {
+        this.top = maxScrollTop
+      }
+      this.$refs.y.scroll(this.top)
+    },
+    reset() {
+      this.$nextTick(()=>{
+        this.init()
+        this.$nextTick(()=>{
+          this.resetContentPosition()
+        })
+      })
     }
   },
   mounted() {
     this.$nextTick(()=>{
       this.init()
     })
+    window.addEventListener('resize', this.reset)
   },
   updated() {
-    this.init()
-    // console.log('updated')
-    // todo 1.内容变化后，重新计算内容scroll位置及滚动条thumb的位置
-    // todo 2.滚动时会频繁触发updated钩子函数，最好加入节流
+    this.reset()
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize',this.reset)
   }
 }
 </script>

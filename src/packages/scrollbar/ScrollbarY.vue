@@ -1,9 +1,10 @@
 <template>
   <div class="k-scrollbar__y"
-    :class="{'k-scrollbar__transition':!dragging}"
     v-show="show">
-    <div class="k-scrollbar__ytrack"></div>
+    <div class="k-scrollbar__ytrack"
+      @click.stop.prevent="onJump"></div>
     <div class="k-scrollbar__ythumb"
+      :class="{'k-scrollbar-transition':!dragging}"
       @mousedown.stop.prevent="onDown"
       :style="{top:top+'%',height:height+'%'}"></div>
   </div>
@@ -39,6 +40,10 @@ export default {
     }
   },
   methods: {
+    onJump(e) {
+      let y = e.clientY
+      // todo
+    },
     onDown(e) {
       this.dragging = true
       this.start = e.clientY
@@ -69,6 +74,8 @@ export default {
     },
     scroll(ctop) {
       this.top = ctop/this.maxScrollTop*(100-this.height)
+
+      // this.top = ctop/this.maxScrollTop*(100-this.height)
       // console.log(ctop,this.top)
     },
     calcMaxScrollTop() {

@@ -20,12 +20,7 @@
     }
   }
   
-  &__transition {
-    .k-scrollbar__ythumb {
-      transition: .25s;
-    }
-    .k-scrollbar__content {
-      transition: .25s;
-    }
-  }
+}
+.k-scrollbar-transition {
+  transition: .25s;
 }
