@@ -1,12 +1,15 @@
 <template>
   <div class="k-scrollbar"
+    :class="{'k-scrollbar__transition':!dragging}"
     @wheel="onWheel">
     <scrollbar-y 
       :speed="speed"
       :wrapper-height="wrapperHeight"
       :content-height="contentHeight"
-      ref="y"></scrollbar-y>
-    <div class="k-scrollbar__content" ref="content"
+      ref="y"
+      @dragging="onDragging"></scrollbar-y>
+    <div class="k-scrollbar__content" 
+      ref="content"
       :style="{marginTop:top*-1+'px',marginLeft:left*-1+'px'}">
       <slot></slot>
     </div>
@@ -29,11 +32,18 @@ export default {
       maxScrollLeft: 0,
       contentHeight:0,//内容高度
       wrapperHeight: 0,//scrollbar组件最外部容器的高度
+      dragging: false,
     }
   },
   methods: {
+    onDragging(thumbTop, h) {
+      let top = thumbTop * this.maxScrollTop / (100 - h)
+      this.top = top
+      this.dragging = true
+    },
     onWheel(e) {
       this.scrollY(e.deltaY)
+      this.dragging = false
     },
     scrollY(y) {
       const s = this.speed,
@@ -85,7 +95,7 @@ export default {
     this.init()
     // console.log('updated')
     // todo 1.内容变化后，重新计算内容scroll位置及滚动条thumb的位置
-    // todo 2.滚动时会频繁触发updated钩子函数，需加入节流
+    // todo 2.滚动时会频繁触发updated钩子函数，最好加入节流
   }
 }
 </script>

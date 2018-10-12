@@ -1,8 +1,10 @@
 <template>
   <div class="k-scrollbar__y"
+    :class="{'k-scrollbar__transition':!dragging}"
     v-show="show">
     <div class="k-scrollbar__ytrack"></div>
     <div class="k-scrollbar__ythumb"
+      @mousedown.stop.prevent="onDown"
       :style="{top:top+'%',height:height+'%'}"></div>
   </div>
 </template>
@@ -20,7 +22,10 @@ export default {
   data() {
     return {
       maxScrollTop: 0,
-      top: 0
+      top: 0,
+      lastTop: 0,
+      start: 0,
+      dragging: false,
     }
   },
   computed: {
@@ -34,9 +39,37 @@ export default {
     }
   },
   methods: {
+    onDown(e) {
+      this.dragging = true
+      this.start = e.clientY
+      this.lastTop = this.top
+      document.addEventListener('mousemove', this.onMove)
+      document.addEventListener('mouseup', this.onUp)
+    },
+    onMove(e) {
+      if(this.dragging) {
+        let d = e.clientY - this.start
+        let precentageD = d / this.wrapperHeight * 100
+        let top = precentageD + this.lastTop
+        if(top<0) {
+          top = 0
+        }else if(top>(100-this.height)) {
+          top = 100 - this.height
+        }
+        // console.log(top,this.top,precentageD)
+        
+        this.top = top
+        this.$emit('dragging', this.top, this.height)
+      }
+    },
+    onUp(e) {
+      this.dragging = false
+      document.removeEventListener('mousemove', this.onMove)
+      document.removeEventListener('mouseup', this.onUp)
+    },
     scroll(ctop) {
       this.top = ctop/this.maxScrollTop*(100-this.height)
-
+      // console.log(ctop,this.top)
     },
     calcMaxScrollTop() {
       let max = this.contentHeight - this.wrapperHeight
