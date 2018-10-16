@@ -1,18 +1,19 @@
 <template>
-<div>
-  <k-scrollbar class="scrollbar-wrapper">
-    <!-- <div class="boxbox">
-      <div class="box" v-for="n in m"
-      :key="n"
-      >{{n}}</div>
-    </div> -->
-    <div class="bb" :style="{background:'#ccc',width:w+'px',height: h+'px',border:'5px solid red'}"></div>
-  </k-scrollbar>
   <div>
-    <k-button @click="onChange">内容变化</k-button>{{m}}
-  </div>
-</div>
 
+    <div class="boxbox">
+      <div class="box"
+        v-for="n in m"
+        :key="n">{{n}}</div>
+    </div>
+    <k-scrollbar class="scrollbar-wrapper">
+      <div class="bb"
+        :style="{background:'#ccc',width:w+'px',height: h+'px',border:'5px solid red'}"></div>
+    </k-scrollbar>
+    <div>
+      <k-button @click="onChange">内容变化</k-button>{{m}}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -26,7 +27,7 @@ export default {
   },
   methods: {
     onChange() {
-      this.m = Math.ceil(Math.random()*30)
+      this.m = Math.ceil(Math.random()*90)
       this.w = Math.ceil(Math.random()*2500)
       this.h = Math.ceil(Math.random()*2500)
     }
@@ -45,18 +46,18 @@ export default {
   width: 50%;
 }
 .boxbox {
-  /* display: flex; */
-  width: 1000px;
+  display: flex;
+  /* width: 1000px; */
   /* flex-direction: column; */
+  flex-wrap: wrap;
 }
 .box {
-    flex: none;
-    width: 80px;
-    height: 80px;
-    margin-top: 20px;
-    margin-right: 20px;
-    background-color: #f1fd1f;
-  
+  flex: none;
+  width: 80px;
+  height: 80px;
+  margin-top: 20px;
+  margin-right: 20px;
+  background-color: #f1fd1f;
 }
 </style>
 

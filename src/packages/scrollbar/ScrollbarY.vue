@@ -6,7 +6,8 @@
     <div class="k-scrollbar__ythumb"
       :class="{'k-scrollbar-transition':!dragging}"
       @mousedown.stop.prevent="onDown"
-      :style="{top:top+'%',height:height+'%'}"></div>
+      :style="{top:top+'%',height:height+'%'}"
+      ref="scrollbar"></div>
   </div>
 </template>
 
@@ -41,8 +42,9 @@
     },
     methods: {
       onJump(e) {
+        // TODO:
         let y = e.clientY
-        // todo
+        console.log(this.$refs.scrollbar.getBoundingClientRect(),y)
       },
       onDown(e) {
         this.dragging = true

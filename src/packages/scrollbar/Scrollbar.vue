@@ -19,6 +19,11 @@
 </template>
 
 <script>
+  /* NOTE:当prop属性想要sync的时候，必须在组件传入此参数如
+  /* <my-comp :allow="allow.sync"></my-comp>，否则不起作用
+   * TODO:scrollx和scrolly可以合并成一个
+   * 
+  */
   import { getStyle } from 'karma-ui/util/dom'
   import ScrollbarY from './ScrollbarY'
   import ScrollbarX from './ScrollbarX'
@@ -28,9 +33,21 @@
     components: {
       ScrollbarY, ScrollbarX
     },
+    props: {
+      //allowBodyScroll应该在内容高度小于等于容器高度的时候，自动设置成true
+      //否则，将会出现：当鼠标在某个区域内滚动的时候，外部滚动条也滚动不了
+      allowBodyScroll:{
+        type:Boolean,
+        default:false
+      },
+      speed: {
+        type: Number,
+        default: 52
+      },
+    },
     data() {
       return {
-        speed: 50,
+        allow: this.allowBodyScroll,
         top: 0,
         left: 0,
         maxScrollTop: 0,
@@ -54,8 +71,13 @@
         this.dragging = true
       },
       onWheel(e) {
+        // console.log(e)
         this.scrollY(e.deltaY)
         this.dragging = false
+        if(!this.allow) {
+          e.stopPropagation()
+          e.preventDefault()
+        }
       },
       scrollY(y) {
         const s = this.speed,
@@ -86,21 +108,27 @@
         return {
           elClientHeight: el.clientHeight,
           elClientWidth: el.clientWidth,
-          contentClientHeight: content.clientHeight+parseInt(getStyle(content,'margin-top'))+parseInt(getStyle(content,'margin-bottom'))+parseInt(getStyle(content,'border-top-width'))+parseInt(getStyle(content,'border-bottom-width')),
-          contentClientWidth: content.clientWidth+parseInt(getStyle(content,'margin-left'))+parseInt(getStyle(content,'margin-right'))+parseInt(getStyle(content,'border-left-width'))+parseInt(getStyle(content,'border-right-width')),
+          contentWholeHeight: content.clientHeight+parseInt(getStyle(content,'margin-top'))+parseInt(getStyle(content,'margin-bottom'))+parseInt(getStyle(content,'border-top-width'))+parseInt(getStyle(content,'border-bottom-width')),
+          contentWholeWidth: content.clientWidth+parseInt(getStyle(content,'margin-left'))+parseInt(getStyle(content,'margin-right'))+parseInt(getStyle(content,'border-left-width'))+parseInt(getStyle(content,'border-right-width')),
         }
       },
       init() {
         const size = this.getSize()
-        this.contentHeight = size.contentClientHeight
+        this.contentHeight = size.contentWholeHeight
         this.wrapperHeight = size.elClientHeight
-        this.contentWidth = size.contentClientWidth
+        this.contentWidth = size.contentWholeWidth
         this.wrapperWidth = size.elClientWidth
         const
           maxScrollTop = this.contentHeight - this.wrapperHeight,
           maxScrollLeft = this.contentWidth - this.wrapperWidth
         this.maxScrollTop = maxScrollTop < 0 ? 0 : maxScrollTop
         this.maxScrollLeft = maxScrollLeft < 0 ? 0 : maxScrollLeft
+        let allow = this.allowBodyScroll
+        if(this.contentHeight<this.wrapperHeight) {
+          allow = true
+        }
+        this.allow = allow
+        
       },
       resetContentPosition() {
         //调整content内容区域的marginTop/marginLeft
