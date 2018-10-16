@@ -16,8 +16,9 @@
         </template>
       </ul>
     </nav>
-    <k-scrollbar class="home__content">
-      <router-view></router-view>
+    <k-scrollbar class="home__content"
+      ref="scrollbar">
+      <router-view @view-updated="pageUpdated"></router-view>
     </k-scrollbar>
     <k-to-top></k-to-top>
   </div>
@@ -91,6 +92,12 @@ export default {
         ]
       }
     };
+  },
+  methods: {
+    pageUpdated() {
+      console.log('检测到了')
+      this.$refs.scrollbar.reset()
+    }
   }
 };
 </script>

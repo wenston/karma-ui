@@ -19,9 +19,17 @@
 </template>
 
 <script>
-  /* NOTE:当prop属性想要sync的时候，必须在组件传入此参数如
-  /* <my-comp :allow="allow.sync"></my-comp>，否则不起作用
-   * TODO:scrollx和scrolly可以合并成一个
+  /* NOTE: 1.（与本组件无关）当prop属性想要sync的时候，必须在组件传入此参数如
+  /* <my-comp :allow="allow.sync"></my-comp>，否则不起作用。
+   * NOTE: 2.当scrollbar组件内是router-view时，页面变化将不会触发到scrollbar组件
+   * 此时需要手动，做法是：页面的updated钩子中写个回调，然后在router-view组件上
+   * 监听此自定义函数，然后再调用scrollbar的reset方法。另外：如果页面很多，那
+   * 是不是每个页面都要写回调？不用！这种情况下，可以再写一个组件，这个组件里可以只有
+   * updated钩子。
+   * WARN: 被scrollbar组件包裹的所有元素，调用原生的scrollIntoView方法后会造成
+   * 滚动条位置偏移不准，避免使用！
+   * TODO: 1.scrollx组件和scrolly组件可以合并成一个
+   * TODO: 2.scrollTo scrollBy scrollIntoView方法
    * 
   */
   import { getStyle } from 'karma-ui/util/dom'
@@ -60,10 +68,10 @@
       }
     },
     methods: {
-      onDragging(thumbTop, h) {
+      onDragging(thumbTop, h, isDragging) {
         let top = thumbTop * this.maxScrollTop / (100 - h)
         this.top = top
-        this.dragging = true
+        this.dragging = isDragging
       },
       onDraggingX(thumbLeft, w) {
         let left = thumbLeft * this.maxScrollLeft / (100 - w)

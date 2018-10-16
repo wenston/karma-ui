@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 20px;">
 
     <div class="boxbox">
       <div class="box"
@@ -12,6 +12,9 @@
     </k-scrollbar>
     <div>
       <k-button @click="onChange">内容变化</k-button>{{m}}
+    </div>
+    <div class="box" v-for="n in m" :key="n">
+      {{n}}
     </div>
   </div>
 </template>
@@ -32,6 +35,11 @@ export default {
       this.h = Math.ceil(Math.random()*2500)
     }
   },
+  updated() {
+    this.$nextTick(()=>{
+      this.$emit('view-updated')
+    })
+  }
 }
 </script>
 <style lang="postcss" scoped>
@@ -57,6 +65,7 @@ export default {
   height: 80px;
   margin-top: 20px;
   margin-right: 20px;
+  margin-bottom: 20px;
   background-color: #f1fd1f;
 }
 </style>
