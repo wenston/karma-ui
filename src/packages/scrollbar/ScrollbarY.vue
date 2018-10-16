@@ -73,10 +73,8 @@
         document.removeEventListener('mouseup', this.onUp)
       },
       scroll(ctop) {
+        if(this.maxScrollTop)
         this.top = ctop / this.maxScrollTop * (100 - this.height)
-
-        // this.top = ctop/this.maxScrollTop*(100-this.height)
-        // console.log(ctop,this.top)
       },
       calcMaxScrollTop() {
         let max = this.contentHeight - this.wrapperHeight
