@@ -2,7 +2,7 @@
   <div v-clickoutside="hideIt"
     v-esc="hideIt"
     class="k-select"
-    @click="toggleList"
+    @click.stop="toggleList"
     @mouseover="showDeleteBtn"
     @mouseout="hideDeleteBtn">
     <z-input :class="{'k-select__active':ifOptionList}"
@@ -25,11 +25,14 @@
     </z-input>
     <!-- 如果是v-if，则子组件不会被created/mounted，直到显示子组件的时候，才会实例化。所以初始化值时就初始化不上了 -->
     <transition name="k-transition-slide-down">
-      <ul class="k-select__list"
+      <scrollbar 
         v-show="ifOptionList"
-        ref="list">
-        <slot></slot>
-      </ul>
+        class="k-select__list"
+        >
+        <ul ref="list">
+          <slot></slot>
+        </ul>
+      </scrollbar>
     </transition>
   </div>
 </template>
@@ -39,13 +42,15 @@ import ZInput from "karma-ui/packages/input/input.jsx.vue"
 import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
 import emitter from "karma-ui/mixins/emitter.js"
+import scrollbar from 'karma-ui/packages/scrollbar/'
 
 export default {
   mixins: [emitter],
   name: "KSelect",
   componentName: "KSelect",
   components: {
-    ZInput
+    ZInput,
+    scrollbar
   },
   // provide() {
   //   return {

@@ -1,12 +1,13 @@
 <template>
   <div class="k-scrollbar__y"
-    v-show="show">
+    v-show="show"
+    @click.stop.prevent>
     <div class="k-scrollbar__ytrack"
       ref="track"
       @click.stop.prevent="onJump"></div>
     <div class="k-scrollbar__ythumb"
       :class="{'k-scrollbar-transition':!dragging}"
-      @mousedown.stop.prevent="onDown"
+      @mousedown="onDown"
       :style="{top:top+'%',height:height+'%'}"
       ref="scrollbar"></div>
   </div>
@@ -80,6 +81,8 @@
 
           this.top = top
           this.$emit('dragging', this.top, this.height, true)
+          e.stopPropagation()
+          e.preventDefault()
         }
       },
       onUp(e) {
