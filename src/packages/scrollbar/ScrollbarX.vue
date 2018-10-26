@@ -2,7 +2,8 @@
   <div class="k-scrollbar__x"
     v-show="show">
     <div class="k-scrollbar__xtrack"
-      @click.stop.prevent="onJump"></div>
+      @click.stop.prevent="onJump"
+      ref="track"></div>
     <div class="k-scrollbar__xthumb"
       :class="{'k-scrollbar-transition':!dragging}"
       @mousedown.stop.prevent="onDown"
@@ -41,8 +42,20 @@
     },
     methods: {
       onJump(e) {
-        let y = e.clientY
-        // todo
+        const x = e.clientX,
+          trackPos = this.$refs.track.getBoundingClientRect()
+        //计算所点的位置位于track的宽度百分比
+
+        let xWidth = (x - trackPos.left)/this.wrapperWidth*100
+        //计算滚动条应该移动到的位置
+        let left = xWidth - this.width /2
+        if(left<0) {
+          left = 0
+        }else if(left+this.width>100) {
+          left = 100-this.width
+        }
+        this.left = left
+        this.$emit('dragging', this.left, this.width, false)
       },
       onDown(e) {
         this.dragging = true
@@ -65,7 +78,7 @@
 
           this.left = left
           // console.log(left)
-          this.$emit('dragging', this.left, this.width)
+          this.$emit('dragging', this.left, this.width, true)
         }
       },
       onUp(e) {

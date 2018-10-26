@@ -29,10 +29,10 @@
    * WARN: 被scrollbar组件包裹的所有元素，调用原生的scrollIntoView方法后会造成
    * 滚动条位置偏移不准，避免使用！
    * TODO: 1.scrollx组件和scrolly组件可以合并成一个
-   * TODO: 2.scrollTo scrollBy scrollIntoView方法
+   * TODO: 2.scrollBy方法
    * 
   */
-  import { getStyle } from 'karma-ui/util/dom'
+  import { getStyle, offset } from 'karma-ui/util/dom'
   import ScrollbarY from './ScrollbarY'
   import ScrollbarX from './ScrollbarX'
   // import {debounce} from 'karma-ui/util/throttle_debounce'
@@ -42,19 +42,19 @@
       ScrollbarY, ScrollbarX
     },
     props: {
-      //allowBodyScroll应该在内容高度小于等于容器高度的时候，自动设置成true
-      //否则，将会出现：当鼠标在某个区域内滚动的时候，外部滚动条也滚动不了
       allowBodyScroll:{
         type:Boolean,
         default:false
       },
       speed: {
         type: Number,
-        default: 52
+        default: 53
       },
     },
     data() {
       return {
+      //allow应该在内容高度小于等于容器高度的时候，自动设置成true
+      //否则，将会出现：当鼠标在某个区域内滚动的时候，外部滚动条也滚动不了
         allow: this.allowBodyScroll,
         top: 0,
         left: 0,
@@ -73,10 +73,10 @@
         this.top = top
         this.dragging = isDragging
       },
-      onDraggingX(thumbLeft, w) {
+      onDraggingX(thumbLeft, w, isDragging) {
         let left = thumbLeft * this.maxScrollLeft / (100 - w)
         this.left = left
-        this.dragging = true
+        this.dragging = isDragging
       },
       onWheel(e) {
         // console.log(e)
@@ -103,6 +103,7 @@
         }
         this.top = top
         //滚动条thumb位置
+        //由于dom的margin变化会反映到updated钩子，所以不需要再次调用scroll
         // this.$refs.y.scroll(top)
 
       },
@@ -153,6 +154,7 @@
         this.$refs.y.scroll(this.top)
         this.$refs.x.scroll(this.left)
       },
+      //组件外部调用
       reset() {
         this.$nextTick(() => {
           this.init()
@@ -160,6 +162,38 @@
             this.resetContentPosition()
           })
         })
+      },
+      //组件外部调用
+      scrollIntoView(elem) {
+        if(!elem) {
+          console.warn(`所选元素为${elem}，请检查`)
+          return
+        }
+        if(!this.$el.contains(elem)) {
+          console.warn(`scrollbar组件中不包含${elem}`)
+          return
+        }
+        let s = offset(elem,this.$el)
+        this.scrollTo(s.left,s.top)
+      },
+      //组件外部调用
+      scrollTo(x,y) {//x,的单位需是px
+        x= parseFloat(x)
+        y = parseFloat(y)
+        if(typeof x === 'number') {
+
+          this.left = x
+          this.$refs.x.scroll(x)
+        }
+        if(typeof y === 'number') {
+
+          this.top = y
+          this.$refs.y.scroll(y)
+        }
+      },
+      //组件外部调用
+      scrollToTop() {
+        this.scrollTo(0,0)
       }
     },
     mounted() {

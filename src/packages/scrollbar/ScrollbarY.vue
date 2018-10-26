@@ -43,7 +43,6 @@
     },
     methods: {
       onJump(e) {
-        // TODO:
         const y = e.clientY,
           pos = this.$refs.scrollbar.getBoundingClientRect(),
           trackPos = this.$refs.track.getBoundingClientRect()
