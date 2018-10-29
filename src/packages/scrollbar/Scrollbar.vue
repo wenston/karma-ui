@@ -28,11 +28,16 @@
    * updated钩子。
    * NOTE: 3.此组件使用时，对于此组件的根节点不要有margin/padding/border。否则会
    * 造成部分内容被隐藏看不到。
-   * WARN: 被scrollbar组件包裹的所有元素，调用原生的scrollIntoView方法后会造成
-   * 滚动条位置偏移不准，避免使用！
+   * NOTE: 4.此组件能不用就不用，使用此组件时，
+   *         ① 键盘中的上下页、起始、结束、空格键不起作用
+   *         ② v-viewable指令不起作用
+   * NOTE: 被scrollbar组件包裹的所有元素，调用原生的scrollIntoView方法后会造成
+   * 滚动条位置偏移不准，避免使用！应使用本组件的scrollIntoView方法。
    * TODO: 1.scrollx组件和scrolly组件可以合并成一个
    * TODO: 2.scrollBy方法
    * TODO: 3.throttle或者debounce为什么没起作用！？
+   * TODO: 4.viewable方法，用以检查组件内包裹的元素是否在可视区内
+   *         待完成，带后续看具体需求再写。
    * 
   */
   import { getStyle, offset } from 'karma-ui/util/dom'
@@ -106,7 +111,25 @@
         </this.tag>
       )
     },
+    watch: {
+      left:'emitScroll',
+      top: 'emitScroll'
+    },
     methods: {
+      emitScroll() {
+        this.$emit('scroll', {
+          scrollTop: this.top,
+          scrollLeft: this.left,
+          wrapper: {
+            width: this.wrapperWidth,
+            height: this.wrapperHeight
+          },
+          content: {
+            width: this.contentWidth,
+            height: this.contentHeight
+          }
+        })
+      },
       onDragging(thumbTop, h, isDragging) {
         let top = thumbTop * this.maxScrollTop / (100 - h)
         this.top = top

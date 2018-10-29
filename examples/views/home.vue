@@ -25,9 +25,10 @@
       </ul>
     </k-scrollbar>
     <k-scrollbar class="home__content"
-      ref="scrollbar">
-      <router-view @view-updated="pageUpdated"
-      @scroll-into-view="scrollIntoView($event,'haha')"></router-view>
+      ref="scrollbar"
+      @scroll="onScroll">
+        <router-view @view-updated="pageUpdated"
+        @scroll-into-view="scrollIntoView($event)"></router-view>
     </k-scrollbar>
     <k-to-top></k-to-top>
   </div>
@@ -103,6 +104,9 @@ export default {
     };
   },
   methods: {
+    onScroll(obj) {
+      console.log(obj)
+    },
     pageUpdated() {
       console.log('检测到了')
       this.$refs.scrollbar.reset()

@@ -21,7 +21,8 @@
     <div>
       <p>用在<strong>懒加载组件</strong>，比如：当组件（可以给组件一个<code>div</code>，判断这个<code>div</code>是否位于可视区）不在可视区的时候，不加载资源，当页面滚动到可视区的时候，才加载。</p>
     </div>
-    <div v-viewable.once="{viewable:loadsomething,delay:1000}" :class="css.lazyload">
+    <div v-viewable.once="{viewable:loadsomething,delay:1000}" 
+      :class="css.lazyload">
       <div v-if="comp===null">loading...</div>
       <component v-else :is="comp"></component>
     </div>
