@@ -1,13 +1,14 @@
 .home {
   display:flex;
   .home__nav {
-    min-height:100vh;
+    height:100vh;
     width:300px;
     background-color:var(--home-nav-bg-color);
     display: flex;
     flex-direction: row-reverse;
     padding:20px;
     ul {
+      /* padding: 20px; */
       li {
         list-style: none;
         height: 30px;

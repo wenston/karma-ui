@@ -61,5 +61,7 @@
     "webpack-hot-middleware": "^2.21.0",
     "webpack-merge": "^4.1.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "throttle-debounce": "^2.0.1"
+  }
 }

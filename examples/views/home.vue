@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <nav class="home__nav">
+    <k-scrollbar class="home__nav" tag="nav">
       <ul>
         <template v-for="(v,k) in nav">
           <li :key="k" class="home__subtitle">
@@ -15,7 +15,7 @@
           </li>
         </template>
       </ul>
-    </nav>
+    </k-scrollbar>
     <k-scrollbar class="home__content"
       ref="scrollbar">
       <router-view @view-updated="pageUpdated"

@@ -1,24 +1,24 @@
-<template>
-  <div class="k-scrollbar"
-    @wheel="onWheel">
-    <scrollbar-y :wrapper-height="wrapperHeight"
-      :content-height="contentHeight"
-      ref="y"
-      @dragging="onDragging"></scrollbar-y>
-    <scrollbar-x :wrapper-width="wrapperWidth"
-      :content-width="contentWidth"
-      ref="x"
-      @dragging="onDraggingX"></scrollbar-x>
-    <div class="k-scrollbar__content"
-      :class="{'k-scrollbar-transition':!dragging}"
-      ref="content"
-      :style="{marginTop:top*-1+'px',marginLeft:left*-1+'px'}">
-      <slot></slot>
-    </div>
-  </div>
-</template>
 
 <script>
+// <template>
+//   <div class="k-scrollbar"
+//     @wheel="onWheel">
+//     <scrollbar-y :wrapper-height="wrapperHeight"
+//       :content-height="contentHeight"
+//       ref="y"
+//       @dragging="onDragging"></scrollbar-y>
+//     <scrollbar-x :wrapper-width="wrapperWidth"
+//       :content-width="contentWidth"
+//       ref="x"
+//       @dragging="onDraggingX"></scrollbar-x>
+//     <div class="k-scrollbar__content"
+//       :class="{'k-scrollbar-transition':!dragging}"
+//       ref="content"
+//       :style="{marginTop:top*-1+'px',marginLeft:left*-1+'px'}">
+//       <slot></slot>
+//     </div>
+//   </div>
+// </template>
   /* NOTE: 1.（与本组件无关）当prop属性想要sync的时候，必须在组件传入此参数如
   /* <my-comp :allow="allow.sync"></my-comp>，否则不起作用。
    * NOTE: 2.当scrollbar组件内是router-view时，页面变化将不会触发到scrollbar组件
@@ -30,12 +30,14 @@
    * 滚动条位置偏移不准，避免使用！
    * TODO: 1.scrollx组件和scrolly组件可以合并成一个
    * TODO: 2.scrollBy方法
+   * TODO: 3.throttle或者debounce为什么没起作用！？
    * 
   */
   import { getStyle, offset } from 'karma-ui/util/dom'
   import ScrollbarY from './ScrollbarY'
   import ScrollbarX from './ScrollbarX'
   // import {debounce} from 'karma-ui/util/throttle_debounce'
+  // import {throttle, debounce} from 'throttle-debounce'
   export default {
     name: 'KScrollbar',
     components: {
@@ -50,6 +52,10 @@
         type: Number,
         default: 53
       },
+      tag: {
+        type: String,
+        default: 'div'
+      }
     },
     data() {
       return {
@@ -66,6 +72,31 @@
         wrapperWidth: 0,
         dragging: false,
       }
+    },
+    render() {
+
+      return (
+        <this.tag class='k-scrollbar'
+          onWheel={this.onWheel}>
+          <ScrollbarY ref="y"
+            content-height={this.contentHeight}
+            wrapper-height={this.wrapperHeight}
+            onDragging={this.onDragging} />
+          <ScrollbarX ref="x"
+            content-width={this.contentWidth}
+            wrapper-width={this.wrapperWidth}
+            onDragging={this.onDraggingX} />
+          <div class={{
+              'k-scrollbar__content':true,
+              'k-scrollbar-transition':!this.dragging
+            }}
+            ref="content"
+            style={{marginTop:this.top*-1+'px',marginLeft:this.left*-1+'px'}}
+            >
+            {this.$slots.default}
+          </div>
+        </this.tag>
+      )
     },
     methods: {
       onDragging(thumbTop, h, isDragging) {
@@ -114,11 +145,36 @@
         if(this.$refs.content.children.length>1) {
           console.warn('scrollbar组件的slot只能有一个根节点')
         }
+        // console.log(el,content)
+        if(!content) {
+          return {
+            elClientHeight: el.clientHeight,
+            elClientWidth: el.clientWidth,
+            contentWholeHeight: el.clientHeight,
+            contentWholeWidth: el.clientWidth
+          }
+        }
         return {
           elClientHeight: el.clientHeight,
           elClientWidth: el.clientWidth,
-          contentWholeHeight: content.clientHeight+parseInt(getStyle(content,'margin-top'))+parseInt(getStyle(content,'margin-bottom'))+parseInt(getStyle(content,'border-top-width'))+parseInt(getStyle(content,'border-bottom-width')),
-          contentWholeWidth: content.clientWidth+parseInt(getStyle(content,'margin-left'))+parseInt(getStyle(content,'margin-right'))+parseInt(getStyle(content,'border-left-width'))+parseInt(getStyle(content,'border-right-width')),
+          contentWholeHeight: content.clientHeight
+            +parseInt(getStyle(content,'margin-top'))
+            +parseInt(getStyle(content,'margin-bottom'))
+            +parseInt(getStyle(content,'border-top-width'))
+            +parseInt(getStyle(content,'border-bottom-width'))
+            +parseInt(getStyle(el,'padding-top'))
+            +parseInt(getStyle(el,'padding-bottom'))
+            +parseInt(getStyle(el,'border-top-width'))
+            +parseInt(getStyle(el,'border-bottom-width')),
+          contentWholeWidth: content.clientWidth
+            +parseInt(getStyle(content,'margin-left'))
+            +parseInt(getStyle(content,'margin-right'))
+            +parseInt(getStyle(content,'border-left-width'))
+            +parseInt(getStyle(content,'border-right-width'))
+            +parseInt(getStyle(el,'padding-left'))
+            +parseInt(getStyle(el,'padding-right'))
+            +parseInt(getStyle(el,'border-left-width'))
+            +parseInt(getStyle(el,'border-right-width'))
         }
       },
       init() {
@@ -127,6 +183,7 @@
         this.wrapperHeight = size.elClientHeight
         this.contentWidth = size.contentWholeWidth
         this.wrapperWidth = size.elClientWidth
+        // console.log(this.$el,size)
         const
           maxScrollTop = this.contentHeight - this.wrapperHeight,
           maxScrollLeft = this.contentWidth - this.wrapperWidth
@@ -156,12 +213,12 @@
       },
       //组件外部调用
       reset() {
-        this.$nextTick(() => {
-          this.init()
           this.$nextTick(() => {
-            this.resetContentPosition()
+            this.init()
+            this.$nextTick(() => {
+              this.resetContentPosition()
+            })
           })
-        })
       },
       //组件外部调用
       scrollIntoView(elem) {
