@@ -6,9 +6,8 @@
     background-color:var(--home-nav-bg-color);
     display: flex;
     flex-direction: row-reverse;
-    padding:20px;
     ul {
-      /* padding: 20px; */
+      padding: 20px;
       li {
         list-style: none;
         height: 30px;

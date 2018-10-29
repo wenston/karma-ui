@@ -26,6 +26,8 @@
    * 监听此自定义函数，然后再调用scrollbar的reset方法。另外：如果页面很多，那
    * 是不是每个页面都要写回调？不用！这种情况下，可以再写一个组件，这个组件里可以只有
    * updated钩子。
+   * NOTE: 3.此组件使用时，对于此组件的根节点不要有margin/padding/border。否则会
+   * 造成部分内容被隐藏看不到。
    * WARN: 被scrollbar组件包裹的所有元素，调用原生的scrollIntoView方法后会造成
    * 滚动条位置偏移不准，避免使用！
    * TODO: 1.scrollx组件和scrolly组件可以合并成一个
@@ -44,6 +46,8 @@
       ScrollbarY, ScrollbarX
     },
     props: {
+      trackStyle: Object,
+      thumbStyle: Object,
       allowBodyScroll:{
         type:Boolean,
         default:false
@@ -81,10 +85,14 @@
           <ScrollbarY ref="y"
             content-height={this.contentHeight}
             wrapper-height={this.wrapperHeight}
+            track-style={this.trackStyle}
+            thumb-style={this.thumbStyle}
             onDragging={this.onDragging} />
           <ScrollbarX ref="x"
             content-width={this.contentWidth}
             wrapper-width={this.wrapperWidth}
+            track-style={this.trackStyle}
+            thumb-style={this.thumbStyle}
             onDragging={this.onDraggingX} />
           <div class={{
               'k-scrollbar__content':true,
@@ -145,7 +153,7 @@
         if(this.$refs.content.children.length>1) {
           console.warn('scrollbar组件的slot只能有一个根节点')
         }
-        // console.log(el,content)
+        // console.log(el.clientHeight)
         if(!content) {
           return {
             elClientHeight: el.clientHeight,
@@ -161,20 +169,20 @@
             +parseInt(getStyle(content,'margin-top'))
             +parseInt(getStyle(content,'margin-bottom'))
             +parseInt(getStyle(content,'border-top-width'))
-            +parseInt(getStyle(content,'border-bottom-width'))
-            +parseInt(getStyle(el,'padding-top'))
-            +parseInt(getStyle(el,'padding-bottom'))
-            +parseInt(getStyle(el,'border-top-width'))
-            +parseInt(getStyle(el,'border-bottom-width')),
+            +parseInt(getStyle(content,'border-bottom-width')),
+            // +parseInt(getStyle(el,'padding-top'))
+            // +parseInt(getStyle(el,'padding-bottom'))
+            // +parseInt(getStyle(el,'border-top-width'))
+            // +parseInt(getStyle(el,'border-bottom-width')),
           contentWholeWidth: content.clientWidth
             +parseInt(getStyle(content,'margin-left'))
             +parseInt(getStyle(content,'margin-right'))
             +parseInt(getStyle(content,'border-left-width'))
             +parseInt(getStyle(content,'border-right-width'))
-            +parseInt(getStyle(el,'padding-left'))
-            +parseInt(getStyle(el,'padding-right'))
-            +parseInt(getStyle(el,'border-left-width'))
-            +parseInt(getStyle(el,'border-right-width'))
+            // +parseInt(getStyle(el,'padding-left'))
+            // +parseInt(getStyle(el,'padding-right'))
+            // +parseInt(getStyle(el,'border-left-width'))
+            // +parseInt(getStyle(el,'border-right-width'))
         }
       },
       init() {
@@ -183,7 +191,7 @@
         this.wrapperHeight = size.elClientHeight
         this.contentWidth = size.contentWholeWidth
         this.wrapperWidth = size.elClientWidth
-        // console.log(this.$el,size)
+        console.log(size)
         const
           maxScrollTop = this.contentHeight - this.wrapperHeight,
           maxScrollLeft = this.contentWidth - this.wrapperWidth

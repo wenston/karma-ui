@@ -3,23 +3,21 @@
     v-show="show"
     @click.stop.prevent>
     <div class="k-scrollbar__ytrack"
+      :style="trackStyle"
       ref="track"
       @click.stop.prevent="onJump"></div>
     <div class="k-scrollbar__ythumb"
       :class="{'k-scrollbar-transition':!dragging}"
-      @mousedown="onDown"
-      :style="{top:top+'%',height:height+'%'}"
-      ref="scrollbar"></div>
+      @mousedown.stop.prevent="onDown"
+      :style="thumb_styl"></div>
   </div>
 </template>
 
 <script>
   export default {
     props: {
-      speed: {
-        type: Number,
-        default: 50
-      },
+      trackStyle: Object,
+      thumbStyle: Object,
       contentHeight: Number, //内容高度
       wrapperHeight: Number, //scrollbar组件最外部容器的高度
     },
@@ -33,7 +31,16 @@
       }
     },
     computed: {
+      thumb_styl() {
+        const s = {top: this.top+'%', height: this.height+'%'}
+        if(this.thumbStyle) {
+          return {...this.thumbStyle, ...s}
+        }else{
+          return s
+        }
+      },
       height() {
+        // console.log(this.wrapperHeight , this.contentHeight)
         if (this.contentHeight !== 0) {
           return this.wrapperHeight / this.contentHeight * 100
         }
@@ -45,7 +52,6 @@
     methods: {
       onJump(e) {
         const y = e.clientY,
-          pos = this.$refs.scrollbar.getBoundingClientRect(),
           trackPos = this.$refs.track.getBoundingClientRect()
         //计算所点的位置位于track的高度百分比
 

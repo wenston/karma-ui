@@ -2,22 +2,21 @@
   <div class="k-scrollbar__x"
     v-show="show">
     <div class="k-scrollbar__xtrack"
+      :style="trackStyle"
       @click.stop.prevent="onJump"
       ref="track"></div>
     <div class="k-scrollbar__xthumb"
       :class="{'k-scrollbar-transition':!dragging}"
       @mousedown.stop.prevent="onDown"
-      :style="{left:left+'%',width:width+'%'}"></div>
+      :style="thumb_styl"></div>
   </div>
 </template>
 
 <script>
   export default {
     props: {
-      speed: {
-        type: Number,
-        default: 50
-      },
+      trackStyle: Object,
+      thumbStyle: Object,
       contentWidth: Number, //内容宽度
       wrapperWidth: Number, //scrollbar组件最外部容器的宽度
     },
@@ -31,6 +30,14 @@
       }
     },
     computed: {
+      thumb_styl() {
+        const s = {top: this.top+'%', height: this.height+'%'}
+        if(this.thumbStyle) {
+          return {...this.thumbStyle, ...s}
+        }else{
+          return s
+        }
+      },
       width() {
         if (this.contentWidth !== 0) {
           return this.wrapperWidth / this.contentWidth * 100

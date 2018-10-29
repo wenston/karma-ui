@@ -1,6 +1,14 @@
 <template>
   <div class="home">
-    <k-scrollbar class="home__nav" tag="nav">
+    <k-scrollbar 
+      class="home__nav" 
+      tag="nav"
+      :track-style="{
+        backgroundColor:'rgba(255,255,255,.3)'
+      }"
+      :thumb-style="{
+        backgroundColor: 'rgba(33,153,233,.5)'
+      }">
       <ul>
         <template v-for="(v,k) in nav">
           <li :key="k" class="home__subtitle">
