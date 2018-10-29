@@ -31,7 +31,7 @@
     },
     computed: {
       thumb_styl() {
-        const s = {top: this.top+'%', height: this.height+'%'}
+        const s = {left: this.left+'%', width: this.width+'%'}
         if(this.thumbStyle) {
           return {...this.thumbStyle, ...s}
         }else{

@@ -40,5 +40,7 @@ export default {
     document.removeEventListener('mousedown', el[ctx].documentHandler)
     document.removeEventListener('mouseup', el[ctx].documentHandler)
     delete el[ctx]
+    delete el[upTarget]
+    delete el[downTarget]
   }
 }

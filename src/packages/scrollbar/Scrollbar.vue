@@ -191,7 +191,7 @@
         this.wrapperHeight = size.elClientHeight
         this.contentWidth = size.contentWholeWidth
         this.wrapperWidth = size.elClientWidth
-        console.log(size)
+        // console.log(size)
         const
           maxScrollTop = this.contentHeight - this.wrapperHeight,
           maxScrollLeft = this.contentWidth - this.wrapperWidth
