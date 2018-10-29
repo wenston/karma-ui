@@ -38,6 +38,8 @@
 </template>
 
 <script>
+//TODO: 引入scrollbar组件后，当点住滚动条拖拽滚动，并在列表区域释放鼠标时，
+//列表会隐藏（chrome中会有这个问题，火狐中没有这个问题）
 import ZInput from "karma-ui/packages/input/input.jsx.vue"
 import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
