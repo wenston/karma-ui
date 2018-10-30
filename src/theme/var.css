@@ -1,7 +1,7 @@
 :root {
   /*base color*/
   --default-color: #fcfcfc;
-  --primary-color: #409EFF;
+  --primary-color: #378cee;
   --primary-gradient-color: #5E6BFF;
   --danger-color: #de3400;
   --warning-color: #ffac2c;
@@ -28,7 +28,7 @@
   /*box-shadow*/
   --box-shadow: 0 2px 5px rgba(60, 70, 80, 0.15);
   /*圆角弧度*/
-  --radius: 2px;
+  --radius: 4px;
   /* input */
   --input-border-color: var(--border-color);
   --input-width: 150px;
