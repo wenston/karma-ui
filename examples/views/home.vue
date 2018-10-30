@@ -105,7 +105,7 @@ export default {
   },
   methods: {
     onScroll(obj) {
-      console.log(obj)
+      // console.log(obj)
     },
     pageUpdated() {
       console.log('检测到了')
