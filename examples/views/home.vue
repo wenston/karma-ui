@@ -92,6 +92,9 @@ export default {
           },{
             name:'scrollbar',
             title:'scrollbar 滚动条'
+          },{
+            name:'transition',
+            title:'transition过渡动画'
           }
         ],
         directives: [

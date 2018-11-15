@@ -18,6 +18,7 @@ import KToTop from 'karma-ui/packages/to-top/index.js'
 import KPagination from 'karma-ui/packages/pagination/index.js'
 import KDatePicker from 'karma-ui/packages/date-picker/index.js'
 import KScrollbar from 'karma-ui/packages/scrollbar/index.js'
+import KTransition from 'karma-ui/packages/transition/index.js'
 //css图标
 import KIcon from 'karma-ui/icon/css/index.js'
 //指令
@@ -47,7 +48,8 @@ let obj = {
   Viewable,
   KPagination,
   KDatePicker,
-  KScrollbar
+  KScrollbar,
+  KTransition
 }
 
 export default {

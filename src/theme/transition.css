@@ -1,0 +1,19 @@
+
+.k-t-slide {
+  &-enter {
+    height:0;
+  }
+  &-enter-to {
+    height: 100px;
+  }
+  &-leave-to {
+    height: 0;
+  }
+  &-leave {
+    height: 100px;
+  }
+  &-enter-active,
+  &-leave-active {
+    transition: .25s ease;
+  }
+}

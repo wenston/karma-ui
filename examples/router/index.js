@@ -105,6 +105,12 @@ export default new VueRouter({
       component(res) {
         import('../views/scrollbar.vue').then(comp => res(comp))
       }
+    }, {
+      path: '/transition',
+      name: 'transition',
+      component(res) {
+        import('../views/transition.vue').then(comp => res(comp))
+      }
     }]
   }]
 })
