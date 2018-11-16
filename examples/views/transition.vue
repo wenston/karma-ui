@@ -40,6 +40,9 @@ export default {
 .p {
   border:1px solid #ddd;
   overflow: hidden;
+  padding:20px;
+  margin-top: 50px;
+  
 }
 </style>
 
