@@ -45,7 +45,7 @@
 </template>
 <script>
 // 有关弹框宽度，可以对插入的body宽度进行设置。
-import KButton from "karma-ui/packages/button/button.vue"
+import KButton from "karma-ui/packages/button/button"
 import dnd from "karma-ui/directives/dnd/bind.js"
 export default {
   name: "KPopup",

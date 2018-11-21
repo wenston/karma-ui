@@ -1,4 +1,3 @@
-<script>
 import loadingIcon from 'karma-ui/packages/loading/loadingIcon'
 export default {
   components: {
@@ -24,7 +23,18 @@ export default {
     href: String,
     target: String
   },
+  computed: {
+    classes() {
+      return {
+        ["k-btn"]: true,
+        ["k-btn--" + this.type]: true,
+        ["k-btn--" + this.size]: true,
+        "k-btn--block": this.block
+      }
+    }
+  },
   render() {
+    const {classes, $slots, $attrs, $listeners} = this
     let LoadingComp = null
     let Content = null
     if (this.loading) {
@@ -33,28 +43,33 @@ export default {
     if (this.$slots.default) {
       Content = <span>{this.$slots.default}</span>
     }
+    const buttonProps = {
+      class: classes,
+      attrs: {
+        ...$attrs,
+        href: this.href,
+        target: this.target,
+        disabled: this.disabled,
+      },
+      props: {
+        
+      },
+      on: {
+        ...$listeners,
+        click: this.handleClick
+      }
+    }
     return (
-      <this.tag
-        href={this.href}
-        target={this.target}
-        class={{
-          ["k-btn"]: true,
-          ["k-btn--" + this.type]: true,
-          ["k-btn--" + this.size]: true,
-          "k-btn--block": this.block
-        }}
-        onClick={this._click}
-        disabled={this.disabled}
-      >
+      <this.tag {...buttonProps}>
         {Content}
         {LoadingComp}
       </this.tag>
     );
   },
   methods: {
-    _click(e) {
-      this.$emit("click", e)
+    handleClick(e) {
+      if(!this.disabled)
+        this.$emit("click", e)
     }
   }
-};
-</script>
+}

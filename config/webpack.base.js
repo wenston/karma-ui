@@ -16,7 +16,7 @@ module.exports = {
     publicPath: ''
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js','.jsx', '.vue', '.json'],
     alias: {
       'karma-ui': resolve('src'),
       'vue$': 'vue/dist/vue.esm.js'
@@ -24,7 +24,7 @@ module.exports = {
   },
   module: {
     rules: [{
-      test: /\.js$/,
+      test: /\.jsx?$/,
       include: [
         resolve('src'), resolve('examples')
       ],

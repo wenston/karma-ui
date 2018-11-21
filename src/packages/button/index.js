@@ -1,4 +1,4 @@
-import ButtonComponent from './button';
+import ButtonComponent from './button.jsx';
 ButtonComponent.install = (Vue) => {
   Vue.component(ButtonComponent.name,ButtonComponent)
 }
