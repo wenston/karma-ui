@@ -19,7 +19,7 @@ module.exports = {
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js','.jsx', '.vue', '.json'],
     alias: {
       'karma-ui': resolve('src'),
     }
@@ -40,7 +40,7 @@ module.exports = {
   ],
   module: {
     rules: [{
-      test: /\.js$/,
+      test: /\.jsx?$/,
       include: [
         resolve('src')
       ],
