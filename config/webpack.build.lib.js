@@ -16,7 +16,8 @@ module.exports = {
     chunkFilename: '[id].js',
     path: resolve('lib'),
     library: 'karma-ui',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
+    publicPath: '',
   },
   resolve: {
     extensions: ['.js','.jsx', '.vue', '.json'],
@@ -30,10 +31,20 @@ module.exports = {
       commonjs2: 'vue/dist/vue.esm.js',
       amd: 'vue/dist/vue.esm.js',
       root: 'vue/dist/vue.esm.js'
+    },
+    "throttle-debounce": {
+      commonjs: 'throttle-debounce/index.esm.js',
+      commonjs2: 'throttle-debounce/index.esm.js',
+      amd: 'throttle-debounce/index.esm.js',
+      root: 'throttle-debounce/index.esm.js',
+      commonjs: 'throttle-debounce/index.cjs.js',
+      commonjs2: 'throttle-debounce/index.cjs.js',
+      amd: 'throttle-debounce/index.cjs.js',
+      root: 'throttle-debounce/index.cjs.js',
     }
   },
   plugins: [
-    new ExtractTextPlugin('theme/[name].css'),
+    new ExtractTextPlugin('[name].css'),
     new CleanWebpackPlugin('lib', {
       root: resolve('')
     })
@@ -71,13 +82,16 @@ module.exports = {
       test: /\.svg$/,
       include: [resolve('src')],
       loader: 'svg-inline-loader'
-    }, {
+    }
+    , {
       test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
       loader: 'url-loader',
       options: {
         limit: 10000,
-        name: 'fonts/[name].[hash:7].[ext]'
+        name: './fonts/[name].[hash:7].[ext]'
+        // name: './fonts/[name].[hash:7].[ext]'
       }
-    }]
+    }
+  ]
   },
 }

@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'font';
   src:
-    url('fonts/font.ttf?i5ix3z') format('truetype'),
-    url('fonts/font.woff?i5ix3z') format('woff'),
-    url('fonts/font.svg?i5ix3z#font') format('svg');
+    url('./fonts/font.ttf?i5ix3z') format('truetype'),
+    url('./fonts/font.woff?i5ix3z') format('woff'),
+    url('./fonts/font.svg?i5ix3z#font') format('svg');
   font-weight: normal;
   font-style: normal;
 }

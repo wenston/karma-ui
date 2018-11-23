@@ -1,5 +1,5 @@
 import 'karma-ui/theme/index.css'
-import 'karma-ui/icon/font/style.css'
+import 'karma-ui/theme/font/style.css'
 import KButton from 'karma-ui/packages/button/index.js'
 import KInput from 'karma-ui/packages/input/index.js'
 import KSelect from 'karma-ui/packages/select/index.js'
