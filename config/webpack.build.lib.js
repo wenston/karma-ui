@@ -16,7 +16,9 @@ module.exports = {
     chunkFilename: '[id].js',
     path: resolve('lib'),
     library: 'karma-ui',
-    libraryTarget: 'commonjs2',
+    // libraryTarget: 'commonjs2',
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
     publicPath: '',
   },
   resolve: {

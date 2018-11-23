@@ -1,3 +1,4 @@
+import setProps from 'karma-ui/util/setPropsGlobal.js'
 import 'karma-ui/theme/index.css'
 import 'karma-ui/theme/font/style.css'
 import KButton from 'karma-ui/packages/button/index.js'
@@ -55,7 +56,8 @@ let obj = {
 export default {
   install(Vue,opts) {
     for (let comp in obj) {
-      Vue.use(obj[comp])
+      setProps(obj[comp],opts[comp])
+      Vue.use(obj[comp], opts)
     }
   }
 }
