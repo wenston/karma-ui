@@ -1,0 +1,12 @@
+.k-table-wrapper {
+  .k-table {
+    border-collapse: collapse;
+    &--border {
+      border: var(--table-border);
+      & > thead > tr > td,
+      & > tbody > tr > td {
+        border: var(--table-border);
+      }
+    }
+  }
+}

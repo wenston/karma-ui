@@ -111,6 +111,12 @@ export default new VueRouter({
       component(res) {
         import('../views/transition.vue').then(comp => res(comp))
       }
+    }, {
+      path: '/table',
+      name: 'table',
+      component(res) {
+        import('../views/table.vue').then(comp => res(comp))
+      }
     }]
   }]
 })

@@ -224,4 +224,8 @@
   --dp-icon-color: var(--font-color-4);
 
   --dp-calendar-border: 1px solid var(--border-color);
+
+  /* table */
+  --table-border: 1px solid var(--border-color);
+  
 }
