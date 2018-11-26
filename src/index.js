@@ -54,7 +54,7 @@ let obj = {
 }
 
 export default {
-  install(Vue,opts) {
+  install(Vue,opts = {}) {
     for (let comp in obj) {
       setProps(obj[comp],opts[comp])
       Vue.use(obj[comp], opts)
