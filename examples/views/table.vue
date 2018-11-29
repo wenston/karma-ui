@@ -6,14 +6,23 @@
         表格
         <k-table :data="table"
           :columns="columns">
-          <template slot="Code"
-            slot-scope="scope">
+          <template slot="xxx"
+            slot-scope="{row}">
             <a :class="css.code"
-              slot="Code"
-              href="javascript:;">{{scope.row.Code}}</a>
+              href="javascript:;">{{row.Code}}</a>
           </template>
           <b slot="TotalPrice"
-            slot-scope="scope">{{scope.row.TotalPrice}}</b>
+            style="color:red;"
+            slot-scope="scope">
+            {{parseFloat(scope.row.TotalPrice).toFixed(2)}}</b>
+          <ul slot="Detail"
+            :class="css.detail"
+            slot-scope="{row}">
+            <li v-for="item in row.Details"
+              :key="item.Id">
+              {{item.ProName}} &times; {{item.ProCount}}
+            </li>
+          </ul>
         </k-table>
       </div>
     </div>
@@ -1440,20 +1449,21 @@ export default {
       columns: [{
         field: 'Code',
         name: '单号',
-        scopedSlots: {customRender:'Code'}
+        scopedSlots:'xxx'//xxx是作用域插槽的名称
       },{
         field: 'SupplierName',
         name:'供应商'
       },{
         field: 'TotalPrice',
         name: '金额',
-        scopedSlots: {customRender: 'TotalPrice'}
+        scopedSlots: 'TotalPrice'
       },{
         field: 'StoreName',
         name: '收货仓库'
       },{
-        field: 'ProName',
-        name: '商品'
+        field: 'Detail',
+        name: '商品',
+        scopedSlots: 'Detail'
       },{
         field: 'HandlerName',
         name: '经手人'
@@ -1462,13 +1472,18 @@ export default {
         name: '制单人'
       },{
         field: 'DateAdded',
-        name: '制单时间'
+        name: '制单时间',
       },{
         field: 'Status',
         name: '状态'
       },{
         field: 'PrintCount',
-        name: '打印次数'
+        name: '打印次数',
+        customRender: (item,index)=>(
+          <div>
+            <k-button type="primary" size="mini">{item.PrintCount}</k-button>
+          </div>
+        )
       }]
     };
   },
@@ -1481,6 +1496,12 @@ export default {
   &:hover {
     text-decoration: underline;
     color: #378cee;
+  }
+}
+.detail {
+  padding: 0;
+  li {
+    list-style-type: none;
   }
 }
 </style>

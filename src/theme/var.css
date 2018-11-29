@@ -227,5 +227,30 @@
 
   /* table */
   --table-border: 1px solid var(--border-color);
-  
+
+  /* 表头 */
+  --table-head-bg-color: #f4f4f4;
+  /* 尺寸 */
+  --table-huge: var(--huge);
+  --table-huge-font-size: 14px;
+  --table-huge-padding: 10px 12px;
+  --table-large: var(--large);
+  --table-large-font-size: 14px;
+  --table-large-padding: 10px;
+  --table-big: var(--big);
+  --table-big-font-size: 14px;
+  --table-big-padding: 8px 10px;
+  --table-medium: var(--medium);
+  --table-medium-font-size: 12px;
+  --table-medium-padding: 8px;
+  --table-small: var(--small);
+  --table-small-font-size: 12px;
+  --table-small-padding: 3px 5px;
+  --table-mini: var(--mini);
+  --table-mini-font-size: 12px;
+  --table-mini-padding: 3px;
+
+  /* 斑马线和滑入变色 */
+  --table-stripe-bg-color: var(--default-color);
+  --table-hover-bg-color: #fff3e2;
 }

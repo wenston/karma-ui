@@ -7,80 +7,66 @@ export default {
   props: {
     //原始数据
     data: Array,
-    //列名及对应的描述[{field:'字段名',name:'文本描述'}]
+    //列名及对应的描述[{field:'字段名',name:'文本描述',scopedSlots:'slotName'}]
     columns: Array,
     //是否有边框
-    border: {
+    bordered: {
       type: Boolean,
       default: true,
     },
+    //表格尺寸
     size: {
       type: String,
       default: 'medium',
     },
+    //是否有斑马线
+    stripe: {
+      type: Boolean,
+      default: true
+    },
+    //是否鼠标滑入变色
+    hover: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
     tableClass() {
       return {
         'k-table': true,
-        'k-table--border': this.border,
+        'k-table--bordered': this.bordered,
+        [`k-table--${this.size}`]: true,
+        'k-table--stripe': this.stripe,
+        'k-table--hover': this.hover
       }
     },
   },
   methods: {
-    updateColumns(cols = []) {
-      const columns = []
-      const { $slots, $scopedSlots } = this
-      // $scopedSlots 接收传入组件的作用域插槽内容，可以是有名字的
-      // 如 <template slot="作用域插槽名字" slot-scope="数据对象"></template>
-      // 接收到此就是 {插槽名字:函数(数据对象),...}
-      // console.log($scopedSlots)
-
-      cols.forEach(col => {
-        const { slots = {}, scopedSlots = {}, ...restProps } = col
-        const column = {
-          ...restProps,
-        }
-        Object.keys(slots).forEach(key => {
-          const name = slots[key]
-          if (column[key] === undefined && $slots[name]) {
-            column[key] = $slots[name]
-          }
-        })
-        // console.log($scopedSlots,scopedSlots)
-        Object.keys(scopedSlots).forEach(key => {
-          const slotName = scopedSlots[key]
-          // console.log(column,key,column[key],$scopedSlots[slotName])
-          if (column[key] === undefined && $scopedSlots[slotName]) {
-            column[key] = $scopedSlots[slotName]
-          }
-        })
-        if (col.children) {
-          column.children = this.updateColumns(column.children)
-        }
-        columns.push(column)
-      })
-      return columns
-    },
     getTableBody() {
       const { $scopedSlots } = this
-      const columns = this.updateColumns(this.columns)
+      const columns = this.columns
       let row = []
-      this.data.forEach(item => {
+      this.data.forEach((item,index) => {
         const column = columns.map(col => {
-          if(col.customRender) {
+          if(col.scopedSlots) {
             return (
               <k-col>
-                {$scopedSlots[col.field]({
-                  row: item
+                {$scopedSlots[col.scopedSlots]({
+                  row: item,
+                  index
                 })}
+              </k-col>
+            )
+          }else if(col.customRender) {
+            return (
+              <k-col>
+                {col.customRender(item,index)}
               </k-col>
             )
           }else{
             return <k-col>{item[col.field]}</k-col>
           }
         })
-        // console.log(column)
         row.push(<tr>{column}</tr>)
       })
       return row

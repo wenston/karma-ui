@@ -1,13 +1,40 @@
 .k-table-wrapper {
+  background-color: white;
+  text-align: left;
   .k-table {
     border-collapse: collapse;
     width: 100%;
     white-space: nowrap;
-    &--border {
+    > thead > tr {
+      background-color: var(--table-head-bg-color);
+    }
+    @each $name in (huge,large,big,medium,small,mini) {
+      &.k-table--$(name) {
+        font-size:var(--table-$(name)-font-size);
+        & > thead > tr > th,
+        & > tbody > tr > td {
+          height: var(--table-$(name));
+          /* line-height: calc(var(--table-$(name)) - 1px); */
+          line-height: normal;
+          padding: var(--table-$(name)-padding);
+        }
+      }
+    }
+    &--bordered {
       border: var(--table-border);
       & > thead > tr > th,
       & > tbody > tr > td {
         border: var(--table-border);
+      }
+    }
+    &--stripe {
+      & > tbody > tr:nth-child(2n) {
+        background-color: var(--table-stripe-bg-color);
+      }
+    }
+    &--hover {
+      & > tbody > tr:hover {
+        background-color: var(--table-hover-bg-color);
       }
     }
   }
