@@ -1,9 +1,11 @@
 .k-table-wrapper {
   .k-table {
     border-collapse: collapse;
+    width: 100%;
+    white-space: nowrap;
     &--border {
       border: var(--table-border);
-      & > thead > tr > td,
+      & > thead > tr > th,
       & > tbody > tr > td {
         border: var(--table-border);
       }

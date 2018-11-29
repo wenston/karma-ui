@@ -4,7 +4,9 @@ export default {
     tag: {
       type: String,
       default: 'td'
-    }
+    },
+    field: String,
+    name: String
   },
   render() {
     return (
