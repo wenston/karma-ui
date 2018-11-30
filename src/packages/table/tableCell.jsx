@@ -1,12 +1,12 @@
 export default {
-  name: 'KTableColumn',
+  name: 'KCell',
   props: {
     tag: {
       type: String,
       default: 'td'
     },
     field: String,
-    name: String
+    name: String,
   },
   render() {
     return (

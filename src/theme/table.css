@@ -1,10 +1,21 @@
 .k-table-wrapper {
-  background-color: white;
+  background-color: var(--table-wrapper-bg-color);
   text-align: left;
+  overflow: auto;
+  box-shadow: inset 0 0 0 1px var(--table-border-color);
+  border-radius: var(--table-radius);
+
+  .k-table-head {
+
+  }
+  .k-table-body {
+    margin-top: -1px;
+  }
   .k-table {
     border-collapse: collapse;
-    width: 100%;
-    white-space: nowrap;
+    width: fit-content;
+    /* white-space: nowrap; */
+    table-layout: fixed;
     > thead > tr {
       background-color: var(--table-head-bg-color);
     }
@@ -31,11 +42,18 @@
       & > tbody > tr:nth-child(2n) {
         background-color: var(--table-stripe-bg-color);
       }
+      & > tbody > tr:nth-child(2n-1) {
+        background-color: white;
+      }
     }
     &--hover {
       & > tbody > tr:hover {
         background-color: var(--table-hover-bg-color);
       }
+    }
+    &--auto {
+      width: 100%;
+      table-layout: auto;
     }
   }
 }

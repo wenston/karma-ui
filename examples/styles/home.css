@@ -1,8 +1,8 @@
 .home {
-  display:flex;
   .home__nav {
+    float: left;
     height:100vh;
-    width:300px;
+    width:250px;
     background-color:var(--home-nav-bg-color);
     display: flex;
     flex-direction: row-reverse;
@@ -30,7 +30,7 @@
     }
   }
   .home__content {
-    flex:1;
+    margin-left: 250px;
     height:100vh;
   }
 }

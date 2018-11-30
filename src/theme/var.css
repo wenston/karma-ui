@@ -226,7 +226,10 @@
   --dp-calendar-border: 1px solid var(--border-color);
 
   /* table */
-  --table-border: 1px solid var(--border-color);
+  --table-wrapper-bg-color: var(--default-color);
+  --table-border-color: var(--border-color);
+  --table-border: 1px solid var(--table-border-color);
+  --table-radius: var(--radius);
 
   /* 表头 */
   --table-head-bg-color: #f4f4f4;

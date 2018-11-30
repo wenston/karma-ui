@@ -1,144 +1,40 @@
 <template>
   <div class="layout">
     <h3 class="layout__title">基本用法</h3>
-    <div>
-      <div>
-        表格
-        <k-table :data="table"
-          :columns="columns">
-          <template slot="xxx"
-            slot-scope="{row}">
-            <a :class="css.code"
-              href="javascript:;">{{row.Code}}</a>
-          </template>
-          <b slot="TotalPrice"
-            style="color:red;"
-            slot-scope="scope">
-            {{parseFloat(scope.row.TotalPrice).toFixed(2)}}</b>
-          <ul slot="Detail"
-            :class="css.detail"
-            slot-scope="{row}">
-            <li v-for="item in row.Details"
-              :key="item.Id">
-              {{item.ProName}} &times; {{item.ProCount}}
-            </li>
-          </ul>
-        </k-table>
-      </div>
-    </div>
+    <k-table :data="table"
+      :columns="columns"
+      size="big"></k-table>
+    <h3 class="layout__title">自定义列</h3>
+
+    <k-table :data="table1"
+      :columns="columns1">
+      <template slot="xxx"
+        slot-scope="{row}">
+        <a :class="css.code"
+          href="javascript:;">{{row.Code}}</a>
+      </template>
+      <b slot="TotalPrice"
+        style="color:red;"
+        slot-scope="scope">
+        {{parseFloat(scope.row.TotalPrice).toFixed(2)}}</b>
+      <ul slot="Detail"
+        :class="css.detail"
+        slot-scope="{row}">
+        <li v-for="item in row.Details"
+          :key="item.Id">
+          {{item.ProName}} &times; {{item.ProCount}}
+        </li>
+      </ul>
+    </k-table>
+    <h3 class="layout__title">根据数据自动合并行</h3>
+    <k-table :data="table1"
+      :columns="columns2"></k-table>
+
   </div>
 </template>
 
 <script>
-const table = [
-  {
-    SupplierId: 100005,
-    SupplierName: "华为技术有限公司",
-    FinalPrice: 1200,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 16,
-    Code: "PC04201811260001",
-    TotalPrice: 1200,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 1,
-    UserBranchId: 0,
-    Id: 1063,
-    DateAdded: "2018-11-26 17:31:04",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811260001",
-        ProCount1: 12,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 100005,
-        CategoryId: 300008,
-        ProName: "小夜灯",
-        ProId: 300038,
-        ProPrice: 100,
-        AccountingType: 1,
-        ProCount: 12,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1801,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300053,
-    SupplierName: "测试供应商",
-    FinalPrice: 2000,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811250001",
-    TotalPrice: 2000,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 3,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 29,
-    BranchId: 0,
-    HandlerId: 300014,
-    HandlerName: "林小静",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1058,
-    DateAdded: "2018-11-25 23:30:39",
-    StoreName: "海龙门店",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811250001",
-        ProCount1: 0,
-        StoreId: 29,
-        Status: 3,
-        SupplierId: 300053,
-        CategoryId: 300199,
-        ProName: "小米6X 6+64GB",
-        ProId: 303315,
-        ProPrice: 2000,
-        AccountingType: 3,
-        ProCount: 1,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1783,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
+const table1 = [
   {
     SupplierId: 300048,
     SupplierName: "郑州捷信",
@@ -573,917 +469,141 @@ const table = [
         DateAdded: "2018-11-28 09:21:21"
       }
     ]
-  },
-  {
-    SupplierId: 300049,
-    SupplierName: "融商",
-    FinalPrice: 2000,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811200001",
-    TotalPrice: 2000,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1046,
-    DateAdded: "2018-11-20 11:51:31",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811200001",
-        ProCount1: 1,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300049,
-        CategoryId: 300728,
-        ProName: "努比亚X For小二",
-        ProId: 303375,
-        ProPrice: 2000,
-        AccountingType: 3,
-        ProCount: 1,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1755,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300011,
-    SupplierName: "努比亚流",
-    FinalPrice: 10000,
-    HaveWorkFlow: 0,
-    BalanceCode: "100216",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811190002",
-    TotalPrice: 10000,
-    Description: "",
-    Source: 0,
-    SourceCode: "",
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: "",
-    ChkDateTime: "",
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1043,
-    DateAdded: "2018-11-19 15:00:26",
-    StoreName: "总仓",
-    BalanceName: "招商",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811190002",
-        ProCount1: 4,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300011,
-        CategoryId: 300728,
-        ProName: "努比亚X For小二",
-        ProId: 303375,
-        ProPrice: 2000,
-        AccountingType: 3,
-        ProCount: 5,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1752,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 100010,
-    SupplierName: "北京小米科技有限公司",
-    FinalPrice: 20000,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811190001",
-    TotalPrice: 20000,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1042,
-    DateAdded: "2018-11-19 14:32:08",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811190001",
-        ProCount1: 10,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 100010,
-        CategoryId: 300199,
-        ProName: "小米6X 6+64GB",
-        ProId: 303316,
-        ProPrice: 2000,
-        AccountingType: 3,
-        ProCount: 10,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1750,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300011,
-    SupplierName: "努比亚流",
-    FinalPrice: 10,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811160002",
-    TotalPrice: 10,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1038,
-    DateAdded: "2018-11-16 14:46:03",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811160002",
-        ProCount1: 1,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300011,
-        CategoryId: 300008,
-        ProName: "小夜灯",
-        ProId: 300038,
-        ProPrice: 10,
-        AccountingType: 1,
-        ProCount: 1,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1742,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300010,
-    SupplierName: "努比亚崔",
-    FinalPrice: 56000,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811160001",
-    TotalPrice: 56000,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1037,
-    DateAdded: "2018-11-16 10:09:30",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811160001",
-        ProCount1: 20,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300010,
-        CategoryId: 300728,
-        ProName: "努比亚X For小二",
-        ProId: 303375,
-        ProPrice: 2800,
-        AccountingType: 3,
-        ProCount: 20,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1741,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300011,
-    SupplierName: "努比亚流",
-    FinalPrice: 0,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811150001",
-    TotalPrice: 0,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 300012,
-    UserNameAdded: "111111",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 129,
-    HandlerId: 300012,
-    HandlerName: "111111",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1036,
-    DateAdded: "2018-11-15 10:07:28",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811150001",
-        ProCount1: 15,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300011,
-        CategoryId: 300745,
-        ProName: "屏乐乐+礼包499",
-        ProId: 303337,
-        ProPrice: 0,
-        AccountingType: 1,
-        ProCount: 15,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1740,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300043,
-    SupplierName: "李桂香",
-    FinalPrice: 55,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811130001",
-    TotalPrice: 55,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 29,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1034,
-    DateAdded: "2018-11-13 10:16:38",
-    StoreName: "海龙门店",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811130001",
-        ProCount1: 11,
-        StoreId: 29,
-        Status: 6,
-        SupplierId: 300043,
-        CategoryId: 300008,
-        ProName: "小夜灯",
-        ProId: 300038,
-        ProPrice: 5,
-        AccountingType: 1,
-        ProCount: 11,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1738,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300011,
-    SupplierName: "努比亚流",
-    FinalPrice: 0,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811120001",
-    TotalPrice: 0,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1029,
-    DateAdded: "2018-11-12 11:03:40",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811120001",
-        ProCount1: 100,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300011,
-        CategoryId: 300008,
-        ProName: "小夜灯",
-        ProId: 300038,
-        ProPrice: 0,
-        AccountingType: 1,
-        ProCount: 100,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1732,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300043,
-    SupplierName: "李桂香",
-    FinalPrice: 0,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811110004",
-    TotalPrice: 0,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 300012,
-    UserNameAdded: "111111",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 129,
-    HandlerId: 300012,
-    HandlerName: "111111",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1028,
-    DateAdded: "2018-11-11 17:38:08",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811110004",
-        ProCount1: 1,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300043,
-        CategoryId: 300008,
-        ProName: "小夜灯",
-        ProId: 300038,
-        ProPrice: 0,
-        AccountingType: 1,
-        ProCount: 1,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1731,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300011,
-    SupplierName: "努比亚流",
-    FinalPrice: 5,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811110003",
-    TotalPrice: 5,
-    Description: "",
-    Source: 0,
-    SourceCode: "",
-    Status: 3,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: "",
-    ChkDateTime: "",
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1027,
-    DateAdded: "2018-11-11 12:52:17",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811110003",
-        ProCount1: 0,
-        StoreId: 9,
-        Status: 3,
-        SupplierId: 300011,
-        CategoryId: 122,
-        ProName: "畅享7 32g/全网通 黑色",
-        ProId: 100027,
-        ProPrice: 1,
-        AccountingType: 1,
-        ProCount: 5,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1730,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300011,
-    SupplierName: "努比亚流",
-    FinalPrice: 1,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811110002",
-    TotalPrice: 1,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1026,
-    DateAdded: "2018-11-11 12:51:27",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811110002",
-        ProCount1: 1,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300011,
-        CategoryId: 122,
-        ProName: "畅享7 32g/全网通 黑色",
-        ProId: 100027,
-        ProPrice: 1,
-        AccountingType: 1,
-        ProCount: 1,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1728,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300043,
-    SupplierName: "李桂香",
-    FinalPrice: 2,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811110001",
-    TotalPrice: 2,
-    Description: "",
-    Source: 0,
-    SourceCode: "",
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 26,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: "",
-    ChkDateTime: "",
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1025,
-    DateAdded: "2018-11-11 12:48:45",
-    StoreName: "合肥",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811110001",
-        ProCount1: 2,
-        StoreId: 26,
-        Status: 6,
-        SupplierId: 300043,
-        CategoryId: 117,
-        ProName: "康佳52寸",
-        ProId: 103833,
-        ProPrice: 1,
-        AccountingType: 1,
-        ProCount: 2,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1727,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300011,
-    SupplierName: "努比亚流",
-    FinalPrice: 0,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811090008",
-    TotalPrice: 0,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1024,
-    DateAdded: "2018-11-09 22:47:00",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811090008",
-        ProCount1: 100,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300011,
-        CategoryId: 300008,
-        ProName: "小夜灯",
-        ProId: 300038,
-        ProPrice: 0,
-        AccountingType: 1,
-        ProCount: 100,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1725,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300011,
-    SupplierName: "努比亚流",
-    FinalPrice: 0,
-    HaveWorkFlow: 0,
-    BalanceCode: "100217",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811090007",
-    TotalPrice: 0,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1023,
-    DateAdded: "2018-11-09 22:45:29",
-    StoreName: "总仓",
-    BalanceName: "农业银行111",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811090007",
-        ProCount1: 100,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300011,
-        CategoryId: 300008,
-        ProName: "小夜灯",
-        ProId: 300038,
-        ProPrice: 0,
-        AccountingType: 1,
-        ProCount: 100,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1724,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
-  },
-  {
-    SupplierId: 300043,
-    SupplierName: "李桂香",
-    FinalPrice: 100000,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811090006",
-    TotalPrice: "***",
-    Description: "噶",
-    Source: 0,
-    SourceCode: null,
-    Status: 3,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1022,
-    DateAdded: "2018-11-09 12:22:08",
-    StoreName: "总仓",
-    BalanceName: "",
-    ProPrice: "***",
-    SubTotal: "***",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811090006",
-        ProCount1: 0,
-        StoreId: 9,
-        Status: 3,
-        SupplierId: 300043,
-        CategoryId: 301015,
-        ProName: "苹果流沙金",
-        ProId: 303323,
-        ProPrice: "***",
-        AccountingType: 2,
-        ProCount: 10,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1723,
-        DateAdded: "2018-11-28 09:21:21",
-        SubTotal: "***"
-      }
-    ]
-  },
-  {
-    SupplierId: 300011,
-    SupplierName: "努比亚流",
-    FinalPrice: 200,
-    HaveWorkFlow: 0,
-    BalanceCode: "",
-    TradeMode: 0,
-    TaxRate: 0,
-    Code: "PC04201811090005",
-    TotalPrice: 200,
-    Description: "",
-    Source: 0,
-    SourceCode: null,
-    Status: 6,
-    UserIdAdded: 10,
-    UserNameAdded: "张总",
-    PrintCount: 0,
-    StoreId: 9,
-    BranchId: 0,
-    HandlerId: 10,
-    HandlerName: "张总",
-    ChkUserId: 0,
-    ChkUserName: null,
-    ChkDateTime: null,
-    CompanyCode: "S00000186",
-    PayType: 0,
-    Receipt: 0,
-    UserBranchId: 0,
-    Id: 1021,
-    DateAdded: "2018-11-09 11:37:29",
-    StoreName: "总仓",
-    BalanceName: "",
-    Details: [
-      {
-        PurchasingContractCode: "PC04201811090005",
-        ProCount1: 2,
-        StoreId: 9,
-        Status: 6,
-        SupplierId: 300011,
-        CategoryId: 120,
-        ProName: "NubiaZ18X",
-        ProId: 302896,
-        ProPrice: 100,
-        AccountingType: 2,
-        ProCount: 2,
-        TaxRate: 1,
-        Description: "",
-        Description1: "",
-        Description2: "",
-        Id: 1722,
-        DateAdded: "2018-11-28 09:21:21"
-      }
-    ]
   }
 ];
 export default {
   data() {
     return {
-      table,
-      columns: [{
+      table: [
+        {
+          name: "明明",
+          age: "10",
+          class: "三年级一班",
+          chinese: "90",
+          math: "100"
+        },
+        {
+          name: "小花",
+          age: "9",
+          class: "三年级二班",
+          chinese: "90",
+          math: "99"
+        },
+        {
+          name: "小军",
+          age: "9",
+          class: "三年级一班",
+          chinese: "92",
+          math: "100"
+        }
+      ],
+      columns: [
+        {
+          style: { width: "100px" },
+          field: "name",
+          name: "姓名"
+        },
+        {
+          style: { width: "70px" },
+          field: "age",
+          name: "年龄"
+        },
+        {
+          style: { width: "150px" },
+          field: "class",
+          name: "班级"
+        },
+        {
+          style: { width: "70px" },
+          field: "chinese",
+          name: "语文"
+        }
+      ],
+      table1,
+      columns1: [
+        {
+          style: { width: "150px" },
+          field: "Code",
+          name: "单号",
+          scopedSlots: "xxx" //xxx是作用域插槽的名称
+        },
+        {
+          style: { width: "150px" },
+          field: "SupplierName",
+          name: "供应商"
+        },
+        {
+          style: { width: "80px",textAlign:'right' },
+          field: "TotalPrice",
+          name: "金额",
+          scopedSlots: "TotalPrice"
+        },
+        {
+          style: { width: "100px" },
+          field: "StoreName",
+          name: "收货仓库"
+        },
+        {
+          style: { width: "200px" },
+          field: "Detail",
+          name: "商品",
+          scopedSlots: "Detail"
+        },
+        {
+          style: { width: "70px" },
+          field: "HandlerName",
+          name: "经手人"
+        },
+        {
+          style: { width: "70px" },
+          field: "UserNameAdded",
+          name: "制单人"
+        },
+        {
+          style: { width: "160px" },
+          field: "DateAdded",
+          name: "制单时间"
+        },
+        {
+          style: { width: "60px" },
+          field: "Status",
+          name: "状态"
+        },
+        {
+          style: { width: "69px" },
+          field: "PrintCount",
+          name: "打印次数"
+        }
+      ],
+      //根据数据自动合并行
+      columns2: [{
+        style: {width:'150px'},
         field: 'Code',
-        name: '单号',
-        scopedSlots:'xxx'//xxx是作用域插槽的名称
+        name: '单号'
       },{
+        style: {width:'120px'},
         field: 'SupplierName',
-        name:'供应商'
+        name: '供应商'
       },{
-        field: 'TotalPrice',
-        name: '金额',
-        scopedSlots: 'TotalPrice'
+        style: {width: '70px'},
+        field: 'Details.ProId',//json数组的情况
+        name: '编码'
       },{
+        style: {width: '200px'},
+        field: 'Details.ProName',
+        name: '商品'
+      },{
+        style: {width: '60px'},
+        field: 'Details.ProCount',
+        name: '数量'
+      },{
+        style: {width: '100px'},
         field: 'StoreName',
         name: '收货仓库'
       },{
-        field: 'Detail',
-        name: '商品',
-        scopedSlots: 'Detail'
-      },{
+        style: {width: '100px'},
         field: 'HandlerName',
         name: '经手人'
-      },{
-        field: 'UserNameAdded',
-        name: '制单人'
-      },{
-        field: 'DateAdded',
-        name: '制单时间',
-      },{
-        field: 'Status',
-        name: '状态'
-      },{
-        field: 'PrintCount',
-        name: '打印次数',
-        customRender: (item,index)=>(
-          <div>
-            <k-button type="primary" size="mini">{item.PrintCount}</k-button>
-          </div>
-        )
       }]
     };
   },
