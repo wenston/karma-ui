@@ -142,10 +142,10 @@
 
   /*checkbox*/
   --checkbox-gutter: 20px;
-  --checkbox-line-height: 20px;
-  --checkbox-border-color: color(var(--input-border-color) shade(10%));
+  --checkbox-line-height: normal;
+  --checkbox-border-color:#b5bcc5;
   --checkbox-bg-color: #fff;
-  --checkbox-radius: var(--radius);
+  --checkbox-radius: 2px;
   --checkbox-hover-border-color: var(--primary-color);
   --checkbox-checked-border-color: var(--primary-color);
   --checkbox-checked-bg-color: var(--primary-color);

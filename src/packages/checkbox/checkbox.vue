@@ -54,7 +54,7 @@ export default {
   name: "KCheckbox",
   model: {
     prop: "checked",
-    event: "bianbianbian"
+    event: "checkbox-change"
   },
   props: {
     text: {
@@ -104,7 +104,7 @@ export default {
         }
         this.$emit("update:dataArr", this.arr);
       }
-      this.$emit("bianbianbian", isChecked);
+      this.$emit("checkbox-change", isChecked);
       this.$emit("change", e);
     }
   },

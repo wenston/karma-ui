@@ -3,10 +3,13 @@
     <h3 class="layout__title">基本用法</h3>
     <k-table :data="table"
       :columns="columns"
-      size="big"></k-table>
+      has-checkbox
+      checkbox-key="name"
+      table-layout-auto></k-table>
     <h3 class="layout__title">自定义列</h3>
 
     <k-table :data="table1"
+      has-checkbox
       :columns="columns1">
       <template slot="xxx"
         slot-scope="{row}">
@@ -499,22 +502,18 @@ export default {
       ],
       columns: [
         {
-          style: { width: "100px" },
           field: "name",
           name: "姓名"
         },
         {
-          style: { width: "70px" },
           field: "age",
           name: "年龄"
         },
         {
-          style: { width: "150px" },
           field: "class",
           name: "班级"
         },
         {
-          style: { width: "70px" },
           field: "chinese",
           name: "语文"
         }
