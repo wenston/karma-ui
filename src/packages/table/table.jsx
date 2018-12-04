@@ -59,6 +59,9 @@ export default {
     toggleCheckedAll(b) {
       this.isCheckedAll = b
     },
+    emitSelectChange(arr) {
+      this.$emit('select-change',arr)
+    }
   },
   render() {
     let columns = this.columns
@@ -105,15 +108,18 @@ export default {
               {...{ props }}
               onTogglechecked={this.toggleCheckedAll}
             />
-            <k-table-body {...tableBodyProps} />
+            <k-table-body {...tableBodyProps}
+              onSelect-change={this.emitSelectChange} />
           </table>
         </div>
       )
     }
     return (
       <div class="k-table-wrapper">
-        <k-table-head {...{ props }} />
-        <k-table-body {...tableBodyProps} />
+        <k-table-head {...{ props }}
+          onTogglechecked={this.toggleCheckedAll} />
+        <k-table-body {...tableBodyProps}
+          onSelect-change={this.emitSelectChange} />
       </div>
     )
   },

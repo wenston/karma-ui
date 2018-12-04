@@ -61,7 +61,7 @@ export default {
       } else {
         this.data.forEach(row => {
           const k = this.formatCheckedKey(row)
-          set.delete(this.formatCheckedKey(row))
+          set.delete(k)
           let j = -1
           for(let i=0,len=this.checkedRows.length;i<len;i++) {
             if(k===this.formatCheckedKey(this.checkedRows[i])) {
@@ -75,21 +75,47 @@ export default {
         })
       }
       this.checkedKeys = [...set]
-      
+      this.emitSelectChange()
       //NOTE: 如果出现选不中的情况，需检查传入的checkboxKey是否有问题
     },
   },
   methods: {
+    emitSelectChange() {
+      this.$emit('select-change', JSON.parse(JSON.stringify(this.checkedRows)))
+    },
+    //复选，单行
     toggleRow(e,row,index) {
+      const k = this.formatCheckedKey(row)
       let set = new Set(this.checkedKeys)
       if(e.target.checked) {
-        set.add(this.formatCheckedKey(row))
+        set.add(k)
+        let has = false
+        for(let i=0,len=this.checkedRows.length;i<len;i++) {
+          if(k===this.formatCheckedKey(this.checkedRows[i])) {
+            has = true
+            break
+          }
+        }
+        if(!has) {
+          this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+        }
       }else{
-        set.delete(this.formatCheckedKey(row))
+        set.delete(k)
+        let j = -1
+        for(let i=0,len=this.checkedRows.length;i<len;i++) {
+          if(k===this.formatCheckedKey(this.checkedRows[i])) {
+            j = i
+            break
+          }
+        }
+        if(j>-1) {
+          this.checkedRows.splice(j,1)
+        }
       }
       this.checkedKeys = [...set]
-      console.log(this.checkedKeys)
+      this.emitSelectChange()
     },
+    //格式化checkboxKey
     formatCheckedKey(row) {
       let keys = this.checkboxKey.trim().split(','),
         result = ''

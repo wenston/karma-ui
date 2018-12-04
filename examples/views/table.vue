@@ -5,12 +5,14 @@
       :columns="columns"
       has-checkbox
       checkbox-key="name"
-      table-layout-auto></k-table>
+      table-layout-auto
+      @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
     <k-table :data="table1"
       has-checkbox
-      :columns="columns1">
+      :columns="columns1"
+      @select-change="onSelectChange">
       <template slot="xxx"
         slot-scope="{row}">
         <a :class="css.code"
@@ -606,7 +608,11 @@ export default {
       }]
     };
   },
-  methods: {}
+  methods: {
+    onSelectChange(arr) {
+      console.log(arr)
+    }
+  }
 };
 </script>
 <style lang="postcss" module="css">
