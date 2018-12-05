@@ -159,24 +159,25 @@
   /*popup*/
   --popup-z-index: 9998;
   --popup-radius: var(--radius);
-  --popup-mask-bg-color: color(rgb(0,0,0) a(55%));
+  --popup-mask-bg-color: color(rgb(0,0,0) a(40%));
   --popup-container-width: 300px;
   --popup-container-bg-color: var(--bg-color);
-  --popup-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, .2);
-  --popup-header-bg-color-1: var(--primary-color);
-  --popup-header-bg-color-2: var(--primary-gradient-color);
+  --popup-box-shadow: 0px 8px 10px -9px rgba(0, 0, 0, .5);
+  --popup-header-bg-color-1: #e0e0e0;
+  --popup-header-bg-color-2: #e0e0e0;
   --popup-header-padding: 0 15px;
   --popup-header-height: 30px;
   --popup-header-border-color: color(var(--popup-header-bg-color) b(10%));
   --popup-header-title-font-size:12px;
-  --popup-header-title-color:white;
+  --popup-header-title-color:var(--font-color-2);
   --popup-content-min-height: 70px;
   --popup-content-padding: 15px;
   --popup-content-bg-color: var(--bg-color);
-  --popup-footer-padding: 10px 15px 15px;
-  --popup-footer-text-align: center;
-  --popup-close-btn-color: #f1f1f1;
-  --popup-close-btn-hover-color: white;
+  --popup-footer-padding: 7px 15px 10px;
+  --popup-footer-text-align: right;
+  --popup-footer-border-top: 1px solid #e0e0e0;
+  --popup-close-btn-color: var(--font-color-2);
+  --popup-close-btn-hover-color: var(--font-color-1);
 
   /*loading*/
   --loading-bg-color:color(#07192c a(70%));

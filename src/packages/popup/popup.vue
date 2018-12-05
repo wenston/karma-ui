@@ -1,30 +1,30 @@
 <template>
-  <transition>
-    <!-- 直接写 :name="css.fade" 没有作用！ -->
+  <transition name="k-t-fade">
     <div :class="[
         'k-popup',
         layout.indexOf('mask')>-1?'k-popup--mask':'k-popup--transparent'
-      ]" 
+      ]"
       v-if="show">
-      <div class="k-popup__wrapper">
+      <div v-if="show"
+        class="k-popup__wrapper">
         <div class="k-popup__container"
           v-dnd="{handlerClass:'k-popup__header__title'}">
-          <i class="k-icon-cancel k-popup__close" 
+          <i class="k-icon-cancel k-popup__close"
             v-if="layout.indexOf('close')>-1"
             @click.stop="onCancel"></i>
           <slot name="header">
-            <div class="k-popup__header" 
+            <div class="k-popup__header"
               v-show="layout.indexOf('header')>-1">
               <div class="k-popup__header__title">
                 <b>{{title}}</b>
               </div>
             </div>
           </slot>
-          <div class="k-popup__body" 
+          <div class="k-popup__body"
             v-if="layout.indexOf('body')>-1">
             <div class="k-popup__content">
               <slot name="body">
-                
+
               </slot>
               <slot></slot>
             </div>
@@ -33,8 +33,11 @@
             v-if="layout.indexOf('footer')>-1">
             <div class="k-popup__footer__con">
               <slot name="footer">
-                <k-button type="primary" @click="onOk">{{okText}}</k-button>
-                <k-button @click="onCancel">{{cancelText}}</k-button>
+                <k-button @click="onCancel"
+                  :size="buttonSize">{{cancelText}}</k-button>
+                <k-button type="primary"
+                  @click="onOk"
+                  :size="buttonSize">{{okText}}</k-button>
               </slot>
             </div>
           </div>
@@ -45,8 +48,8 @@
 </template>
 <script>
 // 有关弹框宽度，可以对插入的body宽度进行设置。
-import KButton from "karma-ui/packages/button/button"
-import dnd from "karma-ui/directives/dnd/bind.js"
+import KButton from "karma-ui/packages/button/button";
+import dnd from "karma-ui/directives/dnd/bind.js";
 export default {
   name: "KPopup",
   components: {
@@ -74,30 +77,34 @@ export default {
     layout: {
       type: String,
       default: "header,body,footer,close,mask"
+    },
+    buttonSize: {
+      type: String,
+      default: "medium"
     }
   },
   methods: {
     onOk() {
-      this.$emit("after:ok")
+      this.$emit("after:ok");
     },
     onCancel() {
-      this.$emit("update:show", false)
-      this.$emit("after:cancel")
+      this.$emit("update:show", false);
+      this.$emit("after:cancel");
     },
     esc(e) {
       if (e.keyCode == 27) {
-        this.show && this.onCancel()
+        this.show && this.onCancel();
       }
     }
   },
   mounted() {
-    document.addEventListener("keyup", this.esc)
+    document.addEventListener("keyup", this.esc);
   },
   beforeDestroy() {
-    document.removeEventListener("keyup", this.esc)
+    document.removeEventListener("keyup", this.esc);
   },
   directives: {
     dnd
   }
-}
+};
 </script>

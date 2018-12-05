@@ -17,3 +17,33 @@
     transition: .25s ease;
   }
 }
+.k-t-fade {
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+  }
+  &-enter-to,
+  &-leave {
+    opacity: 1;
+  }
+  &-enter-active,
+  &-leave-active {
+    transition: .25s ease;
+  }
+}
+.k-t-scale {
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+    transform: scale(1,0);
+  }
+  &-enter-to,
+  &-leave {
+    opacity: 1;
+    transform: scale(1,1);
+  }
+  &-enter-active,
+  &-leave-active {
+    transition: .25s ease;
+  }
+}

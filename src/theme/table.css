@@ -4,33 +4,44 @@
   overflow: auto;
   box-shadow: inset 0 0 0 1px var(--table-border-color);
   border-radius: var(--table-radius);
+
   &:after,
   &:before {
-    content:'';
-    display:table;
+    content: '';
+    display: table;
     clear: both;
   }
+
   .k-table-head {
     position: relative;
   }
+
   .k-table-body {
     margin-top: -1px;
     float: left;
     overflow: hidden auto;
   }
+
   .k-table {
     border-collapse: collapse;
     width: fit-content;
     /* white-space: nowrap; */
     table-layout: fixed;
-    > thead > tr {
+
+    >thead>tr {
       background-color: var(--table-head-bg-color);
     }
-    @each $name in (huge,large,big,medium,small,mini) {
+
+    >tbody>tr {
+      background-color: white;
+    }
+
+    @each $name in (huge, large, big, medium, small, mini) {
       &.k-table--$(name) {
-        font-size:var(--table-$(name)-font-size);
-        & > thead > tr > th,
-        & > tbody > tr > td {
+        font-size: var(--table-$(name)-font-size);
+
+        &>thead>tr>th,
+        &>tbody>tr>td {
           height: var(--table-$(name));
           /* line-height: calc(var(--table-$(name)) - 1px); */
           line-height: normal;
@@ -38,26 +49,32 @@
         }
       }
     }
+
     &--bordered {
       border: var(--table-border);
-      & > thead > tr > th,
-      & > tbody > tr > td {
+
+      &>thead>tr>th,
+      &>tbody>tr>td {
         border: var(--table-border);
       }
     }
+
     &--stripe {
-      & > tbody > tr:nth-child(2n) {
+      &>tbody>tr:nth-child(2n) {
         background-color: var(--table-stripe-bg-color);
       }
-      & > tbody > tr:nth-child(2n-1) {
+
+      &>tbody>tr:nth-child(2n-1) {
         background-color: white;
       }
     }
+
     &--hover {
-      & > tbody > tr:hover {
+      &>tbody>tr:hover {
         background-color: var(--table-hover-bg-color);
       }
     }
+
     &--auto {
       width: 100%;
       table-layout: auto;
