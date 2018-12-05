@@ -24,12 +24,14 @@
         </template>
       </ul>
     </k-scrollbar>
-    <k-scrollbar class="home__content"
+    <!-- <k-scrollbar class="home__content"
       ref="scrollbar"
-      @scroll="onScroll">
+      @scroll="onScroll"> -->
+    <div class="home__content">
         <router-view @view-updated="pageUpdated"
         @scroll-into-view="scrollIntoView($event)"></router-view>
-    </k-scrollbar>
+    </div>
+    <!-- </k-scrollbar> -->
     <k-to-top></k-to-top>
   </div>
 </template>

@@ -25,14 +25,14 @@
     </z-input>
     <!-- 如果是v-if，则子组件不会被created/mounted，直到显示子组件的时候，才会实例化。所以初始化值时就初始化不上了 -->
     <transition name="k-transition-slide-down">
-      <scrollbar 
+      <!-- <scrollbar 
         v-show="ifOptionList"
         class="k-select__list"
-        >
-        <ul ref="list">
+        > -->
+        <ul v-show="ifOptionList" class="k-select__list" ref="list">
           <slot></slot>
         </ul>
-      </scrollbar>
+      <!-- </scrollbar> -->
     </transition>
   </div>
 </template>

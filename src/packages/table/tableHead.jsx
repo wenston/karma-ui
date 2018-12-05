@@ -32,6 +32,11 @@ export default {
         [`k-table--${this.size}`]: true,
       }
     },
+    headStyles() {
+      return {
+        
+      }
+    }
   },
   methods: {
     toggleCheckedAll(e) {
@@ -72,7 +77,8 @@ export default {
     }
     return (
       <div class={this.headWrapperClasses}>
-        <table class={this.headClasses}>
+        <table class={this.headClasses}
+          style={this.headStyles}>
           <k-col-group columns={this.columns} />
           <thead>{this.renderTableHead()}</thead>
         </table>

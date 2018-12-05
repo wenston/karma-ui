@@ -15,7 +15,7 @@
     background-color: var(--select-option-bg-color);
     box-shadow: var(--select-option-box-shadow);
     max-height: var(--select-option-max-height);
-    overflow: hidden;
+    overflow-x: hidden;
     transition: var(--transition);
     transform-origin: top;
     will-change: transform;

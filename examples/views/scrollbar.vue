@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 20px;">
-    <k-button @click="scroll('r1')">滚动到1</k-button>
-    <k-button @click="scroll('r2')">滚动到2</k-button>
+    <!-- <k-button @click="scroll('r1')">滚动到1</k-button>
+    <k-button @click="scroll('r2')">滚动到2</k-button> -->
     <div class="boxbox">
       <div class="box"
         v-for="n in m"
@@ -14,15 +14,15 @@
     <div>
       <k-button @click="onChange">内容变化</k-button>{{m}}
     </div>
-    <div ref="r1">
+    <!-- <div ref="r1">
       滚动到此1
-    </div>
+    </div> -->
     <div class="box" v-for="n in m" :key="n">
       {{n}}
     </div>
-    <div ref="r2">
+    <!-- <div ref="r2">
       滚动到此2
-    </div>
+    </div> -->
   </div>
 </template>
 

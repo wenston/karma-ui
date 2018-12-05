@@ -37,6 +37,11 @@ export default {
         'k-table--hover': this.hover,
       }
     },
+    tableStyles() {
+      return {
+        
+      }
+    }
   },
   watch: {
     isCheckedAll(nv, ov) {
@@ -196,13 +201,25 @@ export default {
             //--start 定义单元格内容
             //目前只支持2级表格
             let cellContent = null
+            const f = fields
             if (fieldsLength === 1) {
               cellContent = row[col.field]
             } else {
-              const f = fields
               cellContent = row[f[0]][i][f[1]]
             }
             cellContent = this.addFields(row, col, index, cellContent)
+            //如果有作用域插槽
+            if (col.scopedSlots) {
+              cellContent = this.bodyScopedSlots[col.scopedSlots]({
+                row,
+                row1:row[f[0]][i],
+                index,
+                index1:i
+              })
+              //如果有自定义渲染函数
+            } else if (col.customRender) {
+              cellContent = col.customRender(row, index)
+            }
             if (rowspan > 1) {
               if (fieldsLength === 1 && i === 0) {
                 return (
@@ -258,7 +275,8 @@ export default {
     }
     return (
       <div class={bodyWrapperClasses}>
-        <table class={tableClasses}>
+        <table class={tableClasses}
+          style={this.tableStyles}>
           <k-col-group columns={this.columns} />
           <tbody>{this.renderTableBody()}</tbody>
         </table>

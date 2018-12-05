@@ -4,12 +4,19 @@
   overflow: auto;
   box-shadow: inset 0 0 0 1px var(--table-border-color);
   border-radius: var(--table-radius);
-
+  &:after,
+  &:before {
+    content:'';
+    display:table;
+    clear: both;
+  }
   .k-table-head {
-
+    position: relative;
   }
   .k-table-body {
     margin-top: -1px;
+    float: left;
+    overflow: hidden auto;
   }
   .k-table {
     border-collapse: collapse;

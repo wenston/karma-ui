@@ -1,10 +1,12 @@
 import { props } from './_util/props'
 import KTableHead from './tableHead'
 import KTableBody from './tableBody'
+import KColGroup from './colGroup'
 export default {
   components: {
     KTableHead,
     KTableBody,
+    KColGroup
   },
   name: 'KTable',
   props: {
@@ -33,12 +35,12 @@ export default {
     },
     cellWidth() {
       const size = {
-        mini: '28px',
-        small: '30px',
-        medium: '33px',
-        big: '36px',
-        large: '40px',
-        huge: '46px',
+        mini: '28',
+        small: '30',
+        medium: '33',
+        big: '36',
+        large: '40',
+        huge: '46',
       }
       return size[this.size]
     },
@@ -93,8 +95,8 @@ export default {
       ]
     }
 
-    const props = { ...this.$props, columns, isCheckedAll: this.isCheckedAll }
-    const tableBodyProps = {
+    let props = { ...this.$props, columns, isCheckedAll: this.isCheckedAll }
+    let tableBodyProps = {
       props: {
         ...props,
         bodyScopedSlots: this.$scopedSlots,
@@ -104,6 +106,7 @@ export default {
       return (
         <div class="k-table-wrapper">
           <table {...this.getTableProps()}>
+            <k-col-group columns={this.columns} />
             <k-table-head
               {...{ props }}
               onTogglechecked={this.toggleCheckedAll}
@@ -113,6 +116,13 @@ export default {
           </table>
         </div>
       )
+    }
+
+    tableBodyProps = {
+      ...tableBodyProps,
+      style: {
+        height: this.height
+      }
     }
     return (
       <div class="k-table-wrapper">

@@ -8,13 +8,12 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 2.25;
   color:var(--font-color-1);
-  height: 100vh;
-  overflow: hidden;
+  height: 100%;
 }
 :any-link {
   color:var(--font-color-3);
   text-decoration: none;
   &:hover {
-    color:var(--font-color-5);
+    color:var(--font-color-1);
   }
 }

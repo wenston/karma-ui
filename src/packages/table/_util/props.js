@@ -56,5 +56,19 @@ export const props = {
   hasRadio: {
     type: Boolean,
     default: false
+  },
+  //表格宽度，默认情况下：tableLayoutAuto情况下是100%
+  //fixed情况下，无默认宽度
+  //NOTE: 宽度是给table元素的
+  // 取消此width参数，因为：在出现纵向滚动条的情况下，表头和主体可能会对不齐
+  // width: {
+  //   type: String,
+  //   default: ''
+  // },
+  //表格主题tbody高度，有高度的情况下，可以实现表头固定
+  //NOTE: 是给表格主题外部div的高度
+  height: {
+    type: String,
+    default: ''
   }
 }

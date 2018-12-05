@@ -10,9 +10,11 @@
     <h3 class="layout__title">自定义列</h3>
 
     <k-table :data="table1"
+      height="200px"
       has-checkbox
       :columns="columns1"
-      @select-change="onSelectChange">
+      @select-change="onSelectChange"
+      size="huge">
       <template slot="xxx"
         slot-scope="{row}">
         <a :class="css.code"
@@ -33,13 +35,20 @@
     </k-table>
     <h3 class="layout__title">根据数据自动合并行</h3>
     <k-table :data="table1"
-      :columns="columns2"></k-table>
+      :columns="columns2">
+      <template slot="ProCount"
+        slot-scope="{row1,index1}">
+        <k-input size="mini"
+          v-model="row1.ProCount"
+          block></k-input>
+      </template>
+    </k-table>
 
   </div>
 </template>
 
 <script>
-const table1 = [
+let table1 = [
   {
     SupplierId: 300048,
     SupplierName: "郑州捷信",
@@ -523,94 +532,114 @@ export default {
       table1,
       columns1: [
         {
-          style: { width: "150px" },
+          style: { width: "150" },
           field: "Code",
           name: "单号",
           scopedSlots: "xxx" //xxx是作用域插槽的名称
         },
         {
-          style: { width: "150px" },
+          style: { width: "150" },
           field: "SupplierName",
           name: "供应商"
         },
         {
-          style: { width: "80px",textAlign:'right' },
+          style: { width: "80", textAlign: "right" },
           field: "TotalPrice",
           name: "金额",
           scopedSlots: "TotalPrice"
         },
         {
-          style: { width: "100px" },
+          style: { width: "100" },
           field: "StoreName",
           name: "收货仓库"
         },
         {
-          style: { width: "200px" },
+          style: { width: "200" },
           field: "Detail",
           name: "商品",
           scopedSlots: "Detail"
         },
         {
-          style: { width: "70px" },
+          style: { width: "70" },
           field: "HandlerName",
           name: "经手人"
         },
         {
-          style: { width: "70px" },
+          style: { width: "70" },
           field: "UserNameAdded",
           name: "制单人"
         },
         {
-          style: { width: "160px" },
+          style: { width: "160" },
           field: "DateAdded",
           name: "制单时间"
         },
         {
-          style: { width: "60px" },
+          style: { width: "60" },
           field: "Status",
           name: "状态"
         },
         {
-          style: { width: "69px" },
+          style: { width: "69" },
           field: "PrintCount",
           name: "打印次数"
         }
       ],
       //根据数据自动合并行
-      columns2: [{
-        style: {width:'150px'},
-        field: 'Code',
-        name: '单号'
-      },{
-        style: {width:'120px'},
-        field: 'SupplierName',
-        name: '供应商'
-      },{
-        style: {width: '70px'},
-        field: 'Details.ProId',//json数组的情况
-        name: '编码'
-      },{
-        style: {width: '200px'},
-        field: 'Details.ProName',
-        name: '商品'
-      },{
-        style: {width: '60px'},
-        field: 'Details.ProCount',
-        name: '数量'
-      },{
-        style: {width: '100px'},
-        field: 'StoreName',
-        name: '收货仓库'
-      },{
-        style: {width: '100px'},
-        field: 'HandlerName',
-        name: '经手人'
-      }]
+      columns2: [
+        {
+          style: { width: "150" },
+          field: "Code",
+          name: "单号"
+        },
+        {
+          style: { width: "120" },
+          field: "SupplierName",
+          name: "供应商"
+        },
+        {
+          style: { width: "70" },
+          field: "Details.ProId", //json数组的情况
+          name: "编码"
+        },
+        {
+          style: { width: "200" },
+          field: "Details.ProName",
+          name: "商品"
+        },
+        {
+          style: { width: "60",padding:'0 3px' },
+          field: "Details.ProCount",
+          name: "数量",
+          scopedSlots: "ProCount"
+        },
+        {
+          style: { width: "100" },
+          field: "StoreName",
+          name: "收货仓库"
+        },
+        {
+          style: { width: "100" },
+          field: "HandlerName",
+          name: "经手人"
+        },
+        {
+          style: {width: '60'},
+          field: 'Action',
+          name: '操作',
+          customRender: (row,index) =>{
+            return <a href="javascript:;" onClick={()=>this.onDel(index)}>删除</a>
+          }
+        }
+      ]
     };
   },
   methods: {
     onSelectChange(arr) {
-      console.log(arr)
+      console.log(arr);
+    },
+    onDel(index) {
+      this.table1.splice(index,1)
     }
   }
 };
