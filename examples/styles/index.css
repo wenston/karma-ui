@@ -1,4 +1,4 @@
-@import 'var';
-@import 'base';
-@import 'home';
-@import 'common';
+@import 'var.css';
+@import 'base.css';
+@import 'home.css';
+@import 'common.css';
