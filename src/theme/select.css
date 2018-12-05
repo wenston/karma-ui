@@ -5,12 +5,12 @@
   line-height: normal;
   .k-select__list {
     padding: 0;
-    margin: 0;
+    margin-top: 2px;
     font-size: 12px;
     position: absolute;
     width: 100%;
     border: 1px solid var(--primary-color);
-    border-top: none;
+    border-radius: var(--radius);
     z-index: var(--select-option-z-index);
     background-color: var(--select-option-bg-color);
     box-shadow: var(--select-option-box-shadow);

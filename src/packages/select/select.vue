@@ -44,7 +44,7 @@ import ZInput from "karma-ui/packages/input/input.jsx.vue"
 import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
 import emitter from "karma-ui/mixins/emitter.js"
-import scrollbar from 'karma-ui/packages/scrollbar/'
+// import scrollbar from 'karma-ui/packages/scrollbar/'
 
 export default {
   mixins: [emitter],
@@ -52,7 +52,7 @@ export default {
   componentName: "KSelect",
   components: {
     ZInput,
-    scrollbar
+    // scrollbar
   },
   // provide() {
   //   return {
