@@ -17,7 +17,9 @@
     <!-- <div ref="r1">
       滚动到此1
     </div> -->
-    <div class="box" v-for="n in m" :key="n">
+    <div class="box"
+      v-for="n in m"
+      :key="n">
       {{n}}
     </div>
     <!-- <div ref="r2">
@@ -32,25 +34,25 @@ export default {
     return {
       m: 3,
       w: 100,
-      h: 100,
-    }
+      h: 100
+    };
   },
   methods: {
     onChange() {
-      this.m = Math.ceil(Math.random()*90)
-      this.w = Math.ceil(Math.random()*2500)
-      this.h = Math.ceil(Math.random()*2500)
+      this.m = Math.ceil(Math.random() * 90);
+      this.w = Math.ceil(Math.random() * 2500);
+      this.h = Math.ceil(Math.random() * 2500);
     },
     scroll(ref) {
-      this.$emit('scroll-into-view',this.$refs[ref])
+      this.$emit("scroll-into-view", this.$refs[ref]);
     }
   },
   updated() {
-    this.$nextTick(()=>{
-      this.$emit('view-updated')
-    })
+    // this.$nextTick(() => {
+    //   this.$emit("view-updated");
+    // });
   }
-}
+};
 </script>
 <style lang="postcss" scoped>
 .bb {

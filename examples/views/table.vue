@@ -35,7 +35,8 @@
     </k-table>
     <h3 class="layout__title">根据数据自动合并行</h3>
     <k-table :data="table1"
-      :columns="columns2">
+      :columns="columns2"
+      has-radio>
       <template slot="ProCount"
         slot-scope="{row1,index1}">
         <k-input size="mini"
@@ -625,10 +626,10 @@ export default {
         },
         {
           style: {width: '60'},
-          field: 'Action',
+          field: 'Details.Action',
           name: '操作',
-          customRender: (row,index) =>{
-            return <a href="javascript:;" onClick={()=>this.onDel(index)}>删除</a>
+          customRender: ({row,row1,index1}) =>{
+            return <a href="javascript:;" onClick={()=>this.onDel(row,row1,index1)}>删除</a>
           }
         }
       ]
@@ -638,8 +639,9 @@ export default {
     onSelectChange(arr) {
       console.log(arr);
     },
-    onDel(index) {
-      this.table1.splice(index,1)
+    onDel(row,row1,index) {
+      console.log(row,row1,index)
+      // row.Details.splice(index,1)
     }
   }
 };

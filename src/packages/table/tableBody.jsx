@@ -218,7 +218,8 @@ export default {
               })
               //如果有自定义渲染函数
             } else if (col.customRender) {
-              cellContent = col.customRender(row, index)
+              //TODO: row1是undefined，需检查
+              cellContent = col.customRender({row, index,row1:row[f[0][i]],index1:i})
             }
             if (rowspan > 1) {
               if (fieldsLength === 1 && i === 0) {

@@ -19,7 +19,7 @@
 //     </div>
 //   </div>
 // </template>
-  /* NOTE: 1.（与本组件无关）当prop属性想要sync的时候，必须在组件传入此参数如
+/* NOTE: 1.（与本组件无关）当prop属性想要sync的时候，必须在组件传入此参数如
   /* <my-comp :allow="allow.sync"></my-comp>，否则不起作用。
    * NOTE: 2.当scrollbar组件内是router-view时，页面变化将不会触发到scrollbar组件
    * 此时需要手动，做法是：页面的updated钩子中写个回调，然后在router-view组件上
@@ -40,261 +40,266 @@
    *         待完成，带后续看具体需求再写。
    * 
   */
-  import { getStyle, offset } from 'karma-ui/util/dom'
-  import ScrollbarY from './ScrollbarY'
-  import ScrollbarX from './ScrollbarX'
-  // import {debounce} from 'karma-ui/util/throttle_debounce'
-  // import {throttle, debounce} from 'throttle-debounce'
-  export default {
-    name: 'KScrollbar',
-    components: {
-      ScrollbarY, ScrollbarX
+import { getStyle, offset } from "karma-ui/util/dom";
+import ScrollbarY from "./ScrollbarY";
+import ScrollbarX from "./ScrollbarX";
+// import {debounce} from 'karma-ui/util/throttle_debounce'
+// import {throttle, debounce} from 'throttle-debounce'
+export default {
+  name: "KScrollbar",
+  components: {
+    ScrollbarY,
+    ScrollbarX
+  },
+  props: {
+    trackStyle: Object,
+    thumbStyle: Object,
+    allowBodyScroll: {
+      type: Boolean,
+      default: false
     },
-    props: {
-      trackStyle: Object,
-      thumbStyle: Object,
-      allowBodyScroll:{
-        type:Boolean,
-        default:false
-      },
-      speed: {
-        type: Number,
-        default: 53
-      },
-      tag: {
-        type: String,
-        default: 'div'
-      }
+    speed: {
+      type: Number,
+      default: 53
     },
-    data() {
-      return {
+    tag: {
+      type: String,
+      default: "div"
+    }
+  },
+  data() {
+    return {
       //allow应该在内容高度小于等于容器高度的时候，自动设置成true
       //否则，将会出现：当鼠标在某个区域内滚动的时候，外部滚动条也滚动不了
-        allow: this.allowBodyScroll,
-        top: 0,
-        left: 0,
-        maxScrollTop: 0,
-        maxScrollLeft: 0,
-        contentHeight: 0, //内容高度
-        wrapperHeight: 0, //scrollbar组件最外部容器的高度
-        contentWidth: 0,
-        wrapperWidth: 0,
-        dragging: false,
+      allow: this.allowBodyScroll,
+      top: 0,
+      left: 0,
+      maxScrollTop: 0,
+      maxScrollLeft: 0,
+      contentHeight: 0, //内容高度
+      wrapperHeight: 0, //scrollbar组件最外部容器的高度
+      contentWidth: 0,
+      wrapperWidth: 0,
+      dragging: false
+    };
+  },
+  render() {
+    return (
+      <this.tag class="k-scrollbar" onWheel={this.onWheel}>
+        <ScrollbarY
+          ref="y"
+          content-height={this.contentHeight}
+          wrapper-height={this.wrapperHeight}
+          track-style={this.trackStyle}
+          thumb-style={this.thumbStyle}
+          onDragging={this.onDragging}
+        />
+        <ScrollbarX
+          ref="x"
+          content-width={this.contentWidth}
+          wrapper-width={this.wrapperWidth}
+          track-style={this.trackStyle}
+          thumb-style={this.thumbStyle}
+          onDragging={this.onDraggingX}
+        />
+        <div
+          class={{
+            "k-scrollbar__content": true,
+            "k-scrollbar-transition": !this.dragging
+          }}
+          ref="content"
+          style={{
+            marginTop: this.top * -1 + "px",
+            marginLeft: this.left * -1 + "px"
+          }}
+        >
+          {this.$slots.default}
+        </div>
+      </this.tag>
+    );
+  },
+  watch: {
+    left: "emitScroll",
+    top: "emitScroll"
+  },
+  methods: {
+    emitScroll() {
+      this.$emit("scroll", {
+        scrollTop: this.top,
+        scrollLeft: this.left,
+        wrapper: {
+          width: this.wrapperWidth,
+          height: this.wrapperHeight
+        },
+        content: {
+          width: this.contentWidth,
+          height: this.contentHeight
+        }
+      });
+    },
+    onDragging(thumbTop, h, isDragging) {
+      let top = (thumbTop * this.maxScrollTop) / (100 - h);
+      this.top = top;
+      this.dragging = isDragging;
+    },
+    onDraggingX(thumbLeft, w, isDragging) {
+      let left = (thumbLeft * this.maxScrollLeft) / (100 - w);
+      this.left = left;
+      this.dragging = isDragging;
+    },
+    onWheel(e) {
+      // console.log(e)
+      this.scrollY(e.deltaY);
+      this.dragging = false;
+      if (!this.allow) {
+        e.stopPropagation();
+        e.preventDefault();
       }
     },
-    render() {
-
-      return (
-        <this.tag class='k-scrollbar'
-          onWheel={this.onWheel}>
-          <ScrollbarY ref="y"
-            content-height={this.contentHeight}
-            wrapper-height={this.wrapperHeight}
-            track-style={this.trackStyle}
-            thumb-style={this.thumbStyle}
-            onDragging={this.onDragging} />
-          <ScrollbarX ref="x"
-            content-width={this.contentWidth}
-            wrapper-width={this.wrapperWidth}
-            track-style={this.trackStyle}
-            thumb-style={this.thumbStyle}
-            onDragging={this.onDraggingX} />
-          <div class={{
-              'k-scrollbar__content':true,
-              'k-scrollbar-transition':!this.dragging
-            }}
-            ref="content"
-            style={{marginTop:this.top*-1+'px',marginLeft:this.left*-1+'px'}}
-            >
-            {this.$slots.default}
-          </div>
-        </this.tag>
-      )
+    scrollY(y) {
+      const s = this.speed,
+        max = this.maxScrollTop;
+      let top = 0;
+      if (y > 0) {
+        top = s + this.top;
+      } else if (y < 0) {
+        top = this.top - s;
+      }
+      if (top < 0) {
+        top = 0;
+      } else if (top > max) {
+        top = max;
+      }
+      this.top = top;
+      //滚动条thumb位置
+      //由于dom的margin变化会反映到updated钩子，所以不需要再次调用scroll
+      // this.$refs.y.scroll(top)
     },
-    watch: {
-      left:'emitScroll',
-      top: 'emitScroll'
-    },
-    methods: {
-      emitScroll() {
-        this.$emit('scroll', {
-          scrollTop: this.top,
-          scrollLeft: this.left,
-          wrapper: {
-            width: this.wrapperWidth,
-            height: this.wrapperHeight
-          },
-          content: {
-            width: this.contentWidth,
-            height: this.contentHeight
-          }
-        })
-      },
-      onDragging(thumbTop, h, isDragging) {
-        let top = thumbTop * this.maxScrollTop / (100 - h)
-        this.top = top
-        this.dragging = isDragging
-      },
-      onDraggingX(thumbLeft, w, isDragging) {
-        let left = thumbLeft * this.maxScrollLeft / (100 - w)
-        this.left = left
-        this.dragging = isDragging
-      },
-      onWheel(e) {
-        // console.log(e)
-        this.scrollY(e.deltaY)
-        this.dragging = false
-        if(!this.allow) {
-          e.stopPropagation()
-          e.preventDefault()
-        }
-      },
-      scrollY(y) {
-        const s = this.speed,
-          max = this.maxScrollTop
-        let top = 0
-        if (y > 0) {
-          top = s + this.top
-        } else if (y < 0) {
-          top = this.top - s
-        }
-        if (top < 0) {
-          top = 0
-        } else if (top > max) {
-          top = max
-        }
-        this.top = top
-        //滚动条thumb位置
-        //由于dom的margin变化会反映到updated钩子，所以不需要再次调用scroll
-        // this.$refs.y.scroll(top)
-
-      },
-      getSize() {
-        //content只计算clientWidth和clientHeight不行，需加上margin和border
-        const el = this.$el,
-          content = this.$refs.content.children[0]
-        if(this.$refs.content.children.length>1) {
-          console.warn('scrollbar组件的slot只能有一个根节点')
-        }
-        // console.log(el.clientHeight)
-        if(!content) {
-          return {
-            elClientHeight: el.clientHeight,
-            elClientWidth: el.clientWidth,
-            contentWholeHeight: el.clientHeight,
-            contentWholeWidth: el.clientWidth
-          }
-        }
+    getSize() {
+      //content只计算clientWidth和clientHeight不行，需加上margin和border
+      const el = this.$el,
+        content = this.$refs.content.children[0];
+      if (this.$refs.content.children.length > 1) {
+        console.warn("scrollbar组件的slot只能有一个根节点");
+      }
+      // console.log(el.clientHeight)
+      if (!content) {
         return {
           elClientHeight: el.clientHeight,
           elClientWidth: el.clientWidth,
-          contentWholeHeight: content.clientHeight
-            +parseInt(getStyle(content,'margin-top'))
-            +parseInt(getStyle(content,'margin-bottom'))
-            +parseInt(getStyle(content,'border-top-width'))
-            +parseInt(getStyle(content,'border-bottom-width')),
-            // +parseInt(getStyle(el,'padding-top'))
-            // +parseInt(getStyle(el,'padding-bottom'))
-            // +parseInt(getStyle(el,'border-top-width'))
-            // +parseInt(getStyle(el,'border-bottom-width')),
-          contentWholeWidth: content.clientWidth
-            +parseInt(getStyle(content,'margin-left'))
-            +parseInt(getStyle(content,'margin-right'))
-            +parseInt(getStyle(content,'border-left-width'))
-            +parseInt(getStyle(content,'border-right-width'))
-            // +parseInt(getStyle(el,'padding-left'))
-            // +parseInt(getStyle(el,'padding-right'))
-            // +parseInt(getStyle(el,'border-left-width'))
-            // +parseInt(getStyle(el,'border-right-width'))
-        }
-      },
-      init() {
-        const size = this.getSize()
-        this.contentHeight = size.contentWholeHeight
-        this.wrapperHeight = size.elClientHeight
-        this.contentWidth = size.contentWholeWidth
-        this.wrapperWidth = size.elClientWidth
-        // console.log(size)
-        const
-          maxScrollTop = this.contentHeight - this.wrapperHeight,
-          maxScrollLeft = this.contentWidth - this.wrapperWidth
-        this.maxScrollTop = maxScrollTop < 0 ? 0 : maxScrollTop
-        this.maxScrollLeft = maxScrollLeft < 0 ? 0 : maxScrollLeft
-        let allow = this.allowBodyScroll
-        if(this.contentHeight<this.wrapperHeight) {
-          allow = true
-        }
-        this.allow = allow
-        
-      },
-      resetContentPosition() {
-        //调整content内容区域的marginTop/marginLeft
-        const maxScrollTop = this.maxScrollTop
-        const maxScrollLeft = this.maxScrollLeft
-        const top = this.top
-        const left = this.left
-        if (top > maxScrollTop) {
-          this.top = maxScrollTop
-        }
-        if(left > maxScrollLeft) {
-          this.left = maxScrollLeft
-        }
-        this.$refs.y.scroll(this.top)
-        this.$refs.x.scroll(this.left)
-      },
-      //组件外部调用
-      reset() {
-          this.$nextTick(() => {
-            this.init()
-            this.$nextTick(() => {
-              this.resetContentPosition()
-            })
-          })
-      },
-      //组件外部调用
-      scrollIntoView(elem) {
-        if(!elem) {
-          console.warn(`所选元素为${elem}，请检查`)
-          return
-        }
-        if(!this.$el.contains(elem)) {
-          console.warn(`scrollbar组件中不包含${elem}`)
-          return
-        }
-        let s = offset(elem,this.$el)
-        this.scrollTo(s.left,s.top)
-      },
-      //组件外部调用
-      scrollTo(x,y) {//x,的单位需是px
-        x= parseFloat(x)
-        y = parseFloat(y)
-        if(typeof x === 'number') {
-
-          this.left = x
-          this.$refs.x.scroll(x)
-        }
-        if(typeof y === 'number') {
-
-          this.top = y
-          this.$refs.y.scroll(y)
-        }
-      },
-      //组件外部调用
-      scrollToTop() {
-        this.scrollTo(0,0)
+          contentWholeHeight: el.clientHeight,
+          contentWholeWidth: el.clientWidth
+        };
+      }
+      return {
+        elClientHeight: el.clientHeight,
+        elClientWidth: el.clientWidth,
+        contentWholeHeight:
+          content.clientHeight +
+          parseInt(getStyle(content, "margin-top")) +
+          parseInt(getStyle(content, "margin-bottom")) +
+          parseInt(getStyle(content, "border-top-width")) +
+          parseInt(getStyle(content, "border-bottom-width")),
+        // +parseInt(getStyle(el,'padding-top'))
+        // +parseInt(getStyle(el,'padding-bottom'))
+        // +parseInt(getStyle(el,'border-top-width'))
+        // +parseInt(getStyle(el,'border-bottom-width')),
+        contentWholeWidth:
+          content.clientWidth +
+          parseInt(getStyle(content, "margin-left")) +
+          parseInt(getStyle(content, "margin-right")) +
+          parseInt(getStyle(content, "border-left-width")) +
+          parseInt(getStyle(content, "border-right-width"))
+        // +parseInt(getStyle(el,'padding-left'))
+        // +parseInt(getStyle(el,'padding-right'))
+        // +parseInt(getStyle(el,'border-left-width'))
+        // +parseInt(getStyle(el,'border-right-width'))
+      };
+    },
+    init() {
+      const size = this.getSize();
+      this.contentHeight = size.contentWholeHeight;
+      this.wrapperHeight = size.elClientHeight;
+      this.contentWidth = size.contentWholeWidth;
+      this.wrapperWidth = size.elClientWidth;
+      // console.log(size)
+      const maxScrollTop = this.contentHeight - this.wrapperHeight,
+        maxScrollLeft = this.contentWidth - this.wrapperWidth;
+      this.maxScrollTop = maxScrollTop < 0 ? 0 : maxScrollTop;
+      this.maxScrollLeft = maxScrollLeft < 0 ? 0 : maxScrollLeft;
+      let allow = this.allowBodyScroll;
+      if (this.contentHeight < this.wrapperHeight) {
+        allow = true;
+      }
+      this.allow = allow;
+    },
+    resetContentPosition() {
+      //调整content内容区域的marginTop/marginLeft
+      const maxScrollTop = this.maxScrollTop;
+      const maxScrollLeft = this.maxScrollLeft;
+      const top = this.top;
+      const left = this.left;
+      if (top > maxScrollTop) {
+        this.top = maxScrollTop;
+      }
+      if (left > maxScrollLeft) {
+        this.left = maxScrollLeft;
+      }
+      this.$refs.y.scroll(this.top);
+      this.$refs.x.scroll(this.left);
+    },
+    //组件外部调用
+    reset() {
+      this.$nextTick(() => {
+        this.init();
+        this.$nextTick(() => {
+          this.resetContentPosition();
+        });
+      });
+    },
+    //组件外部调用
+    scrollIntoView(elem) {
+      if (!elem) {
+        console.warn(`所选元素为${elem}，请检查`);
+        return;
+      }
+      if (!this.$el.contains(elem)) {
+        console.warn(`scrollbar组件中不包含${elem}`);
+        return;
+      }
+      let s = offset(elem, this.$el);
+      this.scrollTo(s.left, s.top);
+    },
+    //组件外部调用
+    scrollTo(x, y) {
+      //x,的单位需是px
+      x = parseFloat(x);
+      y = parseFloat(y);
+      if (typeof x === "number") {
+        this.left = x;
+        this.$refs.x.scroll(x);
+      }
+      if (typeof y === "number") {
+        this.top = y;
+        this.$refs.y.scroll(y);
       }
     },
-    mounted() {
-      this.$nextTick(() => {
-        this.init()
-      })
-      window.addEventListener('resize', this.reset)
-    },
-    updated() {
-      this.reset()
-    },
-    beforeDestroy() {
-      window.removeEventListener('resize', this.reset)
+    //组件外部调用
+    scrollToTop() {
+      this.scrollTo(0, 0);
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.init();
+    });
+    window.addEventListener("resize", this.reset);
+  },
+  updated() {
+    this.reset();
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.reset);
   }
+};
 </script>
