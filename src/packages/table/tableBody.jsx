@@ -35,6 +35,8 @@ export default {
         [`k-table--${this.size}`]: true,
         'k-table--stripe': this.stripe,
         'k-table--hover': this.hover,
+        'k-table--nowrap': this.nowrap,
+        'k-table--auto': this.tableLayoutAuto,
       }
     },
     tableStyles() {
@@ -271,9 +273,9 @@ export default {
   },
   render() {
     const { bodyWrapperClasses, tableClasses } = this
-    if (this.tableLayoutAuto) {
-      return <tbody>{this.renderTableBody()}</tbody>
-    }
+    // if (this.tableLayoutAuto) {
+    //   return <tbody>{this.renderTableBody()}</tbody>
+    // }
     return (
       <div class={bodyWrapperClasses}>
         <table class={tableClasses}
@@ -283,5 +285,5 @@ export default {
         </table>
       </div>
     )
-  },
+  }
 }

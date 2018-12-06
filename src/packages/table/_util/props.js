@@ -70,5 +70,10 @@ export const props = {
   height: {
     type: String,
     default: ''
+  },
+  //是否允许文本换行
+  nowrap: {
+    type: Boolean,
+    default: false
   }
 }

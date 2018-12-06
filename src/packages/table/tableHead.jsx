@@ -30,6 +30,8 @@ export default {
         'k-table': true,
         'k-table--bordered': this.bordered,
         [`k-table--${this.size}`]: true,
+        'k-table--nowrap': this.nowrap,
+        'k-table--auto': this.tableLayoutAuto,
       }
     },
     headStyles() {
@@ -72,9 +74,9 @@ export default {
     },
   },
   render() {
-    if (this.tableLayoutAuto) {
-      return <thead>{this.renderTableHead()}</thead>
-    }
+    // if (this.tableLayoutAuto) {
+    //   return <thead>{this.renderTableHead()}</thead>
+    // }
     return (
       <div class={this.headWrapperClasses}>
         <table class={this.headClasses}

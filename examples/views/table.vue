@@ -6,6 +6,8 @@
       has-checkbox
       checkbox-key="name"
       table-layout-auto
+      nowrap
+      height="200px"
       @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
@@ -510,24 +512,69 @@ export default {
           class: "三年级一班",
           chinese: "92",
           math: "100"
+        },
+        {
+          name: "小刚",
+          age: "9",
+          class: "三年级二班",
+          chinese: "93",
+          math: "97"
+        },
+        {
+          name: "小力",
+          age: "10",
+          class: "三年级三班",
+          chinese: "100",
+          math: "100"
+        },
+        {
+          name: "小娟",
+          age: "9",
+          class: "三年级一班",
+          chinese: "92",
+          math: "98"
+        },
+        {
+          name: "晓丽",
+          age: "10",
+          class: "三年级一班",
+          chinese: "91",
+          math: "91"
+        },
+        {
+          name: "志玲",
+          age: "9",
+          class: "三年级四班",
+          chinese: "99",
+          math: "98"
         }
       ],
       columns: [
         {
+          style: {width: 60},
           field: "name",
-          name: "姓名"
+          name: "姓名",
+          fixed: 'left'
         },
         {
+          style: {width: 60},
           field: "age",
           name: "年龄"
         },
         {
+          style: {width: 150},
           field: "class",
           name: "班级"
         },
         {
+          style: {width: 80},
           field: "chinese",
           name: "语文"
+        },
+        {
+          style: {width: 80},
+          field: "math",
+          name: "数学"
         }
       ],
       table1,
