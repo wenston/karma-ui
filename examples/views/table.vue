@@ -12,11 +12,11 @@
 
     <k-table :data="table1"
       height="200px"
-      has-checkbox
       :columns="columns1"
       @select-change="onSelectChange"
       width="fit-content"
-      size="small">
+      size="small"
+      :hover="false">
       <template slot="xxx"
         slot-scope="{row}">
         <a :class="css.code"
@@ -551,13 +551,13 @@ export default {
       ],
       columns: [
         {
-          style: {width: 60},
+          style: {width: 80},
           field: "name",
           name: "姓名",
           fixed: 'left'
         },
         {
-          style: {width: 60},
+          style: {width: 80},
           field: "age",
           name: "年龄"
         },
@@ -567,12 +567,12 @@ export default {
           name: "班级"
         },
         {
-          style: {width: 80},
+          style: {width: 90},
           field: "chinese",
           name: "语文"
         },
         {
-          style: {width: 80},
+          style: {width: 90},
           field: "math",
           name: "数学"
         }

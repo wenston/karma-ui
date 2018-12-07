@@ -24,11 +24,18 @@ export default {
     __radio: '@_radio',
   },
   computed: {
-    wrapperClasses() {
-      const { fixedLeft, fixedRight } = this.hasFixedColumns
+    leftWrapperClasses() {
+      const { fixedLeft } = this.hasFixedColumns
       return {
         'k-table-wrapper': true,
         'k-table-wrapper--fixed_left': fixedLeft,
+      }
+    },
+    rightWrapperClasses() {
+      const { fixedRight } = this.hasFixedColumns
+      return {
+        'k-table-wrapper': true,
+        'k-table-wrapper--fixed_right': fixedRight,
       }
     },
     tableClass() {
@@ -37,7 +44,6 @@ export default {
         'k-table--bordered': this.bordered,
         [`k-table--${this.size}`]: true,
         'k-table--stripe': this.stripe,
-        'k-table--hover': this.hover,
         'k-table--auto': this.tableLayoutAuto,
         'k-table--nowrap': this.nowrap,
       }
@@ -55,24 +61,24 @@ export default {
     },
     //是否存在固定列（左，右）
     hasFixedColumns() {
-      let fixedLeft = false,
-        fixedRight = false
+      let fixedLeft = 0,
+        fixedRight = 0
       this.columns.forEach(col => {
         const f = col.fixed
-        if (f) {
-          if (typeof f === 'boolean') {
-            fixedLeft = f
-          } else if (typeof f === 'string') {
-            const ff = f.trim().toLowerCase()
-            if (ff === 'right') {
-              fixedRight = true
-            }
-            if (ff !== 'right') {
-              fixedLeft = true
-            }
-          }
+        if (f === 'left') {
+          fixedLeft += 1
+        }else if( f==='right') {
+          fixedRight += 1
         }
       })
+      if(fixedLeft>0) {
+        if(this.hasCheckbox || this.hasRadio) {
+          fixedLeft += 1
+        }
+        if(this.hasIndex) {
+          fixedLeft += 1
+        }
+      }
       return { fixedLeft, fixedRight }
     },
   },
@@ -128,7 +134,6 @@ export default {
       const w = el.clientWidth
       el.style.overflowY = oldOverflowY
       const wScroll = el.clientWidth
-      console.log(w - wScroll)
       return w - wScroll
     },
     //如果出现了纵向滚动条，
@@ -137,13 +142,100 @@ export default {
     //此时需要给thead外层的div一个padding-right:滚动条宽度
     //才能对齐
     justifyColumns() {
-      if (this.height) {
-        const body = this.$refs.tbodyWrapper.$el,
-          head = this.$refs.theadWrapper.$el,
-          scrollbarWidth = this.getScrollBarWidth(body)
-        head.style.paddingRight = scrollbarWidth + 'px'
-      }
+      this.$nextTick(()=>{
+        if (this.height) {
+          const el = this.$refs.mainTable
+            , body = el.querySelector('.k-table-body')
+            , head = el.querySelector('.k-table-head')
+            , scrollbarWidth = this.getScrollBarWidth(body)
+            , leftTable = this.$refs.leftTable
+            , rightTable = this.$refs.rightTable
+          head.style.paddingRight = scrollbarWidth + 'px'
+
+          if(leftTable ) {
+            leftTable.querySelector('.k-table-head').style.paddingRight = scrollbarWidth + 'px'
+
+          }
+          if(rightTable) {
+            rightTable.querySelector('.k-table-head').style.paddingRight = scrollbarWidth + 'px'
+          }
+        }
+      })
     },
+    //当有固定列时，需要根据主体表格宽度动态计算那些固定的总列宽
+    calcColumnsWidth() {
+      this.$nextTick(()=>{
+        const {leftTable,rightTable,mainTable} = this.$refs
+          , {fixedLeft, fixedRight} = this.hasFixedColumns
+        if(leftTable || rightTable) {
+          //获取主体表格的table实际宽度，以便在窗口大小变化时动态赋给left和right表格的table元素
+          const mainTableEl = mainTable.querySelector('table')
+          const w = getStyle(mainTableEl, 'width')
+          // console.log(mw)
+          // console.log(leftTable.querySelectorAll('table'))
+          if(leftTable) {
+            const tables = leftTable.querySelectorAll('table')
+              , th = [...mainTable.querySelectorAll('thead th')].slice(0,fixedLeft)
+            tables.forEach(table=>{
+              table.style.width = w
+            })
+            let thWidth = 0
+            th.forEach(el=>{
+              thWidth += parseFloat(getStyle(el,'width'))
+            })
+            leftTable.style.width = thWidth + 'px'
+            leftTable.style.overflowX = 'hidden'
+          }
+        }
+        
+      })
+    },
+    mainTableScroll() {
+      const {mainTable,leftTable} = this.$refs 
+        , scrollLeft = mainTable.scrollLeft
+        , cls = 'k-table-wrapper--fixed_left_shadow'
+      if(scrollLeft > 0) {
+        leftTable.classList.add(cls)
+      }else{
+        leftTable.classList.remove(cls)
+      }
+
+    },
+    bodyScroll(left,top) {
+      const {leftTable}  = this.$refs
+      leftTable.querySelector('.k-table-body table').style.marginTop = -top + 'px'
+    },
+    trMouseover(row,index) {
+      const {leftTable,mainTable,rightTable} = this.$refs
+      this.hoverTr(mainTable,index)
+      this.hoverTr(leftTable,index)
+      this.hoverTr(rightTable,index)
+    },
+    trMouseout(row,index) {
+      const {leftTable,mainTable,rightTable} = this.$refs
+      this.hoverTr(mainTable,index,false)
+      this.hoverTr(leftTable,index,false)
+      this.hoverTr(rightTable,index,false)
+    },
+    hoverTr(table,index,isIn = true) {
+      if(table) {
+        const tr = table.querySelectorAll('.k-table-body table tbody tr')
+        tr[index].classList[isIn?'add':'remove']('k-table-tr-hover')
+      }
+    }
+  },
+  mounted() {
+    this.justifyColumns()
+    this.calcColumnsWidth()
+    window.addEventListener('resize', this.justifyColumns)
+    window.addEventListener('resize', this.calcColumnsWidth)
+  },
+  updated() {
+    this.justifyColumns()
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.justifyColumns)
+    window.removeEventListener('resize', this.calcColumnsWidth)
   },
   render() {
     const { fixedLeft, fixedRight } = this.hasFixedColumns
@@ -164,6 +256,9 @@ export default {
         {...tableBodyProps}
         ref="tbodyWrapper"
         onSelect-change={this.emitSelectChange}
+        onBodyscroll={this.bodyScroll}
+        onTrmouseover={this.trMouseover}
+        onTrmouseout={this.trMouseout}
       />
     )
     //table的thead
@@ -176,7 +271,9 @@ export default {
     )
     //表格主体
     const mainTable = (
-      <div class="k-table-wrapper">
+      <div class="k-table-wrapper"
+        ref="mainTable"
+        onScroll={this.mainTableScroll}>
         {thead}
         {tbody}
       </div>
@@ -185,7 +282,19 @@ export default {
     let fixedLeftTable = null
     if (fixedLeft) {
       fixedLeftTable = (
-        <div class={this.wrapperClasses}>
+        <div class={this.leftWrapperClasses}
+          ref="leftTable">
+          {thead}
+          {tbody}
+        </div>
+      )
+    }
+    //右侧固定列时，复制出右固定表格
+    let fixedRightTable = null
+    if(fixedRight) {
+      fixedRightTable = (
+        <div class={this.rightWrapperClasses}
+          ref="rightTable">
           {thead}
           {tbody}
         </div>
@@ -195,17 +304,8 @@ export default {
       <div class="k-table-outer">
         {mainTable}
         {fixedLeftTable}
+        {fixedRightTable}
       </div>
     )
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.justifyColumns()
-    })
-  },
-  updated() {
-    this.$nextTick(() => {
-      this.justifyColumns()
-    })
-  },
+  }
 }

@@ -34,13 +34,24 @@ export default {
         'k-table--bordered': this.bordered,
         [`k-table--${this.size}`]: true,
         'k-table--stripe': this.stripe,
-        'k-table--hover': this.hover,
         'k-table--nowrap': this.nowrap
       }
     },
     tableStyles() {
       return {
         width: this.width
+      }
+    },
+    trProps() {
+      return {
+        on: {
+          mouseover:(e)=> {
+            console.log(e.target)
+          },
+          mouseout:()=> {
+
+          }
+        }
       }
     }
   },
@@ -165,6 +176,18 @@ export default {
 
       return field
     },
+    //渲染tr
+    renderTr(column,row,index) {
+      const on = {
+        mouseover:()=> {
+          this.$emit('trmouseover',row,index)
+        },
+        mouseout:()=> {
+          this.$emit('trmouseout',row,index)
+        }
+      }
+      return this.hover?<tr {...{on}}>{column}</tr>:<tr>{column}</tr>
+    },
     //渲染单元格
     renderTableCell(row, col, index) {
       const { width, ...restStyle } = { width: '', ...col.style }
@@ -237,7 +260,7 @@ export default {
             return <k-cell style={restStyle}>{cellContent}</k-cell>
             //--end
           })
-          return <tr>{column}</tr>
+          return this.renderTr(column, row, index)
         })
         tbody.push(tr)
       })
@@ -265,10 +288,13 @@ export default {
         const column = columns.map(col => {
           return this.renderTableCell(row, col, index)
         })
-        tbody.push(<tr>{column}</tr>)
+        tbody.push(this.renderTr(column, row, index))
       })
       return tbody
     },
+    bodyScroll(e) {
+      this.$emit('bodyscroll',e.target.scrollLeft,e.target.scrollTop)
+    }
   },
   render() {
     const { bodyWrapperClasses, tableClasses } = this
@@ -276,7 +302,8 @@ export default {
     //   return <tbody>{this.renderTableBody()}</tbody>
     // }
     return (
-      <div class={bodyWrapperClasses}>
+      <div class={bodyWrapperClasses}
+        onScroll={()=>{this.bodyScroll($event)}}>
         <table class={tableClasses}
           style={this.tableStyles}>
           <k-col-group columns={this.columns} />

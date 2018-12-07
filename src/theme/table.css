@@ -23,6 +23,10 @@
     position: absolute;
     right:0;
     top: 0;
+    width: 100%;
+  }
+  &--fixed_left_shadow {
+    box-shadow: var(--table-fixed-left-shadow);
   }
 
   .k-table-head {
@@ -82,14 +86,12 @@
       }
     }
 
-    &--hover {
-      &>tbody>tr:hover {
-        background-color: var(--table-hover-bg-color);
-      }
-    }
 
     &--nowrap {
       white-space: nowrap;
     }
   }
+}
+.k-table-tr-hover {
+  background-color: var(--table-hover-bg-color) !important;
 }
