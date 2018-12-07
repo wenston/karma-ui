@@ -6,7 +6,7 @@ export default {
   methods: {
     renderCols() {
       return this.columns.map(col => {
-        const {width,...restStyle} = {width: '',...col.style}
+        const {width,...restStyle} = {width: 120,...col.style}
         return <col width={width}></col>
       })
     }

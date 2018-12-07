@@ -5,8 +5,9 @@ export const props = {
   data: Array,
   //列名及对应的描述
   //field必须要有
-  //style里的宽度必须要有，否则在table-layout:fixed的情况下宽度为0
+  //style里的宽度如果没有指定，则会有一个默认的120px的宽度，见colGroup.jsx
   /**
+   * 
    *  [{field:'字段名',name:'文本描述',scopedSlots:'slotName',style:{}}]
    */
   columns: Array,
@@ -57,14 +58,17 @@ export const props = {
     type: Boolean,
     default: false
   },
-  //表格宽度，默认情况下：tableLayoutAuto情况下是100%
+  //表格宽度，默认情况下：是100%，即：各个列都是等宽
+  //，且各个列的宽之和是等于表格总宽度的
+  //取值是css的width可以接收的任何属性
   //fixed情况下，无默认宽度
   //NOTE: 宽度是给table元素的
-  // 取消此width参数，因为：在出现纵向滚动条的情况下，表头和主体可能会对不齐
-  // width: {
-  //   type: String,
-  //   default: ''
-  // },
+  //取值建议：默认的100%或者是fit-content，不建议小于100%或者其他值
+  //因为可能会出现滚动条出现在外框最右侧的情况
+  width: {
+    type: String,
+    default: ''
+  },
   //表格主题tbody高度，有高度的情况下，可以实现表头固定
   //NOTE: 是给表格主题外部div的高度
   height: {

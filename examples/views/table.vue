@@ -5,7 +5,6 @@
       :columns="columns"
       has-checkbox
       checkbox-key="name"
-      table-layout-auto
       nowrap
       height="200px"
       @select-change="onSelectChange"></k-table>
@@ -16,7 +15,8 @@
       has-checkbox
       :columns="columns1"
       @select-change="onSelectChange"
-      size="huge">
+      width="fit-content"
+      size="small">
       <template slot="xxx"
         slot-scope="{row}">
         <a :class="css.code"
@@ -580,10 +580,11 @@ export default {
       table1,
       columns1: [
         {
-          style: { width: "150" },
+          // style: { width: "150" },
           field: "Code",
           name: "单号",
-          scopedSlots: "xxx" //xxx是作用域插槽的名称
+          scopedSlots: "xxx", //xxx是作用域插槽的名称
+          fixed: 'left'
         },
         {
           style: { width: "150" },

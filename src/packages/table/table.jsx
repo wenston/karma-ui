@@ -181,7 +181,7 @@ export default {
         {tbody}
       </div>
     )
-    //固定列时，复制出来的另一个左表格
+    //固定列时，复制出来的另一个左固定表格
     let fixedLeftTable = null
     if (fixedLeft) {
       fixedLeftTable = (

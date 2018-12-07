@@ -30,13 +30,12 @@ export default {
         'k-table': true,
         'k-table--bordered': this.bordered,
         [`k-table--${this.size}`]: true,
-        'k-table--nowrap': this.nowrap,
-        'k-table--auto': this.tableLayoutAuto,
+        'k-table--nowrap': this.nowrap
       }
     },
     headStyles() {
       return {
-        
+        width: this.width
       }
     }
   },
@@ -60,15 +59,7 @@ export default {
         } else if (this.hasRadio && col.field === this.__radio) {
           name = ''
         }
-        if (this.tableLayoutAuto) {
-          return (
-            <k-cell tag="th" style={col.style}>
-              {name}
-            </k-cell>
-          )
-        } else {
-          return <k-cell tag="th">{name}</k-cell>
-        }
+        return <k-cell tag="th">{name}</k-cell>
       })
       return <tr>{ths}</tr>
     },

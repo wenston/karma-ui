@@ -35,13 +35,12 @@ export default {
         [`k-table--${this.size}`]: true,
         'k-table--stripe': this.stripe,
         'k-table--hover': this.hover,
-        'k-table--nowrap': this.nowrap,
-        'k-table--auto': this.tableLayoutAuto,
+        'k-table--nowrap': this.nowrap
       }
     },
     tableStyles() {
       return {
-        
+        width: this.width
       }
     }
   },

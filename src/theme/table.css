@@ -17,6 +17,7 @@
     position: absolute;
     left: 0;
     top: 0;
+    width: 100%;
   }
   &--fixed_right {
     position: absolute;
@@ -36,7 +37,8 @@
 
   .k-table {
     border-collapse: collapse;
-    width: fit-content;
+    width: 100%;
+    /* width: fit-content; */
     table-layout: fixed;
 
     >thead>tr {
@@ -86,10 +88,6 @@
       }
     }
 
-    &--auto {
-      width: 100%;
-      /* table-layout: auto; */
-    }
     &--nowrap {
       white-space: nowrap;
     }
