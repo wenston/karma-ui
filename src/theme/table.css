@@ -28,6 +28,9 @@
   &--fixed_left_shadow {
     box-shadow: var(--table-fixed-left-shadow);
   }
+  &--fixed_right_shadow {
+    box-shadow: var(--table-fixed-right-shadow);
+  }
 
   .k-table-head {
     position: relative;

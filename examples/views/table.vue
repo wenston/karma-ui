@@ -16,7 +16,7 @@
       @select-change="onSelectChange"
       width="fit-content"
       size="small"
-      :hover="false">
+      :hover="true">
       <template slot="xxx"
         slot-scope="{row}">
         <a :class="css.code"
@@ -632,6 +632,12 @@ export default {
           style: { width: "69" },
           field: "PrintCount",
           name: "打印次数"
+        },
+        {
+          style: {width: '70'},
+          field: 'Action',
+          name: '操作',
+          // fixed: 'right'
         }
       ],
       //根据数据自动合并行

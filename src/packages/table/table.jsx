@@ -16,6 +16,8 @@ export default {
   data() {
     return {
       isCheckedAll: false,
+      currentScrollTarget: null,
+      timeout: null,
     }
   },
   provide: {
@@ -67,20 +69,38 @@ export default {
         const f = col.fixed
         if (f === 'left') {
           fixedLeft += 1
-        }else if( f==='right') {
+        } else if (f === 'right') {
           fixedRight += 1
         }
       })
-      if(fixedLeft>0) {
-        if(this.hasCheckbox || this.hasRadio) {
+      if (fixedLeft > 0) {
+        if (this.hasCheckbox || this.hasRadio) {
           fixedLeft += 1
         }
-        if(this.hasIndex) {
+        if (this.hasIndex) {
           fixedLeft += 1
         }
       }
       return { fixedLeft, fixedRight }
     },
+    // tableBodyProps() {
+    //   return {
+    //     props: {
+    //       ...this.$props,
+    //       isCheckedAll: this.isCheckedAll,
+    //       bodyScopedSlots: this.$scopedSlots
+    //     },
+    //     style: {
+    //       height: this.height
+    //     },
+    //     on: {
+    //       'select-change':'emitSelectChange',
+    //       bodyscroll:'bodyScroll',
+    //       trmouseover: 'trMouseover',
+    //       trmouseout:'trMouseout'
+    //     }
+    //   }
+    // }
   },
   methods: {
     getTableProps() {
@@ -142,87 +162,141 @@ export default {
     //此时需要给thead外层的div一个padding-right:滚动条宽度
     //才能对齐
     justifyColumns() {
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         if (this.height) {
-          const el = this.$refs.mainTable
-            , body = el.querySelector('.k-table-body')
-            , head = el.querySelector('.k-table-head')
-            , scrollbarWidth = this.getScrollBarWidth(body)
-            , leftTable = this.$refs.leftTable
-            , rightTable = this.$refs.rightTable
+          const el = this.$refs.mainTable,
+            body = el.querySelector('.k-table-body'),
+            head = el.querySelector('.k-table-head'),
+            scrollbarWidth = this.getScrollBarWidth(body),
+            leftTable = this.$refs.leftTable,
+            rightTable = this.$refs.rightTable
           head.style.paddingRight = scrollbarWidth + 'px'
 
-          if(leftTable ) {
-            leftTable.querySelector('.k-table-head').style.paddingRight = scrollbarWidth + 'px'
-
+          if (leftTable) {
+            leftTable.querySelector('.k-table-head').style.paddingRight =
+              scrollbarWidth + 'px'
           }
-          if(rightTable) {
-            rightTable.querySelector('.k-table-head').style.paddingRight = scrollbarWidth + 'px'
+          if (rightTable) {
+            rightTable.querySelector('.k-table-head').style.paddingRight =
+              scrollbarWidth + 'px'
           }
         }
       })
     },
     //当有固定列时，需要根据主体表格宽度动态计算那些固定的总列宽
     calcColumnsWidth() {
-      this.$nextTick(()=>{
-        const {leftTable,rightTable,mainTable} = this.$refs
-          , {fixedLeft, fixedRight} = this.hasFixedColumns
-        if(leftTable || rightTable) {
+      this.$nextTick(() => {
+        const { leftTable, rightTable, mainTable } = this.$refs,
+          { fixedLeft, fixedRight } = this.hasFixedColumns
+        if (leftTable || rightTable) {
           //获取主体表格的table实际宽度，以便在窗口大小变化时动态赋给left和right表格的table元素
           const mainTableEl = mainTable.querySelector('table')
           const w = getStyle(mainTableEl, 'width')
           // console.log(mw)
           // console.log(leftTable.querySelectorAll('table'))
-          if(leftTable) {
-            const tables = leftTable.querySelectorAll('table')
-              , th = [...mainTable.querySelectorAll('thead th')].slice(0,fixedLeft)
-            tables.forEach(table=>{
+          if (leftTable) {
+            const tables = leftTable.querySelectorAll('table'),
+              th = [...mainTable.querySelectorAll('thead th')].slice(
+                0,
+                fixedLeft,
+              )
+            tables.forEach(table => {
               table.style.width = w
             })
             let thWidth = 0
-            th.forEach(el=>{
-              thWidth += parseFloat(getStyle(el,'width'))
+            th.forEach(el => {
+              thWidth += parseFloat(getStyle(el, 'width'))
             })
             leftTable.style.width = thWidth + 'px'
             leftTable.style.overflowX = 'hidden'
           }
+          if (rightTable) {
+            const tables = rightTable.querySelectorAll('table'),
+              th = [...mainTable.querySelectorAll('thead th')]
+                .reverse()
+                .slice(0, fixedRight)
+            tables.forEach(table => {
+              table.style.width = w
+            })
+            let thWidth = 0
+            th.forEach(el => {
+              thWidth += parseFloat(getStyle(el, 'width'))
+            })
+            rightTable.style.width = thWidth + 'px'
+            rightTable.style.overflowX = 'hidden'
+          }
         }
-        
       })
     },
     mainTableScroll() {
-      const {mainTable,leftTable} = this.$refs 
-        , scrollLeft = mainTable.scrollLeft
-        , cls = 'k-table-wrapper--fixed_left_shadow'
-      if(scrollLeft > 0) {
-        leftTable.classList.add(cls)
-      }else{
-        leftTable.classList.remove(cls)
+      const { mainTable, leftTable, rightTable } = this.$refs,
+        scrollLeft = mainTable.scrollLeft,
+        clsLeft = 'k-table-wrapper--fixed_left_shadow',
+        clsRight = 'k-table-wrapper--fixed_right_shadow'
+      if (scrollLeft > 0) {
+        leftTable && leftTable.classList.add(clsLeft)
+        // rightTable.classList.add(clsRight)
+      } else {
+        leftTable && leftTable.classList.remove(clsLeft)
+        // rightTable.classList.remove(clsRight)
       }
-
     },
-    bodyScroll(left,top) {
-      const {leftTable}  = this.$refs
-      leftTable.querySelector('.k-table-body table').style.marginTop = -top + 'px'
+    bodyScroll({ top, left, target }) {
+      //NOTE: 主体表格滚动的时候，左右表格也滚动
+      //左右表格滚动的时候，主体表格也要滚动，
+      //此时就造成了一个循环，并且scrollTop给表格自己赋值时，
+      //会导致滚动的距离非常短
+      //所以用了一个25ms的延迟，
+      //当鼠标滚轮滚动时，如果当前target是滚动对象
+      //就忽略自身，只有当不是自身时，才赋值scrollTop
+      //当用户切换表格并滚动的速度小于30ms时，此做法就会有问题，
+      //好在用户的操作不会那么快，所以也能解决问题
+      //有其他的办法吗？
+      //h5端什么表现？
+      clearTimeout(this.timeout)
+      if (this.currentScrollTarget === null) {
+        this.currentScrollTarget = target
+      }
+      const { leftTable, rightTable, mainTable } = this.$refs
+      let leftTableBody, rightTableBody, mainTableBody
+      if (leftTable) {
+        leftTableBody = leftTable.querySelector('.k-table-body')
+        if (this.currentScrollTarget !== leftTableBody) {
+          leftTableBody.scrollTop = top
+        }
+      }
+      if (rightTable) {
+        rightTableBody = rightTable.querySelector('.k-table-body')
+        if (this.currentScrollTarget !== rightTableBody) {
+          rightTableBody.scrollTop = top
+        }
+      }
+      mainTableBody = mainTable.querySelector('.k-table-body')
+      if (this.currentScrollTarget !== mainTableBody) {
+        mainTableBody.scrollTop = top
+      }
+      this.timeout = setTimeout(() => {
+        this.currentScrollTarget = null
+      }, 25)
     },
-    trMouseover(row,index) {
-      const {leftTable,mainTable,rightTable} = this.$refs
-      this.hoverTr(mainTable,index)
-      this.hoverTr(leftTable,index)
-      this.hoverTr(rightTable,index)
+    trMouseover(row, index) {
+      const { leftTable, mainTable, rightTable } = this.$refs
+      this.hoverTr(mainTable, index)
+      this.hoverTr(leftTable, index)
+      this.hoverTr(rightTable, index)
     },
-    trMouseout(row,index) {
-      const {leftTable,mainTable,rightTable} = this.$refs
-      this.hoverTr(mainTable,index,false)
-      this.hoverTr(leftTable,index,false)
-      this.hoverTr(rightTable,index,false)
+    trMouseout(row, index) {
+      const { leftTable, mainTable, rightTable } = this.$refs
+      this.hoverTr(mainTable, index, false)
+      this.hoverTr(leftTable, index, false)
+      this.hoverTr(rightTable, index, false)
     },
-    hoverTr(table,index,isIn = true) {
-      if(table) {
+    hoverTr(table, index, isIn = true) {
+      if (table) {
         const tr = table.querySelectorAll('.k-table-body table tbody tr')
-        tr[index].classList[isIn?'add':'remove']('k-table-tr-hover')
+        tr[index].classList[isIn ? 'add' : 'remove']('k-table-tr-hover')
       }
-    }
+    },
   },
   mounted() {
     this.justifyColumns()
@@ -232,6 +306,7 @@ export default {
   },
   updated() {
     this.justifyColumns()
+    this.calcColumnsWidth()
   },
   destroyed() {
     window.removeEventListener('resize', this.justifyColumns)
@@ -254,7 +329,6 @@ export default {
     const tbody = (
       <k-table-body
         {...tableBodyProps}
-        ref="tbodyWrapper"
         onSelect-change={this.emitSelectChange}
         onBodyscroll={this.bodyScroll}
         onTrmouseover={this.trMouseover}
@@ -271,9 +345,11 @@ export default {
     )
     //表格主体
     const mainTable = (
-      <div class="k-table-wrapper"
+      <div
+        class="k-table-wrapper"
         ref="mainTable"
-        onScroll={this.mainTableScroll}>
+        onScroll={this.mainTableScroll}
+      >
         {thead}
         {tbody}
       </div>
@@ -282,8 +358,7 @@ export default {
     let fixedLeftTable = null
     if (fixedLeft) {
       fixedLeftTable = (
-        <div class={this.leftWrapperClasses}
-          ref="leftTable">
+        <div class={this.leftWrapperClasses} ref="leftTable">
           {thead}
           {tbody}
         </div>
@@ -291,10 +366,9 @@ export default {
     }
     //右侧固定列时，复制出右固定表格
     let fixedRightTable = null
-    if(fixedRight) {
+    if (fixedRight) {
       fixedRightTable = (
-        <div class={this.rightWrapperClasses}
-          ref="rightTable">
+        <div class={this.rightWrapperClasses} ref="rightTable">
           {thead}
           {tbody}
         </div>
@@ -307,5 +381,5 @@ export default {
         {fixedRightTable}
       </div>
     )
-  }
+  },
 }

@@ -34,26 +34,24 @@ export default {
         'k-table--bordered': this.bordered,
         [`k-table--${this.size}`]: true,
         'k-table--stripe': this.stripe,
-        'k-table--nowrap': this.nowrap
+        'k-table--nowrap': this.nowrap,
       }
     },
     tableStyles() {
       return {
-        width: this.width
+        width: this.width,
       }
     },
     trProps() {
       return {
         on: {
-          mouseover:(e)=> {
+          mouseover: e => {
             console.log(e.target)
           },
-          mouseout:()=> {
-
-          }
-        }
+          mouseout: () => {},
+        },
       }
-    }
+    },
   },
   watch: {
     isCheckedAll(nv, ov) {
@@ -65,13 +63,13 @@ export default {
           const k = this.formatCheckedKey(row)
           set.add(k)
           let has = false
-          for(let i=0,len=this.checkedRows.length;i<len;i++) {
-            if(k===this.formatCheckedKey(this.checkedRows[i])) {
+          for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+            if (k === this.formatCheckedKey(this.checkedRows[i])) {
               has = true
               break
             }
           }
-          if(!has) {
+          if (!has) {
             this.checkedRows.push(JSON.parse(JSON.stringify(row)))
           }
         })
@@ -80,14 +78,14 @@ export default {
           const k = this.formatCheckedKey(row)
           set.delete(k)
           let j = -1
-          for(let i=0,len=this.checkedRows.length;i<len;i++) {
-            if(k===this.formatCheckedKey(this.checkedRows[i])) {
+          for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+            if (k === this.formatCheckedKey(this.checkedRows[i])) {
               j = i
               break
             }
           }
-          if(j>-1) {
-            this.checkedRows.splice(j,1)
+          if (j > -1) {
+            this.checkedRows.splice(j, 1)
           }
         })
       }
@@ -101,32 +99,32 @@ export default {
       this.$emit('select-change', JSON.parse(JSON.stringify(this.checkedRows)))
     },
     //复选，单行
-    toggleRow(e,row,index) {
+    toggleRow(e, row, index) {
       const k = this.formatCheckedKey(row)
       let set = new Set(this.checkedKeys)
-      if(e.target.checked) {
+      if (e.target.checked) {
         set.add(k)
         let has = false
-        for(let i=0,len=this.checkedRows.length;i<len;i++) {
-          if(k===this.formatCheckedKey(this.checkedRows[i])) {
+        for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+          if (k === this.formatCheckedKey(this.checkedRows[i])) {
             has = true
             break
           }
         }
-        if(!has) {
+        if (!has) {
           this.checkedRows.push(JSON.parse(JSON.stringify(row)))
         }
-      }else{
+      } else {
         set.delete(k)
         let j = -1
-        for(let i=0,len=this.checkedRows.length;i<len;i++) {
-          if(k===this.formatCheckedKey(this.checkedRows[i])) {
+        for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+          if (k === this.formatCheckedKey(this.checkedRows[i])) {
             j = i
             break
           }
         }
-        if(j>-1) {
-          this.checkedRows.splice(j,1)
+        if (j > -1) {
+          this.checkedRows.splice(j, 1)
         }
       }
       this.checkedKeys = [...set]
@@ -154,7 +152,7 @@ export default {
             value={this.formatCheckedKey(row)}
             type="arr"
             data-arr={this.checkedKeys}
-            onChange={()=>this.toggleRow($event,row,index)}
+            onChange={() => this.toggleRow($event, row, index)}
           />
         )
         //如果有单选框
@@ -177,16 +175,16 @@ export default {
       return field
     },
     //渲染tr
-    renderTr(column,row,index) {
+    renderTr(column, row, index) {
       const on = {
-        mouseover:()=> {
-          this.$emit('trmouseover',row,index)
+        mouseover: () => {
+          this.$emit('trmouseover', row, index)
         },
-        mouseout:()=> {
-          this.$emit('trmouseout',row,index)
-        }
+        mouseout: () => {
+          this.$emit('trmouseout', row, index)
+        },
       }
-      return this.hover?<tr {...{on}}>{column}</tr>:<tr>{column}</tr>
+      return this.hover ? <tr {...{ on }}>{column}</tr> : <tr>{column}</tr>
     },
     //渲染单元格
     renderTableCell(row, col, index) {
@@ -236,14 +234,19 @@ export default {
             if (col.scopedSlots) {
               cellContent = this.bodyScopedSlots[col.scopedSlots]({
                 row,
-                row1:row[f[0]][i],
+                row1: row[f[0]][i],
                 index,
-                index1:i
+                index1: i,
               })
               //如果有自定义渲染函数
             } else if (col.customRender) {
               //TODO: row1是undefined，需检查
-              cellContent = col.customRender({row, index,row1:row[f[0][i]],index1:i})
+              cellContent = col.customRender({
+                row,
+                index,
+                row1: row[f[0][i]],
+                index1: i,
+              })
             }
             if (rowspan > 1) {
               if (fieldsLength === 1 && i === 0) {
@@ -293,8 +296,12 @@ export default {
       return tbody
     },
     bodyScroll(e) {
-      this.$emit('bodyscroll',e.target.scrollLeft,e.target.scrollTop)
-    }
+      this.$emit('bodyscroll', {
+        target: e.target,
+        left: e.target.scrollLeft,
+        top: e.target.scrollTop,
+      })
+    },
   },
   render() {
     const { bodyWrapperClasses, tableClasses } = this
@@ -302,14 +309,17 @@ export default {
     //   return <tbody>{this.renderTableBody()}</tbody>
     // }
     return (
-      <div class={bodyWrapperClasses}
-        onScroll={()=>{this.bodyScroll($event)}}>
-        <table class={tableClasses}
-          style={this.tableStyles}>
+      <div
+        class={bodyWrapperClasses}
+        onScroll={() => {
+          this.bodyScroll($event)
+        }}
+      >
+        <table class={tableClasses} style={this.tableStyles}>
           <k-col-group columns={this.columns} />
           <tbody>{this.renderTableBody()}</tbody>
         </table>
       </div>
     )
-  }
+  },
 }
