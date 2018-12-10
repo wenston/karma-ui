@@ -296,6 +296,7 @@ export default {
       return tbody
     },
     bodyScroll(e) {
+      console.log(e)
       this.$emit('bodyscroll', {
         target: e.target,
         left: e.target.scrollLeft,

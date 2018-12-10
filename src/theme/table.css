@@ -39,7 +39,8 @@
   .k-table-body {
     margin-top: -1px;
     float: left;
-    overflow: hidden auto;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .k-table {

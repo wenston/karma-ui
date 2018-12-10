@@ -242,6 +242,7 @@ export default {
       }
     },
     bodyScroll({ top, left, target }) {
+      console.log(top,target)
       //NOTE: 主体表格滚动的时候，左右表格也滚动
       //左右表格滚动的时候，主体表格也要滚动，
       //此时就造成了一个循环，并且scrollTop给表格自己赋值时，
@@ -277,7 +278,7 @@ export default {
       }
       this.timeout = setTimeout(() => {
         this.currentScrollTarget = null
-      }, 25)
+      }, 50)
     },
     trMouseover(row, index) {
       const { leftTable, mainTable, rightTable } = this.$refs
