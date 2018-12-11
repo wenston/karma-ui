@@ -554,7 +554,8 @@ export default {
           style: {width: 80},
           field: "name",
           name: "姓名",
-          fixed: 'left'
+          fixed: 'left',
+          
         },
         {
           style: {width: 80},
@@ -580,7 +581,7 @@ export default {
           style: {width: 90},
           field: "action",
           name: "操作",
-          // fixed: 'right',
+          fixed: 'right',
           customRender:(row,index)=>{
             return (
               <a href="javascript:;">删除</a>

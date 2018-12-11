@@ -1,9 +1,11 @@
 import { props } from './_util/props'
+import mixins from './_mixins/'
 import KColGroup from './colGroup'
 import KCell from './tableCell'
 import KCheckbox from 'karma-ui/packages/checkbox/checkbox'
 import KRadio from 'karma-ui/packages/radio/radio'
 export default {
+  mixins: [mixins],
   components: {
     KColGroup,
     KCell,
@@ -14,6 +16,12 @@ export default {
     ...props,
     isCheckedAll: Boolean, //接收由tableHead组件间接传过来的全选操作
     bodyScopedSlots: Object, //接收来自KTable的插槽内容$scopedSlots
+    //主体表格main、左固定表格left、右固定表格right
+    //根据不同表格，有选择的渲染某些数据：复选和单选
+    who: {
+      type: String,
+      default: 'main'
+    },
   },
   inject: ['__index', '__checkbox', '__radio'],
   data() {
@@ -96,8 +104,15 @@ export default {
   },
   methods: {
     emitSelectChange() {
-      this.$emit('select-change', JSON.parse(JSON.stringify(this.checkedRows)))
+      const {fixedLeft,fixedRight} = this.hasFixedColumns
+        , rows = JSON.parse(JSON.stringify(this.checkedRows))
+      if(fixedLeft && this.hasCheckbox && this.who === 'left') {
+        this.$emit('select-change', rows)
+      } else if(!fixedLeft && this.hasCheckbox && this.who === 'main') {
+        this.$emit('select-change', rows)
+      }
     },
+
     //复选，单行
     toggleRow(e, row, index) {
       const k = this.formatCheckedKey(row)
@@ -183,6 +198,10 @@ export default {
         mouseout: () => {
           this.$emit('trmouseout', row, index)
         },
+        click: () => {
+          //可以在此处理复选单选
+          //暂时不处理单击行选择的功能
+        }
       }
       return this.hover ? <tr {...{ on }}>{column}</tr> : <tr>{column}</tr>
     },

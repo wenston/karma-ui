@@ -1,9 +1,11 @@
 import { getStyle } from 'karma-ui/util/dom'
 import { props } from './_util/props'
+import mixins from './_mixins/'
 import KTableHead from './tableHead'
 import KTableBody from './tableBody'
 import KColGroup from './colGroup'
 export default {
+  mixins: [mixins],
   components: {
     KTableHead,
     KTableBody,
@@ -60,28 +62,6 @@ export default {
         huge: '46',
       }
       return size[this.size]
-    },
-    //是否存在固定列（左，右）
-    hasFixedColumns() {
-      let fixedLeft = 0,
-        fixedRight = 0
-      this.columns.forEach(col => {
-        const f = col.fixed
-        if (f === 'left') {
-          fixedLeft += 1
-        } else if (f === 'right') {
-          fixedRight += 1
-        }
-      })
-      if (fixedLeft > 0) {
-        if (this.hasCheckbox || this.hasRadio) {
-          fixedLeft += 1
-        }
-        if (this.hasIndex) {
-          fixedLeft += 1
-        }
-      }
-      return { fixedLeft, fixedRight }
     },
     // tableBodyProps() {
     //   return {
@@ -374,17 +354,14 @@ export default {
       style: {
         height: this.height,
       },
+      on: {
+        'select-change':this.emitSelectChange,
+        bodyscroll: this.bodyScroll,
+        trmouseover: this.trMouseover,
+        trmouseout: this.trMouseout,
+      }
     }
-    //table的tbody
-    const tbody = (
-      <k-table-body
-        {...tableBodyProps}
-        onSelect-change={this.emitSelectChange}
-        onBodyscroll={this.bodyScroll}
-        onTrmouseover={this.trMouseover}
-        onTrmouseout={this.trMouseout}
-      />
-    )
+
     //table的thead
     const thead = (
       <k-table-head
@@ -401,7 +378,10 @@ export default {
         onScroll={this.mainTableScroll}
       >
         {thead}
-        {tbody}
+        <k-table-body
+          {...tableBodyProps}
+          who="main"
+        />
       </div>
     )
     //固定列时，复制出来的另一个左固定表格
@@ -410,7 +390,10 @@ export default {
       fixedLeftTable = (
         <div class={this.leftWrapperClasses} ref="leftTable">
           {thead}
-          {tbody}
+          <k-table-body
+            {...tableBodyProps}
+            who="left"
+          />
         </div>
       )
     }
@@ -420,7 +403,10 @@ export default {
       fixedRightTable = (
         <div class={this.rightWrapperClasses} ref="rightTable">
           {thead}
-          {tbody}
+          <k-table-body
+            {...tableBodyProps}
+            who="right"
+          />
         </div>
       )
     }
