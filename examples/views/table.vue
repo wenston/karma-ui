@@ -575,6 +575,17 @@ export default {
           style: {width: 90},
           field: "math",
           name: "数学"
+        },
+        {
+          style: {width: 90},
+          field: "action",
+          name: "操作",
+          // fixed: 'right',
+          customRender:(row,index)=>{
+            return (
+              <a href="javascript:;">删除</a>
+            )
+          }
         }
       ],
       table1,
@@ -637,7 +648,10 @@ export default {
           style: {width: '70'},
           field: 'Action',
           name: '操作',
-          // fixed: 'right'
+          fixed: 'right',
+          customRender: ({row,index}) =>{
+            return <a href="javascript:;" onClick={()=>this.onDel(row,index)}>删除</a>
+          }
         }
       ],
       //根据数据自动合并行

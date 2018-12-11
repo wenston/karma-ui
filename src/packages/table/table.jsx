@@ -146,14 +146,31 @@ export default {
       }
       return columns
     },
-    //如果el有滚动条，就获取滚动条的宽度
+    //获取滚动条的宽度
+    //TODO: 可以优化，不必要每次都计算
     getScrollBarWidth(el) {
+      // 刚开始是获取的el的滚动条宽度
+      // 此时存在一个问题：如果width是fit-content时，滚动条宽度为0！
+      // 所以还是直接采用创建节点来计算滚动条宽度的方法
       // console.log(el)
-      const oldOverflowY = getStyle(el, 'overflowY')
-      el.style.overflowY = 'hidden'
-      const w = el.clientWidth
-      el.style.overflowY = oldOverflowY
-      const wScroll = el.clientWidth
+      // const oldOverflowY = getStyle(el, 'overflowY')
+      // el.style.overflowY = 'hidden'
+      // const w = el.clientWidth
+      // el.style.overflowY = oldOverflowY
+      // const wScroll = el.clientWidth
+      // return w - wScroll
+      const div = document.createElement('div')
+      div.style.cssText = `
+        width:100px;
+        height:100px;
+        position:absolute;
+        top:-9999px;
+      `
+      document.body.appendChild(div)
+      const w = div.clientWidth
+      div.style.overflowY = 'scroll'
+      const wScroll = div.clientWidth
+      document.body.removeChild(div)
       return w - wScroll
     },
     //如果出现了纵向滚动条，
@@ -164,9 +181,9 @@ export default {
     justifyColumns() {
       this.$nextTick(() => {
         if (this.height) {
-          const el = this.$refs.mainTable,
-            body = el.querySelector('.k-table-body'),
-            head = el.querySelector('.k-table-head'),
+          const mainTable = this.$refs.mainTable,
+            body = mainTable.querySelector('.k-table-body'),
+            head = mainTable.querySelector('.k-table-head'),
             scrollbarWidth = this.getScrollBarWidth(body),
             leftTable = this.$refs.leftTable,
             rightTable = this.$refs.rightTable
@@ -188,6 +205,7 @@ export default {
       this.$nextTick(() => {
         const { leftTable, rightTable, mainTable } = this.$refs,
           { fixedLeft, fixedRight } = this.hasFixedColumns
+
         if (leftTable || rightTable) {
           //获取主体表格的table实际宽度，以便在窗口大小变化时动态赋给left和right表格的table元素
           const mainTableEl = mainTable.querySelector('table')
@@ -211,6 +229,12 @@ export default {
             leftTable.style.overflowX = 'hidden'
           }
           if (rightTable) {
+            //NOTE: 右固定表格，在props的width为100%时是不需要做定位处理的
+            //因为此时的右固定表格，一直处于右侧，且主表格宽度是100%的
+            //所以不存在位置上的差异
+            //但在width:fit-content时，是需要做特殊的处理的，因为此时的宽度
+            //不随窗口大小变化，如果窗口过宽，就会出现表格占不满容器，
+            //而右固定表格位于最右侧，就出现了覆盖不了主表格的情况
             const tables = rightTable.querySelectorAll('table'),
               th = [...mainTable.querySelectorAll('thead th')]
                 .reverse()
@@ -218,12 +242,24 @@ export default {
             tables.forEach(table => {
               table.style.width = w
             })
-            let thWidth = 0
+            let thWidth = 0,
+              barWidth = this.getScrollBarWidth(
+                rightTable.querySelector('.k-table-body'),
+              )
             th.forEach(el => {
               thWidth += parseFloat(getStyle(el, 'width'))
             })
-            rightTable.style.width = thWidth + 'px'
+            // console.log(barWidth)
+            rightTable.style.width = thWidth + barWidth + 'px'
+            rightTable.scrollTo(99999, 0)
             rightTable.style.overflowX = 'hidden'
+            if (this.width.toLowerCase() === 'fit-content') {
+              rightTable.style.right = 'auto'
+              let left = mainTable.clientWidth - thWidth - barWidth
+              const maxLeft = parseFloat(w) - thWidth
+              left = left > maxLeft ? maxLeft : left
+              rightTable.style.left = left + 'px'
+            }
           }
         }
       })
@@ -233,24 +269,33 @@ export default {
         scrollLeft = mainTable.scrollLeft,
         clsLeft = 'k-table-wrapper--fixed_left_shadow',
         clsRight = 'k-table-wrapper--fixed_right_shadow'
-      if (scrollLeft > 0) {
-        leftTable && leftTable.classList.add(clsLeft)
-        // rightTable.classList.add(clsRight)
-      } else {
-        leftTable && leftTable.classList.remove(clsLeft)
-        // rightTable.classList.remove(clsRight)
+
+      if (leftTable) {
+        if (scrollLeft > 0) {
+          leftTable.classList.add(clsLeft)
+        } else {
+          leftTable.classList.remove(clsLeft)
+        }
+      }
+      if (rightTable) {
+        const mainScrollWidth = mainTable.scrollWidth,
+          mainClientWidth = mainTable.clientWidth
+        if (mainTable.scrollLeft >= mainScrollWidth - mainClientWidth) {
+          rightTable.classList.remove(clsRight)
+        } else {
+          rightTable.classList.add(clsRight)
+        }
       }
     },
     bodyScroll({ top, left, target }) {
-      console.log(top,target)
       //NOTE: 主体表格滚动的时候，左右表格也滚动
       //左右表格滚动的时候，主体表格也要滚动，
       //此时就造成了一个循环，并且scrollTop给表格自己赋值时，
       //会导致滚动的距离非常短
-      //所以用了一个25ms的延迟，
+      //所以用了一个50ms的延迟，
       //当鼠标滚轮滚动时，如果当前target是滚动对象
       //就忽略自身，只有当不是自身时，才赋值scrollTop
-      //当用户切换表格并滚动的速度小于30ms时，此做法就会有问题，
+      //当用户切换表格并滚动的速度小于50ms时，此做法就会有问题，
       //好在用户的操作不会那么快，所以也能解决问题
       //有其他的办法吗？
       //h5端什么表现？
@@ -302,16 +347,20 @@ export default {
   mounted() {
     this.justifyColumns()
     this.calcColumnsWidth()
+    this.mainTableScroll()
     window.addEventListener('resize', this.justifyColumns)
     window.addEventListener('resize', this.calcColumnsWidth)
+    window.addEventListener('resize', this.mainTableScroll)
   },
   updated() {
     this.justifyColumns()
     this.calcColumnsWidth()
+    this.mainTableScroll()
   },
   destroyed() {
     window.removeEventListener('resize', this.justifyColumns)
     window.removeEventListener('resize', this.calcColumnsWidth)
+    window.removeEventListener('resize', this.mainTableScroll)
   },
   render() {
     const { fixedLeft, fixedRight } = this.hasFixedColumns

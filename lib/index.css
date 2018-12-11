@@ -1449,7 +1449,8 @@ ul.k-pagi li.k-pagi-order-7 {
 .k-table-wrapper .k-table-body {
     margin-top: -1px;
     float: left;
-    overflow: hidden auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 .k-table-wrapper .k-table {
     border-collapse: collapse;
