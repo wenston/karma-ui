@@ -10,7 +10,7 @@
       @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
-    <k-table :data="table1"
+    <!-- <k-table :data="table1"
       height="200px"
       :columns="columns1"
       @select-change="onSelectChange"
@@ -45,7 +45,7 @@
           v-model="row1.ProCount"
           block></k-input>
       </template>
-    </k-table>
+    </k-table> -->
 
   </div>
 </template>
@@ -497,95 +497,151 @@ export default {
           age: "10",
           class: "三年级一班",
           chinese: "90",
-          math: "100"
+          math: "100",
+          wuli:'80',
+          english: '93',
+          history: '100'
         },
         {
           name: "小花",
           age: "9",
           class: "三年级二班",
           chinese: "90",
-          math: "99"
+          math: "99",
+          wuli:'82',
+          english: '90',
+          history: '84'
         },
         {
           name: "小军",
           age: "9",
           class: "三年级一班",
           chinese: "92",
-          math: "100"
+          math: "100",
+          wuli:'59',
+          english: '93',
+          history: '81'
         },
         {
           name: "小刚",
           age: "9",
           class: "三年级二班",
           chinese: "93",
-          math: "97"
+          math: "97",
+          wuli:'80',
+          english: '90',
+          history: '89'
         },
         {
           name: "小力",
           age: "10",
           class: "三年级三班",
           chinese: "100",
-          math: "100"
+          math: "100",
+          wuli:'89',
+          english: '98',
+          history: '89'
         },
         {
           name: "小娟",
           age: "9",
           class: "三年级一班",
           chinese: "92",
-          math: "98"
+          math: "98",
+          wuli:'63',
+          english: '91',
+          history: '96'
         },
         {
           name: "晓丽",
           age: "10",
           class: "三年级一班",
           chinese: "91",
-          math: "91"
+          math: "91",
+          wuli:'82',
+          english: '93',
+          history: '78'
         },
         {
           name: "志玲",
           age: "9",
           class: "三年级四班",
           chinese: "99",
-          math: "98"
+          math: "98",
+          wuli:'80',
+          english: '90',
+          history: '89'
         }
       ],
       columns: [
         {
-          style: {width: 80},
-          field: "name",
-          name: "姓名",
-          fixed: 'left',
-          
+          name: "学生信息",
+          children: [
+            {
+              style: { width: 80 },
+              field: "name",
+              name: "姓名",
+              // fixed: "left"
+            },
+            {
+              style: { width: 80 },
+              field: "age",
+              name: "年龄"
+            },
+            {
+              style: { width: 150 },
+              field: "class",
+              name: "班级"
+            }
+          ]
         },
         {
-          style: {width: 80},
-          field: "age",
-          name: "年龄"
+          name: "考试成绩",
+          children: [
+            {
+              name: "文",
+              children: [
+                {
+                  style: { width: 90 },
+                  field: "chinese",
+                  name: "语文"
+                },
+                {
+                  style: { width: 90 },
+                  field: "english",
+                  name: "英语"
+                },
+                {
+                  style: { width: 80 },
+                  field: "history",
+                  name: "历史"
+                }
+              ]
+            },
+            {
+              name: "理",
+              children: [
+                {
+                  style: { width: 90 },
+                  field: "math",
+                  name: "数学"
+                },
+                {
+                  style: { width: 90 },
+                  field: "wuli",
+                  name: "物理"
+                }
+              ]
+            }
+          ]
         },
         {
-          style: {width: 150},
-          field: "class",
-          name: "班级"
-        },
-        {
-          style: {width: 90},
-          field: "chinese",
-          name: "语文"
-        },
-        {
-          style: {width: 90},
-          field: "math",
-          name: "数学"
-        },
-        {
-          style: {width: 90},
+          style: { width: 90 },
           field: "action",
           name: "操作",
-          fixed: 'right',
-          customRender:(row,index)=>{
-            return (
-              <a href="javascript:;">删除</a>
-            )
+          // fixed: "right",
+          customRender: (row, index) => {
+            return <a href="javascript:;">删除</a>;
           }
         }
       ],
@@ -596,7 +652,7 @@ export default {
           field: "Code",
           name: "单号",
           scopedSlots: "xxx", //xxx是作用域插槽的名称
-          fixed: 'left'
+          fixed: "left"
         },
         {
           style: { width: "150" },
@@ -646,12 +702,16 @@ export default {
           name: "打印次数"
         },
         {
-          style: {width: '70'},
-          field: 'Action',
-          name: '操作',
-          fixed: 'right',
-          customRender: ({row,index}) =>{
-            return <a href="javascript:;" onClick={()=>this.onDel(row,index)}>删除</a>
+          style: { width: "70" },
+          field: "Action",
+          name: "操作",
+          fixed: "right",
+          customRender: ({ row, index }) => {
+            return (
+              <a href="javascript:;" onClick={() => this.onDel(row, index)}>
+                删除
+              </a>
+            );
           }
         }
       ],
@@ -678,7 +738,7 @@ export default {
           name: "商品"
         },
         {
-          style: { width: "60",padding:'0 3px' },
+          style: { width: "60", padding: "0 3px" },
           field: "Details.ProCount",
           name: "数量",
           scopedSlots: "ProCount"
@@ -694,11 +754,18 @@ export default {
           name: "经手人"
         },
         {
-          style: {width: '60'},
-          field: 'Details.Action',
-          name: '操作',
-          customRender: ({row,row1,index1}) =>{
-            return <a href="javascript:;" onClick={()=>this.onDel(row,row1,index1)}>删除</a>
+          style: { width: "60" },
+          field: "Details.Action",
+          name: "操作",
+          customRender: ({ row, row1, index1 }) => {
+            return (
+              <a
+                href="javascript:;"
+                onClick={() => this.onDel(row, row1, index1)}
+              >
+                删除
+              </a>
+            );
           }
         }
       ]
@@ -708,8 +775,8 @@ export default {
     onSelectChange(arr) {
       console.log(arr);
     },
-    onDel(row,row1,index) {
-      console.log(row,row1,index)
+    onDel(row, row1, index) {
+      console.log(row, row1, index);
       // row.Details.splice(index,1)
     }
   }

@@ -1,5 +1,20 @@
 export default {
   computed: {
+    headAndBodyColumns() {
+      let bodyColumns = [],
+        fn = (arr) => {
+          arr.forEach(col => {
+            if(col.children && col.children.length) {
+              fn(col.children)
+            }else{
+              bodyColumns.push({...col})
+            }
+          })
+        }
+      fn(this.columns)
+      return {bodyColumns,headColumns: this.columns}
+      
+    },
     //是否存在固定列（左，右）
     hasFixedColumns() {
       let fixedLeft = 0,
@@ -20,7 +35,10 @@ export default {
           fixedLeft += 1
         }
       }
-      return { fixedLeft, fixedRight }
+      return {
+        fixedLeft,
+        fixedRight
+      }
     },
   }
 }

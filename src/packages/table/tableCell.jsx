@@ -5,13 +5,13 @@ export default {
       type: String,
       default: 'td'
     },
-    field: String,
-    name: String,
+    rowspan: [String,Number],
+    colspan: [String,Number],
   },
   render() {
     return (
 
-      <this.tag>
+      <this.tag rowspan={this.rowspan} colspan={this.colspan}>
         {this.$slots.default}
       </this.tag>
     )

@@ -180,7 +180,8 @@ export default {
     getNestingField(columns) {
       let field = ''
       for (let i = 0, len = columns.length; i < len; i++) {
-        const fields = columns[i].field.trim().split('.')
+        const f = columns[i].field || ''
+        const fields = f.trim().split('.')
         if (fields.length > 1) {
           field = fields[0]
           break
@@ -236,7 +237,7 @@ export default {
             //获取此列样式
             const { width, ...restStyle } = { width: '', ...col.style }
             //获取此列的字段名、嵌套层级
-            const fields = col.field.trim().split('.')
+            const fields = (col.field?col.field:'').trim().split('.')
             const fieldsLength = fields.length
 
             //--start 定义单元格内容
@@ -296,7 +297,7 @@ export default {
         level = 1
       if (columns.length !== 0) {
         columns.forEach(col => {
-          const n = col.field.split('.').length
+          const n = (col.field?col.field:'').split('.').length
           if (level < n) {
             level = n
           }

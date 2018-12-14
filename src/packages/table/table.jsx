@@ -103,7 +103,9 @@ export default {
     },
     //对columns数据进行加工后再使用
     machiningColumns() {
-      let columns = this.columns
+      // let columns = this.columns
+      let columns = this.headAndBodyColumns.bodyColumns
+      let headColumns = this.headAndBodyColumns.headColumns
       const cellWidth = this.cellWidth
       const { fixedLeft } = this.hasFixedColumns
       //如果存在固定左侧列的情况，则index和checkbox或者radio列，默认也要固定
@@ -117,14 +119,17 @@ export default {
       //处理复选或者单选
       if (this.hasCheckbox) {
         columns = [{ ...obj, field: '@_checkbox' }, ...columns]
+        headColumns = [{...obj,field: '@_checkbox'},...headColumns]
       } else if (this.hasRadio) {
         columns = [{ ...obj, field: '@_radio' }, ...columns]
+        headColumns = [{...obj,field: '@_radio'},...headColumns]
       }
       //处理有序号的情况
       if (this.hasIndex) {
         columns = [{ ...obj, field: '@_index' }, ...columns]
+        headColumns = [{...obj,field: '@_index'},...headColumns]
       }
-      return columns
+      return {columns,headColumns}
     },
     //获取滚动条的宽度
     //TODO: 可以优化，不必要每次都计算
@@ -133,25 +138,25 @@ export default {
       // 此时存在一个问题：如果width是fit-content时，滚动条宽度为0！
       // 所以还是直接采用创建节点来计算滚动条宽度的方法
       // console.log(el)
-      // const oldOverflowY = getStyle(el, 'overflowY')
-      // el.style.overflowY = 'hidden'
-      // const w = el.clientWidth
-      // el.style.overflowY = oldOverflowY
-      // const wScroll = el.clientWidth
-      // return w - wScroll
-      const div = document.createElement('div')
-      div.style.cssText = `
-        width:100px;
-        height:100px;
-        position:absolute;
-        top:-9999px;
-      `
-      document.body.appendChild(div)
-      const w = div.clientWidth
-      div.style.overflowY = 'scroll'
-      const wScroll = div.clientWidth
-      document.body.removeChild(div)
+      const oldOverflowY = getStyle(el, 'overflowY')
+      el.style.overflowY = 'hidden'
+      const w = el.clientWidth
+      el.style.overflowY = oldOverflowY
+      const wScroll = el.clientWidth
       return w - wScroll
+      // const div = document.createElement('div')
+      // div.style.cssText = `
+      //   width:100px;
+      //   height:100px;
+      //   position:absolute;
+      //   top:-9999px;
+      // `
+      // document.body.appendChild(div)
+      // const w = div.clientWidth
+      // div.style.overflowY = 'scroll'
+      // const wScroll = div.clientWidth
+      // document.body.removeChild(div)
+      // return w - wScroll
     },
     //如果出现了纵向滚动条，
     //在table-layout:fixed和width:100%的情况下，
@@ -344,7 +349,7 @@ export default {
   },
   render() {
     const { fixedLeft, fixedRight } = this.hasFixedColumns
-    const columns = this.machiningColumns()
+    const {columns,headColumns} = this.machiningColumns()
     let props = { ...this.$props, columns, isCheckedAll: this.isCheckedAll }
     let tableBodyProps = {
       props: {
@@ -366,6 +371,7 @@ export default {
     const thead = (
       <k-table-head
         {...{ props }}
+        head-columns={headColumns}
         ref="theadWrapper"
         onTogglechecked={this.toggleCheckedAll}
       />
