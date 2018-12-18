@@ -43,6 +43,7 @@ export default {
         [`k-table--${this.size}`]: true,
         'k-table--stripe': this.stripe,
         'k-table--nowrap': this.nowrap,
+        'k-table--min-content': this.minContent
       }
     },
     tableStyles() {
@@ -335,7 +336,7 @@ export default {
           this.bodyScroll($event)
         }}
       >
-        <table class={tableClasses} style={this.tableStyles}>
+        <table class={tableClasses}>
           <k-col-group columns={this.columns} />
           <tbody>{this.renderTableBody()}</tbody>
         </table>

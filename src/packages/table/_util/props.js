@@ -62,13 +62,9 @@ export const props = {
   //，且各个列的宽之和是等于表格总宽度的
   //取值是css的width可以接收的任何属性
   //fixed情况下，无默认宽度
-  //NOTE: 宽度是给table元素的
-  //取值建议：默认的100%或者是fit-content，不建议小于100%或者其他值
-  //因为可能会出现滚动条出现在外框最右侧的情况
-  width: {
-    type: String,
-    default: ''
-  },
+  //对应的是table的宽度是不是fit-content，默认是100%
+
+  minContent: Boolean,
   //表格主题tbody高度，有高度的情况下，可以实现表头固定
   //NOTE: 是给表格主题外部div的高度
   height: {

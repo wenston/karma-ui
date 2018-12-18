@@ -32,13 +32,9 @@ export default {
         'k-table--bordered': this.bordered,
         [`k-table--${this.size}`]: true,
         'k-table--nowrap': this.nowrap,
+        'k-table--min-content': this.minContent
       }
-    },
-    headStyles() {
-      return {
-        width: this.width,
-      }
-    },
+    }
   },
   methods: {
     toggleCheckedAll(e) {
@@ -123,7 +119,7 @@ export default {
   render() {
     return (
       <div class={this.headWrapperClasses}>
-        <table class={this.headClasses} style={this.headStyles}>
+        <table class={this.headClasses}>
           <k-col-group columns={this.columns} />
           <thead>{this.renderTableHead()}</thead>
         </table>
