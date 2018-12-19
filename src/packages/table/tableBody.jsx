@@ -326,9 +326,6 @@ export default {
   },
   render() {
     const { bodyWrapperClasses, tableClasses } = this
-    // if (this.tableLayoutAuto) {
-    //   return <tbody>{this.renderTableBody()}</tbody>
-    // }
     return (
       <div
         class={bodyWrapperClasses}

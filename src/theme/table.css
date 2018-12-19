@@ -102,3 +102,6 @@
 .k-table-tr-hover {
   background-color: var(--table-hover-bg-color) !important;
 }
+.k-table-td-center {
+  text-align: center;
+}

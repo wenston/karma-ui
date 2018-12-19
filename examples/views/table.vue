@@ -10,7 +10,7 @@
       @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
-    <k-table :data="table1"
+    <!-- <k-table :data="table1"
       height="200px"
       :columns="columns1"
       @select-change="onSelectChange"
@@ -45,7 +45,7 @@
           v-model="row1.ProCount"
           block></k-input>
       </template>
-    </k-table>
+    </k-table> -->
 
   </div>
 </template>
@@ -580,7 +580,7 @@ export default {
             {
               style: { width: 80 },
               field: "name",
-              name: "姓名"
+              name: "姓名",
             },
             {
               style: { width: 80 },
