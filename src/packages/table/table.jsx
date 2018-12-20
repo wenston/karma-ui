@@ -4,12 +4,14 @@ import mixins from "./_mixins/"
 import KTableHead from "./tableHead"
 import KTableBody from "./tableBody"
 import KColGroup from "./colGroup"
+import KTableFoot from './tableFoot'
 export default {
   mixins: [mixins],
   components: {
     KTableHead,
     KTableBody,
-    KColGroup
+    KColGroup,
+    KTableFoot
   },
   name: "KTable",
   props: {
@@ -169,10 +171,12 @@ export default {
           const mainTable = this.$refs.mainTable,
             body = mainTable.querySelector(".k-table-body"),
             head = mainTable.querySelector(".k-table-head"),
+            foot = mainTable.querySelector('.k-table-foot'),
             scrollbarWidth = this.getScrollBarWidth(body),
             leftTable = this.$refs.leftTable,
             rightTable = this.$refs.rightTable
-          head.style.paddingRight = scrollbarWidth + "px"
+          head && (head.style.paddingRight = scrollbarWidth + "px")
+          foot && (foot.style.paddingRight = scrollbarWidth + "px")
 
           if (leftTable) {
             leftTable.querySelector(".k-table-head").style.paddingRight =
@@ -383,6 +387,7 @@ export default {
       on: {
         "select-change": this.emitSelectChange,
         bodyscroll: this.bodyScroll,
+        //TODO: 由于是js控制的hover后背景变色，如果有合并行的情况，会有不准确的问题。待修正
         trmouseover: this.trMouseover,
         trmouseout: this.trMouseout
       }
@@ -397,7 +402,12 @@ export default {
         onTogglechecked={this.toggleCheckedAll}
       />
     )
-    //表格主体
+    //table的tfoot
+    const tfoot = (
+      <k-table-foot {...{props}} />
+    )
+    // console.log(columns)
+    //主表格
     const mainTable = (
       <div
         class="k-table-wrapper"
@@ -406,6 +416,7 @@ export default {
       >
         {thead}
         <k-table-body {...tableBodyProps} who="main" />
+        {tfoot}
       </div>
     )
     //固定列时，复制出来的另一个左固定表格
@@ -415,6 +426,7 @@ export default {
         <div class={this.leftWrapperClasses} ref="leftTable">
           {thead}
           <k-table-body {...tableBodyProps} who="left" />
+          {tfoot}
         </div>
       )
     }
@@ -425,6 +437,7 @@ export default {
         <div class={this.rightWrapperClasses} ref="rightTable">
           {thead}
           <k-table-body {...tableBodyProps} who="right" />
+          {tfoot}
         </div>
       )
     }

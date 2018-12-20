@@ -6,11 +6,11 @@
       has-checkbox
       checkbox-key="name"
       nowrap
-      height="200px"
+      height="180px"
       @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
-    <!-- <k-table :data="table1"
+    <k-table :data="table1"
       height="200px"
       :columns="columns1"
       @select-change="onSelectChange"
@@ -45,7 +45,7 @@
           v-model="row1.ProCount"
           block></k-input>
       </template>
-    </k-table> -->
+    </k-table>
 
   </div>
 </template>
@@ -121,7 +121,7 @@ let table1 = [
     SourceCode: null,
     Status: 6,
     UserIdAdded: 10,
-    UserNameAdded: "张总",
+    UserNameAdded: "李娜",
     PrintCount: 0,
     StoreId: 29,
     BranchId: 0,
@@ -150,7 +150,7 @@ let table1 = [
         ProId: 100040,
         ProPrice: 2500,
         AccountingType: 1,
-        ProCount: 2,
+        ProCount: 3,
         TaxRate: 1,
         Description: "",
         Description1: "",
@@ -603,7 +603,8 @@ export default {
                 {
                   style: { width: 90 },
                   field: "chinese",
-                  name: "语文"
+                  name: "语文",
+                  sum: true//需要汇总
                 },
                 {
                   style: { width: 90 },
@@ -662,7 +663,14 @@ export default {
           style: { width: "80", textAlign: "right" },
           field: "TotalPrice",
           name: "金额",
-          scopedSlots: "TotalPrice"
+          scopedSlots: "TotalPrice",
+          sum: (total) => {
+            return (
+              <div style="text-align:right;color: red;">
+                <b >{total.toFixed(2)}</b>
+              </div>
+            )
+          }
         },
         {
           style: { width: "100" },
@@ -740,7 +748,8 @@ export default {
           style: { width: "60", padding: "0 3px" },
           field: "Details.ProCount",
           name: "数量",
-          scopedSlots: "ProCount"
+          scopedSlots: "ProCount",
+          sum: true
         },
         {
           style: { width: "100" },

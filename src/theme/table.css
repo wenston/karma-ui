@@ -38,10 +38,16 @@
   }
 
   .k-table-body {
-    margin-top: -1px;
+    /* margin-top: -1px; */
     float: left;
     overflow-x: hidden;
     overflow-y: auto;
+  }
+  .k-table-foot {
+    /* margin-top: -1px; */
+    float: left;
+    font-weight: bold;
+    color: var(--font-color-2);
   }
 
   .k-table {
@@ -49,7 +55,8 @@
     width: 100%;
     table-layout: fixed;
 
-    >thead>tr {
+    >thead>tr,
+    >tfoot>tr {
       background-color: var(--table-head-bg-color);
     }
 
@@ -62,7 +69,8 @@
         font-size: var(--table-$(name)-font-size);
 
         &>thead>tr>th,
-        &>tbody>tr>td {
+        &>tbody>tr>td,
+        &>tfoot>tr>td {
           height: var(--table-$(name));
           /* line-height: calc(var(--table-$(name)) - 1px); */
           line-height: normal;
@@ -75,7 +83,8 @@
       border: var(--table-border);
 
       &>thead>tr>th,
-      &>tbody>tr>td {
+      &>tbody>tr>td,
+      &>tfoot>tr>td {
         border: var(--table-border);
       }
     }

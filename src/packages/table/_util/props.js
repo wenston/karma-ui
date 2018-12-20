@@ -8,7 +8,8 @@ export const props = {
   //style里的宽度如果没有指定，则会有一个默认的120px的宽度，见colGroup.jsx
   /**
    * 
-   *  [{field:'字段名',name:'文本描述',scopedSlots:'slotName',style:{}}]
+   *  [{field:'字段名',name:'文本描述',scopedSlots:'slotName',style:{},sum:true}]
+   * sum：是否需要汇总，类型：Boolean,String,Number,Function
    */
   columns: Array,
   //是否有边框
@@ -75,5 +76,10 @@ export const props = {
   nowrap: {
     type: Boolean,
     default: false
+  },
+  //tfoot 合计的文本描述
+  sumText: {
+    type:String,
+    default:'合计'
   }
 }
