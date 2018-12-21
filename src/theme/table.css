@@ -6,6 +6,9 @@
   background-color: var(--table-wrapper-bg-color);
   text-align: left;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   &:after,
   &:before {
     content: '';
@@ -35,18 +38,24 @@
 
   .k-table-head {
     position: relative;
+    /* flex: 1; */
+    /* width: 100%; */
   }
 
   .k-table-body {
     /* margin-top: -1px; */
-    float: left;
+    /* float: left; */
     overflow-x: hidden;
     overflow-y: auto;
+    /* flex: 1; */
+    /* width: 100%; */
   }
   .k-table-foot {
     /* margin-top: -1px; */
-    float: left;
+    /* width: 100%; */
+    /* float: left; */
     font-weight: bold;
+    /* flex: 1; */
     color: var(--font-color-2);
   }
 

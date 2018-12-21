@@ -35,7 +35,7 @@
         </li>
       </ul>
     </k-table>
-    <h3 class="layout__title">根据数据自动合并行</h3>
+    <!-- <h3 class="layout__title">根据数据自动合并行</h3>
     <k-table :data="table1"
       :columns="columns2"
       has-radio>
@@ -45,7 +45,7 @@
           v-model="row1.ProCount"
           block></k-input>
       </template>
-    </k-table>
+    </k-table> -->
 
   </div>
 </template>
@@ -576,6 +576,7 @@ export default {
       columns: [
         {
           name: "学生信息",
+          fixed: 'left',
           children: [
             {
               style: { width: 80 },

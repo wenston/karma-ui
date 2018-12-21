@@ -215,7 +215,7 @@ export default {
               thWidth += parseFloat(getStyle(el, "width"))
             })
             leftTable.style.width = thWidth + "px"
-            leftTable.style.overflowX = "hidden"
+            leftTable.style.overflow = "hidden"
           }
           if (rightTable) {
             //NOTE: 右固定表格，在props的width为100%时是不需要做定位处理的
@@ -251,8 +251,10 @@ export default {
               thWidth += parseFloat(getStyle(el, "width"))
             })
             rightTable.style.width = thWidth + barWidth + "px"
-            rightTable.scrollTo(99999, 0)
-            rightTable.style.overflowX = "hidden"
+            // th[0].scrollIntoView()
+            // rightTable.scrollTo(99999, 0)
+            console.log(rightTable,rightTable.scrollTo)
+            // rightTable.style.overflowX = "hidden"
             // let thWidth = 0,
             //   barWidth = this.getScrollBarWidth(
             //     rightTable.querySelector('.k-table-body'),
