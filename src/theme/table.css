@@ -1,9 +1,10 @@
 .k-table-outer {
   position: relative;
-  border:var(--table-border);
+  /* border:var(--table-border); */
 }
 .k-table-wrapper {
   background-color: var(--table-wrapper-bg-color);
+  box-shadow: inset 0 0 0 1px var(--table-border-color);
   text-align: left;
   overflow: auto;
   display: flex;
@@ -26,7 +27,7 @@
     position: absolute;
     right:0;
     top: 0;
-    box-shadow: none;
+    /* box-shadow: none; */
     /* width: 100%; */
   }
   &--fixed_left_shadow {
@@ -43,7 +44,7 @@
   }
 
   .k-table-body {
-    /* margin-top: -1px; */
+    margin-top: -1px;
     /* float: left; */
     overflow-x: hidden;
     overflow-y: auto;
@@ -51,7 +52,8 @@
     /* width: 100%; */
   }
   .k-table-foot {
-    /* margin-top: -1px; */
+    position: relative;
+    margin-top: -1px;
     /* width: 100%; */
     /* float: left; */
     font-weight: bold;
@@ -71,6 +73,7 @@
 
     >tbody>tr {
       background-color: white;
+      transition: var(--transition);
     }
 
     @each $name in (huge, large, big, medium, small, mini) {

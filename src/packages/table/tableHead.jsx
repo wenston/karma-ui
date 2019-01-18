@@ -1,3 +1,4 @@
+import { getStyle } from "karma-ui/util/dom"
 import { props } from "./_util/props"
 import KColGroup from "./colGroup"
 import KCell from "./tableCell"
@@ -37,6 +38,10 @@ export default {
     }
   },
   methods: {
+    //父组件调用，改变复选框状态
+    onCheckedAll(b) {
+      this.isCheckedAll = b
+    },
     toggleCheckedAll(e) {
       this.$emit("togglechecked", e.target.checked)
     },
@@ -87,8 +92,8 @@ export default {
       let renderTd = columns => {
         columns.forEach((col, i, arr) => {
           let content = col.name || col.field
-          if (this.hasIndex && this.indexName && col.field === this.__index) {
-            content = this.indexName
+          if (this.hasIndex && this.indexText && col.field === this.__index) {
+            content = this.indexText
           }
           if (this.hasCheckbox && col.field === this.__checkbox) {
             content = (
@@ -124,28 +129,6 @@ export default {
 
       return trs.map(tr => <tr>{tr}</tr>)
     }
-    // 有children的合并列，没有children的合并行
-    // 合并列的colspan是children.length
-    // renderTableHead() {
-    //   const ths = this.columns.map(col => {
-    //     let name = col.name || col.field || ''
-    //     if (this.hasIndex && this.indexName && col.field === this.__index) {
-    //       name = this.indexName
-    //     }
-    //     if (this.hasCheckbox && col.field === this.__checkbox) {
-    //       name = (
-    //         <k-checkbox
-    //           checked={this.isCheckedAll}
-    //           onChange={this.toggleCheckedAll}
-    //         />
-    //       )
-    //     } else if (this.hasRadio && col.field === this.__radio) {
-    //       name = ''
-    //     }
-    //     return <k-cell tag="th">{name}</k-cell>
-    //   })
-    //   return <tr>{ths}</tr>
-    // },
   },
   render() {
     return (
@@ -156,5 +139,10 @@ export default {
         </table>
       </div>
     )
+  },
+  mounted() {
+    this.$nextTick(()=>{
+      this.$emit('head-mounted', getStyle(this.$el,'height'))
+    })
   }
 }

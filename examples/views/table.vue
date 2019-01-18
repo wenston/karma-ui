@@ -5,8 +5,10 @@
       :columns="columns"
       has-checkbox
       checkbox-key="name"
+      has-index
+      index-text="序"
       nowrap
-      height="180px"
+      max-height="calc(100vh - 130px)"
       @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
@@ -14,7 +16,7 @@
       height="200px"
       :columns="columns1"
       @select-change="onSelectChange"
-      size="small"
+      size="big"
       hover
       min-content>
       <template slot="xxx"
@@ -35,7 +37,7 @@
         </li>
       </ul>
     </k-table>
-    <!-- <h3 class="layout__title">根据数据自动合并行</h3>
+    <h3 class="layout__title">根据数据自动合并行</h3>
     <k-table :data="table1"
       :columns="columns2"
       has-radio>
@@ -45,7 +47,7 @@
           v-model="row1.ProCount"
           block></k-input>
       </template>
-    </k-table> -->
+    </k-table>
 
   </div>
 </template>
@@ -513,26 +515,6 @@ export default {
           history: '84'
         },
         {
-          name: "小军",
-          age: "9",
-          class: "三年级一班",
-          chinese: "92",
-          math: "100",
-          wuli:'59',
-          english: '93',
-          history: '81'
-        },
-        {
-          name: "小刚",
-          age: "9",
-          class: "三年级二班",
-          chinese: "93",
-          math: "97",
-          wuli:'80',
-          english: '90',
-          history: '89'
-        },
-        {
           name: "小力",
           age: "10",
           class: "三年级三班",
@@ -568,6 +550,26 @@ export default {
           class: "三年级四班",
           chinese: "99",
           math: "98",
+          wuli:'80',
+          english: '90',
+          history: '89'
+        },
+        {
+          name: "小军",
+          age: "9",
+          class: "三年级一班",
+          chinese: "92",
+          math: "100",
+          wuli:'59',
+          english: '93',
+          history: '81'
+        },
+        {
+          name: "小刚",
+          age: "9",
+          class: "三年级二班",
+          chinese: "93",
+          math: "97",
           wuli:'80',
           english: '90',
           history: '89'
@@ -649,7 +651,7 @@ export default {
       table1,
       columns1: [
         {
-          // style: { width: "150" },
+          style: { width: "150" },
           field: "Code",
           name: "单号",
           scopedSlots: "xxx", //xxx是作用域插槽的名称
@@ -705,7 +707,7 @@ export default {
           name: "状态"
         },
         {
-          style: { width: "69" },
+          // style: { width: "69" },
           field: "PrintCount",
           name: "打印次数"
         },
@@ -781,8 +783,8 @@ export default {
     };
   },
   methods: {
-    onSelectChange(arr) {
-      console.log(arr);
+    onSelectChange(e) {
+      console.log(e);
     },
     onDel(row, row1, index) {
       console.log(row, row1, index);

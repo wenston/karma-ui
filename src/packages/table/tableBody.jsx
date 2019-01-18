@@ -1,54 +1,53 @@
-import { props } from './_util/props'
-import mixins from './_mixins/'
-import KColGroup from './colGroup'
-import KCell from './tableCell'
-import KCheckbox from 'karma-ui/packages/checkbox/checkbox'
-import KRadio from 'karma-ui/packages/radio/radio'
+import { props } from "./_util/props"
+import mixins from "./_mixins/"
+import KColGroup from "./colGroup"
+import KCell from "./tableCell"
+import KCheckbox from "karma-ui/packages/checkbox/checkbox"
+import KRadio from "karma-ui/packages/radio/radio"
 export default {
   mixins: [mixins],
   components: {
     KColGroup,
     KCell,
     KCheckbox,
-    KRadio,
+    KRadio
   },
   props: {
     ...props,
-    isCheckedAll: Boolean, //接收由tableHead组件间接传过来的全选操作
     bodyScopedSlots: Object, //接收来自KTable的插槽内容$scopedSlots
     //主体表格main、左固定表格left、右固定表格right
     //根据不同表格，有选择的渲染某些数据：复选和单选
     who: {
       type: String,
-      default: 'main'
-    },
+      default: "main"
+    }
   },
-  inject: ['__index', '__checkbox', '__radio'],
+  inject: ["__index", "__checkbox", "__radio"],
   data() {
     return {
       checkedKeys: [], //保存复选的所有key
-      checkedRows: [], //保存复选的所有行数据
+      checkedRows: [] //保存复选的所有行数据
     }
   },
   computed: {
     bodyWrapperClasses() {
       return {
-        'k-table-body': true,
+        "k-table-body": true
       }
     },
     tableClasses() {
       return {
-        'k-table': true,
-        'k-table--bordered': this.bordered,
+        "k-table": true,
+        "k-table--bordered": this.bordered,
         [`k-table--${this.size}`]: true,
-        'k-table--stripe': this.stripe,
-        'k-table--nowrap': this.nowrap,
-        'k-table--min-content': this.minContent
+        "k-table--stripe": this.stripe,
+        "k-table--nowrap": this.nowrap,
+        "k-table--min-content": this.minContent
       }
     },
     tableStyles() {
       return {
-        width: this.width,
+        width: this.width
       }
     },
     trProps() {
@@ -57,17 +56,20 @@ export default {
           mouseover: e => {
             console.log(e.target)
           },
-          mouseout: () => {},
-        },
+          mouseout: () => {}
+        }
       }
-    },
+    }
   },
   watch: {
-    isCheckedAll(nv, ov) {
+    
+  },
+  methods: {
+    onCheckedAll(checked) {
       //当不选择时，不可以将checkedKeys直接清空，因为可能存在跨页选择的数据
       //checkedRows同上
       let set = new Set(this.checkedKeys)
-      if (nv) {
+      if (checked) {
         this.data.forEach(row => {
           const k = this.formatCheckedKey(row)
           set.add(k)
@@ -102,15 +104,14 @@ export default {
       this.emitSelectChange()
       //NOTE: 如果出现选不中的情况，需检查传入的checkboxKey是否有问题
     },
-  },
-  methods: {
-    emitSelectChange() {
-      const {fixedLeft,fixedRight} = this.hasFixedColumns
-        , rows = JSON.parse(JSON.stringify(this.checkedRows))
-      if(fixedLeft && this.hasCheckbox && this.who === 'left') {
-        this.$emit('select-change', rows)
-      } else if(!fixedLeft && this.hasCheckbox && this.who === 'main') {
-        this.$emit('select-change', rows)
+    emitSelectChange(checked, row, index) {
+      const { fixedLeft, fixedRight } = this.hasFixedColumns,
+        rows = JSON.parse(JSON.stringify(this.checkedRows)),
+        para = { checked, index, row, rows }
+      if (fixedLeft && this.hasCheckbox && this.who === "left") {
+        this.$emit("select-change", para)
+      } else if (!fixedLeft && this.hasCheckbox && this.who === "main") {
+        this.$emit("select-change", para)
       }
     },
 
@@ -144,12 +145,12 @@ export default {
         }
       }
       this.checkedKeys = [...set]
-      this.emitSelectChange()
+      this.emitSelectChange(e.target.checked, row, index)
     },
     //格式化checkboxKey
     formatCheckedKey(row) {
-      let keys = this.checkboxKey.trim().split(','),
-        result = ''
+      let keys = this.checkboxKey.trim().split(","),
+        result = ""
       keys.forEach(key => {
         result = result + row[key]
       })
@@ -179,10 +180,10 @@ export default {
     },
     //获取有嵌套的数据列field,目前只支持2级嵌套
     getNestingField(columns) {
-      let field = ''
+      let field = ""
       for (let i = 0, len = columns.length; i < len; i++) {
-        const f = columns[i].field || ''
-        const fields = f.trim().split('.')
+        const f = columns[i].field || ""
+        const fields = f.trim().split(".")
         if (fields.length > 1) {
           field = fields[0]
           break
@@ -195,10 +196,10 @@ export default {
     renderTr(column, row, index) {
       const on = {
         mouseover: () => {
-          this.$emit('trmouseover', row, index)
+          this.$emit("trmouseover", row, index)
         },
         mouseout: () => {
-          this.$emit('trmouseout', row, index)
+          this.$emit("trmouseout", row, index)
         },
         click: () => {
           //可以在此处理复选单选
@@ -209,7 +210,7 @@ export default {
     },
     //渲染单元格
     renderTableCell(row, col, index) {
-      const { width, ...restStyle } = { width: '', ...col.style }
+      const { width, ...restStyle } = { width: "", ...col.style }
 
       let cell = row[col.field]
       cell = this.addFields(row, col, index, cell)
@@ -218,7 +219,7 @@ export default {
       if (col.scopedSlots) {
         cell = this.bodyScopedSlots[col.scopedSlots]({
           row,
-          index,
+          index
         })
         //如果有自定义渲染函数
       } else if (col.customRender) {
@@ -236,9 +237,9 @@ export default {
         const tr = Array.apply(null, { length: rowspan }).map((n, i) => {
           const column = columns.map((col, icol) => {
             //获取此列样式
-            const { width, ...restStyle } = { width: '', ...col.style }
+            const { width, ...restStyle } = { width: "", ...col.style }
             //获取此列的字段名、嵌套层级
-            const fields = (col.field?col.field:'').trim().split('.')
+            const fields = (col.field ? col.field : "").trim().split(".")
             const fieldsLength = fields.length
 
             //--start 定义单元格内容
@@ -257,7 +258,7 @@ export default {
                 row,
                 row1: row[f[0]][i],
                 index,
-                index1: i,
+                index1: i
               })
               //如果有自定义渲染函数
             } else if (col.customRender) {
@@ -266,7 +267,7 @@ export default {
                 row,
                 index,
                 row1: row[f[0][i]],
-                index1: i,
+                index1: i
               })
             }
             if (rowspan > 1) {
@@ -298,7 +299,7 @@ export default {
         level = 1
       if (columns.length !== 0) {
         columns.forEach(col => {
-          const n = (col.field?col.field:'').split('.').length
+          const n = (col.field ? col.field : "").split(".").length
           if (level < n) {
             level = n
           }
@@ -317,12 +318,12 @@ export default {
       return tbody
     },
     bodyScroll(e) {
-      this.$emit('bodyscroll', {
+      this.$emit("bodyscroll", {
         target: e.target,
         left: e.target.scrollLeft,
-        top: e.target.scrollTop,
+        top: e.target.scrollTop
       })
-    },
+    }
   },
   render() {
     const { bodyWrapperClasses, tableClasses } = this
@@ -339,5 +340,5 @@ export default {
         </table>
       </div>
     )
-  },
+  }
 }

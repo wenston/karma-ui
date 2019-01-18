@@ -4,7 +4,7 @@ import mixins from "./_mixins/"
 import KTableHead from "./tableHead"
 import KTableBody from "./tableBody"
 import KColGroup from "./colGroup"
-import KTableFoot from './tableFoot'
+import KTableFoot from "./tableFoot"
 export default {
   mixins: [mixins],
   components: {
@@ -19,9 +19,10 @@ export default {
   },
   data() {
     return {
-      isCheckedAll: false,
       currentScrollTarget: null,
-      timeout: null
+      timeout: null,
+      headHeight: "",
+      footHeight: ""
     }
   },
   provide: {
@@ -69,7 +70,6 @@ export default {
     //   return {
     //     props: {
     //       ...this.$props,
-    //       isCheckedAll: this.isCheckedAll,
     //       bodyScopedSlots: this.$scopedSlots
     //     },
     //     style: {
@@ -98,10 +98,21 @@ export default {
       }
     },
     toggleCheckedAll(b) {
-      this.isCheckedAll = b
+      const {
+        leftTbodyWrapper,
+        mainTbodyWrapper,
+        rightTbodyWrapper
+      } = this.$refs
+      leftTbodyWrapper && leftTbodyWrapper.onCheckedAll(b)
+      mainTbodyWrapper && mainTbodyWrapper.onCheckedAll(b)
+      rightTbodyWrapper && rightTbodyWrapper.onCheckedAll(b)
     },
-    emitSelectChange(arr) {
-      this.$emit("select-change", arr)
+    emitSelectChange(e) {
+      //{checked,rows,row,index}
+      this.$refs.theadWrapper.onCheckedAll(
+        e.rows.length === this.$props.data.length
+      )
+      this.$emit("select-change", JSON.parse(JSON.stringify(e)))
     },
     //对columns数据进行加工后再使用
     machiningColumns() {
@@ -171,7 +182,7 @@ export default {
           const mainTable = this.$refs.mainTable,
             body = mainTable.querySelector(".k-table-body"),
             head = mainTable.querySelector(".k-table-head"),
-            foot = mainTable.querySelector('.k-table-foot'),
+            foot = mainTable.querySelector(".k-table-foot"),
             scrollbarWidth = this.getScrollBarWidth(body),
             leftTable = this.$refs.leftTable,
             rightTable = this.$refs.rightTable
@@ -207,9 +218,10 @@ export default {
                 0,
                 fixedLeft
               )
-            !this.minContent && tables.forEach(table => {
-              table.style.width = w
-            })
+            !this.minContent &&
+              tables.forEach(table => {
+                table.style.width = w
+              })
             let thWidth = 0
             th.forEach(el => {
               thWidth += parseFloat(getStyle(el, "width"))
@@ -228,9 +240,10 @@ export default {
               th = [...mainTable.querySelectorAll("thead th")]
                 .reverse()
                 .slice(0, fixedRight)
-            !this.minContent && tables.forEach(table => {
-              table.style.width = w
-            })
+            !this.minContent &&
+              tables.forEach(table => {
+                table.style.width = w
+              })
             const mainWrapperWidth = parseFloat(getStyle(mainTable, "width"))
             const mainTBodyWrapperWidth = parseFloat(
               getStyle(mainTable.querySelector(".k-table-body"), "width")
@@ -252,9 +265,8 @@ export default {
             })
             rightTable.style.width = thWidth + barWidth + "px"
             // th[0].scrollIntoView()
-            // rightTable.scrollTo(99999, 0)
-            console.log(rightTable,rightTable.scrollTo)
-            // rightTable.style.overflowX = "hidden"
+            rightTable.scrollTo(99999, 0)
+            rightTable.style.overflowX = "hidden"
             // let thWidth = 0,
             //   barWidth = this.getScrollBarWidth(
             //     rightTable.querySelector('.k-table-body'),
@@ -377,14 +389,22 @@ export default {
   render() {
     const { fixedLeft, fixedRight } = this.hasFixedColumns
     const { columns, headColumns } = this.machiningColumns()
-    let props = { ...this.$props, columns, isCheckedAll: this.isCheckedAll }
+    let props = { ...this.$props, columns }
+    let heightStyle = {}
+    if(this.height) {
+      heightStyle.height = `calc(${this.height} - ${this.headHeight || 0} - ${this
+        .footHeight || 0})`
+    }else if(this.maxHeight) {
+      heightStyle.maxHeight = `calc(${this.maxHeight} - ${this.headHeight || 0} - ${this
+        .footHeight || 0})`
+    }
     let tableBodyProps = {
       props: {
         ...props,
         bodyScopedSlots: this.$scopedSlots
       },
       style: {
-        height: this.height
+        ...heightStyle
       },
       on: {
         "select-change": this.emitSelectChange,
@@ -402,11 +422,19 @@ export default {
         head-columns={headColumns}
         ref="theadWrapper"
         onTogglechecked={this.toggleCheckedAll}
+        onHead-mounted={headHeight => {
+          this.headHeight = headHeight
+        }}
       />
     )
     //table的tfoot
     const tfoot = (
-      <k-table-foot {...{props}} />
+      <k-table-foot
+        {...{ props }}
+        onFoot-mounted={footHeight => {
+          this.footHeight = footHeight
+        }}
+      />
     )
     // console.log(columns)
     //主表格
@@ -417,7 +445,7 @@ export default {
         onScroll={this.mainTableScroll}
       >
         {thead}
-        <k-table-body {...tableBodyProps} who="main" />
+        <k-table-body {...tableBodyProps} ref="mainTbodyWrapper" who="main" />
         {tfoot}
       </div>
     )
@@ -427,7 +455,7 @@ export default {
       fixedLeftTable = (
         <div class={this.leftWrapperClasses} ref="leftTable">
           {thead}
-          <k-table-body {...tableBodyProps} who="left" />
+          <k-table-body {...tableBodyProps} ref="leftTbodyWrapper" who="left" />
           {tfoot}
         </div>
       )
@@ -438,7 +466,11 @@ export default {
       fixedRightTable = (
         <div class={this.rightWrapperClasses} ref="rightTable">
           {thead}
-          <k-table-body {...tableBodyProps} who="right" />
+          <k-table-body
+            {...tableBodyProps}
+            ref="rightTbodyWrapper"
+            who="right"
+          />
           {tfoot}
         </div>
       )

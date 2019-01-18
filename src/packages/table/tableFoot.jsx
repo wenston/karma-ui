@@ -1,3 +1,4 @@
+import { getStyle } from "karma-ui/util/dom"
 import { props } from "./_util/props"
 import KCell from "./tableCell"
 import KColGroup from "./colGroup"
@@ -115,5 +116,10 @@ export default {
       )
     }
     return false
+  },
+  mounted() {
+    this.$nextTick(()=>{
+      this.$emit('foot-mounted', getStyle(this.$el,'height'))
+    })
   }
 }
