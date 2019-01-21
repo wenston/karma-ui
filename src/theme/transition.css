@@ -47,3 +47,29 @@
     transition: .25s ease;
   }
 }
+
+/*//动画*/
+/*下拉*/
+.k-transition-slide-down-enter-active {
+  transition: var(--transition);
+  transform-origin:0 0;
+}
+.k-transition-slide-down-enter {
+  transform:rotateX(60deg);
+  opacity: 0;
+}
+.k-transition-slide-down-enter-to
+ {
+  transform:rotateX(0deg);
+  opacity: 1;
+}
+
+.k-transition-slide-down-leave {
+  opacity: 1;
+  transform:rotateX(0deg);
+}
+
+.k-transition-slide-down-leave-to {
+  opacity: 0;
+  transform:rotateX(60deg);
+}
