@@ -54,10 +54,19 @@ export const props = {
     type: String,
     default: "Id"
   },
+  //支持单选的情况下，需指定一个唯一的标示，同checkboxKey
+  radioKey: {
+    type: String,
+    default: 'Id'
+  },
   //是否支持单选
   hasRadio: {
     type: Boolean,
     default: false
+  },
+  //单选时，选中的radioKey对应的值
+  currentValue: {
+    type: [Number,String]
   },
   //表格宽度，默认情况下：是100%，即：各个列都是等宽
   //，且各个列的宽之和是等于表格总宽度的
@@ -85,5 +94,7 @@ export const props = {
   sumText: {
     type: String,
     default: "合计"
-  }
+  },
+  //可调整列宽
+  resizeWidth: Boolean,
 }

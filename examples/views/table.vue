@@ -8,6 +8,7 @@
       has-index
       index-text="序"
       nowrap
+      resize-width
       max-height="calc(100vh - 130px)"
       @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
@@ -18,6 +19,7 @@
       @select-change="onSelectChange"
       size="big"
       hover
+      resize-width
       min-content>
       <template slot="xxx"
         slot-scope="{row}">
@@ -40,9 +42,11 @@
     <h3 class="layout__title">根据数据自动合并行</h3>
     <k-table :data="table1"
       :columns="columns2"
-      has-radio>
+      has-radio
+      radioKey="Code,Id"
+      v-model="currentId">
       <template slot="ProCount"
-        slot-scope="{row1,index1}">
+        slot-scope="{row1}">
         <k-input size="mini"
           v-model="row1.ProCount"
           block></k-input>
@@ -779,7 +783,8 @@ export default {
             );
           }
         }
-      ]
+      ],
+      currentId: 'PC04201811230002,1053'
     };
   },
   methods: {
@@ -789,6 +794,11 @@ export default {
     onDel(row, row1, index) {
       console.log(row, row1, index);
       // row.Details.splice(index,1)
+    }
+  },
+  watch: {
+    currentId(v) {
+      console.log(v)
     }
   }
 };

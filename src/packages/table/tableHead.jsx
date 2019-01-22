@@ -69,15 +69,34 @@ export default {
       let columns = JSON.parse(JSON.stringify(this.headColumns))
       //记录总共行数
       let maxRowLength = 0
+      //记录单元格序列号
+      let __index = 0
       //标记每一行数据
+      /**
+       * addIndex，给每列添加一个index，对应col的序列
+       * 
+       */
+      let addIndex = (col,colChildren) => {
+        if(colChildren.children && colChildren.children.length) {
+          col.__index = col.__index + colChildren.children.length - 1
+          colChildren.children.forEach(c=>{
+            addIndex(col,c)
+          })
+        }
+      }
+      //addLevel标记上层级，方便合并行和列
       let addLevel = (cols, i) => {
         cols.forEach(col => {
           //__level代表了第几行tr
+          col.__index = __index++
           col.__level = i
           if (maxRowLength < i) {
             maxRowLength = i
           }
           if (col.children && col.children.length) {
+            // col.__index = col.__index + col.children.length - 1
+            addIndex(col,col)
+            __index--
             addLevel(col.children, col.__level + 1)
           }
         })
@@ -111,10 +130,20 @@ export default {
             props: {
               colspan,
               rowspan,
+              resizeWidth: this.resizeWidth,
               tag: "th"
             },
             class: {
-              'k-table-td-center': colspan>1
+              "k-table-td-center": colspan > 1
+            },
+            on: {
+              handleResizeDown: (e,el) => {
+                if(col.children && col.children.length) {
+                  console.log(col)
+                  return
+                }
+                this.$emit("handleResizeDown", e,el,col.__index)
+              }
             }
           }
           //如果有children，说明有列合并
@@ -141,8 +170,8 @@ export default {
     )
   },
   mounted() {
-    this.$nextTick(()=>{
-      this.$emit('head-mounted', getStyle(this.$el,'height'))
+    this.$nextTick(() => {
+      this.$emit("head-mounted", getStyle(this.$el, "height"))
     })
   }
 }

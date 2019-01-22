@@ -18,7 +18,7 @@ export default {
   name:'KRadio',
   model: {
     prop: "modelValue",
-    event: 'bianbianbian'
+    event: 'modelValueChange'
   },
   computed: {
     state() {
@@ -35,12 +35,15 @@ export default {
     },
     checked:Boolean,
     disabled:Boolean,
-    value:[String,Number,Boolean],
+    value: {
+      type: [String,Number,Boolean],
+      default: void 0
+    },
     name:String
   },
   methods: {
     onChange(e) {
-      this.$emit('bianbianbian',this.state?'':this.value);
+      this.$emit('modelValueChange',this.state?'':this.value);
       this.$emit('change',e);
     }
   }

@@ -1,28 +1,32 @@
-import { getStyle } from "karma-ui/util/dom"
+import { getStyle,offset } from "karma-ui/util/dom"
 import { props } from "./_util/props"
 import mixins from "./_mixins/"
 import KTableHead from "./tableHead"
 import KTableBody from "./tableBody"
-import KColGroup from "./colGroup"
 import KTableFoot from "./tableFoot"
 export default {
   mixins: [mixins],
   components: {
     KTableHead,
     KTableBody,
-    KColGroup,
     KTableFoot
   },
   name: "KTable",
   props: {
     ...props
   },
+  model: {
+    prop: 'currentValue',
+    event: 'currentValueChange'
+  },
   data() {
     return {
       currentScrollTarget: null,
       timeout: null,
       headHeight: "",
-      footHeight: ""
+      footHeight: "",
+      showBaseLine: false,
+      currentResizeTd: null,//当前要调整列宽的单元格
     }
   },
   provide: {
@@ -114,6 +118,11 @@ export default {
       )
       this.$emit("select-change", JSON.parse(JSON.stringify(e)))
     },
+    emitRadioChange(e) {//{radioKey的值value，row,index}
+      this.$emit('currentValueChange',e.value)
+      //向组件外发射
+      this.$emit('radio-change',e)
+    },
     //对columns数据进行加工后再使用
     machiningColumns() {
       // let columns = this.columns
@@ -178,7 +187,7 @@ export default {
     //才能对齐
     justifyColumns() {
       this.$nextTick(() => {
-        if (this.height) {
+        if (this.height || this.maxHeight) {
           const mainTable = this.$refs.mainTable,
             body = mainTable.querySelector(".k-table-body"),
             head = mainTable.querySelector(".k-table-head"),
@@ -366,6 +375,77 @@ export default {
         const tr = table.querySelectorAll(".k-table-body table tbody tr")
         tr[index].classList[isIn ? "add" : "remove"]("k-table-tr-hover")
       }
+    },
+    //e是事件对象，el是当前要调整宽度的单元格，index是第几个单元格
+    handleResizeDown(e,el,index) {
+      this.currentResizeTd = el
+      document.addEventListener('mousemove', this.handleResizeMove)
+      document.addEventListener('mouseup', this.handleResizeUp)
+
+      const tdOldWidth = parseFloat(getStyle(el,'width'))
+      const totalHeight = getStyle(this.$refs.mainTable,'height')
+      const baseLine = this.$refs.baseLine
+      const left = offset(el,this.$el).left + tdOldWidth
+      baseLine.style.height = totalHeight
+      baseLine.style.left = left + 'px'
+      this.currentResizeTd.startX = e.clientX
+      this.currentResizeTd.tdOldWidth = tdOldWidth
+      this.currentResizeTd.baseLineLeft = left
+      this.currentResizeTd.colIndex = index
+      this.showBaseLine = true
+    },
+    handleResizeMove(e) {
+      const el = this.currentResizeTd
+      const dx = e.clientX - el.startX
+      this.$refs.baseLine.style.left = el.baseLineLeft + dx + 'px'
+    },
+    handleResizeUp(e) {
+      const {mainTable,leftTable,rightTable} = this.$refs
+      this.resizeColumnWidth(mainTable,e)
+      leftTable && this.resizeColumnWidth(leftTable,e)
+      rightTable && this.resizeColumnWidth(rightTable,e)
+
+      this.showBaseLine = false
+      this.currentResizeTd = null
+      document.removeEventListener('mousemove', this.handleResizeMove)
+      document.removeEventListener('mouseup', this.handleResizeUp)
+    },
+    resizeColumnWidth(t,e) {
+      const {colIndex,startX,tdOldWidth} = this.currentResizeTd
+      if(t) {
+        const head = t.querySelector('.k-table-head')
+          , body = t.querySelector('.k-table-body')
+          , foot = t.querySelector('.k-table-foot')
+          , resize = el => {
+            if(el) {
+              const cols = el.querySelectorAll('col')
+              if(cols) {
+                cols[+colIndex].style.width = tdOldWidth + e.clientX - startX + 'px'
+              }
+            }
+          }
+        head && resize(head)
+        body && resize(body)
+        foot && resize(foot)
+      }
+    },
+    //调整列宽时，显示出来一个基准线
+    rBaseLine() {
+      if(this.resizeWidth) {
+        const p = {
+          class: {
+            'k-table-base-line': true
+          },
+          ref: 'baseLine',
+          directives: [{
+            name: 'show',
+            value: this.showBaseLine
+          }]
+        }
+        return (
+          <div {...p}></div>
+        )
+      }
     }
   },
   mounted() {
@@ -408,6 +488,7 @@ export default {
       },
       on: {
         "select-change": this.emitSelectChange,
+        'toggle-radio-row': this.emitRadioChange,
         bodyscroll: this.bodyScroll,
         //TODO: 由于是js控制的hover后背景变色，如果有合并行的情况，会有不准确的问题。待修正
         trmouseover: this.trMouseover,
@@ -421,6 +502,7 @@ export default {
         {...{ props }}
         head-columns={headColumns}
         ref="theadWrapper"
+        onHandleResizeDown={this.handleResizeDown}
         onTogglechecked={this.toggleCheckedAll}
         onHead-mounted={headHeight => {
           this.headHeight = headHeight
@@ -476,10 +558,14 @@ export default {
       )
     }
     return (
-      <div class="k-table-outer">
+      <div class={{
+        "k-table-outer":true,
+        'k-no-select':this.showBaseLine&&this.resizeWidth
+      }}>
         {mainTable}
         {fixedLeftTable}
         {fixedRightTable}
+        {this.rBaseLine()}
       </div>
     )
   }

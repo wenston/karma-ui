@@ -260,4 +260,7 @@
   /* 固定列时，左右移动时的固定列阴影 */
   --table-fixed-left-shadow: 6px 0 3px -3px rgba(0,0,0,.10);
   --table-fixed-right-shadow: -6px 0 3px -3px rgba(0,0,0,.10);
+
+  /** 列宽调整的基准线 */
+  --table-base-line-color: color(var(--danger-color) a(70%));
 }

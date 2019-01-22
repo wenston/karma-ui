@@ -26,7 +26,8 @@ export default {
   data() {
     return {
       checkedKeys: [], //保存复选的所有key
-      checkedRows: [] //保存复选的所有行数据
+      checkedRows: [], //保存复选的所有行数据
+      currentRadioValue: '',
     }
   },
   computed: {
@@ -59,10 +60,15 @@ export default {
           mouseout: () => {}
         }
       }
-    }
+    },
   },
   watch: {
-    
+    currentValue: {
+      immediate: true,
+      handler(v) {
+        this.currentRadioValue = v
+      }
+    }
   },
   methods: {
     onCheckedAll(checked) {
@@ -147,14 +153,20 @@ export default {
       this.checkedKeys = [...set]
       this.emitSelectChange(e.target.checked, row, index)
     },
-    //格式化checkboxKey
+    //格式化checkboxKey/radioKey
     formatCheckedKey(row) {
-      let keys = this.checkboxKey.trim().split(","),
-        result = ""
+      let keys = []
+      let result = []
+      if(this.checkboxKey && this.hasCheckbox) {
+
+        keys = this.checkboxKey.trim().split(",")
+      }else if(this.radioKey && this.hasRadio) {
+        keys = this.radioKey.trim().split(',')
+      }
       keys.forEach(key => {
-        result = result + row[key]
+        result.push(row[key])
       })
-      return result
+      return result.join(',')
     },
     //处理序号列、多选或者单选的情况
     addFields(row, col, index, cell) {
@@ -174,7 +186,19 @@ export default {
         )
         //如果有单选框
       } else if (this.hasRadio && col.field === this.__radio) {
-        cell = <k-radio />
+        const radioProps = {
+          props: {
+            modelValue: this.currentRadioValue,
+            value: this.formatCheckedKey(row)
+          },
+          on: {
+            modelValueChange: value=>{
+              this.currentRadioValue = value
+              this.$emit('toggle-radio-row',{value,row,index})
+            }
+          }
+        }
+        cell = <k-radio {...radioProps} />
       }
       return cell
     },
