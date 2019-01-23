@@ -159,10 +159,11 @@
   /*popup*/
   --popup-z-index: 9998;
   --popup-radius: var(--radius);
-  --popup-mask-bg-color: color(rgb(0,0,0) a(40%));
+  --popup-mask-bg-color: color(rgb(0,0,0) a(20%));
   --popup-container-width: 300px;
   --popup-container-bg-color: var(--bg-color);
-  --popup-box-shadow: 0px 8px 10px -9px rgba(0, 0, 0, .5);
+  --popup-box-shadow: 0px 8px 10px -9px rgba(0, 0, 0, .5),
+    0 2px 10px 0 rgba(0,0,0,.2);
   --popup-header-bg-color-1: #e0e0e0;
   --popup-header-bg-color-2: #e0e0e0;
   --popup-header-padding: 0 15px;
