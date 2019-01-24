@@ -1,10 +1,16 @@
+.k-absolute {
+  position: absolute;
+}
+.k-no-select {
+  user-select: none;
+}
 .k-block {
   display: block;
   width: auto;
 }
 
 .k-center {
-  position: absolute;
+  @extend .k-absolute;
   text-align: center;
   top: 0;
   right: 0;
@@ -17,7 +23,4 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-.k-no-select {
-  user-select: none;
 }

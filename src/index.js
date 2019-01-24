@@ -21,6 +21,7 @@ import KDatePicker from 'karma-ui/packages/date-picker/index.js'
 import KScrollbar from 'karma-ui/packages/scrollbar/index.js'
 import KTransition from 'karma-ui/packages/transition/index.js'
 import KTable from 'karma-ui/packages/table/index.js'
+import KPosition from 'karma-ui/packages/position/index.js'
 //css图标
 import KIcon from 'karma-ui/icon/css/index.js'
 //指令
@@ -52,7 +53,8 @@ let obj = {
   KDatePicker,
   KScrollbar,
   KTransition,
-  KTable
+  KTable,
+  KPosition
 }
 
 export default {

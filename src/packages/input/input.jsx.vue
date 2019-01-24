@@ -41,7 +41,7 @@ export default {
     block: Boolean,
     size: {
       type: String,
-      default: "medium"
+      default: "small"
     },
     styles: Object,
     inputStyles: Object
@@ -169,8 +169,14 @@ export default {
     onFocus() {
       this.$refs.input.focus()
     },
+    blur() {
+      this.$refs.input.blur()
+    },
     onSelect() {
       this.$refs.input.select()
+    },
+    getInputElement() {
+      return this.$refs.input
     }
   },
   watch: {

@@ -14,7 +14,7 @@
   }
   &-enter-active,
   &-leave-active {
-    transition: .25s ease;
+    transition: height .25s ease;
   }
 }
 .k-t-fade {
@@ -44,13 +44,17 @@
   }
   &-enter-active,
   &-leave-active {
-    transition: .25s ease;
+    transition: transform .25s ease;
   }
 }
 
 /*//动画*/
 /*下拉*/
 .k-transition-slide-down-enter-active {
+  transition: transform var(--transition);
+  transform-origin:0 0;
+}
+.k-transition-slide-down-leave-active {
   transition: var(--transition);
   transform-origin:0 0;
 }

@@ -1,67 +1,17 @@
-<template>
-  <div v-clickoutside="hideIt"
-    v-esc="hideIt"
-    class="k-select"
-    @click.stop="toggleList"
-    @mouseover="showDeleteBtn"
-    @mouseout="hideDeleteBtn">
-    <z-input :class="{'k-select__active':ifOptionList}"
-      :placeholder="placeholder"
-      readonly
-      :size="size"
-      :value="modelValue"
-      :disabled="disabled"
-      :styles="styles"
-      >
-      <i class="k-icon-cancel k-select__clear" 
-        slot="append"
-        @click.stop="clear"
-        v-if="showDelete && clearable"></i>
-      <i class="k-icon-arrow_drop_down k-select__down"
-        :class="{'k-select__down--up':ifOptionList}"
-        @click.stop="clear"
-        v-else
-        slot="append"></i>
-    </z-input>
-    <!-- 如果是v-if，则子组件不会被created/mounted，直到显示子组件的时候，才会实例化。所以初始化值时就初始化不上了 -->
-    <transition name="k-transition-slide-down">
-      <!-- <scrollbar 
-        v-show="ifOptionList"
-        class="k-select__list"
-        > -->
-        <ul v-show="ifOptionList" class="k-select__list" ref="list">
-          <slot></slot>
-        </ul>
-      <!-- </scrollbar> -->
-    </transition>
-  </div>
-</template>
-
 <script>
-//TODO: 引入scrollbar组件后，当点住滚动条拖拽滚动，并在列表区域释放鼠标时，
-//列表会隐藏（chrome中会有这个问题，火狐中没有这个问题）
 import ZInput from "karma-ui/packages/input/input.jsx.vue"
 import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
-import emitter from "karma-ui/mixins/emitter.js"
-// import scrollbar from 'karma-ui/packages/scrollbar/'
+import { optionWrapper } from "karma-ui/packages/option/index"
 
 export default {
-  mixins: [emitter],
   name: "KSelect",
-  componentName: "KSelect",
   components: {
-    ZInput,
-    // scrollbar
+    ZInput
   },
-  // provide() {
-  //   return {
-  //     selectComponent: this
-  //   };
-  // },
   model: {
     prop: "modelKey",
-    event: "bianbianbian"
+    event: "modelKeyChange"
   },
   props: {
     size: String,
@@ -85,7 +35,9 @@ export default {
     return {
       modelValue: "",
       showOptionList: false,
-      showDelete: false
+      showDelete: false,
+      //optionWrapper实例及里边包含的option列表实例
+      ins: optionWrapper()
     }
   },
   computed: {
@@ -121,44 +73,147 @@ export default {
         this.showDelete = false
       }
     },
-    toggleList() {
-      if (!this.disabled) {
-        this.showOptionList = !this.showOptionList
+    showList() {
+      if(!this.disabled) {
+        this.showOptionList = true
+      }
+    },
+    hideList() {
+      if(!this.disabled) {
+        this.showOptionList = false
       }
     },
     _change(obj) {
       this.modelValue = obj.v
-      this.$emit("bianbianbian", obj.k)
+      this.$emit("modelKeyChange", obj.k)
       this.$emit("change", obj)
       this.hideIt()
+    },
+    rIcon() {
+      if (this.showDelete && this.clearable) {
+        return (
+          <i
+            class="k-icon-cancel k-select__clear"
+            slot="append"
+            onClick={e => {
+              this.clear()
+              e.stopPropagation()
+            }}
+          />
+        )
+      } else {
+        return (
+          <i
+            slot="append"
+            onClick={e => {
+              this.clear()
+              e.stopPropagation()
+            }}
+            class={{
+              "k-icon-arrow_drop_down k-select__down": true,
+              "k-select__down--up": this.ifOptionList
+            }}
+          />
+        )
+      }
+    },
+    rOptionList() {
+      if(this.ifOptionList) {
+        this.ins.show()
+      }else{
+        this.ins.hide()
+      }
+    },
+    //实例化option列表
+    initIns() {
+      this.$nextTick(()=>{
+
+        this.ins.init(this)
+      })
+    },
+    getInputElement() {
+      return this.$refs.input.getInputElement()
     }
   },
-  mounted() {},
+  destroyed() {
+    this.ins.destroy()
+  },
+  updated() {
+    this.initIns()
+  },
+  mounted() {
+    this.initIns()
+  },
   created() {
-    this.$on("getValue", opt => {
-      this._change(opt)
-    })
-    this.$on("optionReady", () => {
-      this.broadcast("KOption", "iNeedValue", this.modelKey)
+    this.$on('getKeyValueFromOption',(k,v)=> {
+      this._change({k,v})
     })
   },
   watch: {
     modelKey(n) {
       if (n === undefined || n === "") {
         this._change({})
-      } else {
-        this.broadcast("KOption", "iNeedValue", n)
       }
     },
     ifOptionList(val) {
       if (!val) {
-        this.$el.querySelector("input").blur()
+        this.$refs.input.blur()
       }
     }
   },
   directives: {
     clickoutside,
     esc
+  },
+  render() {
+    const p = {
+      directives: [
+        {
+          name: "clickoutside",
+          value: this.hideIt
+        },
+        {
+          name: "esc",
+          value: this.hideIt
+        }
+      ],
+      on: {
+        click: this.showList,
+        mouseover: this.showDeleteBtn,
+        mouseout: this.hideDeleteBtn
+      },
+      class: {
+        "k-select": true
+      }
+    }
+    const inputProps = {
+      ref: 'input',
+      class: {
+        "k-select__active": this.ifOptionList
+      },
+      props: {
+        placeholder: this.placeholder,
+        readonly: true,
+        size: this.size,
+        value: this.modelValue,
+        disabled: this.disabled
+      },
+      on: {
+        focus:()=>{
+          this.showList()
+        },
+        blur:()=>{
+          this.hideList()
+        }
+      },
+      style: this.styles
+    }
+    return (
+      <div {...p}>
+        <z-input {...inputProps}>{this.rIcon()}</z-input>
+        {this.rOptionList()}
+      </div>
+    )
   }
 }
 </script>
