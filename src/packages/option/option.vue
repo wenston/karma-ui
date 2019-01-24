@@ -32,6 +32,9 @@ export default {
       )
     }
   },
+  created() {
+    this.positionComponent.$props.vm.$emit('getAllOptionComp',this)
+  },
   watch: {
     selected: {
       immediate: true,

@@ -37,7 +37,8 @@ export default {
       showOptionList: false,
       showDelete: false,
       //optionWrapper实例及里边包含的option列表实例
-      ins: optionWrapper()
+      ins: optionWrapper(),
+      options: [] //收集本组件下属的所有option组件
     }
   },
   computed: {
@@ -46,11 +47,6 @@ export default {
     }
   },
   methods: {
-    hideIt(e) {
-      if (!this.disabled) {
-        this.showOptionList = false
-      }
-    },
     clear() {
       this._change({})
       this.showDelete = false
@@ -74,20 +70,21 @@ export default {
       }
     },
     showList() {
-      if(!this.disabled) {
+      if (!this.disabled) {
         this.showOptionList = true
       }
     },
     hideList() {
-      if(!this.disabled) {
+      if (!this.disabled) {
         this.showOptionList = false
+        this.$refs.input.blur()
       }
     },
-    _change(obj) {
+    _change(obj, hide) {
       this.modelValue = obj.v
       this.$emit("modelKeyChange", obj.k)
       this.$emit("change", obj)
-      this.hideIt()
+      hide && this.hideList()
     },
     rIcon() {
       if (this.showDelete && this.clearable) {
@@ -117,22 +114,52 @@ export default {
         )
       }
     },
-    rOptionList() {
-      if(this.ifOptionList) {
-        this.ins.show()
-      }else{
-        this.ins.hide()
-      }
-    },
     //实例化option列表
     initIns() {
-      this.$nextTick(()=>{
-
+      this.$nextTick(() => {
         this.ins.init(this)
       })
     },
     getInputElement() {
       return this.$refs.input.getInputElement()
+    },
+    handleKeydown(e) {
+      const code = e.keyCode
+      if (code != 40 && code != 38 && code != 13) {
+        return
+      }
+      let i = -1
+      this.options.forEach((op, idx) => {
+        if (op.selected) {
+          i = idx
+        }
+      })
+      if (code == 38) {
+        i -= 1
+        if (i < 0) {
+          i = this.options.length - 1
+        }
+      } else if (code == 40) {
+        //下
+        i += 1
+        if (i >= this.options.length) {
+          i = 0
+        }
+      } else if (code == 13) {
+        this.hideList()
+      }
+      this._change(
+        { k: this.options[i].value, v: this.options[i].label },
+        false
+      )
+
+      e.preventDefault()
+    },
+    addUpDownEvent() {
+      document.addEventListener("keydown", this.handleKeydown)
+    },
+    removeUpDownEvent() {
+      document.removeEventListener("keydown", this.handleKeydown)
     }
   },
   destroyed() {
@@ -145,8 +172,11 @@ export default {
     this.initIns()
   },
   created() {
-    this.$on('getKeyValueFromOption',(k,v)=> {
-      this._change({k,v})
+    this.$on("getKeyValueFromOption", (k, v, hide) => {
+      this._change({ k, v }, hide)
+    })
+    this.$on("getAllOptionComp", option => {
+      this.options.push(option)
     })
   },
   watch: {
@@ -156,8 +186,12 @@ export default {
       }
     },
     ifOptionList(val) {
-      if (!val) {
-        this.$refs.input.blur()
+      if (val) {
+        this.ins.show()
+        this.addUpDownEvent()
+      } else {
+        this.ins.hide()
+        this.removeUpDownEvent()
       }
     }
   },
@@ -170,11 +204,11 @@ export default {
       directives: [
         {
           name: "clickoutside",
-          value: this.hideIt
+          value: this.hideList
         },
         {
           name: "esc",
-          value: this.hideIt
+          value: this.hideList
         }
       ],
       on: {
@@ -187,7 +221,7 @@ export default {
       }
     }
     const inputProps = {
-      ref: 'input',
+      ref: "input",
       class: {
         "k-select__active": this.ifOptionList
       },
@@ -199,10 +233,10 @@ export default {
         disabled: this.disabled
       },
       on: {
-        focus:()=>{
+        focus: () => {
           this.showList()
         },
-        blur:()=>{
+        blur: () => {
           this.hideList()
         }
       },
@@ -211,7 +245,6 @@ export default {
     return (
       <div {...p}>
         <z-input {...inputProps}>{this.rIcon()}</z-input>
-        {this.rOptionList()}
       </div>
     )
   }
