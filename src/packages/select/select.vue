@@ -1,4 +1,5 @@
 <script>
+import { offset } from "karma-ui/util/dom"
 import ZInput from "karma-ui/packages/input/input.jsx.vue"
 import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
@@ -38,7 +39,9 @@ export default {
       showDelete: false,
       //optionWrapper实例及里边包含的option列表实例
       ins: optionWrapper(),
-      options: [] //收集本组件下属的所有option组件
+      options: [], //收集本组件下属的所有option组件
+      optionCompName: '',
+      isMouseInOption: false,
     }
   },
   computed: {
@@ -120,20 +123,35 @@ export default {
         this.ins.init(this)
       })
     },
-    getInputElement() {
-      return this.$refs.input.getInputElement()
-    },
-    handleKeydown(e) {
-      const code = e.keyCode
-      if (code != 40 && code != 38 && code != 13) {
-        return
+    scrollIntoView(index) {
+      let i = 0
+      if(typeof index === 'number') {
+        i = index
+      }else{
+        i = this.getSelectedOptionIndex()
+        if(i===-1) {
+          i = 0
+        }
       }
+      this.ins.$el.scrollTop = offset(this.options[i].$el, this.ins.$el).top
+      
+    },
+    getSelectedOptionIndex() {
       let i = -1
       this.options.forEach((op, idx) => {
         if (op.selected) {
           i = idx
         }
       })
+      return i
+    },
+    handleKeydown(e) {
+      clearTimeout(this.blurTimeout)
+      const code = e.keyCode
+      if (code != 40 && code != 38 && code != 13) {
+        return
+      }
+      let i = this.getSelectedOptionIndex()
       if (code == 38) {
         i -= 1
         if (i < 0) {
@@ -152,6 +170,7 @@ export default {
         { k: this.options[i].value, v: this.options[i].label },
         false
       )
+      this.scrollIntoView(i)
 
       e.preventDefault()
     },
@@ -160,6 +179,21 @@ export default {
     },
     removeUpDownEvent() {
       document.removeEventListener("keydown", this.handleKeydown)
+    },
+    getAllOptionsComponent() {
+      let arr = []
+      const fn = Comp => {
+
+        Comp.$children.forEach(child=>{
+          if(child.$options.name === this.optionCompName) {
+            arr.push(child)
+          }else{
+            fn(child)
+          }
+        })
+      }
+      fn(this.ins)
+      this.options = arr
     }
   },
   destroyed() {
@@ -175,9 +209,18 @@ export default {
     this.$on("getKeyValueFromOption", (k, v, hide) => {
       this._change({ k, v }, hide)
     })
-    this.$on("getAllOptionComp", option => {
-      this.options.push(option)
+    this.$on("getOptionComponentName", name => {
+      this.optionCompName = name
     })
+    this.$on('inovering', isMouseInOption => {
+      this.isMouseInOption = isMouseInOption
+      //如果鼠标离开，且当前焦点不是此组件的input，则隐藏列表
+      if(!isMouseInOption) {
+        if(document.activeElement!=this.$refs.input.getInputElement()) {
+          this.hideList()
+        }
+      }
+    }) 
   },
   watch: {
     modelKey(n) {
@@ -187,7 +230,11 @@ export default {
     },
     ifOptionList(val) {
       if (val) {
-        this.ins.show()
+        //获取到所有option组件
+        this.getAllOptionsComponent()
+        //展示下拉列表并定位到选中的元素
+        this.ins.show(this.scrollIntoView)
+        //绑定键盘上下键操作
         this.addUpDownEvent()
       } else {
         this.ins.hide()
@@ -237,7 +284,10 @@ export default {
           this.showList()
         },
         blur: () => {
-          this.hideList()
+          //失去焦点的时候，如果鼠标还在列表中，则不隐藏
+          if(!this.isMouseInOption) {
+            this.hideList()
+          }
         }
       },
       style: this.styles

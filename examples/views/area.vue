@@ -17,7 +17,7 @@
 export default {
   data() {
     return {
-      code:'140311',
+      code:'621221',
       area:null
     }
   },

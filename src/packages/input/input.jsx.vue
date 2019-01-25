@@ -3,6 +3,7 @@ import { validate } from "karma-ui/mixins/validate.js"
 export default {
   mixins: [validate],
   name: "KInput",
+  inheritAttrs: false,
   data() {
     return {
       oldValue: ""

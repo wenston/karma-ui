@@ -8,11 +8,7 @@
   @extend .k-ellipsis;
   &:hover {
     color: var(--option-hover-color);
-    background: linear-gradient(
-      130deg,
-      var(--option-hover-bg-color),
-      white
-    );
+    background: var(--option-hover-bg-color);
   }
   &.k-option--selected {
     background: linear-gradient(

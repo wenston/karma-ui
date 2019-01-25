@@ -8,7 +8,10 @@ export default {
       parent: null,
       list: null,
       visible: false,
-      vm: null //position组件要有个left和top值，这两个值是相对于vm的$el计算的
+       //position组件要有个left和top值，这两个值是相对于vm的$el计算的
+       //在此，vm就是select组件
+      vm: null,
+      afterShow: ()=>{}
     }
   },
   methods: {
@@ -16,8 +19,16 @@ export default {
       this.list = vm.$slots.default
       this.vm = vm
     },
-    show() {
+    show(callback) {
       this.visible = true
+      if(callback) {
+        this.afterShow = callback
+      }
+    },
+    handleEnter() {
+      if(this.afterShow) {
+        this.afterShow()
+      }
     },
     hide() {
       this.visible = false
@@ -28,6 +39,11 @@ export default {
     }
   },
   render() {
+    const transitionProps = {
+      on: {
+        'enter': this.handleEnter
+      }
+    }
     const positionProps = {
       props: {
         tag: "ul",
@@ -43,16 +59,22 @@ export default {
         }
       ],
       on: {
-        mousedown(e) {
+        mousedown:e=> {
           e.stopPropagation()
         },
-        mouseup(e) {
+        mouseup:e=>{
           e.stopPropagation()
+        },
+        mouseover:e=>{
+          this.vm.$emit('inovering',true)
+        },
+        mouseout: e=>{
+          this.vm.$emit('inovering',false)
         }
       }
     }
     return (
-      <transition name="k-transition-slide-down">
+      <transition name="k-transition-slide-down" {...transitionProps}>
         <k-position {...positionProps}>
           {this.list}
         </k-position>
