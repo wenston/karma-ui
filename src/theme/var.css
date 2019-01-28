@@ -108,7 +108,7 @@
   --select-option-max-height: 251px;
   --select-option-bg-color: var(--bg-color);
   /* option */
-  --option-height: 28px;
+  --option-height: 25px;
   --option-padding: 0 6px;
   --option-hover-color: var(--primary-color);
   --option-hover-bg-color: color(var(--primary-color) tint(80%));

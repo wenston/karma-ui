@@ -72,6 +72,11 @@ export default {
         this.showDelete = false
       }
     },
+    toggleList() {
+      if(!this.disabled) {
+        this.showOptionList = !this.showOptionList
+      }
+    },
     showList() {
       if (!this.disabled) {
         this.showOptionList = true
@@ -146,7 +151,6 @@ export default {
       return i
     },
     handleKeydown(e) {
-      clearTimeout(this.blurTimeout)
       const code = e.keyCode
       if (code != 40 && code != 38 && code != 13) {
         return
@@ -280,6 +284,9 @@ export default {
         disabled: this.disabled
       },
       on: {
+        click: () => {
+          this.toggleList()
+        },
         focus: () => {
           this.showList()
         },

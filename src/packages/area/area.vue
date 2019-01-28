@@ -59,16 +59,16 @@ export default {
     };
   },
   model: {
-    prop: "codecode",
-    event: "codecodebian"
+    prop: "code",
+    event: "codeChange"
   },
   props: {
-    codecode: [String, Number],
+    code: [String, Number],
     // code: [String, Number]
   },
   computed: {
     sCode() {
-      return this.codecode + "";
+      return this.code + "";
     }
   },
   methods: {
@@ -160,22 +160,22 @@ export default {
       if (n == old) return;
       if(n == this.splitCode()[0]) return;
       if (n) {
-        this.$emit('codecodebian',n)
-        //不需要再调用this.emit，因为给codecode赋值后，会触发watcher:sCode方法
+        this.$emit('codeChange',n)
+        //不需要再调用this.emit，因为给code赋值后，会触发watcher:sCode方法
       }
     },
     curCity(n,old) {
       if(n==old) return;
       if(n==this.splitCode()[1]) return;
       if(n) {
-        this.$emit('codecodebian',n)
+        this.$emit('codeChange',n)
       }
     },
     curCounty(n,old) {
       if(n==old) return;
       if(n===this.splitCode()[2]) return;
       if(n) {
-        this.$emit('codecodebian',n)
+        this.$emit('codeChange',n)
       }
     }
   }
