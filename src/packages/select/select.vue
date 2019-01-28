@@ -72,11 +72,6 @@ export default {
         this.showDelete = false
       }
     },
-    toggleList() {
-      if(!this.disabled) {
-        this.showOptionList = !this.showOptionList
-      }
-    },
     showList() {
       if (!this.disabled) {
         this.showOptionList = true
@@ -263,7 +258,7 @@ export default {
         }
       ],
       on: {
-        // click: this.toggleList,
+        click: this.showList,
         mouseover: this.showDeleteBtn,
         mouseout: this.hideDeleteBtn
       },
