@@ -167,7 +167,7 @@ export default {
     toClear() {
       this.$emit("bianbianbian", "")
     },
-    onFocus() {
+    focus() {
       this.$refs.input.focus()
     },
     blur() {

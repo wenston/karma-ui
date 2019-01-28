@@ -59,16 +59,12 @@ export default {
         }
       ],
       on: {
-        mousedown:e=> {
+        mousedown:e=>{
           e.stopPropagation()
-        },
-        mouseup:e=>{
-          e.stopPropagation()
-        },
-        mouseover:e=>{
           this.vm.$emit('inovering',true)
         },
-        mouseout: e=>{
+        mouseup: e=>{
+          e.stopPropagation()
           this.vm.$emit('inovering',false)
         }
       }

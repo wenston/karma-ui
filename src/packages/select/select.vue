@@ -41,7 +41,7 @@ export default {
       ins: optionWrapper(),
       options: [], //收集本组件下属的所有option组件
       optionCompName: '',
-      isMouseInOption: false,
+      isMouseDownOption: false,
     }
   },
   computed: {
@@ -216,10 +216,10 @@ export default {
     this.$on("getOptionComponentName", name => {
       this.optionCompName = name
     })
-    this.$on('inovering', isMouseInOption => {
-      this.isMouseInOption = isMouseInOption
-      //如果鼠标离开，且当前焦点不是此组件的input，则隐藏列表
-      if(!isMouseInOption) {
+    this.$on('inovering', isMouseDownOption => {
+      this.isMouseDownOption = isMouseDownOption
+      //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
+      if(!isMouseDownOption) {
         if(document.activeElement!=this.$refs.input.getInputElement()) {
           this.hideList()
         }
@@ -263,7 +263,7 @@ export default {
         }
       ],
       on: {
-        click: this.showList,
+        // click: this.toggleList,
         mouseover: this.showDeleteBtn,
         mouseout: this.hideDeleteBtn
       },
@@ -284,15 +284,12 @@ export default {
         disabled: this.disabled
       },
       on: {
-        click: () => {
-          this.toggleList()
-        },
-        focus: () => {
+        focus: (e) => {
           this.showList()
         },
         blur: () => {
-          //失去焦点的时候，如果鼠标还在列表中，则不隐藏
-          if(!this.isMouseInOption) {
+          //失去焦点的时候，如果鼠标还在列表中呈现mousedown状态，则不隐藏
+          if(!this.isMouseDownOption) {
             this.hideList()
           }
         }
