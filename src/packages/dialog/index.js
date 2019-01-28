@@ -1,10 +1,9 @@
-import Vue from 'vue'
 import KPopup from 'karma-ui/packages/dialog/dialog'
 
-const KPopupConstructor = Vue.extend(KPopup)
 
 export default {
   install(Vue, opts) {
+    const KPopupConstructor = Vue.extend(KPopup)
     let instance = new KPopupConstructor().$mount()
     document.body.appendChild(instance.$el)
 

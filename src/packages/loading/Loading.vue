@@ -5,7 +5,9 @@
     v-show="isShow"
     :style="{backgroundColor:loadingBgColor,position}">
     <div class="k-loading__content">
-      <loading-icon :style="{color:color}"></loading-icon>
+      <!-- <loading-icon :style="{color:color}"></loading-icon> -->
+      <k-icon name="k-icon-loading" size="20" :style="{color:color}"
+        class="k-loading__icon" />
     </div>
     <div v-html="content"
       v-show="content"
@@ -21,10 +23,11 @@
  * 不建议用在其他地方！
  */
 import loadingIcon from "./loadingIcon.vue"
+import KIcon from 'karma-ui/packages/icon/icon'
 export default {
   name: "Loading",
   components: {
-    loadingIcon
+    loadingIcon,KIcon
   },
   data() {
     return {

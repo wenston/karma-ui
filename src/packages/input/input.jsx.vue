@@ -74,7 +74,7 @@ export default {
       }
       if (this.clearable && (this.value + "").trim() !== "") {
         append = (
-          <i class="k-input-clearable k-icon-cancel" onClick={this.toClear} />
+          <i class="k-input-clearable k-icon-close iconfont" onClick={this.toClear} />
         )
       }
     }

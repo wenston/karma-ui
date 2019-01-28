@@ -1,0 +1,50 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1548664625327'); /* IE9 */
+  src: url('iconfont.eot?t=1548664625327#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAPwAAsAAAAACMAAAAOhAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCEAgqDQIMMATYCJAMkCxQABCAFhG0HgQAbsAcRFZwXyb46iMe4pmroRCJthavt7uSVmfqRdEvifI6gGit7dvcQ3SMo0h+ywBJQoXBJ+bBxbyMMGRUhD/wHvfdPcgvDwwhg7TA1r+AXkAQPsgEAeiCKVbyvZUtrf0xjIsxNWfvLT0+5hKOMkEDXzx9LvbSz7GffDuQUM3tRNJ7gwDotkmgDmjBv0F3ExIhPjxNoWmWGuREQFoe6AhwXiDfFhdmoWy5lpDvUhWrPpQXxHfzqaZjlAN/478cSNiEESSUDnHrntX8ersyevvhLXf+70igG6v0CiK4i4xgU4mdv6DNIlo6RZtHI5yn6MEDsdfLzF+9ffHrx9cXvF3///2/JfFz0TLFK6eJl/smDkGRFRVVNnagCdLbBB69cZ/YUI4LZc0Ri9h6RmX1EFGafEBVmXxFVZr8RNWZ/n6MOGmAIWniMS3ikG0pJSFQFE4VPjM97XwFBTYnUeLeEWvc8j1aPuAS3+Dj3xHjPhMJC9zwm362gtsAzn8nzKGzNK3DL9+5a4JHnXpjfylxdJYhcXMRdXsaPrnWvipjM6+tE0WY0HyaWHl8rg2hP38hF2O2O01MO7VllyOMOOdg8b+Z+AA3Rf4d6DtfB82NkJIcYqbGxvBB+xlgYYLk9Tp576xto69yJjAz6z6+80de/Gxl5p5Z33AJOg06imRvXs8TM0PUNmoVyevociUurSYsP0v4+O8AO7u2TuzKD7N4eDZBXVlZGFjqXSi1m/rN0Y/JFXg7+/DkQPWE32fkJ4Bn5JtsC5D12CSD9Y08A0l/OzQ9Yb7wX+S8h8oe8fv7f+JX7dGZuX0eUD/C/7oG16yjmtVOXmK3+1eqZG0qpBe5GyVeOJwQa1nYsJDThNn5xbOjevpbJ7AKhbqkjSGpWIKvbxhbiMVS0nEFV3QU0HQm8umWkRhZFGBzqdyD0bUHS9RuyPh62EO9CxdRbqOoHQdOjkL1ly27w/Mubomm4wP4K3nIm5G0vovsb3TEaNbVc8I9afRamfmxWvzCj7nFGPbm5NQJSTvDpPA1jZCjKB7StX1sru2Ggvi/qLafNy+YVTcMF9lfwljPRndtL6+e/0R2j0ZElC+l/1Op3D1M/zsB+mfKsJe+ydz25uTXyjyLlBJ9uACMsMZT+gw5oW7+uKJTd4G1Fc039+Zb0AJXRCsA379YJkqIRw3KmerQWa723kSu+GFU+dxGpvaqKere2Lv2C3fnJrTuWR0VC+9b1MbJZfHabDQAA') format('woff2'),
+  url('iconfont.woff?t=1548664625327') format('woff'),
+  url('iconfont.ttf?t=1548664625327') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1548664625327#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 12px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #999;
+}
+
+.k-icon-success:before {
+  content: "\e8e5";
+}
+
+.k-icon-close:before {
+  content: "\e8e7";
+}
+
+.k-icon-arrow-left:before {
+  content: "\e8ef";
+}
+
+.k-icon-arrow-right:before {
+  content: "\e8f1";
+}
+
+.k-icon-arrow-down:before {
+  content: "\e8f2";
+}
+
+.k-icon-arrow-up:before {
+  content: "\e8f5";
+}
+
+.k-icon-refresh:before {
+  content: "\e8fb";
+}
+
+.k-icon-loading:before {
+  content: "\e8fd";
+}
+

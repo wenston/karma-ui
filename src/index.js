@@ -1,6 +1,6 @@
 import setProps from 'karma-ui/util/setPropsGlobal.js'
 import 'karma-ui/theme/index.css'
-import 'karma-ui/theme/font/style.css'
+import 'karma-ui/theme/font/iconfont.css'
 import KButton from 'karma-ui/packages/button/index.js'
 import KInput from 'karma-ui/packages/input/index.js'
 import KSelect from 'karma-ui/packages/select/index.js'
@@ -22,8 +22,7 @@ import KScrollbar from 'karma-ui/packages/scrollbar/index.js'
 import KTransition from 'karma-ui/packages/transition/index.js'
 import KTable from 'karma-ui/packages/table/index.js'
 import KPosition from 'karma-ui/packages/position/index.js'
-//css图标
-import KIcon from 'karma-ui/icon/css/index.js'
+import KIcon from 'karma-ui/packages/icon/index.js'
 //指令
 import Dnd from 'karma-ui/directives/dnd/index.js'
 import Pin from 'karma-ui/directives/pin/index.js'

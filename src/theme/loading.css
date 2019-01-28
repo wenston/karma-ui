@@ -37,7 +37,7 @@
 
 .k-loading__icon {
   display: inline-block;
-  animation: k-loading-animate 1s linear infinite; /*steps(8)*/
+  animation: k-loading-animate .9s linear infinite; /*steps(8)*/
 }
 .k-loading--mini {
   font-size: 12px;

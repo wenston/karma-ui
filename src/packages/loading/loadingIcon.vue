@@ -12,7 +12,7 @@ export default {
       ...ctx.data,
       class: {
         'k-loading__icon': true,
-        'k-icon-spinner2': true,
+        'k-icon-loading iconfont': true,
         [`k-loading--${ctx.props.size}`]: true
       },
     })

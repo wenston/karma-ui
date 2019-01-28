@@ -99,11 +99,11 @@
   --button-transition: .15s ease;
 
   /* select */
-  --select-down-size: 20px;
+  --select-down-size: 12px;
   --select-down-color: color(var(--input-border-color) b(+20%));
-  --select-clear-size: 16px;
+  --select-clear-size: 12px;
   --select-clear-hover-color: color(var(--select-down-color) b(+40%));
-  --select-option-z-index: 99;
+  --select-option-z-index: 3;
   --select-option-box-shadow: var(--box-shadow);
   --select-option-max-height: 251px;
   --select-option-bg-color: var(--bg-color);
@@ -182,7 +182,7 @@
 
   /*loading*/
   --loading-bg-color:color(#07192c a(70%));
-  --loading-z-index:99999999;
+  --loading-z-index:9;
   --loading-radius:calc(var(--radius)*2);
   --loading-width:120px;
   --loading-height:100px;

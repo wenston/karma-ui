@@ -10,6 +10,7 @@
     font-size: var(--select-down-size);
     color: var(--select-down-color);
     transition: var(--transition);
+    display: inline-block;
     &.k-select__down--up {
       transform: rotate(180deg);
     }

@@ -4,11 +4,12 @@ import ZInput from "karma-ui/packages/input/input.jsx.vue"
 import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
 import { optionWrapper } from "karma-ui/packages/option/index"
-
+import KIcon from "karma-ui/packages/icon/icon"
 export default {
   name: "KSelect",
   components: {
-    ZInput
+    ZInput,
+    KIcon
   },
   model: {
     prop: "modelKey",
@@ -40,8 +41,8 @@ export default {
       //optionWrapper实例及里边包含的option列表实例
       ins: optionWrapper(),
       options: [], //收集本组件下属的所有option组件
-      optionCompName: '',
-      isMouseDownOption: false,
+      optionCompName: "",
+      isMouseDownOption: false
     }
   },
   computed: {
@@ -92,28 +93,29 @@ export default {
     rIcon() {
       if (this.showDelete && this.clearable) {
         return (
-          <i
-            class="k-icon-cancel k-select__clear"
+          <span
             slot="append"
             onClick={e => {
               this.clear()
               e.stopPropagation()
             }}
-          />
+          >
+            <k-icon class="k-select__clear" name="k-icon-close" />
+          </span>
         )
       } else {
         return (
-          <i
+          <span
             slot="append"
-            onClick={e => {
-              this.clear()
-              e.stopPropagation()
-            }}
-            class={{
-              "k-icon-arrow_drop_down k-select__down": true,
-              "k-select__down--up": this.ifOptionList
-            }}
-          />
+          >
+            <k-icon
+              class={{
+                'k-select__down': true,
+                'k-select__down--up': this.ifOptionList
+              }}
+              name="k-icon-arrow-down"
+            />
+          </span>
         )
       }
     },
@@ -125,16 +127,15 @@ export default {
     },
     scrollIntoView(index) {
       let i = 0
-      if(typeof index === 'number') {
+      if (typeof index === "number") {
         i = index
-      }else{
+      } else {
         i = this.getSelectedOptionIndex()
-        if(i===-1) {
+        if (i === -1) {
           i = 0
         }
       }
       this.ins.$el.scrollTop = offset(this.options[i].$el, this.ins.$el).top
-      
     },
     getSelectedOptionIndex() {
       let i = -1
@@ -182,11 +183,10 @@ export default {
     getAllOptionsComponent() {
       let arr = []
       const fn = Comp => {
-
-        Comp.$children.forEach(child=>{
-          if(child.$options.name === this.optionCompName) {
+        Comp.$children.forEach(child => {
+          if (child.$options.name === this.optionCompName) {
             arr.push(child)
-          }else{
+          } else {
             fn(child)
           }
         })
@@ -211,15 +211,15 @@ export default {
     this.$on("getOptionComponentName", name => {
       this.optionCompName = name
     })
-    this.$on('inovering', isMouseDownOption => {
+    this.$on("inovering", isMouseDownOption => {
       this.isMouseDownOption = isMouseDownOption
       //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
-      if(!isMouseDownOption) {
-        if(document.activeElement!=this.$refs.input.getInputElement()) {
+      if (!isMouseDownOption) {
+        if (document.activeElement != this.$refs.input.getInputElement()) {
           this.hideList()
         }
       }
-    }) 
+    })
   },
   watch: {
     modelKey(n) {
@@ -279,12 +279,12 @@ export default {
         disabled: this.disabled
       },
       on: {
-        focus: (e) => {
+        focus: e => {
           this.showList()
         },
         blur: () => {
           //失去焦点的时候，如果鼠标还在列表中呈现mousedown状态，则不隐藏
-          if(!this.isMouseDownOption) {
+          if (!this.isMouseDownOption) {
             this.hideList()
           }
         }
