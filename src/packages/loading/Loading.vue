@@ -1,19 +1,17 @@
 <template>
-<div 
-  :class="[
+  <div :class="[
     'k-loading',
-    isFullScreen?'k-loading--fullscreen':'k-loading--default']" 
-  v-show="isShow"
-  :style="{backgroundColor:loadingBgColor}">
-  <div class="k-loading__content">
-    <loading-icon :style="{color:color}"></loading-icon>
+    isFullScreen?'k-loading--fullscreen':'k-loading--default']"
+    v-show="isShow"
+    :style="{backgroundColor:loadingBgColor,position}">
+    <div class="k-loading__content">
+      <loading-icon :style="{color:color}"></loading-icon>
+    </div>
+    <div v-html="content"
+      v-show="content"
+      class="k-loading__text"
+      :style="{color:color}"></div>
   </div>
-  <div 
-    v-html="content" 
-    v-show="content"
-    class="k-loading__text"
-    :style="{color:color}"></div>
-</div>
 </template>
 <script>
 /**
@@ -30,6 +28,7 @@ export default {
   },
   data() {
     return {
+      position: '',
       isShow: false,
       isFullScreen: false,
       content: "",
@@ -45,12 +44,16 @@ export default {
         start: 0,
         end: 0
       },
-      loadingBgColor: '',
-      color: '',
+      loadingBgColor: "",
+      color: ""
     }
   },
   methods: {
-    setOptions({text='',color='',backgroundColor=''}) {
+    setPosition(p) {
+      this.position = p
+      return this
+    },
+    setOptions({ text = "", color = "", backgroundColor = "" }) {
       this.setContent(text)
       this.color = color
       this.loadingBgColor = backgroundColor

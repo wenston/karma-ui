@@ -3,9 +3,9 @@
     <h3 class="layout__title">基本用法</h3>
     <div v-loading="{
         loading,
-        text:'拼了命加载中',
-        color: 'green',
-        backgroundColor: 'rgba(255,255,255, .5)'
+        text:'玩命加载中',
+        color: 'white',
+        backgroundColor: 'rgba(0,0,0, .5)'
       }" >
       <p>sdfsadfasdf</p>
       <p>xxxxxxxxxxxxxxxx</p>

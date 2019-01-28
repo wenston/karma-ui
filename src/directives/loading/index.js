@@ -13,8 +13,7 @@ export default {
   bind(el, binding) {
     const LoadingConstructor = Vue.extend(LoadingComponent)
     el[instance] = new LoadingConstructor().$mount()
-    const dataset = el.dataset
-    el[instance].setSize(true)
+    el[instance].setSize(true).setPosition('absolute')
     const position = getStyle(el, 'position')
     if (position !== 'fixed' && position !== 'relative' && position !== 'absolute') {
       setStyle(el, 'position', 'relative')
