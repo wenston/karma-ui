@@ -3,10 +3,11 @@
     'k-loading',
     isFullScreen?'k-loading--fullscreen':'k-loading--default']"
     v-show="isShow"
-    :style="{backgroundColor:loadingBgColor,position}">
+    :style="{backgroundColor,position}">
     <div class="k-loading__content">
-      <!-- <loading-icon :style="{color:color}"></loading-icon> -->
-      <k-icon name="k-icon-loading" size="20" :style="{color:color}"
+      <k-icon :name="iconName"
+        :size="iconSize"
+        :color="iconColor"
         class="k-loading__icon" />
     </div>
     <div v-html="content"
@@ -22,19 +23,30 @@
  * 加载完成后，调用Vue.Loading().hide();
  * 不建议用在其他地方！
  */
-import loadingIcon from "./loadingIcon.vue"
-import KIcon from 'karma-ui/packages/icon/icon'
+import KIcon from "karma-ui/packages/icon/icon"
 export default {
   name: "Loading",
-  components: {
-    loadingIcon,KIcon
-  },
+  components: { KIcon },
   data() {
     return {
-      position: '',
-      isShow: false,
+      //定位
+      position: "",
+      //是否铺面父级元素
       isFullScreen: false,
-      content: "",
+      //内容
+      content: "努力加载中...",
+      //背景
+      backgroundColor: "",
+      //字体颜色
+      color: "",
+      //icon的name
+      iconName: 'k-icon-loading',
+      //icon的颜色
+      iconColor: '',
+      //icon的大小
+      iconSize: 25,
+      //以上参数，都是可以由外部传参设置的。
+      isShow: false,
       //start和end是成对的，
       //show的时候，start加1
       //hide时，end加1，
@@ -47,27 +59,15 @@ export default {
         start: 0,
         end: 0
       },
-      loadingBgColor: "",
-      color: ""
     }
   },
   methods: {
-    setPosition(p) {
-      this.position = p
-      return this
-    },
-    setOptions({ text = "", color = "", backgroundColor = "" }) {
-      this.setContent(text)
-      this.color = color
-      this.loadingBgColor = backgroundColor
-    },
-    setSize(isFull) {
-      this.isFullScreen = isFull
-      return this
-    },
-    setContent(con) {
-      this.content = con
-      return this
+    setOptions(opts = {}) {
+      for(const k in opts) {
+        if(opts[k]) {
+          this.$data[k] = opts[k]
+        }
+      }
     },
     show() {
       this.cp.start = this.cp.start + 1

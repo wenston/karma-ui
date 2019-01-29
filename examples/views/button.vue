@@ -43,7 +43,7 @@
     </div>
     <h3 class="layout__title">有loading图标的按钮</h3>
     <div>
-      <p><code>k-button</code>组件提供了一种loading样式</p>
+      <p><code>k-button</code>组件提供了一种loading样式，loading时，默认不可点击</p>
       <k-button type="primary" loading>加载中... </k-button>
       <div class="javascript" v-pre>
         <pre>&lt;k-button type="primary" loading&gt;加载中... &lt;/k-button&gt;</pre>
@@ -68,16 +68,6 @@
     </div>
     <h3 class="layout__title">其他用法？</h3>
     <div>
-      <k-button >
-        删除
-        <i class="k-icon-x"></i>
-      </k-button>
-      <div class="javascript" v-pre>
-        <pre>&lt;k-button&gt;
-  删除
-  &lt;i class="k-icon-x"&gt;&lt;/i&gt;
-&lt;k-button&gt;</pre>
-      </div>
       <div>
         <code>k-button</code>提供了一个默认slot，使用时，可以根据需要插入内容。
       </div>

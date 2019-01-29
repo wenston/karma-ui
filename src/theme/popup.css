@@ -36,10 +36,9 @@
 .k-popup__close {
   position: absolute;
   right: 8px;
-  top: 8px;
+  top: -2px;
   user-select: none;
-  font-size: 16px;
-  color: var(--popup-close-btn-color);
+  color: var(--popup-close-btn-color) !important;
   cursor: pointer;
   transition: var(--transition);
 

@@ -94,7 +94,7 @@
   --button-default-bg-color: white;
   --button-default-border-color: #ccc;
   /*button active 内阴影*/
-  --button-active-box-shadow: var(inset 1px 3px 5px rgba(0, 0, 0, .2));
+  --button-active-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .1);
   /*button 过渡*/
   --button-transition: .15s ease;
 

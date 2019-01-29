@@ -3,21 +3,23 @@ export default {
   props: {
     size: [String,Number],
     color: String,
-    name: String
+    name: String,
+    weight: Boolean
   },
   render() {
     const {$props,$listeners} = this
     const iconProps = {
       on: {
-        $listeners
+        ...$listeners
       },
       class: {
         'iconfont': true,
-        [$props.name]: $props.name
+        [$props.name]: !!$props.name
       },
       style: {
         'font-size': parseFloat($props.size) + 'px',
-        'color': $props.color
+        'color': $props.color,
+        'font-weight': $props.weight?'bold': ''
       }
     }
     return (

@@ -9,9 +9,13 @@
         class="k-popup__wrapper">
         <div class="k-popup__container"
           v-dnd="{handlerClass:'k-popup__header__title'}">
-          <i class="k-icon-cancel k-popup__close"
+          <k-icon class="k-popup__close"
+            name="k-icon-close"
+            size="16"
             v-if="layout.indexOf('close')>-1"
-            @click.stop="onCancel"></i>
+            @click.stop="onCancel"
+            title="关闭"
+            weight></k-icon>
           <slot name="header">
             <div class="k-popup__header"
               v-show="layout.indexOf('header')>-1">
@@ -48,12 +52,14 @@
 </template>
 <script>
 // 有关弹框宽度，可以对插入的body宽度进行设置。
-import KButton from "karma-ui/packages/button/button";
-import dnd from "karma-ui/directives/dnd/bind.js";
+import KButton from "karma-ui/packages/button/button"
+import KIcon from "karma-ui/packages/icon/icon"
+import dnd from "karma-ui/directives/dnd/bind.js"
 export default {
   name: "KPopup",
   components: {
-    KButton
+    KButton,
+    KIcon
   },
   props: {
     title: {
@@ -85,26 +91,26 @@ export default {
   },
   methods: {
     onOk() {
-      this.$emit("after:ok");
+      this.$emit("after:ok")
     },
     onCancel() {
-      this.$emit("update:show", false);
-      this.$emit("after:cancel");
+      this.$emit("update:show", false)
+      this.$emit("after:cancel")
     },
     esc(e) {
       if (e.keyCode == 27) {
-        this.show && this.onCancel();
+        this.show && this.onCancel()
       }
     }
   },
   mounted() {
-    document.addEventListener("keyup", this.esc);
+    document.addEventListener("keyup", this.esc)
   },
   beforeDestroy() {
-    document.removeEventListener("keyup", this.esc);
+    document.removeEventListener("keyup", this.esc)
   },
   directives: {
     dnd
   }
-};
+}
 </script>

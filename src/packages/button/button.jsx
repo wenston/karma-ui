@@ -1,7 +1,7 @@
-import loadingIcon from 'karma-ui/packages/loading/loadingIcon'
+import KIcon from "karma-ui/packages/icon/icon"
 export default {
   components: {
-    loadingIcon
+    KIcon
   },
   name: "KButton",
   props: {
@@ -21,7 +21,11 @@ export default {
     disabled: Boolean,
     loading: Boolean,
     href: String,
-    target: String
+    target: String,
+    loadingIconName: {
+      type: String,
+      default: "k-icon-loading"
+    }
   },
   computed: {
     classes() {
@@ -31,17 +35,43 @@ export default {
         ["k-btn--" + this.size]: true,
         "k-btn--block": this.block
       }
+    },
+    iconSize() {
+      return {
+        huge: 21,
+        large: 18,
+        big: 15,
+        medium: 12,
+        small: 12,
+        mini: 12
+      }
+    },
+    iconColor() {
+      return {
+        primary: "white",
+        warning: "white",
+        danger: "white",
+        success: "white",
+        default: "#666"
+      }
     }
   },
   render() {
-    const {classes, $slots, $attrs, $listeners} = this
+    const { classes, $slots, $attrs, $listeners, loadingIconName } = this
     let LoadingComp = null
     let Content = null
     if (this.loading) {
-      LoadingComp = <loadingIcon size={this.size} />
+      LoadingComp = (
+        <k-icon
+          class="k-btn__loading"
+          color={this.iconColor[this.type]}
+          size={this.iconSize[this.size]}
+          name={loadingIconName}
+        />
+      )
     }
     if (this.$slots.default) {
-      Content = <span>{this.$slots.default}</span>
+      Content = <span>{$slots.default}</span>
     }
     const buttonProps = {
       class: classes,
@@ -49,10 +79,7 @@ export default {
         ...$attrs,
         href: this.href,
         target: this.target,
-        disabled: this.disabled,
-      },
-      props: {
-        
+        disabled: this.loading || this.disabled
       },
       on: {
         ...$listeners,
@@ -64,12 +91,11 @@ export default {
         {Content}
         {LoadingComp}
       </this.tag>
-    );
+    )
   },
   methods: {
     handleClick(e) {
-      if(!this.disabled)
-        this.$emit("click", e)
+      if (!this.disabled) this.$emit("click", e)
     }
   }
 }

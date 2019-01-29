@@ -1,27 +1,28 @@
 <template>
-  <k-input
-    :class="{'k-input-number--disabled':this.disabled}"
+  <k-input :class="{'k-input-number--disabled':this.disabled}"
     v-model="inputValue"
     :disabled="disabled"
     :styles="styles"
     :input-styles="inputStyles"
     :size="size"
-    :validate="validate">
+    :validate="validate"
+    @focus="handleFocus"
+    @blur="handleBlur">
     <div :class="{
       'k-input-number':true,
       'k-input-number--disabled':value<=min
-    }"  
+    }"
       slot="prepend"
       @click="minus">
-      <i class="k-icon-minus"></i>
+      <i class="k-input-number-icon">-</i>
     </div>
-    <div slot="append" 
+    <div slot="append"
       :class="{
         'k-input-number--right':true,
         'k-input-number--disabled':max<=value
       }"
       @click="add">
-      <i class="k-icon-add"></i>
+      <i class="k-input-number-icon">+</i>
     </div>
   </k-input>
 </template>
@@ -35,11 +36,11 @@
  * @augments styles 设置整体样式，同input组件
  * @augments inputStyles 同input组件
  * @augments disabled 是否禁用
- * 
+ *
  */
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 export default {
-  name:'KInputNumber',
+  name: "KInputNumber",
   components: {
     KInput
   },
@@ -48,17 +49,17 @@ export default {
       inputValue: this.value,
       validate: {
         type: "int>0",
-        max:this.max,
-        min:this.min,
+        max: this.max,
+        min: this.min,
         when: "input",
         showTips: false,
         useOldValue: true
       }
-    };
+    }
   },
   model: {
     prop: "value",
-    event: "numberbian"
+    event: "valueChange"
   },
   props: {
     min: {
@@ -70,12 +71,12 @@ export default {
     },
     max: Number,
     value: [Number, String],
-    size:String,
+    size: String,
     step: {
       type: Number,
       default: 1,
       validator(v) {
-        return v >= 1;
+        return v >= 1
       }
     },
     disabled: {
@@ -87,7 +88,7 @@ export default {
       default() {
         return {
           width: "100px"
-        };
+        }
       }
     },
     inputStyles: {
@@ -95,34 +96,30 @@ export default {
       default() {
         return {
           textAlign: "center"
-        };
+        }
       }
     }
   },
-  // 由于vue jsx本身并不十分成熟完善，所以还是采用template
-  // render() {
-  //   return (
-  //     <k-input
-  //       styles={this.styles}
-  //       inputStyles={this.inputStyles}
-  //       v-model={this.inputValue}
-  //       // value={this.value}//注意这里要加上value={this.value}，否则在输入字母时会出现input组件中的value是inputEvent的问题！为什么？
-  //       disabled={this.disabled}
-  //       validate={this.validate}
-  //       onInput={this.handleInput}
-  //     >
-  //       <div slot="prepend" onClick={this.minus}>
-  //         -
-  //       </div>
-  //       <div slot="append" onClick={this.add}>+</div>
-  //     </k-input>
-  //   );
-  // },
   methods: {
+    handleKeydown(e) {
+      const code = e.keyCode
+      if(code!=40 && code!=38) {return}
+      if(code==40) {
+        this.minus()
+      }else{
+        this.add()
+      }
+    },
+    handleFocus() {
+      document.addEventListener('keydown',this.handleKeydown)
+    },
+    handleBlur() {
+      document.removeEventListener('keydown',this.handleKeydown)
+    },
     minus() {
       if (!this.disabled) {
         let v = this.value - this.step
-        this.$emit("numberbian", v < this.min ? this.min : v)
+        this.$emit("valueChange", v < this.min ? this.min : v)
       }
     },
     add() {
@@ -131,14 +128,14 @@ export default {
         if (this.max) {
           v = v > this.max ? this.max : v
         }
-        this.$emit("numberbian", v)
+        this.$emit("valueChange", v)
       }
     }
   },
   watch: {
     value(val, oldVal) {
       this.inputValue = val
-      this.$emit('change',val)
+      this.$emit("change", val)
     },
     inputValue(val, oldVal) {
       if (val !== "") {
@@ -149,9 +146,9 @@ export default {
           val = this.min
         }
       }
-      this.$emit("numberbian", val)
+      this.$emit("valueChange", val)
     }
   }
-};
+}
 </script>
 

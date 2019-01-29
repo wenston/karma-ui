@@ -26,7 +26,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 8px;
+    margin-top: 3px;
   }
   & .k-loading__content {
     display: flex;
@@ -36,8 +36,9 @@
 }
 
 .k-loading__icon {
-  display: inline-block;
-  animation: k-loading-animate .9s linear infinite; /*steps(8)*/
+  @extend .k-roll;
+  /* display: inline-block; */
+  /*animation: k-loading-animate .8s ease-out infinite; steps(8)*/
 }
 .k-loading--mini {
   font-size: 12px;
@@ -56,14 +57,4 @@
 }
 .k-loading--huge {
   font-size: 22px;
-}
-
-@keyframes k-loading-animate {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
 }
