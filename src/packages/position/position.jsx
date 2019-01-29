@@ -53,6 +53,12 @@ export default {
       })
     }
   },
+  mounted() {
+    this.$nextTick(this.getElemPosition)
+  },
+  updated() {
+    this.$nextTick(this.getElemPosition)
+  },
   watch: {
     vm: 'getElemPosition'
   },
