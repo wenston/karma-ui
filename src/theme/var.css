@@ -103,7 +103,7 @@
   --select-down-color: color(var(--input-border-color) b(+20%));
   --select-clear-size: 12px;
   --select-clear-hover-color: color(var(--select-down-color) b(+40%));
-  --select-option-z-index: 3;
+  --select-option-z-index: 99;
   --select-option-box-shadow: var(--box-shadow);
   --select-option-max-height: 251px;
   --select-option-bg-color: var(--bg-color);

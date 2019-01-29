@@ -11,6 +11,7 @@
     color: var(--select-down-color);
     transition: var(--transition);
     display: inline-block;
+    @extend .k-center;
     &.k-select__down--up {
       transform: rotate(180deg);
     }
@@ -22,6 +23,7 @@
     height: var(--select-clear-size);
     font-size: var(--select-clear-size);
     cursor: pointer;
+    @extend .k-center;
     &:hover {
       color: var(--select-clear-hover-color);
     }

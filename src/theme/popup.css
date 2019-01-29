@@ -36,11 +36,12 @@
 .k-popup__close {
   position: absolute;
   right: 8px;
-  top: -2px;
   user-select: none;
   color: var(--popup-close-btn-color) !important;
   cursor: pointer;
   transition: var(--transition);
+  height: var(--popup-header-height);
+  line-height: var(--popup-header-height);
 
   &:hover,
   &:active {

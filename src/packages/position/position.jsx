@@ -32,6 +32,7 @@ export default {
   },
   methods: {
     getElemPosition() {
+      if(!this.vm || !this.vm.$el) {return}
       const elem = this.vm.$el
       if(!elem) {
         return null
