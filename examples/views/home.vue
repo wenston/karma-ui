@@ -64,7 +64,11 @@ export default {
           },
           {
             name: "select",
-            title: "select 下拉选择"
+            title: "select 下拉单选"
+          },
+          {
+            name: "select2",
+            title: "select2 下拉多选"
           },
           {
             name: "area",

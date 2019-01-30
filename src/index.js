@@ -4,6 +4,7 @@ import 'karma-ui/theme/font/iconfont.css'
 import KButton from 'karma-ui/packages/button/index.js'
 import KInput from 'karma-ui/packages/input/index.js'
 import KSelect from 'karma-ui/packages/select/index.js'
+import KSelect2 from 'karma-ui/packages/select2/index.js'
 import KOption from 'karma-ui/packages/option/index.js'
 import KRadio from 'karma-ui/packages/radio/index.js'
 import KCheckbox from 'karma-ui/packages/checkbox/index.js'
@@ -32,6 +33,7 @@ let obj = {
   KButton,
   KInput,
   KSelect,
+  KSelect2,
   KOption,
   KRadio,
   KCheckbox,

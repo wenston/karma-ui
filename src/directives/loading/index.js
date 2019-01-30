@@ -8,7 +8,7 @@ const settings = {
   position: 'absolute',
   isFullScreen: true,
   color: "#378cee",
-  backgroundColor: "rgba(255,255,255,.5)",
+  backgroundColor: "rgba(255,255,255,.85)",
   iconColor: "#378cee",
   
 }
