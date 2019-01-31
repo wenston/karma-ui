@@ -1,27 +1,28 @@
 <script>
 export default {
   name: "KOption",
-  inject: ["positionComponent"],
+  inject: ["layerComponent"],
   props: {
+    multiple: Boolean,//是不是多选
     selected: Boolean,
     value: [String, Number, Boolean], //等同于option的value的用法，等同于key value中的key
     label: [String, Number] //实际上保存的是key value中的value
   },
   methods: {
-    handleClick(e) {
-      this.emitKeyValueToSelect(true)
+    handleClick() {
+      this.emitKeyValueToSelect(!this.multiple)
     },
     emitKeyValueToSelect(hide = false) {
-      this.positionComponent.$props.vm.$emit(
+      this.layerComponent.$data.vm.$emit(
         "getKeyValueFromOption",
         this.value,
         this.label,
-        hide,//true代表要收起下拉列表
+        !!hide //true代表要收起下拉列表
       )
     }
   },
   created() {
-    this.positionComponent.$props.vm.$emit(
+    this.layerComponent.$data.vm.$emit(
       "getOptionComponentName",
       this.$options.name
     )
@@ -38,15 +39,22 @@ export default {
       },
       on: {
         click: this.handleClick,
-        // mousedown: e => {
-        //   e.stopPropagation()
-        // },
-        // mouseup: e => {
-        //   e.stopPropagation()
-        // }
+
+        mousedown: e => {
+          e.stopPropagation()
+          this.layerComponent.$data.vm.$emit("inovering", true)
+        },
+        mouseup: e => {
+          e.stopPropagation()
+          this.layerComponent.$data.vm.$emit("inovering", false)
+        }
       }
     }
-    return <li {...p}>{this.$slots.default}</li>
+    return (
+      <li {...p}>
+        <span>{this.$slots.default}</span>
+      </li>
+    )
   },
   watch: {
     selected: {

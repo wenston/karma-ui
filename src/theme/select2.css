@@ -1,3 +1,52 @@
 .k-select2 {
   display: inline-block;
 }
+.k-select2-searchinput {
+  .k-input {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+   
+    .k-input-append {
+      border-radius: 0;
+    }
+  
+}
+.k-select2-list {
+  @extend .k-select__list;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: -1px;
+}
+.k-select2-list-item {
+  height: var(--option-height);
+  line-height: var(--option-height);
+  padding: var(--option-padding);
+  transition: var(--transition);
+  cursor: pointer;
+  text-align: left;
+  &:hover {
+    color: var(--option-hover-color);
+    background: var(--option-hover-bg-color);
+  }
+  .k-select2-checkbox {
+    display: block;
+    width: 100%;
+    height: 25px;
+    line-height: 25px;
+    cursor: pointer;
+    @extend .k-ellipsis;
+  }
+}
+.k-select2-refresh {
+  border-left: 1px solid var(--primary-color);
+  cursor: pointer;
+  line-height: 28px;
+  height: 28px;
+  background-color: var(--primary-color);
+  transition: var(--transition);
+  &:focus,
+  &:hover {
+    background-color: color(var(--primary-color) s(+8%) l(+8%));
+  }
+}

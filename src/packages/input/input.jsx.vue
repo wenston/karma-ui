@@ -11,7 +11,7 @@ export default {
   },
   model: {
     prop: "value",
-    event: "bianbianbian"
+    event: "valueChange"
   },
   props: {
     tag: {
@@ -27,6 +27,8 @@ export default {
     readonly: Boolean,
     disabled: Boolean,
     autofocus: Boolean,
+    //active是为了让input不依赖hover，而一直保持蓝色框状态
+    active: Boolean,
     select: Boolean,
     autocomplete: {
       type: String,
@@ -96,7 +98,8 @@ export default {
           domPropsDisabled={this.disabled}
           class={{
             [this.isInput ? "k-input" : "k-textarea"]: true,
-            "k-input-disabled": this.disabled
+            "k-input-disabled": this.disabled,
+            'k-input-active': this.active,
           }}
           style={this.inputStyles}
           onInput={() => this.handlerEvent($event)}
@@ -131,7 +134,7 @@ export default {
       // console.log(this.oldValue)
       setTimeout(() => {
         this.$emit(
-          "bianbianbian",
+          "valueChange",
           this.validateOptions.useOldValue ? this.oldValue : ""
         )
         //触发自定义invalid事件
@@ -140,11 +143,11 @@ export default {
     },
     handlerEvent(e) {
       let eType = e.type
-      let val = (e.target.value + "").trim()
+      let val = e.target.value + ""
       //给v-model绑定的属性写入值
       if (eType === "input") {
         // console.log(val)
-        this.$emit("bianbianbian", val)
+        this.$emit("valueChange", val)
       }
       //验证用户输入
       if (
@@ -165,7 +168,7 @@ export default {
       this.$emit(eType, e)
     },
     toClear() {
-      this.$emit("bianbianbian", "")
+      this.$emit("valueChange", "")
     },
     focus() {
       this.$refs.input.focus()

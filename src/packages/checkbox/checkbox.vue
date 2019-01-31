@@ -54,7 +54,7 @@ export default {
   name: "KCheckbox",
   model: {
     prop: "checked",
-    event: "checkbox-change"
+    event: "checkedChange"
   },
   props: {
     text: {
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     _has() {
-      return this.arr.some(item => item === this.value);
+      return this.arr.some(item => item == this.value);
     },
     _del() {
       this.arr = this.arr.splice(this.arr.indexOf(this.value), 1);
@@ -104,7 +104,7 @@ export default {
         }
         this.$emit("update:dataArr", this.arr);
       }
-      this.$emit("checkbox-change", isChecked);
+      this.$emit("checkedChange", isChecked);
       this.$emit("change", e);
     }
   },

@@ -20,7 +20,7 @@
     background: #fff;
     border-radius: var(--checkbox-radius);
     display: inline-block;
-    vertical-align: -1px;
+    vertical-align: -2px;
     transition: .25s ease-out;
     &:before {
       content: "";

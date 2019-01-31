@@ -3,7 +3,7 @@ import { offset } from "karma-ui/util/dom"
 import ZInput from "karma-ui/packages/input/input.jsx.vue"
 import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
-import { optionWrapper } from "karma-ui/packages/option/index"
+import { layer } from "karma-ui/packages/layer/index"
 import KIcon from "karma-ui/packages/icon/icon"
 export default {
   name: "KSelect",
@@ -39,7 +39,7 @@ export default {
       showOptionList: false,
       showDelete: false,
       //optionWrapper实例及里边包含的option列表实例
-      ins: optionWrapper(),
+      ins: layer(),
       options: [], //收集本组件下属的所有option组件
       optionCompName: "",
       isMouseDownOption: false
@@ -122,7 +122,7 @@ export default {
     //实例化option列表
     initIns() {
       this.$nextTick(() => {
-        this.ins.init(this)
+        this.ins.init(this,this.$slots.default,{className: 'k-select__list',tag: 'ul'})
       })
     },
     scrollIntoView(index) {
