@@ -85,10 +85,10 @@ export default {
         return sum
       } else {
         const total = this.getColSum(field)
-        if(type === 'function') {
+        if (type === "function") {
           //total是算出来的总和，i是此列的序号
-          return sum(total,i)
-        }else if(type === 'boolean') {
+          return sum(total, i)
+        } else if (type === "boolean") {
           return total
         }
       }
@@ -118,8 +118,9 @@ export default {
     return false
   },
   mounted() {
-    this.$nextTick(()=>{
-      this.$emit('foot-mounted', getStyle(this.$el,'height'))
+    this.$nextTick(() => {
+      //注意： 0必须要写成'0px'的形式，否则calc失效！
+      this.$emit("foot-mounted", this.hasSum ? getStyle(this.$el, "height") : '0px')
     })
   }
 }

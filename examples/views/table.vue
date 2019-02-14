@@ -13,7 +13,7 @@
       @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
-    <k-table :data="table1"
+    <!-- <k-table :data="table1"
       height="200px"
       :columns="columns1"
       @select-change="onSelectChange"
@@ -51,7 +51,7 @@
           v-model="row1.ProCount"
           block></k-input>
       </template>
-    </k-table>
+    </k-table> -->
 
   </div>
 </template>
@@ -611,7 +611,7 @@ export default {
                   style: { width: 90 },
                   field: "chinese",
                   name: "语文",
-                  sum: true//需要汇总
+                  // sum: true//需要汇总
                 },
                 {
                   style: { width: 90 },
@@ -671,13 +671,13 @@ export default {
           field: "TotalPrice",
           name: "金额",
           scopedSlots: "TotalPrice",
-          sum: (total) => {
-            return (
-              <div style="text-align:right;color: red;">
-                <b >{total.toFixed(2)}</b>
-              </div>
-            )
-          }
+          // sum: (total) => {
+          //   return (
+          //     <div style="text-align:right;color: red;">
+          //       <b >{total.toFixed(2)}</b>
+          //     </div>
+          //   )
+          // }
         },
         {
           style: { width: "100" },
@@ -756,7 +756,7 @@ export default {
           field: "Details.ProCount",
           name: "数量",
           scopedSlots: "ProCount",
-          sum: true
+          // sum: true
         },
         {
           style: { width: "100" },

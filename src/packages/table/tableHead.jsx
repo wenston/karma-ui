@@ -35,6 +35,9 @@ export default {
         "k-table--nowrap": this.nowrap,
         "k-table--min-content": this.minContent
       }
+    },
+    hasSum() {
+      return this.columns.some(col => "sum" in col)
     }
   },
   methods: {
@@ -171,7 +174,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.$emit("head-mounted", getStyle(this.$el, "height"))
+      this.$emit("head-mounted", this.hasSum ? getStyle(this.$el, "height"): '0px')
     })
   }
 }

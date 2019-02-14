@@ -4,6 +4,7 @@ ul.k-pagi {
   list-style: none;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   transition: var(--transition);
   > li {
     display: flex;

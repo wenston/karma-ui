@@ -15,7 +15,7 @@
       :disabled="disabled"
       @change="_change">
     <span class="k-checkbox__icon"></span>
-    <span v-if="text!==''" 
+    <span v-if="text!==''"
       class="k-checkbox__text">{{text}}</span>
   </label>
 </template>
@@ -83,35 +83,35 @@ export default {
   },
   methods: {
     _has() {
-      return this.arr.some(item => item == this.value);
+      return this.arr.some(item => item == this.value)
     },
     _del() {
-      this.arr = this.arr.splice(this.arr.indexOf(this.value), 1);
+      this.arr = this.arr.splice(this.arr.indexOf(this.value), 1)
     },
     _change(e) {
-      let isChecked = e.target.checked;
+      let isChecked = e.target.checked
       if (this.type === "arr") {
         if (isChecked) {
           if (this.value !== "") {
             if (!this._has()) {
-              this.arr.push(this.value);
+              this.arr.push(this.value)
             }
           }
         } else {
           if (this._has()) {
-            this._del();
+            this._del()
           }
         }
-        this.$emit("update:dataArr", this.arr);
+        this.$emit("update:dataArr", this.arr)
       }
-      this.$emit("checkedChange", isChecked);
-      this.$emit("change", e);
+      this.$emit("checkedChange", isChecked)
+      this.$emit("change", e)
     }
   },
   watch: {
     dataArr() {
-      this.arr = this.dataArr;
+      this.arr = this.dataArr
     }
   }
-};
+}
 </script>

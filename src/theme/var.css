@@ -229,7 +229,7 @@
 
   /* table */
   --table-wrapper-bg-color: var(--default-color);
-  --table-border-color: var(--border-color);
+  --table-border-color: #e3e8ee;
   --table-border: 1px solid var(--table-border-color);
 
   /* 表头 */

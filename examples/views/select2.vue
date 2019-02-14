@@ -761,7 +761,16 @@ export default {
       ]
     }
   },
-  mounted() {}
+  watch: {
+    ids(arr) {
+      console.log('使用：',arr)
+    }
+  },
+  mounted() {
+    setTimeout(()=>{
+      this.ids = '300071,300072,300068, 300066'
+    },1500)
+  }
 }
 </script>
 

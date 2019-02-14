@@ -1,5 +1,7 @@
 .k-select2 {
   display: inline-block;
+  line-height: normal;
+  position: relative;
 }
 .k-select2-searchinput {
   .k-input {
@@ -48,5 +50,46 @@
   &:focus,
   &:hover {
     background-color: color(var(--primary-color) s(+8%) l(+8%));
+  }
+}
+.k-select2-checked-list {
+  position: absolute !important;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  left: 1px;
+  top: 1px;
+  font-size: 12px;
+  overflow: hidden;
+}
+.k-select2-checked-box {
+  padding: 1px 2px;
+}
+.k-select2-checked-item {
+  margin: 2px;
+  white-space: nowrap;
+  display: inline-block;
+  .k-select2-checked-name {
+    background-color: var(--border-color);
+    height: 18px;
+    line-height: 18px;
+    padding: 0 3px;
+    display: inline-block;
+    vertical-align:middle;
+  }
+  .k-select2-checked-del {
+    display: inline-block;
+    vertical-align:middle;
+    cursor: pointer;
+    background-color: var(--border-color);
+    width: 15px;
+    height: 18px;
+    line-height: 18px;
+    border-left: 1px solid color(white a(50%));
+    text-align: center;
+    color: var(--font-color-3);
+    font-size: 14px;
+    &:hover {
+      color: var(--font-color-1);
+    }
   }
 }
