@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node config/dev-server.js",
-    "build:lib": "webpack --config config/webpack.build.lib.js"
+    "build:lib": "webpack --config config/webpack.build.lib.js",
+    "build:psi": "webpack --config config/webpack.build.psi.js"
   },
   "style": "lib/index.css",
   "author": "wenston",
