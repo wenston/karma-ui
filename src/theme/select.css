@@ -1,40 +1,34 @@
-.k-select {
+.k-select__down {
+  pointer-events: none;
+  width: var(--select-down-size);
+  height: var(--select-down-size);
+  font-size: var(--select-down-size);
+  color: var(--select-down-color);
+  transition: var(--transition);
   display: inline-block;
-  vertical-align: middle;
-  position: relative;
-  line-height: normal;
-  .k-select__down {
-    pointer-events: none;
-    width: var(--select-down-size);
-    height: var(--select-down-size);
-    font-size: var(--select-down-size);
-    color: var(--select-down-color);
-    transition: var(--transition);
-    display: inline-block;
-    @extend .k-center;
-    &.k-select__down--up {
-      transform: rotate(180deg);
-    }
-  }
-  .k-select__clear {
-    color: var(--select-down-color);
-    /* transition: var(--transition); */
-    width: var(--select-clear-size);
-    height: var(--select-clear-size);
-    font-size: var(--select-clear-size);
-    cursor: pointer;
-    @extend .k-center;
-    &:hover {
-      color: var(--select-clear-hover-color);
-    }
-  }
-
-  .k-select__active {
-    & > input {
-      border-color: var(--primary-color);
-    }
+  @extend .k-center;
+  &.k-select__down--up {
+    transform: rotate(180deg);
   }
 }
+.k-select__clear {
+  color: var(--select-down-color);
+  width: var(--select-clear-size);
+  height: var(--select-clear-size);
+  font-size: var(--select-clear-size);
+  cursor: pointer;
+  @extend .k-center;
+  &:hover {
+    color: var(--select-clear-hover-color);
+  }
+}
+
+.k-select__active {
+  & > input {
+    border-color: var(--primary-color);
+  }
+}
+
 .k-select__list {
   padding: 0;
   font-size: 12px;

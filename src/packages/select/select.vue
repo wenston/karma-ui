@@ -33,7 +33,7 @@ export default {
     disabled: Boolean,
     clearable: Boolean,
     simple: Boolean,
-    block: Boolean,
+    block: Boolean
   },
   data() {
     return {
@@ -107,13 +107,11 @@ export default {
         )
       } else {
         return (
-          <span
-            slot="append"
-          >
+          <span slot="append">
             <k-icon
               class={{
-                'k-select__down': true,
-                'k-select__down--up': this.ifOptionList
+                "k-select__down": true,
+                "k-select__down--up": this.ifOptionList
               }}
               name="k-icon-arrow-down"
             />
@@ -124,7 +122,10 @@ export default {
     //实例化option列表
     initIns() {
       this.$nextTick(() => {
-        this.ins.init(this,this.$slots.default,{className: 'k-select__list',tag: 'ul'})
+        this.ins.init(this, this.$slots.default, {
+          className: "k-select__list",
+          tag: "ul"
+        })
       })
     },
     scrollIntoView(index) {
@@ -248,7 +249,7 @@ export default {
     esc
   },
   render() {
-    const p = {
+    const inputProps = {
       directives: [
         {
           name: "clickoutside",
@@ -259,16 +260,6 @@ export default {
           value: this.hideList
         }
       ],
-      on: {
-        click: this.showList,
-        mouseover: this.showDeleteBtn,
-        mouseout: this.hideDeleteBtn
-      },
-      class: {
-        "k-select": true
-      }
-    }
-    const inputProps = {
       ref: "input",
       class: {
         "k-select__active": this.ifOptionList
@@ -293,13 +284,14 @@ export default {
           }
         }
       },
+      nativeOn: {
+        click: this.showList,
+        mouseover: this.showDeleteBtn,
+        mouseout: this.hideDeleteBtn,
+      },
       style: this.styles
     }
-    return (
-      <div {...p}>
-        <z-input {...inputProps}>{this.rIcon()}</z-input>
-      </div>
-    )
+    return <z-input {...inputProps}>{this.rIcon()}</z-input>
   }
 }
 </script>
