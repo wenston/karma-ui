@@ -31,12 +31,12 @@ $types: primary, warning, danger, success;
         border-color: color(var(--primary-color) tint(70%));
         background-color: color(var(--primary-color) tint(95%));
         color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
       }
 
       &:active {
         border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03),
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08),
           var(--button-active-box-shadow);
       }
     }
@@ -53,13 +53,13 @@ $types: primary, warning, danger, success;
         &:focus {
           border-color: color(var(--$(type)-color) s(+12%) l(+12%));
           background-color: color(var(--$(type)-color) s(+12%) l(+12%));
-          box-shadow: 0 0 0 3px color(var(--$(type)-color) a(20%));
+          box-shadow: 0 0 0 2px color(var(--$(type)-color) a(30%));
         }
 
         &:active {
           box-shadow: 
             var(--button-active-box-shadow),
-            0 0 0 3px color(var(--$(type)-color) a(20%));
+            0 0 0 2px color(var(--$(type)-color) a(20%));
         }
       }
     }

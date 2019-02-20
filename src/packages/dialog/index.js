@@ -29,14 +29,14 @@ export default {
       }
       instance.$props.show = true
 
-      instance.$on('after:ok', () => {
+      instance.$on('after-ok', () => {
         instance.$props.show = false
         ok && ok()
-        instance.$off(['after:cancel', 'after:ok'])
+        instance.$off(['after-cancel', 'after-ok'])
       })
-      instance.$on('after:cancel', () => {
+      instance.$on('after-cancel', () => {
         cancel && cancel()
-        instance.$off(['after:cancel', 'after:ok'])
+        instance.$off(['after-cancel', 'after-ok'])
       })
     }
   }

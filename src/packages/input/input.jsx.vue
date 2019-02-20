@@ -47,7 +47,8 @@ export default {
       default: "small"
     },
     styles: Object,
-    inputStyles: Object
+    inputStyles: Object,
+    simple: Boolean,//简易型。只有下边框
   },
   computed: {
     isInput() {
@@ -85,7 +86,8 @@ export default {
         class={{
           "k-input-section": true,
           ["k-input-" + this.size]: true,
-          "k-input-block": this.block
+          "k-input-block": this.block,
+            'k-input-simple': this.simple
         }}
         style={this.styles}
       >
@@ -99,7 +101,7 @@ export default {
           class={{
             [this.isInput ? "k-input" : "k-textarea"]: true,
             "k-input-disabled": this.disabled,
-            'k-input-active': this.active,
+            'k-input-active': this.active
           }}
           style={this.inputStyles}
           onInput={() => this.handlerEvent($event)}

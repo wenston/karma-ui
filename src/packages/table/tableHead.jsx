@@ -33,6 +33,7 @@ export default {
         "k-table--bordered": this.bordered,
         [`k-table--${this.size}`]: true,
         "k-table--nowrap": this.nowrap,
+        'k-table--auto': this.tableLayoutAuto,
         "k-table--min-content": this.minContent
       }
     },

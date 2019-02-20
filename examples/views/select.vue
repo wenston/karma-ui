@@ -15,6 +15,7 @@
       </div>
       <div>
         <k-select v-model="curCity1"
+          simple
           clearable>
           <k-option v-for="(v,k) in cities"
             :value="k"

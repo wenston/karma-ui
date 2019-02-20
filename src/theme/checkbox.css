@@ -27,10 +27,10 @@
       position: absolute;
       left: 2px;
       top: 2px;
-      width: 6px;
-      height: 3px;
-      border: 1.5px solid #fff;
-      border-width: 0 0 1.5px 1.5px;
+      width: 7px;
+      height: 5px;
+      border: 2px solid #fff;
+      border-width: 0 0 2px 2px;
       visibility: hidden;
       transform: rotate(-54deg);
     }
@@ -64,8 +64,8 @@
       &:checked {
         & ~ .k-checkbox__icon {
           &:before {
-            border: 1px solid var(--checkbox-checked-disabled-border-color);
-            border-width: 0 0 1px 1px;
+            border: 2px solid var(--checkbox-checked-disabled-border-color);
+            border-width: 0 0 2px 2px;
           }
         }
       }

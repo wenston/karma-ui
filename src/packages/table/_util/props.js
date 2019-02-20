@@ -2,7 +2,12 @@ export const props = {
   //是否为自动宽的表格：table-layout:auto,默认否
   tableLayoutAuto: Boolean,
   //原始数据
-  data: Array,
+  data: {
+    type: Array,
+    default() {
+      return []
+    }
+  },
   //列名及对应的描述
   //field必须要有
   //style里的宽度如果没有指定，则会有一个默认的120px的宽度，见colGroup.jsx
@@ -11,7 +16,10 @@ export const props = {
    *  [{field:'字段名',name:'字段描述',scopedSlots:'slotName',style:{},sum:true}]
    * sum：是否需要汇总，类型：Boolean,String,Number,Function
    */
-  columns: Array,
+  columns: {
+    type: Array,
+    default:()=>[]
+  },
   //是否有边框
   bordered: {
     type: Boolean,

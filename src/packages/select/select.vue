@@ -31,7 +31,9 @@ export default {
     },
     styles: Object,
     disabled: Boolean,
-    clearable: Boolean
+    clearable: Boolean,
+    simple: Boolean,
+    block: Boolean,
   },
   data() {
     return {
@@ -276,7 +278,9 @@ export default {
         readonly: true,
         size: this.size,
         value: this.modelValue,
-        disabled: this.disabled
+        disabled: this.disabled,
+        simple: this.simple,
+        block: this.block
       },
       on: {
         focus: e => {

@@ -25,7 +25,10 @@ export default {
       if(this.modelValue === void 0) {
         return this.checked
       }
-      return this.modelValue === this.value
+      if(this.exact) {
+        return this.modelValue === this.value
+      }
+      return this.modelValue == this.value
     }
   },
   props: {
@@ -39,7 +42,8 @@ export default {
       type: [String,Number,Boolean],
       default: void 0
     },
-    name:String
+    name:String,
+    exact: Boolean
   },
   methods: {
     onChange(e) {

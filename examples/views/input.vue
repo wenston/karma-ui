@@ -10,6 +10,9 @@
         </div>
       </div>
     </div>
+    <div>
+      <k-input placeholder="简易型" simple></k-input>
+    </div>
     <h3 class="layout__title">可清除文本的输入框</h3>
     <div>
       <div>

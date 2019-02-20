@@ -767,9 +767,9 @@ export default {
     }
   },
   mounted() {
-    setTimeout(()=>{
-      this.ids = '300071,300072,300068, 300066'
-    },1500)
+    // setTimeout(()=>{
+    //   this.ids = '300071,300072,300068, 300066'
+    // },1500)
   }
 }
 </script>

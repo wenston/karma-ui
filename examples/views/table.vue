@@ -18,6 +18,7 @@
       :columns="columns1"
       @select-change="onSelectChange"
       size="big"
+      nowrap
       hover
       resize-width
       min-content>
@@ -784,7 +785,7 @@ export default {
           }
         }
       ],
-      currentId: 'PC04201811230002,1053'
+      currentId: ''
     };
   },
   methods: {
@@ -800,6 +801,11 @@ export default {
     currentId(v) {
       console.log(v)
     }
+  },
+  mounted() {
+    setTimeout(()=>{
+      this.currentId = 'PC04201811230002,1053'
+    },1500)
   }
 };
 </script>

@@ -27,7 +27,8 @@
   transition: var(--transition);
   cursor: pointer;
   text-align: left;
-  &:hover {
+  &:hover,
+  &.k-select2-list-item-hover {
     color: var(--option-hover-color);
     background: var(--option-hover-bg-color);
   }
@@ -75,6 +76,7 @@
     padding: 0 3px;
     display: inline-block;
     vertical-align:middle;
+    color: var(--font-color-2);
   }
   .k-select2-checked-del {
     display: inline-block;

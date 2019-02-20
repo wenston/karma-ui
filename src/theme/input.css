@@ -65,7 +65,6 @@
   & .k-input-prepend {
     border-top-left-radius: var(--input-radius);
     border-bottom-left-radius: var(--input-radius);
-
   }
 
   @each $name in (huge, large, big, medium, small, mini) {
@@ -76,12 +75,12 @@
       }
 
       & .k-textarea {
-        height: calc(var(--input-$(name))*2);
+        height: calc(var(--input-$(name)) * 2);
       }
 
       & .k-input-prepend,
       & .k-input-append {
-        width: var(--input-$(name));
+        min-width: var(--input-$(name));
       }
 
       & .k-input-prepend {
@@ -130,5 +129,41 @@
   & .k-textarea {
     padding: var(--input-textarea-padding);
     line-height: var(--input-textarea-line-height);
+  }
+  &.k-input-simple {
+    & .k-input {
+      border: none;
+      border-bottom: 1px solid var(--input-border-color);
+      border-radius: 0;
+      background-color: transparent;
+      &.k-input-active {
+        border-bottom-color: var(--primary-color);
+      }
+      &.k-input-disabled {
+        background-color: transparent;
+      }
+      &:focus,
+      &:active {
+        border-bottom-color: var(--primary-color);
+        box-shadow: none;
+      }
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+    }
+    &:focus-within {
+      &:after {
+        border-bottom-color: var(--primary-color);
+        width: 100%;
+        left: 0;
+      }
+    }
   }
 }

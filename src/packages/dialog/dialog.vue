@@ -2,8 +2,8 @@
   <k-popup 
     v-bind="$props"
     :show.sync="show" 
-    @after:cancel="afterCancel"
-    @after:ok="afterOk"
+    @after-cancel="afterCancel"
+    @after-ok="afterOk"
   >
     <template v-if="$slots.default">
       <slot></slot>
@@ -21,10 +21,10 @@ export default {
   props: {...KPopup.props, content: String},
   methods: {
     afterCancel(){
-      this.$emit('after:cancel')
+      this.$emit('after-cancel')
     },
     afterOk() {
-      this.$emit('after:ok')
+      this.$emit('after-ok')
     }
   }
 }

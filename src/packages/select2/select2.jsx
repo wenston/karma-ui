@@ -44,7 +44,9 @@ export default {
       //记录状态：下拉列表是否可见
       visible: false,
       //全选
-      isCheckedAll: false
+      isCheckedAll: false,
+      //通过键盘上下箭头选择的当前数据行的index
+      currentIndex: -1
     }
   },
   model: {
@@ -60,7 +62,9 @@ export default {
           return data.filter(item => {
             for (const k in item) {
               for (let i = 0, len = v.length; i < len; i++) {
-                if ((item[k] + "").indexOf(v[i]) > -1) {
+                const item_k = (item[k]+'').toLowerCase()
+                const lowerV = v[i].toLowerCase()
+                if (item_k.indexOf(lowerV) > -1) {
                   return item
                 }
               }
@@ -169,7 +173,7 @@ export default {
       if (filterData) {
         let list = []
         if (Array.isArray(filterData)) {
-          list = filterData.map(item => {
+          list = filterData.map((item,index) => {
             const p = {
               class: "k-select2-checkbox",
               props: {
@@ -195,8 +199,12 @@ export default {
                 }
               }
             }
+            const itemClass = {
+              'k-select2-list-item': true,
+              'k-select2-list-item-hover': this.currentIndex === index
+            }
             return (
-              <div class="k-select2-list-item">
+              <div class={itemClass}>
                 <k-checkbox {...p} />
               </div>
             )
@@ -263,11 +271,13 @@ export default {
     hideLayer() {
       this.layerIns.hide()
       this.visible = false
+      this.removeUpdownEvent()
     },
     showLayer() {
       this.layerIns.show(this.$refs.searchInput.focus)
       this.$refs.searchInput.focus()
       this.visible = true
+      this.addUpdownEvent()
     },
     //实例化option列表
     initIns() {
@@ -294,6 +304,34 @@ export default {
       } else {
         this.$emit("valueChange", v)
       }
+    },
+    handleKeydown(e) {
+      const code = e.keyCode
+      if (code != 40 && code != 38 && code != 13) {
+        return
+      }
+      let index = this.currentIndex
+      if(code == 38) {
+        index -= 1
+        if(index<0) {
+          index = this.filterData.length-1
+        }
+      }else if(code == 40) {
+        index += 1
+        if(index>this.filterData.length-1) {
+          index = 0
+        }
+      }else{
+        console.log(index)
+      }
+      this.currentIndex = index
+      this.$forceUpdate()
+    },
+    addUpdownEvent() {
+      document.addEventListener('keydown', this.handleKeydown)
+    },
+    removeUpdownEvent() {
+      document.removeEventListener('keydown', this.handleKeydown)
     }
   },
   render() {

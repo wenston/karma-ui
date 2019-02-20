@@ -4,6 +4,14 @@ import KColGroup from "./colGroup"
 import KCell from "./tableCell"
 import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KRadio from "karma-ui/packages/radio/radio"
+
+//data参数放在此处是由于可能存在left,main,right3个不同的实例，因为要保持数据的
+//同步，所以这么做。（主要是在选择时）
+let baseData = {
+  checkedKeys: [], //保存复选的所有key
+  checkedRows: [], //保存复选的所有行数据
+  currentRadioValue: ""
+}
 export default {
   mixins: [mixins],
   components: {
@@ -24,11 +32,7 @@ export default {
   },
   inject: ["__index", "__checkbox", "__radio"],
   data() {
-    return {
-      checkedKeys: [], //保存复选的所有key
-      checkedRows: [], //保存复选的所有行数据
-      currentRadioValue: '',
-    }
+    return baseData
   },
   computed: {
     bodyWrapperClasses() {
@@ -42,6 +46,7 @@ export default {
         "k-table--bordered": this.bordered,
         [`k-table--${this.size}`]: true,
         "k-table--stripe": this.stripe,
+        "k-table--auto": this.tableLayoutAuto,
         "k-table--nowrap": this.nowrap,
         "k-table--min-content": this.minContent
       }
@@ -60,7 +65,7 @@ export default {
           mouseout: () => {}
         }
       }
-    },
+    }
   },
   watch: {
     currentValue: {
@@ -151,22 +156,22 @@ export default {
         }
       }
       this.checkedKeys = [...set]
+      console.log(this.checkedKeys)
       this.emitSelectChange(e.target.checked, row, index)
     },
     //格式化checkboxKey/radioKey
     formatCheckedKey(row) {
       let keys = []
       let result = []
-      if(this.checkboxKey && this.hasCheckbox) {
-
+      if (this.checkboxKey && this.hasCheckbox) {
         keys = this.checkboxKey.trim().split(",")
-      }else if(this.radioKey && this.hasRadio) {
-        keys = this.radioKey.trim().split(',')
+      } else if (this.radioKey && this.hasRadio) {
+        keys = this.radioKey.trim().split(",")
       }
       keys.forEach(key => {
         result.push(row[key])
       })
-      return result.join(',')
+      return result.join(",")
     },
     //处理序号列、多选或者单选的情况
     addFields(row, col, index, cell) {
@@ -176,11 +181,22 @@ export default {
       }
       //如果有复选框
       if (this.hasCheckbox && col.field === this.__checkbox) {
+        let checked = false
+        const k = this.formatCheckedKey(row)
+        let set = new Set(this.checkedKeys)
+        if (set.has(k)) {
+          checked = true
+        }
         cell = (
+          // <k-checkbox
+          //   value={this.formatCheckedKey(row)}
+          //   type="arr"
+          //   data-arr={this.checkedKeys}
+          //   onChange={() => this.toggleRow($event, row, index)}
+          // />
           <k-checkbox
             value={this.formatCheckedKey(row)}
-            type="arr"
-            data-arr={this.checkedKeys}
+            checked={checked}
             onChange={() => this.toggleRow($event, row, index)}
           />
         )
@@ -192,9 +208,9 @@ export default {
             value: this.formatCheckedKey(row)
           },
           on: {
-            modelValueChange: value=>{
+            modelValueChange: value => {
               this.currentRadioValue = value
-              this.$emit('toggle-radio-row',{value,row,index})
+              this.$emit("toggle-radio-row", { value, row, index })
             }
           }
         }
@@ -227,7 +243,42 @@ export default {
         },
         click: () => {
           //可以在此处理复选单选
-          //暂时不处理单击行选择的功能
+          const k = this.formatCheckedKey(row)
+          if (this.hasCheckbox) {
+            let checked = false
+            let set = new Set(this.checkedKeys)
+            if (set.has(k)) {
+              set.delete(k)
+              let j = -1
+              for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+                if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                  j = i
+                  break
+                }
+              }
+              if (j > -1) {
+                this.checkedRows.splice(j, 1)
+              }
+            } else {
+              set.add(k)
+              checked = true
+              let has = false
+              for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+                if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                  has = true
+                  break
+                }
+              }
+              if (!has) {
+                this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+              }
+            }
+            this.checkedKeys = [...set]
+            this.emitSelectChange(checked, row, index)
+          }else if(this.hasRadio) {
+            this.currentRadioValue = k
+            this.$emit('toggle-radio-row', {value:k, row, index})
+          }
         }
       }
       return this.hover ? <tr {...{ on }}>{column}</tr> : <tr>{column}</tr>

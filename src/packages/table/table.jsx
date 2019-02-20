@@ -61,12 +61,12 @@ export default {
     },
     cellWidth() {
       const size = {
-        mini: "28",
-        small: "30",
-        medium: "33",
-        big: "36",
-        large: "40",
-        huge: "46"
+        mini: "45",
+        small: "45",
+        medium: "45",
+        big: "50",
+        large: "55",
+        huge: "60"
       }
       return size[this.size]
     }
@@ -382,14 +382,14 @@ export default {
       this.currentResizeTd = el
       document.addEventListener("mousemove", this.handleResizeMove)
       document.addEventListener("mouseup", this.handleResizeUp)
-
+      const scrollLeft = this.$refs.mainTable.scrollLeft
       const tdOldWidth = parseFloat(getStyle(el, "width"))
       const totalHeight = getStyle(this.$refs.mainTable, "height")
       const baseLine = this.$refs.baseLine
-      const left = offset(el, this.$el).left + tdOldWidth
+      const left = offset(el, this.$el).left + tdOldWidth - scrollLeft
       baseLine.style.height = totalHeight
       baseLine.style.left = left + "px"
-      this.currentResizeTd.startX = e.clientX
+      this.currentResizeTd.startX = e.clientX + scrollLeft
       this.currentResizeTd.tdOldWidth = tdOldWidth
       this.currentResizeTd.baseLineLeft = left
       this.currentResizeTd.colIndex = index
@@ -398,7 +398,8 @@ export default {
     handleResizeMove(e) {
       const el = this.currentResizeTd
       const dx = e.clientX - el.startX
-      this.$refs.baseLine.style.left = el.baseLineLeft + dx + "px"
+      const scrollLeft = this.$refs.mainTable.scrollLeft
+      this.$refs.baseLine.style.left = scrollLeft + el.baseLineLeft + dx + "px"
     },
     handleResizeUp(e) {
       const { mainTable, leftTable, rightTable } = this.$refs

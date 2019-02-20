@@ -91,11 +91,11 @@ export default {
   },
   methods: {
     onOk() {
-      this.$emit("after:ok")
+      this.$emit("after-ok")
     },
     onCancel() {
       this.$emit("update:show", false)
-      this.$emit("after:cancel")
+      this.$emit("after-cancel")
     },
     esc(e) {
       if (e.keyCode == 27) {
