@@ -71,6 +71,10 @@ export default {
             title: "select2 下拉多选"
           },
           {
+            name: 'auto-complete',
+            title: 'auto-complete 自动完成'
+          },
+          {
             name: "area",
             title: "area 区域选择"
           },

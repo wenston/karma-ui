@@ -3,29 +3,36 @@ export default {
   name: "KOption",
   inject: ["layerComponent"],
   props: {
-    multiple: Boolean,//是不是多选
+    tag: {
+      type: String,
+      default: "li"
+    },
+    multiple: Boolean, //是不是多选
     selected: Boolean,
     value: [String, Number, Boolean], //等同于option的value的用法，等同于key value中的key
-    label: [String, Number] //实际上保存的是key value中的value
+    label: [String, Number] //实际上保存的是(key, value)中的value
   },
   methods: {
-    handleClick() {
+    handleClick(e) {
       this.emitKeyValueToSelect(!this.multiple)
+      this.$emit('click',e)
     },
     emitKeyValueToSelect(hide = false) {
-      this.layerComponent.$data.vm.$emit(
-        "getKeyValueFromOption",
-        this.value,
-        this.label,
-        !!hide //true代表要收起下拉列表
-      )
+      this.layerComponent &&
+        this.layerComponent.$data.vm.$emit(
+          "getKeyValueFromOption",
+          this.value,
+          this.label,
+          !!hide //true代表要收起下拉列表
+        )
     }
   },
   created() {
-    this.layerComponent.$data.vm.$emit(
-      "getOptionComponentName",
-      this.$options.name
-    )
+    this.layerComponent &&
+      this.layerComponent.$data.vm.$emit(
+        "getOptionComponentName",
+        this.$options.name
+      )
   },
   render() {
     const { label, value, selected } = this
@@ -38,22 +45,27 @@ export default {
         "k-option--selected": selected
       },
       on: {
+        ...this.$listeners,
         click: this.handleClick,
 
         mousedown: e => {
           e.stopPropagation()
-          this.layerComponent.$data.vm.$emit("inovering", true)
+          this.layerComponent &&
+            this.layerComponent.$data.vm.$emit("inovering", true)
+          this.$emit('mousedown',e)
         },
         mouseup: e => {
           e.stopPropagation()
-          this.layerComponent.$data.vm.$emit("inovering", false)
+          this.layerComponent &&
+            this.layerComponent.$data.vm.$emit("inovering", false)
+          this.$emit('mouseup',e)
         }
       }
     }
     return (
-      <li {...p}>
+      <this.tag {...p}>
         <span>{this.$slots.default}</span>
-      </li>
+      </this.tag>
     )
   },
   watch: {

@@ -29,8 +29,12 @@ export default {
       //位置
       left: 0,
       top: -9999,
+      //外部传入的layer宽度
       width: 0,
+      //外部传入的layer高度
       height: 0,
+      layerWidth: 0,
+      layerHeight: 0,
       visible: false,
       className: "",
       styles: {},
@@ -50,8 +54,12 @@ export default {
       layerComponent: this
     }
   },
+  //下划线开始的，是内部方法。
+  //不带下划线的，可供组件外部调用
   methods: {
-    init(vm, defaultSlots, opts) {//opts是传入的参数，覆盖原有$data上的属性
+    //初始化，插入内容，并设置一些参数
+    init(vm, defaultSlots, opts) {
+      //opts是传入的参数，覆盖原有$data上的属性
       this.list = defaultSlots
       this.vm = vm
       for (let k in opts) {
@@ -60,7 +68,7 @@ export default {
         }
       }
     },
-    getElemPosition() {
+    _getElemPosition() {
       if (!this.vm || !this.vm.$el) {
         return
       }
@@ -69,26 +77,42 @@ export default {
         return null
       }
       const pos = offset(elem)
-      const w = getStyle(elem, "width")
-      const h = getStyle(elem, "height")
       this.left = pos.left
       this.top = pos.top
-      this.width = w
-      this.height = h
-      this.setSizeAndPosition()
+      if (!this.width) {
+        const w = getStyle(elem, "width")
+        this.layerWidth = w
+      } else {
+        this.layerWidth = this.width
+      }
+      // if (!this.height) {
+        const h = getStyle(elem, "height")
+        this.layerHeight = h
+      // } else {
+      //   this.layerHeight = this.height
+      // }
+      
+      this._setSizeAndPosition()
     },
-    setSizeAndPosition() {
+    _setSizeAndPosition() {
       setStyle(this.$el, {
-        width: this.width,
-        top: this.top + parseFloat(this.height) + this.gap + "px",
+        width: this.layerWidth,
+
+        top: this.top + parseFloat(this.layerHeight) + this.gap + "px",
         left: this.left + "px"
       })
+      if (this.height) {
+        setStyle(this.$el, {
+          height: this.height
+        })
+      }
     },
-    handleEnter() {
+    _handleEnter() {
       if (this.afterEnter) {
         this.afterEnter()
       }
     },
+
     show(callback) {
       this.visible = true
       if (callback) {
@@ -104,13 +128,13 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(this.getElemPosition)
+    this.$nextTick(this._getElemPosition)
   },
   updated() {
-    this.$nextTick(this.getElemPosition)
+    this.$nextTick(this._getElemPosition)
   },
   watch: {
-    vm: "getElemPosition"
+    vm: "_getElemPosition"
   },
   render() {
     let p = {
@@ -126,7 +150,7 @@ export default {
     if (this.hasTransition) {
       const transitionProps = {
         on: {
-          enter: this.handleEnter
+          enter: this._handleEnter
         },
         props: {
           name: this.transitionName

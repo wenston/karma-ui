@@ -1,6 +1,6 @@
 <script>
 import { offset } from "karma-ui/util/dom"
-import ZInput from "karma-ui/packages/input/input.jsx.vue"
+import KInput from "karma-ui/packages/input/input.jsx.vue"
 import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
 import { layer } from "karma-ui/packages/layer/index"
@@ -8,7 +8,7 @@ import KIcon from "karma-ui/packages/icon/icon"
 export default {
   name: "KSelect",
   components: {
-    ZInput,
+    KInput,
     KIcon
   },
   model: {
@@ -291,7 +291,7 @@ export default {
       },
       style: this.styles
     }
-    return <z-input {...inputProps}>{this.rIcon()}</z-input>
+    return <k-input {...inputProps}>{this.rIcon()}</k-input>
   }
 }
 </script>

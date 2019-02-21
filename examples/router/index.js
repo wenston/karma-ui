@@ -61,6 +61,11 @@ export default new VueRouter({
           }
         },
         {
+          path: 'auto-complete',
+          name: 'auto-complete',
+          component:res=>import('../views/auto-complete.vue')
+        },
+        {
           path: "/area",
           name: "area",
           component(res) {
