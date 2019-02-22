@@ -138,7 +138,10 @@ export default {
           i = 0
         }
       }
-      this.ins.$el.scrollTop = offset(this.options[i].$el, this.ins.$el).top
+      this.ins.$el.querySelector(".k-select__list").scrollTop = offset(
+        this.options[i].$el,
+        this.ins.$el
+      ).top
     },
     getSelectedOptionIndex() {
       let i = -1
@@ -149,7 +152,7 @@ export default {
       })
       return i
     },
-    handleKeydown(e) {
+    handleKeyup(e) {
       const code = e.keyCode
       if (code != 40 && code != 38 && code != 13) {
         return
@@ -177,10 +180,16 @@ export default {
 
       e.preventDefault()
     },
+    handleKeydown(e) {
+      const code = e.keyCode
+      if (code == 13 || code == 40 || code == 38) e.preventDefault()
+    },
     addUpDownEvent() {
+      document.addEventListener("keyup", this.handleKeyup)
       document.addEventListener("keydown", this.handleKeydown)
     },
     removeUpDownEvent() {
+      document.removeEventListener("keyup", this.handleKeyup)
       document.removeEventListener("keydown", this.handleKeydown)
     },
     getAllOptionsComponent() {
@@ -287,7 +296,7 @@ export default {
       nativeOn: {
         click: this.showList,
         mouseover: this.showDeleteBtn,
-        mouseout: this.hideDeleteBtn,
+        mouseout: this.hideDeleteBtn
       },
       style: this.styles
     }

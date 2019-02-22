@@ -1,4 +1,6 @@
 import { offset, getStyle, setStyle } from "karma-ui/util/dom"
+// import clickoutside from "karma-ui/util/clickoutside.js"
+// import esc from "karma-ui/util/esc.js"
 export default {
   name: "KLayer",
   props: {
@@ -24,8 +26,14 @@ export default {
       parent: null,
       //$slots.default内容
       list: null,
+      //header插槽
+      headerSlots: null,
+      //footer插槽
+      footerSlots: null,
       //表签,默认div
       tag: "div",
+      headerTag: "div",
+      footerTag: "div",
       //位置
       left: 0,
       top: -9999,
@@ -36,7 +44,12 @@ export default {
       layerWidth: 0,
       layerHeight: 0,
       visible: false,
+      //default插槽的class
       className: "",
+      //header插槽的class
+      headerClassName: "",
+      //footer插槽的class
+      footerClassName: "",
       styles: {},
       afterEnter: () => {}
     }
@@ -57,10 +70,18 @@ export default {
   //下划线开始的，是内部方法。
   //不带下划线的，可供组件外部调用
   methods: {
+    isObject: d =>
+      Object.prototype.toString.call(d).toLowerCase() === "[object object]",
     //初始化，插入内容，并设置一些参数
-    init(vm, defaultSlots, opts) {
+    init(vm, slots, opts) {
       //opts是传入的参数，覆盖原有$data上的属性
-      this.list = defaultSlots
+      if (this.isObject(slots)) {
+        this.list = slots.default || null
+        this.headerSlots = slots.header || null
+        this.footerSlots = slots.footer || null
+      } else {
+        this.list = slots
+      }
       this.vm = vm
       for (let k in opts) {
         if (opts[k]) {
@@ -86,12 +107,12 @@ export default {
         this.layerWidth = this.width
       }
       // if (!this.height) {
-        const h = getStyle(elem, "height")
-        this.layerHeight = h
+      const h = getStyle(elem, "height")
+      this.layerHeight = h
       // } else {
       //   this.layerHeight = this.height
       // }
-      
+
       this._setSizeAndPosition()
     },
     _setSizeAndPosition() {
@@ -136,17 +157,42 @@ export default {
   watch: {
     vm: "_getElemPosition"
   },
+  // directives: {
+  //   clickoutside,
+  //   esc
+  // },
   render() {
     let p = {
       class: {
-        "k-absolute": true,
-        [this.className]: !!this.className
+        "k-layer": true
       },
       on: {
         ...this.$listeners
       },
       style: this.styles
     }
+    const content = (
+      <this.tag {...p}>
+        {this.headerSlots ? (
+          <this.headerTag
+            class={{ [this.headerClassName]: !!this.headerClassName }}
+          >
+            {this.headerSlots}
+          </this.headerTag>
+        ) : null}
+
+        <this.tag class={{ [this.className]: !!this.className }}>
+          {this.list}
+        </this.tag>
+        {this.footerSlots ? (
+          <this.footerTag
+            class={{ [this.footerClassName]: !!this.footerClassName }}
+          >
+            {this.footerSlots}
+          </this.footerTag>
+        ) : null}
+      </this.tag>
+    )
     if (this.hasTransition) {
       const transitionProps = {
         on: {
@@ -160,14 +206,18 @@ export default {
         {
           name: "show",
           value: this.visible
-        }
+        },
+        // {
+        //   name: "clickoutside",
+        //   value: this.hide
+        // },
+        // {
+        //   name: "esc",
+        //   value: this.hide
+        // }
       ]
-      return (
-        <transition {...transitionProps}>
-          <this.tag {...p}>{this.list}</this.tag>
-        </transition>
-      )
+      return <transition {...transitionProps}>{content}</transition>
     }
-    return <this.tag {...p}>{this.list}</this.tag>
+    return content
   }
 }

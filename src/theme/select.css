@@ -33,7 +33,7 @@
   padding: 0;
   font-size: 12px;
   width: 100%;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius);
   z-index: var(--select-option-z-index);
   background-color: var(--select-option-bg-color);
@@ -41,6 +41,6 @@
   max-height: var(--select-option-max-height);
   overflow-x: hidden;
   transition: transform var(--transition);
-  transform-origin: top;
+  transform-origin: 0 0;
   will-change: transform;
 }

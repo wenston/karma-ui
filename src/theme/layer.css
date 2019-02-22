@@ -1,0 +1,6 @@
+.k-layer {
+  @extend .k-absolute;
+  transition: transform var(--transition);
+  transform-origin: 0 0;
+  will-change: transform;
+}

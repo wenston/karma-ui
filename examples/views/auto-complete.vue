@@ -3,11 +3,27 @@
     <h3 class="layout__title">自动完成</h3>
     <div>
       <k-auto-complete :data="list"
-        v-model="value">
+        v-model="value"
+        key-field="ProId"
+        value-field="Name"
+        layer-width="250px"
+        @toggle="onToggle">
+        <div slot-scope="{row}" :key="row.Id" class="list">
+          {{row.Name}}
+        </div>
+      </k-auto-complete>
+      <br>
+      <k-auto-complete :data="list"
+        v-model="value1">
+        <div slot="header" class="list header">
+          <span class="name">商品名称</span>
+          <span class="index">库存</span>
+        </div>
         <div slot-scope="{row,index}" :key="row.Id" class="list">
           <span class="name">{{row.Name}}</span>
           <span class="index">{{index}}</span>
         </div>
+        <div slot="footer">底部 测试</div>
       </k-auto-complete>
     </div>
   </div>
@@ -16,241 +32,20 @@
 export default {
   data() {
     return {
-      value: "",
-      list: [
-        {
-          Id: 100020,
-          ProId: 100020,
-          CategoryId: 63,
-          AccountingType: 1,
-          Name: "华为M2平板电脑",
-          ProName: "华为M2平板电脑",
-          Color: "白色",
-          Brand: "华为",
-          SNCode: "",
-          HaveImei: 0,
-          ProType: 0,
-          TradeFloorPrice: 2300,
-          TradePrice: 2600,
-          RetailFloorPrice: 2599,
-          RetailPrice: 2999,
-          PurchaseFloorPrice: 1800,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 1
-        },
-        {
-          Id: 100021,
-          ProId: 100021,
-          CategoryId: 300196,
-          AccountingType: 3,
-          Name: "三星 Galaxy Note9（SM-N9600 6GB+128G",
-          ProName: "三星 Galaxy Note9（SM-N9600 6GB+128G",
-          Color: "黑色",
-          Brand: "三星",
-          SNCode: "",
-          HaveImei: 1,
-          ProType: 0,
-          TradeFloorPrice: 0,
-          TradePrice: 5500,
-          RetailFloorPrice: 0,
-          RetailPrice: 6900,
-          PurchaseFloorPrice: 0,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 2
-        },
-        {
-          Id: 100022,
-          ProId: 100022,
-          CategoryId: 66,
-          AccountingType: 1,
-          Name: "三星 Galaxy Note9（SM-N9600 6GB+128G）玄镜铜",
-          ProName: "三星 Galaxy Note9（SM-N9600 6GB+128G）玄镜铜",
-          Color: "玄镜铜",
-          Brand: "三星",
-          SNCode: "",
-          HaveImei: 1,
-          ProType: 0,
-          TradeFloorPrice: 0,
-          TradePrice: 5500,
-          RetailFloorPrice: 0,
-          RetailPrice: 6999,
-          PurchaseFloorPrice: 0,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 3
-        },
-        {
-          Id: 100023,
-          ProId: 100023,
-          CategoryId: 66,
-          AccountingType: 1,
-          Name: "三星GALAXY S9+  6+64G（全网通） 谜夜黑",
-          ProName: "三星GALAXY S9+  6+64G（全网通） 谜夜黑",
-          Color: "谜夜黑",
-          Brand: "三星",
-          SNCode: "",
-          HaveImei: 1,
-          ProType: 0,
-          TradeFloorPrice: 0,
-          TradePrice: 5000,
-          RetailFloorPrice: 0,
-          RetailPrice: 6199,
-          PurchaseFloorPrice: 0,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 4
-        },
-        {
-          Id: 100024,
-          ProId: 100024,
-          CategoryId: 66,
-          AccountingType: 3,
-          Name: "畅享6  16g全网通 皓月白",
-          ProName: "畅享6  16g全网通 皓月白",
-          Color: "皓月白",
-          Brand: "华为",
-          SNCode: "",
-          HaveImei: 1,
-          ProType: 0,
-          TradeFloorPrice: 0,
-          TradePrice: 901,
-          RetailFloorPrice: 800,
-          RetailPrice: 1000,
-          PurchaseFloorPrice: 0,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 5
-        },
-        {
-          Id: 100025,
-          ProId: 100025,
-          CategoryId: 66,
-          AccountingType: 1,
-          Name: "畅享7 32g/全网通 白色",
-          ProName: "畅享7 32g/全网通 白色",
-          Color: "黑色",
-          Brand: "华为",
-          SNCode: "",
-          HaveImei: 1,
-          ProType: 0,
-          TradeFloorPrice: 0,
-          TradePrice: 1000,
-          RetailFloorPrice: 0,
-          RetailPrice: 1500,
-          PurchaseFloorPrice: 0,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 6
-        },
-        {
-          Id: 100026,
-          ProId: 100026,
-          CategoryId: 66,
-          AccountingType: 1,
-          Name: "三星 Galaxy Note9（SM-N9600 6GB+128G）丹青黑",
-          ProName: "三星 Galaxy Note9（SM-N9600 6GB+128G）丹青黑",
-          Color: "丹青黑",
-          Brand: "三星",
-          SNCode: "",
-          HaveImei: 1,
-          ProType: 0,
-          TradeFloorPrice: 0,
-          TradePrice: 5500,
-          RetailFloorPrice: 0,
-          RetailPrice: 6999,
-          PurchaseFloorPrice: 0,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 7
-        },
-        {
-          Id: 100027,
-          ProId: 100027,
-          CategoryId: 66,
-          AccountingType: 1,
-          Name: "畅享7 32g/全网通 黑色",
-          ProName: "畅享7 32g/全网通 黑色",
-          Color: "黑色",
-          Brand: "华为",
-          SNCode: "",
-          HaveImei: 1,
-          ProType: 0,
-          TradeFloorPrice: 0,
-          TradePrice: 1000,
-          RetailFloorPrice: 0,
-          RetailPrice: 1500,
-          PurchaseFloorPrice: 0,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 8
-        },
-        {
-          Id: 100028,
-          ProId: 100028,
-          CategoryId: 66,
-          AccountingType: 1,
-          Name: "iPhone 7 64g/全网通 磨砂黑",
-          ProName: "iPhone 7 64g/全网通 磨砂黑",
-          Color: "磨砂黑",
-          Brand: "苹果",
-          SNCode: "",
-          HaveImei: 1,
-          ProType: 0,
-          TradeFloorPrice: 0,
-          TradePrice: 4500,
-          RetailFloorPrice: 0,
-          RetailPrice: 5000,
-          PurchaseFloorPrice: 0,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 9
-        },
-        {
-          Id: 100029,
-          ProId: 100029,
-          CategoryId: 66,
-          AccountingType: 1,
-          Name: "iPhone7 64g/全网通 玫瑰金",
-          ProName: "iPhone7 64g/全网通 玫瑰金",
-          Color: "玫瑰金",
-          Brand: "苹果",
-          SNCode: "",
-          HaveImei: 1,
-          ProType: 0,
-          TradeFloorPrice: 0,
-          TradePrice: 4500,
-          RetailFloorPrice: 0,
-          RetailPrice: 5000,
-          PurchaseFloorPrice: 0,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 10
-        },
-        {
-          Id: 100036,
-          ProId: 100036,
-          CategoryId: 67,
-          AccountingType: 1,
-          Name: "乐视32寸智能电视",
-          ProName: "乐视32寸智能电视",
-          Color: "磨砂黑",
-          Brand: "乐视",
-          SNCode: "",
-          HaveImei: 0,
-          ProType: 0,
-          TradeFloorPrice: 0,
-          TradePrice: 2000,
-          RetailFloorPrice: 0,
-          RetailPrice: 3000,
-          PurchaseFloorPrice: 0,
-          Amount: 0,
-          AmountCanUsed: 0,
-          RowId: 11
-        }
-      ]
+      value: '100020',
+      value1: '100022',
+      list: [{"Id":300038,"ProId":300038,"CategoryId":300046,"AccountingType":1,"Name":"小夜灯","ProName":"小夜灯","Color":"无","Brand":"OPPO","SNCode":"1111111","HaveImei":0,"ProType":0,"TradeFloorPrice":0,"TradePrice":0,"RetailFloorPrice":0,"RetailPrice":30,"PurchaseFloorPrice":0,"Amount":1179,"AmountCanUsed":1174,"RowId":1},{"Id":303525,"ProId":303525,"CategoryId":300046,"AccountingType":1,"Name":"多功能数据线","ProName":"多功能数据线","Color":"无","Brand":"无","SNCode":"","HaveImei":0,"ProType":0,"TradeFloorPrice":0,"TradePrice":0,"RetailFloorPrice":0,"RetailPrice":0,"PurchaseFloorPrice":0,"Amount":120,"AmountCanUsed":120,"RowId":2},{"Id":300034,"ProId":300034,"CategoryId":300003,"AccountingType":1,"Name":"贴膜","ProName":"贴膜","Color":"白色","Brand":"OPPO","SNCode":"","HaveImei":0,"ProType":3,"TradeFloorPrice":0,"TradePrice":0,"RetailFloorPrice":0,"RetailPrice":0,"PurchaseFloorPrice":0,"Amount":103,"AmountCanUsed":103,"RowId":3},{"Id":300035,"ProId":300035,"CategoryId":300003,"AccountingType":1,"Name":"打印照片","ProName":"打印照片","Color":"紫色","Brand":"OPPO","SNCode":"","HaveImei":0,"ProType":3,"TradeFloorPrice":0,"TradePrice":0,"RetailFloorPrice":0,"RetailPrice":0,"PurchaseFloorPrice":0,"Amount":100,"AmountCanUsed":100,"RowId":4},{"Id":303964,"ProId":303964,"CategoryId":301364,"AccountingType":1,"Name":"贴膜卡","ProName":"贴膜卡","Color":"无","Brand":"无","SNCode":"","HaveImei":0,"ProType":4,"TradeFloorPrice":0,"TradePrice":0,"RetailFloorPrice":0,"RetailPrice":0,"PurchaseFloorPrice":0,"Amount":89,"AmountCanUsed":89,"RowId":5},{"Id":300036,"ProId":300036,"CategoryId":300003,"AccountingType":1,"Name":"苹果原装数据线","ProName":"苹果原装数据线","Color":"白","Brand":"苹果","SNCode":"","HaveImei":0,"ProType":3,"TradeFloorPrice":0,"TradePrice":0,"RetailFloorPrice":0,"RetailPrice":0,"PurchaseFloorPrice":0,"Amount":80,"AmountCanUsed":80,"RowId":6},{"Id":303378,"ProId":303378,"CategoryId":300003,"AccountingType":1,"Name":"水杯","ProName":"水杯","Color":"无","Brand":"无","SNCode":"","HaveImei":0,"ProType":3,"TradeFloorPrice":0,"TradePrice":0,"RetailFloorPrice":0,"RetailPrice":0,"PurchaseFloorPrice":0,"Amount":80,"AmountCanUsed":80,"RowId":7},{"Id":303515,"ProId":303515,"CategoryId":300196,"AccountingType":3,"Name":"荣耀magic2 6+128G 渐变蓝","ProName":"荣耀magic2 6+128G 渐变蓝","Color":"渐变蓝","Brand":"荣耀","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":3699,"RetailFloorPrice":0,"RetailPrice":3799,"PurchaseFloorPrice":0,"Amount":80,"AmountCanUsed":78,"RowId":8},{"Id":303321,"ProId":303321,"CategoryId":300196,"AccountingType":3,"Name":"诺比亚X 4+64 渐变红","ProName":"诺比亚X 4+64 渐变红","Color":"渐变红","Brand":"努比亚1","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":2300,"RetailFloorPrice":0,"RetailPrice":2499,"PurchaseFloorPrice":0,"Amount":28,"AmountCanUsed":28,"RowId":9},{"Id":302893,"ProId":302893,"CategoryId":300196,"AccountingType":1,"Name":"努比亚z18   6+64  极夜黑","ProName":"努比亚z18   6+64  极夜黑","Color":"宝石蓝","Brand":"努比亚1","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":2700,"RetailFloorPrice":0,"RetailPrice":2799,"PurchaseFloorPrice":0,"Amount":19,"AmountCanUsed":19,"RowId":10},{"Id":303375,"ProId":303375,"CategoryId":300196,"AccountingType":3,"Name":"努比亚红魔2 6+64g  流沙金","ProName":"努比亚红魔2 6+64g  流沙金","Color":"流沙金","Brand":"努比亚1","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":3500,"RetailFloorPrice":0,"RetailPrice":3600,"PurchaseFloorPrice":0,"Amount":11,"AmountCanUsed":11,"RowId":11},{"Id":303518,"ProId":303518,"CategoryId":300196,"AccountingType":3,"Name":"荣耀magic2 8+128G 渐变黑","ProName":"荣耀magic2 8+128G 渐变黑","Color":"渐变黑","Brand":"荣耀","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":4099,"RetailFloorPrice":0,"RetailPrice":4299,"PurchaseFloorPrice":0,"Amount":6,"AmountCanUsed":6,"RowId":12},{"Id":303524,"ProId":303524,"CategoryId":300046,"AccountingType":1,"Name":"中关村记事本","ProName":"中关村记事本","Color":"橙色","Brand":"zol","SNCode":"","HaveImei":0,"ProType":0,"TradeFloorPrice":0,"TradePrice":0,"RetailFloorPrice":0,"RetailPrice":0,"PurchaseFloorPrice":0,"Amount":6,"AmountCanUsed":6,"RowId":13},{"Id":303519,"ProId":303519,"CategoryId":300196,"AccountingType":3,"Name":"荣耀magic2 8+128G 渐变红","ProName":"荣耀magic2 8+128G 渐变红","Color":"渐变红","Brand":"荣耀","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":4099,"RetailFloorPrice":0,"RetailPrice":4299,"PurchaseFloorPrice":0,"Amount":5,"AmountCanUsed":5,"RowId":14},{"Id":303517,"ProId":303517,"CategoryId":300196,"AccountingType":3,"Name":"荣耀magic2 6+128G 渐变黑","ProName":"荣耀magic2 6+128G 渐变黑","Color":"渐变黑","Brand":"荣耀","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":3699,"RetailFloorPrice":0,"RetailPrice":3799,"PurchaseFloorPrice":0,"Amount":4,"AmountCanUsed":4,"RowId":15},{"Id":300020,"ProId":300020,"CategoryId":66,"AccountingType":1,"Name":"华为 P20 6G+64G 蓝色","ProName":"华为 P20 6G+64G 蓝色","Color":"蓝色","Brand":"华为","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":3388,"RetailFloorPrice":0,"RetailPrice":3688,"PurchaseFloorPrice":0,"Amount":2,"AmountCanUsed":2,"RowId":16},{"Id":300029,"ProId":300029,"CategoryId":66,"AccountingType":1,"Name":"OPPO FindX 8G+256G 红色","ProName":"OPPO FindX 8G+256G 红色","Color":"红色","Brand":"OPPO","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":6000,"RetailFloorPrice":0,"RetailPrice":6500,"PurchaseFloorPrice":0,"Amount":2,"AmountCanUsed":2,"RowId":17},{"Id":303937,"ProId":303937,"CategoryId":300196,"AccountingType":3,"Name":"荣耀11 6+128 全网通 白色","ProName":"荣耀11 6+128 全网通 白色","Color":"白色","Brand":"荣耀","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":0,"RetailFloorPrice":3999,"RetailPrice":3999,"PurchaseFloorPrice":0,"Amount":2,"AmountCanUsed":2,"RowId":18},{"Id":303963,"ProId":303963,"CategoryId":301090,"AccountingType":2,"Name":"华为nova4","ProName":"华为nova4","Color":"渐变蓝","Brand":"华为","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":2399,"TradePrice":2799,"RetailFloorPrice":2299,"RetailPrice":2999,"PurchaseFloorPrice":1999,"Amount":2,"AmountCanUsed":2,"RowId":19},{"Id":100687,"ProId":100687,"CategoryId":66,"AccountingType":1,"Name":"华为MATE9 PRO  6+128G","ProName":"华为MATE9 PRO  6+128G","Color":"金色","Brand":"华为","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":0,"RetailFloorPrice":0,"RetailPrice":3999,"PurchaseFloorPrice":0,"Amount":1,"AmountCanUsed":1,"RowId":20},{"Id":300024,"ProId":300024,"CategoryId":66,"AccountingType":1,"Name":"华为 P20Pro 6G+128G 极光色","ProName":"华为 P20Pro 6G+128G 极光色","Color":"极光色","Brand":"华为","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":4888,"RetailFloorPrice":0,"RetailPrice":5288,"PurchaseFloorPrice":0,"Amount":1,"AmountCanUsed":1,"RowId":21},{"Id":300025,"ProId":300025,"CategoryId":66,"AccountingType":1,"Name":"VIVO X23 8G+128G 紫色","ProName":"VIVO X23 8G+128G 紫色","Color":"紫色","Brand":"VIVO","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":3500,"RetailFloorPrice":0,"RetailPrice":3800,"PurchaseFloorPrice":0,"Amount":1,"AmountCanUsed":1,"RowId":22},{"Id":300249,"ProId":300249,"CategoryId":300196,"AccountingType":3,"Name":"OPPO A5全网通3+64G幻镜粉","ProName":"OPPO A5全网通3+64G幻镜粉","Color":"幻镜粉","Brand":"OPPO","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":888,"RetailFloorPrice":0,"RetailPrice":0,"PurchaseFloorPrice":0,"Amount":1,"AmountCanUsed":1,"RowId":23},{"Id":303516,"ProId":303516,"CategoryId":300196,"AccountingType":3,"Name":"荣耀magic2 6+128G 渐变红","ProName":"荣耀magic2 6+128G 渐变红","Color":"渐变红","Brand":"荣耀","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":3699,"RetailFloorPrice":0,"RetailPrice":3799,"PurchaseFloorPrice":0,"Amount":1,"AmountCanUsed":1,"RowId":24},{"Id":303520,"ProId":303520,"CategoryId":300196,"AccountingType":3,"Name":"荣耀magic2 8+128G 渐变蓝","ProName":"荣耀magic2 8+128G 渐变蓝","Color":"渐变蓝","Brand":"荣耀","SNCode":"","HaveImei":1,"ProType":0,"TradeFloorPrice":0,"TradePrice":4099,"RetailFloorPrice":0,"RetailPrice":4299,"PurchaseFloorPrice":0,"Amount":1,"AmountCanUsed":1,"RowId":25}]
     }
+  },
+  methods: {
+    onToggle(e) {
+      console.log(e)
+    }
+  },
+  mounted() {
+    setTimeout(()=>{
+      this.value1  = '100020'
+    },1000)
   },
   watch: {
     value(v) {
@@ -267,10 +62,17 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      font-size: 12px;
     }
     & .index {
       width: 30px;
       margin-left: 20px;
+      font-size: 12px;
     }
+  }
+  .header {
+    padding-left:10px;
+    background-color: #f1f1f1;
+    font-weight: bold;
   }
 </style>

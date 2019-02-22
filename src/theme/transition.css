@@ -51,7 +51,7 @@
 /*//动画*/
 /*下拉*/
 .k-transition-slide-down-enter-active {
-  transition: transform var(--transition);
+  transition: var(--transition);
   transform-origin:0 0;
 }
 .k-transition-slide-down-leave-active {
