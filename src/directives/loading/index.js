@@ -3,12 +3,12 @@ import { getStyle, setStyle } from "karma-ui/util/dom"
 import { debounce } from "karma-ui/util/throttle_debounce"
 import LoadingComponent from "karma-ui/packages/loading/Loading.vue"
 const instance = "@@instance"
-const settings = {
-  content: "努力加载中. . .",
+let settings = {
+  content:'努力加载中...',
   position: 'absolute',
   isFullScreen: true,
   color: "#378cee",
-  backgroundColor: "rgba(255,255,255,.85)",
+  backgroundColor: "rgba(255,255,255,.75)",
   iconColor: "#378cee",
   
 }
@@ -33,7 +33,7 @@ export default {
       isShow = v
     } else {
       isShow = v.loading
-      el[instance].setOptions({...settings,...v.binding})
+      el[instance].setOptions({...settings,...v})
     }
     isShow && el[instance].show()
   },
@@ -44,7 +44,7 @@ export default {
       isShow = v
     } else {
       isShow = v.loading
-      el[instance].setOptions({...settings,...v.binding})
+      el[instance].setOptions({...settings,...v})
     }
     if (isShow) {
       debounce().then(el[instance].show)

@@ -47,6 +47,10 @@ export default {
       type: [String, Array],
       default: "Name"
     },
+    lazy: {
+      type: Boolean,
+      default: true
+    }
   },
   model: {
     prop: "value",
@@ -54,7 +58,8 @@ export default {
   },
   data() {
     return {
-      ins: layer(),
+      //layer实例
+      ins: null,
       //提交数据用的，可能是id或者proid等等
       val: this.value,
       //展示在输入框的那个文本
@@ -213,12 +218,14 @@ export default {
       }
     },
     showList(fn) {
-      this.ins.show(fn)
+      this.ins && this.ins.show(fn)
     },
     hideList() {
       if (!this.disabled) {
-        this.ins.hide()
-        this.$refs.input.blur()
+        if(this.ins) {
+          this.ins.hide()
+          this.$refs.input.blur()
+        }
       }
     },
     scrollIntoView(index) {
@@ -271,6 +278,11 @@ export default {
           ...this.$listeners,
           focus: e => {
             this.$refs.input.onSelect()
+            //如果还没有实例化，则先实例化
+            if(!this.ins) {
+              this.ins = layer()
+              this.init()
+            }
             //如果没有筛选出来的数据，就不显示列表
             if(this.filterData.length !== 0) {
               this.showList(() => {
@@ -306,7 +318,7 @@ export default {
           },
           blur: () => {
             if (!this.isMouseDownOption) {
-              this.ins.hide()
+              this.hideList()
             }
           },
           // input: () => {
@@ -332,7 +344,7 @@ export default {
       }
     },
     init() {
-      this.$nextTick(() => {
+      this.ins && this.$nextTick(() => {
         const {
           layerWidth,
           layerHeight,
@@ -418,10 +430,15 @@ export default {
     return <k-input {...inputProps} />
   },
   destroyed() {
-    this.ins.destroy()
+    this.ins && this.ins.destroy()
   },
   mounted() {
-    this.init()
+    if(!this.lazy) {
+      if(!this.ins) {
+        this.ins = layer()
+        this.init()
+      }
+    }
   },
   updated() {
     this.init()

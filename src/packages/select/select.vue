@@ -129,7 +129,8 @@ export default {
       this.$nextTick(() => {
         this.ins.init(this, this.$slots.default, {
           className: "k-select__list",
-          tag: "ul"
+          tag: "div",
+          bodyTag: 'ul'
         })
       })
     },

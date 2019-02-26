@@ -1,4 +1,5 @@
 <template>
+<transition name="k-t-fade">
   <div :class="[
     'k-loading',
     isFullScreen?'k-loading--fullscreen':'k-loading--default']"
@@ -15,6 +16,7 @@
       class="k-loading__text"
       :style="{color:color}"></div>
   </div>
+</transition>
 </template>
 <script>
 /**
@@ -64,9 +66,7 @@ export default {
   methods: {
     setOptions(opts = {}) {
       for(const k in opts) {
-        if(opts[k]) {
-          this.$data[k] = opts[k]
-        }
+        this[k] = opts[k]
       }
     },
     show() {

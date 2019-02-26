@@ -151,7 +151,7 @@ export const validate = {
       this.validateOptions.showTips && fail && this.$tips()
         .setContent(msg)
         .setType('error')
-        .hide(2500);
+        .hide(1500);
 
       !fail && successCallback && successCallback();
       fail && errorCallback && errorCallback(errorType);

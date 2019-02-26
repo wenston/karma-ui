@@ -2,7 +2,8 @@
   <div class="layout">
     <h3 class="layout__title">基本用法</h3>
     <div v-loading="{
-        loading
+        loading,
+        content:''
       }" >
       <p>sdfsadfasdf</p>
       <p>xxxxxxxxxxxxxxxx</p>

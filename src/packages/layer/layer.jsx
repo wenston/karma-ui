@@ -32,6 +32,7 @@ export default {
       footerSlots: null,
       //表签,默认div
       tag: "div",
+      bodyTag: 'div',
       headerTag: "div",
       footerTag: "div",
       //位置
@@ -42,6 +43,7 @@ export default {
       //外部传入的layer高度
       height: 0,
       layerWidth: 0,
+      vmHeight: 0,
       layerHeight: 0,
       visible: false,
       //default插槽的class
@@ -89,6 +91,7 @@ export default {
         }
       }
     },
+    //获取与layer相关的vm的$el的尺寸信息
     _getElemPosition() {
       if (!this.vm || !this.vm.$el) {
         return
@@ -108,18 +111,28 @@ export default {
       }
       // if (!this.height) {
       const h = getStyle(elem, "height")
-      this.layerHeight = h
+      this.vmHeight = h
       // } else {
-      //   this.layerHeight = this.height
+      //   this.vmHeight = this.height
       // }
 
       this._setSizeAndPosition()
     },
     _setSizeAndPosition() {
+      const innerHeight = window.innerHeight
+      let top = this.top + parseFloat(this.vmHeight) + this.gap
+      let height = this.layerHeight
+
+      if(top+height>innerHeight) {
+        top = innerHeight - height
+        if(top<0) {
+          top = 0
+        }
+      }
       setStyle(this.$el, {
         width: this.layerWidth,
 
-        top: this.top + parseFloat(this.layerHeight) + this.gap + "px",
+        top: top + "px",
         left: this.left + "px"
       })
       if (this.height) {
@@ -137,7 +150,18 @@ export default {
     show(callback) {
       this.visible = true
       if (callback) {
-        this.afterEnter = callback
+        this.afterEnter = () => {
+          this.layerHeight = parseFloat(getStyle(this.$el,'height'))
+          this._getElemPosition()
+          callback()
+        }
+      }else{
+        this.afterEnter = ()=>{
+          this.$nextTick(()=>{
+            this.layerHeight = parseFloat(getStyle(this.$el,'height'))
+            this._getElemPosition()
+          })
+        }
       }
     },
     hide() {
@@ -181,9 +205,9 @@ export default {
           </this.headerTag>
         ) : null}
 
-        <this.tag class={{ [this.className]: !!this.className }}>
+        <this.bodyTag class={{ [this.className]: !!this.className }}>
           {this.list}
-        </this.tag>
+        </this.bodyTag>
         {this.footerSlots ? (
           <this.footerTag
             class={{ [this.footerClassName]: !!this.footerClassName }}
