@@ -32,7 +32,8 @@ export default {
   provide: {
     __index: "@_index",
     __checkbox: "@_checkbox",
-    __radio: "@_radio"
+    __radio: "@_radio",
+    __action: '@_action'
   },
   computed: {
     leftWrapperClasses() {
@@ -116,7 +117,7 @@ export default {
       this.$refs.theadWrapper.onCheckedAll(
         e.rows.length === this.$props.data.length
       )
-      this.$emit("select-change", JSON.parse(JSON.stringify(e)))
+      this.$emit("select-change", /*JSON.parse(JSON.stringify(e))*/e)
     },
     emitRadioChange(e) {
       //{radioKey的值value，row,index}
@@ -134,7 +135,7 @@ export default {
       //如果存在固定左侧列的情况，则index和checkbox或者radio列，默认也要固定
       //如果存在固定右侧列的情况，则index和checkbox或者radio不需要固定
       let obj = {
-        style: { width: cellWidth }
+        style: { width: cellWidth, backgroundColor: '#fafafa', textAlign:'center' }
       }
       if (fixedLeft) {
         obj.fixed = "left"
@@ -146,6 +147,11 @@ export default {
       } else if (this.hasRadio) {
         columns = [{ ...obj, field: "@_radio" }, ...columns]
         headColumns = [{ ...obj, field: "@_radio" }, ...headColumns]
+      }
+      //处理有操作按钮的情况
+      if( this.hasAction) {
+        columns = [{...obj,field: '@_action'},...columns]
+        headColumns = [{...obj,field: '@_action'},...headColumns]
       }
       //处理有序号的情况
       if (this.hasIndex) {
@@ -449,7 +455,14 @@ export default {
         }
         return <div {...p} />
       }
-    }
+    },
+
+    emitAddRow(e) {
+      this.$emit('add-row', e)
+    },
+    emitDeleteRow(e) {
+      this.$emit('delete-row', e)
+    },
   },
   mounted() {
     this.justifyColumns()
@@ -488,6 +501,8 @@ export default {
       },
       style: heightStyle,
       on: {
+        'add-row': this.emitAddRow,
+        'delete-row': this.emitDeleteRow,
         "select-change": this.emitSelectChange,
         "toggle-radio-row": this.emitRadioChange,
         bodyscroll: this.bodyScroll,

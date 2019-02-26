@@ -132,7 +132,7 @@
 
   /* tips */
   --tips-padding: 20px;
-  --tips-bg-color: color(rgb(60, 70, 80) a(75%));
+  --tips-bg-color: color(rgb(60, 70, 80) a(70%));
   --tips-box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
   --tips-z-index: 1000000;
   --tips-radius: calc(var(--radius)*2);

@@ -4,6 +4,7 @@ import { layer } from "karma-ui/packages/layer/index"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 import KOption from "karma-ui/packages/option/option"
 import esc from "karma-ui/util/esc.js"
+import loading from "karma-ui/directives/loading/index"
 export default {
   name: "KAutoComplete",
   components: {
@@ -20,9 +21,10 @@ export default {
       type: Array,
       default: () => []
     },
-    //弹层的宽度
+    //弹层的宽度，有值的话，就用那个设置的值，如果设置了空字符串或者false，表示和
+    //输入框等宽
     layerWidth: {
-      type: String,
+      type: [String, Boolean],
       default: "auto"
     },
     //弹层的高度
@@ -44,7 +46,7 @@ export default {
     searchField: {
       type: [String, Array],
       default: "Name"
-    }
+    },
   },
   model: {
     prop: "value",
@@ -65,7 +67,9 @@ export default {
       //filterData
       filterData: JSON.parse(JSON.stringify(this.data)),
       options: [], //收集本组件下属的所有option组件
-      optionCompName: ""
+      optionCompName: "",
+      //控制延迟加载的转圈图形显示
+      loading: false,
     }
   },
   watch: {
@@ -73,7 +77,11 @@ export default {
     //   this.$emit("valueChange", v)
     // },
     data(d) {
-      if (d && d.length) this.filterData = JSON.parse(JSON.stringify(d))
+      if (d && d.length) {
+        this.filterData = JSON.parse(JSON.stringify(d))
+        if(document.activeElement == this.$refs.input.getInputElement())
+        this.showList()
+      }
     },
     value: {
       immediate: true,
@@ -104,9 +112,9 @@ export default {
           i = len - 1
         }
       } else if (code == 13) {
-        if(this.filterData.length) {
-
-          this.currentIndex = this.currentHoverIndex == -1?0:this.currentHoverIndex
+        if (this.filterData.length) {
+          this.currentIndex =
+            this.currentHoverIndex == -1 ? 0 : this.currentHoverIndex
           this.$emit(
             "valueChange",
             this.filterData[this.currentIndex][this.keyField]
@@ -190,18 +198,22 @@ export default {
             }
           })
           this.filterData = arr
-          if(arr.length === 0) {
+          if (arr.length === 0) {
             this.ins.hide()
-          }else{
-            this.ins.show(this.scrollIntoView)
+          } else {
+            this.showList(this.scrollIntoView)
           }
           this.$forceUpdate()
         })
       } else {
         this.filterData = this.data
-        if(document.activeElement == this.$refs.input.getInputElement())
-        this.ins.show(this.scrollIntoView)
+        if (document.activeElement == this.$refs.input.getInputElement()) {
+          this.showList(this.scrollIntoView)
+        }
       }
+    },
+    showList(fn) {
+      this.ins.show(fn)
     },
     hideList() {
       if (!this.disabled) {
@@ -213,16 +225,15 @@ export default {
       let i = 0
       if (typeof index === "number") {
         i = index
-      }else{
-        this.filterData.forEach((el,index)=>{
-          if(el[this.keyField] == this.value) {
+      } else {
+        this.filterData.forEach((el, index) => {
+          if (el[this.keyField] == this.value) {
             i = index
           }
         })
       }
       this.getAllOptionsComponent()
-      if(this.options.length) {
-
+      if (this.options.length) {
         this.ins.$el.querySelector(".k-auto-complete").scrollTop = offset(
           this.options[i].$el,
           this.ins.$el
@@ -244,43 +255,54 @@ export default {
       this.options = arr
     },
     inputProps() {
-      // this.getInputTextByKeyField()
-      const {
-        placeholder,
-        block,
-        simple,
-        readonly,
-        disabled,
-        autofocus,
-        clearable,
-        size
-      } = this.$props
       return {
-        directives: [{
-          name: 'esc',
-          value: this.hideList
-        }],
+        directives: [
+          {
+            name: "esc",
+            value: this.hideList
+          }
+        ],
         ref: "input",
         props: {
-          value: this.inputText,
-          placeholder,
-          block,
-          simple,
-          readonly,
-          disabled,
-          autofocus,
-          clearable,
-          size
+          ...this.$props,
+          value: this.inputText
         },
         on: {
           ...this.$listeners,
-          focus: () => {
+          focus: e => {
             this.$refs.input.onSelect()
-            this.filterData.length!==0&&this.ins.show(()=>{
-              this.scrollIntoView()
-              this.currentHoverIndex = this.currentIndex
+            //如果没有筛选出来的数据，就不显示列表
+            if(this.filterData.length !== 0) {
+              this.showList(() => {
+                this.scrollIntoView()
+                this.currentHoverIndex = this.currentIndex
+                this.$forceUpdate()
+              })
+            //如果数据源本身就没有，此时可能是正在延迟加载数据中
+            }else if(this.data.length === 0) {
+              //提示加载中
+              this.loading = true
+              const loadingProps = {
+                directives: [{
+                  name: 'loading',
+                  value: {
+                    loading: this.loading,
+                    content:'数据获取中...'
+                  }
+                }],
+                style: {
+                  minHeight: '200px'
+                }
+              }
+              this.$slots.default = (
+                <div {...loadingProps}></div>
+              )
+              this.showList()
               this.$forceUpdate()
-            })
+            }
+            
+              
+            this.$emit("focus", e)
           },
           blur: () => {
             if (!this.isMouseDownOption) {
@@ -302,7 +324,7 @@ export default {
             this.currentIndex = this.currentHoverIndex = -1
             if (v.trim() === "") {
               this.$emit("valueChange", "")
-              this.$emit('toggle', {row:undefined,index:undefined})
+              this.$emit("toggle", { row: undefined, index: undefined })
             }
             this.getFilterData()
           }
@@ -389,7 +411,7 @@ export default {
     }
   },
   directives: {
-    esc
+    esc,loading
   },
   render() {
     const inputProps = this.inputProps()

@@ -1,7 +1,7 @@
 <script>
 import { offset } from "karma-ui/util/dom"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
-import clickoutside from "karma-ui/util/clickoutside.js"
+// import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
 import { layer } from "karma-ui/packages/layer/index"
 import KIcon from "karma-ui/packages/icon/icon"
@@ -53,6 +53,10 @@ export default {
     }
   },
   methods: {
+    focusAndScrollIntoView() {
+      this.$el.scrollIntoView({behavior: 'smooth'})
+      this.$refs.input.focus()
+    },
     clear() {
       this._change({})
       this.showDelete = false
@@ -102,13 +106,14 @@ export default {
               e.stopPropagation()
             }}
           >
-            <k-icon class="k-select__clear" name="k-icon-close" />
+            <k-icon size="14" class="k-select__clear" name="k-icon-close" />
           </span>
         )
       } else {
         return (
           <span slot="append">
             <k-icon
+              size="14"
               class={{
                 "k-select__down": true,
                 "k-select__down--up": this.ifOptionList
@@ -254,16 +259,16 @@ export default {
     }
   },
   directives: {
-    clickoutside,
+    // clickoutside,
     esc
   },
   render() {
     const inputProps = {
       directives: [
-        {
-          name: "clickoutside",
-          value: this.hideList
-        },
+        // {
+        //   name: "clickoutside",
+        //   value: this.hideList
+        // },
         {
           name: "esc",
           value: this.hideList

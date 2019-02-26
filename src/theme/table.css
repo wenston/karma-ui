@@ -40,18 +40,16 @@
   .k-table-head {
     position: relative;
     color: var(--font-color-1);
+    z-index: 0;
     /* flex: 1; */
-    /* width: 100%; */
   }
 
   .k-table-body {
     margin-top: -1px;
-    /* float: left; */
     overflow-x: hidden;
     overflow-y: auto;
     color: var(--font-color-2);
     /* flex: 1; */
-    /* width: 100%; */
   }
   .k-table-foot {
     position: relative;
@@ -152,4 +150,15 @@
   z-index: 7;
   left: 0;
   top: 0;
+}
+.k-table-icon-action {
+  color: #999;
+  cursor: pointer;
+  font-size: 13px !important;
+  &:hover {
+    color: #333;
+  }
+  &:not(:first-child) {
+    margin-left:2px;
+  }
 }

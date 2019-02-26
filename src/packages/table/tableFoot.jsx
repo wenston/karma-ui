@@ -32,8 +32,10 @@ export default {
       const f = field.split(".")
       let t = 0
       if (f.length === 1 && f[0]) {
+        // console.log(f[0])
         this.data.forEach(el => {
-          t += +el[f[0]]
+          const v = +el[f[0]]
+          t += isNaN(v)?0:v
         })
       } else {
         const me = this
@@ -82,6 +84,9 @@ export default {
     getSumContent(col, i) {
       const { sum, field } = col
       const type = typeof sum
+      if(type === 'undefined' || (type === 'boolean'&&!sum)) {
+        return null
+      }
       if (type === "string" || type === "number") {
         return sum
       } else {
@@ -93,7 +98,6 @@ export default {
           return total
         }
       }
-      return null
     },
     renderTd() {
       const { sumText } = this

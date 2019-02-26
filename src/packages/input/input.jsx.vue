@@ -38,6 +38,8 @@ export default {
       type: String,
       default: "text"
     },
+    max: Number,
+    min: Number,
     maxlength: [String, Number],
     minlength: [String, Number],
     clearable: Boolean,
@@ -48,7 +50,8 @@ export default {
     },
     styles: Object,
     inputStyles: Object,
-    simple: Boolean,//简易型。只有下边框
+    simple: Boolean, //简易型。只有下边框
+    noStyle: Boolean
   },
   computed: {
     isInput() {
@@ -77,7 +80,10 @@ export default {
       }
       if (this.clearable && (this.value + "").trim() !== "") {
         append = (
-          <i class="k-input-clearable k-icon-close iconfont" onClick={this.toClear} />
+          <i
+            class="k-input-clearable k-icon-close iconfont"
+            onClick={this.toClear}
+          />
         )
       }
     }
@@ -87,7 +93,8 @@ export default {
           "k-input-section": true,
           ["k-input-" + this.size]: true,
           "k-input-block": this.block,
-            'k-input-simple': this.simple
+          "k-input-simple": this.simple,
+          "k-input-nostyle": this.noStyle
         }}
         style={this.styles}
       >
@@ -95,13 +102,13 @@ export default {
         {append}
         <this.tag
           {...{ directives }}
-          {...{ attrs: this.$props }}
+          {...{ attrs: {...this.$props,tabindex:1} }}
           domPropsValue={this.value}
           domPropsDisabled={this.disabled}
           class={{
             [this.isInput ? "k-input" : "k-textarea"]: true,
             "k-input-disabled": this.disabled,
-            'k-input-active': this.active
+            "k-input-active": this.active
           }}
           style={this.inputStyles}
           onInput={() => this.handlerEvent($event)}

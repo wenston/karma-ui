@@ -22,6 +22,7 @@ import KDatePicker from 'karma-ui/packages/date-picker/index.js'
 import KScrollbar from 'karma-ui/packages/scrollbar/index.js'
 import KTransition from 'karma-ui/packages/transition/index.js'
 import KTable from 'karma-ui/packages/table/index.js'
+import KTable2 from 'karma-ui/packages/table2/index.js'
 import KLayer from 'karma-ui/packages/layer/index.js'
 import KIcon from 'karma-ui/packages/icon/index.js'
 import KAutoComplete from 'karma-ui/packages/auto-complete/index.js'
@@ -56,6 +57,7 @@ let obj = {
   KScrollbar,
   KTransition,
   KTable,
+  KTable2,
   KLayer,
   KAutoComplete
 }

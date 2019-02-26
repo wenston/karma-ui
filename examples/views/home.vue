@@ -108,6 +108,12 @@ export default {
           },{
             name:'table',
             title:'table 表格'
+          },{
+            name:'table2',
+            title:'table2 增强型表格'
+          },{
+            name:'tips',
+            title:'tips 提示'
           }
         ],
         directives: [

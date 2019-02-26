@@ -1,48 +1,131 @@
 <template>
   <div class="layout">
-    <h3 class="layout__title">自动完成</h3>
+    <h3 class="layout__title">table2</h3>
     <div>
-      <k-auto-complete :data="list"
-        v-model="value"
-        key-field="ProId"
-        value-field="Name"
-        layer-width="250px"
-        placeholder="商品名称"
-        @focus="onFocus"
-        @toggle="onToggle">
-        <div slot-scope="{row}"
-          :key="row.Id"
-          class="list">
-          {{row.Name}}
-        </div>
-      </k-auto-complete>
-      <br>
-      <k-auto-complete :data="list"
-        v-model="value1">
-        <div slot="header"
-          class="list header">
-          <span class="name">商品名称</span>
-          <span class="index">库存</span>
-        </div>
-        <div slot-scope="{row,index}"
-          :key="row.Id"
-          class="list">
-          <span class="name">{{row.Name}}</span>
-          <span class="index">{{index}}</span>
-        </div>
-        <div slot="footer">底部 测试</div>
-      </k-auto-complete>
+      <k-table2 :data="data"
+        :columns="columns"
+        height="calc(100vh - 120px)">
+        <template slot="color" slot-scope="{row}">
+          <k-input block no-style v-model="row.Color"></k-input>
+        </template>
+      </k-table2>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {
     return {
-      value: "100020",
-      value1: "100022",
-      list: [],
-      list1: [
+      data: Array.apply(null,{length:5}).map(t=>({})),
+      columns: [
+        {
+          field: "ProName",
+          name: "名称",
+          style: {
+            width: 200,padding:'2px'
+          },
+          customRender: (row,index) => {
+            const p = {
+              props: {
+                value: row.ProId,
+                data: this.list,
+                noStyle: true,
+                layerWidth: false,//没值表示和输入框等宽
+              },
+              on: {
+                valueChange: v => {
+                  
+                },
+                toggle: (e) => {
+                  
+                  if(e.row) {
+                    e.row.ProCount = 1
+                    this.data.splice(index,1,e.row)
+                  }else{
+                    this.data.splice(index,1,{})
+                  }
+                }
+              },
+              scopedSlots: {
+                default: ({ row, index }) => {
+                  return (
+                    <div>
+                      <span>{row.Name}</span>
+                      <span>{index}</span>
+                    </div>
+                  )
+                }
+              }
+            }
+            return <k-auto-complete {...p}>
+            </k-auto-complete>
+            
+          }
+        },
+        {
+          field: "Color",
+          name: "颜色",
+          style: {
+            width: 80,padding: '2px'
+          },
+          scopedSlots:'color'
+        },
+        {
+          field: "RetailPrice",
+          name: "单价",
+          style: {
+            width: 100
+          },
+          sum: true
+        },
+        {
+          field: "ProCount",
+          name: "数量",
+          style: {
+            width: 70,padding:'2px'
+          },
+          customRender:(row,index) => {
+            const p = {
+              props: {
+                block:true,
+                noStyle: true,
+                value: row.ProCount,
+                type: 'number',
+                min: 1,
+                max: row.Amount,
+              },
+              on: {
+                valueChange:v=>{
+                  // row.ProCount = +v
+                  this.data[index].ProCount = +v
+                  this.data = JSON.parse(JSON.stringify(this.data))
+                }
+              }
+            }
+            return (
+              <k-input {...p} />
+            )
+          },
+          sum: true
+        },
+        {
+          field: "Amount",
+          name: "库存",
+          style: {
+            width: 70
+          }
+        },
+        {
+          field: "SubTotal",
+          name: "金额",
+          style: {
+            width: 100
+          }
+        }
+      ],
+      value: "",
+      list: [
         {
           Id: 300038,
           ProId: 300038,
@@ -50,7 +133,7 @@ export default {
           AccountingType: 1,
           Name: "小夜灯",
           ProName: "小夜灯",
-          Color: "无",
+          Color: "白色",
           Brand: "OPPO",
           SNCode: "1111111",
           HaveImei: 0,
@@ -71,7 +154,7 @@ export default {
           AccountingType: 1,
           Name: "多功能数据线",
           ProName: "多功能数据线",
-          Color: "无",
+          Color: "牛奶白",
           Brand: "无",
           SNCode: "",
           HaveImei: 0,
@@ -92,7 +175,7 @@ export default {
           AccountingType: 1,
           Name: "贴膜",
           ProName: "贴膜",
-          Color: "白色",
+          Color: "透明",
           Brand: "OPPO",
           SNCode: "",
           HaveImei: 0,
@@ -571,47 +654,13 @@ export default {
       ]
     }
   },
-  methods: {
-    onFocus() {
-      setTimeout(()=>{
-        this.list = this.list1
-      },2500)
-    },
-    onToggle(e) {
-      console.log(e)
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.value1 = "100020"
-    }, 1000)
-  },
   watch: {
-    value(v) {
-      // console.log(v)
+    data(d) {
+      console.log(d)
     }
   }
 }
 </script>
-<style lang="postcss">
-.list {
-  display: flex;
-  & .name {
-    width: 150px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-size: 12px;
-  }
-  & .index {
-    width: 30px;
-    margin-left: 20px;
-    font-size: 12px;
-  }
-}
-.header {
-  padding-left: 10px;
-  background-color: #f1f1f1;
-  font-weight: bold;
-}
+
+<style>
 </style>

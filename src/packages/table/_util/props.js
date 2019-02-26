@@ -1,4 +1,11 @@
 export const props = {
+  //循环行时的那个key，指的是字段名
+  //loopKey可以是以逗号分隔的多个字段名，也可以是单个
+  loopKey: {
+    type: [String,Number],
+    //index是指的数据行号
+    default: 'index,Id'
+  },
   //是否为自动宽的表格：table-layout:auto,默认否
   tableLayoutAuto: Boolean,
   //原始数据
@@ -45,6 +52,12 @@ export const props = {
     type: Boolean,
     default: false
   },
+  //是否有操作按钮
+  //默认只有添加和删除操作
+  hasAction: {
+    type: Boolean,
+    default: false
+  },
   //序号index对应的表头描述
   indexText: {
     type: String,
@@ -82,7 +95,10 @@ export const props = {
   //fixed情况下，无默认宽度
   //对应的是table的宽度是不是min-content，默认是100%
 
-  minContent: Boolean,
+  minContent: {
+    type: Boolean,
+    default: false
+  },
   //表格主题tbody高度，有高度的情况下，可以实现表头固定
   //NOTE: 是给表格主题外部div的高度
   height: {
@@ -104,5 +120,8 @@ export const props = {
     default: "合计"
   },
   //可调整列宽
-  resizeWidth: Boolean,
+  resizeWidth: {
+    type: Boolean,
+    default: false
+  },
 }

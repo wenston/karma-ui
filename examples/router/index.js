@@ -148,6 +148,20 @@ export default new VueRouter({
           component(res) {
             import("../views/table.vue").then(comp => res(comp))
           }
+        },
+        {
+          path: "/table2",
+          name: "table2",
+          component(res) {
+            import("../views/table2.vue").then(comp => res(comp))
+          }
+        },
+        {
+          path: "/tips",
+          name: "tips",
+          component(res) {
+            import("../views/tips.vue").then(comp => res(comp))
+          }
         }
       ]
     }

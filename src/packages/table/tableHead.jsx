@@ -20,7 +20,7 @@ export default {
       isCheckedAll: false
     }
   },
-  inject: ["__index", "__checkbox", "__radio"],
+  inject: ["__index", "__checkbox", "__radio", "__action"],
   computed: {
     headWrapperClasses() {
       return {
@@ -33,7 +33,7 @@ export default {
         "k-table--bordered": this.bordered,
         [`k-table--${this.size}`]: true,
         "k-table--nowrap": this.nowrap,
-        'k-table--auto': this.tableLayoutAuto,
+        "k-table--auto": this.tableLayoutAuto,
         "k-table--min-content": this.minContent
       }
     },
@@ -78,13 +78,13 @@ export default {
       //标记每一行数据
       /**
        * addIndex，给每列添加一个index，对应col的序列
-       * 
+       *
        */
-      let addIndex = (col,colChildren) => {
-        if(colChildren.children && colChildren.children.length) {
+      let addIndex = (col, colChildren) => {
+        if (colChildren.children && colChildren.children.length) {
           col.__index = col.__index + colChildren.children.length - 1
-          colChildren.children.forEach(c=>{
-            addIndex(col,c)
+          colChildren.children.forEach(c => {
+            addIndex(col, c)
           })
         }
       }
@@ -99,7 +99,7 @@ export default {
           }
           if (col.children && col.children.length) {
             // col.__index = col.__index + col.children.length - 1
-            addIndex(col,col)
+            addIndex(col, col)
             __index--
             addLevel(col.children, col.__level + 1)
           }
@@ -117,6 +117,9 @@ export default {
           let content = col.name || col.field
           if (this.hasIndex && this.indexText && col.field === this.__index) {
             content = this.indexText
+          }
+          if (this.hasAction && col.field === this.__action) {
+            content = "操作"
           }
           if (this.hasCheckbox && col.field === this.__checkbox) {
             content = (
@@ -138,15 +141,20 @@ export default {
               tag: "th"
             },
             class: {
-              "k-table-td-center": colspan > 1
+              "k-table-td-center":
+                colspan > 1 ||
+                col.field === this.__index ||
+                col.field === this.__action ||
+                col.field === this.__checkbox ||
+                col.field === this.__radio
             },
             on: {
-              handleResizeDown: (e,el) => {
-                if(col.children && col.children.length) {
+              handleResizeDown: (e, el) => {
+                if (col.children && col.children.length) {
                   console.log(col)
                   return
                 }
-                this.$emit("handleResizeDown", e,el,col.__index)
+                this.$emit("handleResizeDown", e, el, col.__index)
               }
             }
           }
@@ -175,7 +183,10 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.$emit("head-mounted", this.hasSum ? getStyle(this.$el, "height"): '0px')
+      this.$emit(
+        "head-mounted",
+        this.hasSum ? getStyle(this.$el, "height") : "0px"
+      )
     })
   }
 }

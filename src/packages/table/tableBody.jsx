@@ -4,7 +4,7 @@ import KColGroup from "./colGroup"
 import KCell from "./tableCell"
 import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KRadio from "karma-ui/packages/radio/radio"
-
+import KIcon from "karma-ui/packages/icon/icon"
 //data参数放在此处是由于可能存在left,main,right3个不同的实例，因为要保持数据的
 //同步，所以这么做。（主要是在选择时）
 let baseData = {
@@ -18,7 +18,8 @@ export default {
     KColGroup,
     KCell,
     KCheckbox,
-    KRadio
+    KRadio,
+    KIcon
   },
   props: {
     ...props,
@@ -30,7 +31,7 @@ export default {
       default: "main"
     }
   },
-  inject: ["__index", "__checkbox", "__radio"],
+  inject: ["__index", "__checkbox", "__radio", "__action"],
   data() {
     return baseData
   },
@@ -92,7 +93,8 @@ export default {
             }
           }
           if (!has) {
-            this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+            // this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+            this.checkedRows.push(row)
           }
         })
       } else {
@@ -117,7 +119,8 @@ export default {
     },
     emitSelectChange(checked, row, index) {
       const { fixedLeft, fixedRight } = this.hasFixedColumns,
-        rows = JSON.parse(JSON.stringify(this.checkedRows)),
+        // rows = JSON.parse(JSON.stringify(this.checkedRows)),
+        rows = this.checkedRows,
         para = { checked, index, row, rows }
       if (fixedLeft && this.hasCheckbox && this.who === "left") {
         this.$emit("select-change", para)
@@ -140,7 +143,8 @@ export default {
           }
         }
         if (!has) {
-          this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+          // this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+          this.checkedRows.push(row)
         }
       } else {
         set.delete(k)
@@ -156,7 +160,7 @@ export default {
         }
       }
       this.checkedKeys = [...set]
-      console.log(this.checkedKeys)
+      // console.log(this.checkedKeys)
       this.emitSelectChange(e.target.checked, row, index)
     },
     //格式化checkboxKey/radioKey
@@ -173,11 +177,33 @@ export default {
       })
       return result.join(",")
     },
-    //处理序号列、多选或者单选的情况
+    //处理序号列、操作列、多选或者单选的情况
     addFields(row, col, index, cell) {
       //如果有序号列
       if (this.hasIndex && col.field === this.__index) {
         cell = index + 1
+      }
+      if (this.hasAction && col.field === this.__action) {
+        cell = (
+          <div>
+            <k-icon
+              title="新增行"
+              class="k-table-icon-action"
+              name="k-icon-add"
+              onClick={() => {
+                this.$emit("add-row", { row, index })
+              }}
+            />
+            <k-icon
+              title="删除行"
+              class="k-table-icon-action"
+              name="k-icon-delete"
+              onClick={() => {
+                this.$emit("delete-row", { row, index })
+              }}
+            />
+          </div>
+        )
       }
       //如果有复选框
       if (this.hasCheckbox && col.field === this.__checkbox) {
@@ -234,54 +260,73 @@ export default {
     },
     //渲染tr
     renderTr(column, row, index) {
-      const on = {
-        mouseover: () => {
-          this.$emit("trmouseover", row, index)
+      let k = []
+      let arr = []
+      if(this.loopKey) {
+        arr = (this.loopKey + "").trim().split(/\s?\,\s?/)
+      }
+      arr.forEach(el => {
+        if (el.toLowerCase() === "index") {
+          k.push(index + "")
+        } else if (row[el]) {
+          k.push(row[el])
+        }
+      })
+      const trProps = {
+        attrs: {
+          'data-key': k.join(',')
         },
-        mouseout: () => {
-          this.$emit("trmouseout", row, index)
-        },
-        click: () => {
-          //可以在此处理复选单选
-          const k = this.formatCheckedKey(row)
-          if (this.hasCheckbox) {
-            let checked = false
-            let set = new Set(this.checkedKeys)
-            if (set.has(k)) {
-              set.delete(k)
-              let j = -1
-              for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-                if (k === this.formatCheckedKey(this.checkedRows[i])) {
-                  j = i
-                  break
+        key: k.join(','),
+        on: {
+          mouseover: () => {
+            this.$emit("trmouseover", row, index)
+          },
+          mouseout: () => {
+            this.$emit("trmouseout", row, index)
+          },
+          click: () => {
+            //可以在此处理复选单选
+            const k = this.formatCheckedKey(row)
+            if (this.hasCheckbox) {
+              let checked = false
+              let set = new Set(this.checkedKeys)
+              if (set.has(k)) {
+                set.delete(k)
+                let j = -1
+                for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+                  if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                    j = i
+                    break
+                  }
+                }
+                if (j > -1) {
+                  this.checkedRows.splice(j, 1)
+                }
+              } else {
+                set.add(k)
+                checked = true
+                let has = false
+                for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+                  if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                    has = true
+                    break
+                  }
+                }
+                if (!has) {
+                  // this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+                  this.checkedRows.push(row)
                 }
               }
-              if (j > -1) {
-                this.checkedRows.splice(j, 1)
-              }
-            } else {
-              set.add(k)
-              checked = true
-              let has = false
-              for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-                if (k === this.formatCheckedKey(this.checkedRows[i])) {
-                  has = true
-                  break
-                }
-              }
-              if (!has) {
-                this.checkedRows.push(JSON.parse(JSON.stringify(row)))
-              }
+              this.checkedKeys = [...set]
+              this.emitSelectChange(checked, row, index)
+            } else if (this.hasRadio) {
+              this.currentRadioValue = k
+              this.$emit("toggle-radio-row", { value: k, row, index })
             }
-            this.checkedKeys = [...set]
-            this.emitSelectChange(checked, row, index)
-          }else if(this.hasRadio) {
-            this.currentRadioValue = k
-            this.$emit('toggle-radio-row', {value:k, row, index})
           }
         }
       }
-      return this.hover ? <tr {...{ on }}>{column}</tr> : <tr>{column}</tr>
+      return this.hover ? <tr {...trProps}>{column}</tr> : <tr>{column}</tr>
     },
     //渲染单元格
     renderTableCell(row, col, index) {

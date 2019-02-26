@@ -166,4 +166,19 @@
       }
     }
   }
+  /* 没有样式，一般用在有外部容器的地方，比如表格内，为了和表格融为一体， */
+  /* 包含了k-input-block */
+  &.k-input-nostyle {
+    height: 100%;
+    width: 100%;
+    display: block;
+    background-color: transparent;
+    & .k-input,
+    & .k-textarea {
+      border: none;
+      border-radius: 0;
+      height: 100%;
+      /* background-color: transparent; */
+    }
+  }
 }
