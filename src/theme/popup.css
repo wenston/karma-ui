@@ -79,6 +79,7 @@
   display: table-cell;
   padding: var(--popup-content-padding);
   background-color: var(--popup-content-bg-color);
+  transition: var(--transition);
 }
 
 .k-popup__body,

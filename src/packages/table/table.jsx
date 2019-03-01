@@ -90,6 +90,16 @@ export default {
     // }
   },
   methods: {
+    setHighlightRow(e) {
+      if(this.$refs.mainTbodyWrapper)
+      this.$refs.mainTbodyWrapper.setHighlightRow(e)
+    },
+    setSelectedRows(x) {
+      this.$refs.mainTbodyWrapper.setCheckedRows(x)
+    },
+    setSelectedKeys(x) {
+      this.$refs.mainTbodyWrapper.setCheckedKeys(x)
+    },
     getTableProps() {
       const { tableClass, $attrs, $listeners } = this
       return {
@@ -117,6 +127,8 @@ export default {
       this.$refs.theadWrapper.onCheckedAll(
         e.rows.length === this.$props.data.length
       )
+      this.$emit('update:selectedRows', e.rows)
+      this.$emit('update:selectedKeys',e.keys)
       this.$emit("select-change", /*JSON.parse(JSON.stringify(e))*/e)
     },
     emitRadioChange(e) {
@@ -463,6 +475,10 @@ export default {
     emitDeleteRow(e) {
       this.$emit('delete-row', e)
     },
+    emitHighlight(e) {
+      this.$emit('toggle-highlight',e)
+    },
+    
   },
   mounted() {
     this.justifyColumns()
@@ -486,6 +502,7 @@ export default {
     const { fixedLeft, fixedRight } = this.hasFixedColumns
     const { columns, headColumns } = this.machiningColumns()
     let props = { ...this.$props, columns }
+    // console.log(props)
     let heightStyle = {}
     if (this.height) {
       heightStyle.height = `calc(${this.height} - ${this.headHeight ||
@@ -505,10 +522,12 @@ export default {
         'delete-row': this.emitDeleteRow,
         "select-change": this.emitSelectChange,
         "toggle-radio-row": this.emitRadioChange,
+        'toggle-highlight': this.emitHighlight,
         bodyscroll: this.bodyScroll,
         //TODO: 由于是js控制的hover后背景变色，如果有合并行的情况，会有不准确的问题。待修正
         trmouseover: this.trMouseover,
-        trmouseout: this.trMouseout
+        trmouseout: this.trMouseout,
+        
       }
     }
 

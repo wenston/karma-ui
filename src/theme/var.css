@@ -253,6 +253,7 @@
   --table-mini: var(--mini);
   --table-mini-font-size: 12px;
   --table-mini-padding: 3px;
+  --table-tr-highlight-color: #fde9e2;
 
   /* 斑马线和滑入变色 */
   --table-stripe-bg-color: var(--default-color);

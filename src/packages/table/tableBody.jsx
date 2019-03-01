@@ -10,7 +10,8 @@ import KIcon from "karma-ui/packages/icon/icon"
 let baseData = {
   checkedKeys: [], //保存复选的所有key
   checkedRows: [], //保存复选的所有行数据
-  currentRadioValue: ""
+  currentRadioValue: "",
+  currentHighlightKey: ''
 }
 export default {
   mixins: [mixins],
@@ -33,7 +34,12 @@ export default {
   },
   inject: ["__index", "__checkbox", "__radio", "__action"],
   data() {
-    return baseData
+    return {
+      checkedKeys: [], //保存复选的所有key
+      checkedRows: [], //保存复选的所有行数据
+      currentRadioValue: "",
+      currentHighlightKey: ''
+    }
   },
   computed: {
     bodyWrapperClasses() {
@@ -74,9 +80,36 @@ export default {
       handler(v) {
         this.currentRadioValue = v
       }
-    }
+    },
+    selectedKeys(keys) {
+      //目前监控不到！为什么！
+      this.checkedKeys = keys
+    },
+    selectedRows(rows) {
+      this.checkedRows = rows
+    },
   },
   methods: {
+    //传入row,index，或者只传index都行，或者只传key
+    setHighlightRow({row,index,key}) {
+      if(row) {
+        this.currentHighlightKey = this.getRowKey(row,index,this.highlightKey)
+
+      }else if(typeof index === 'number') {
+        const i = +index
+        if(typeof i === 'number') {
+          this.currentHighlightKey = this.getRowKey(this.data[i],i,this.highlightKey)
+        }
+      }else if(key) {
+        this.currentHighlightKey = key
+      }
+    },
+    setCheckedRows(x) {
+      this.checkedRows = x
+    },
+    setCheckedKeys(x) {
+      this.checkedKeys = x
+    },
     onCheckedAll(checked) {
       //当不选择时，不可以将checkedKeys直接清空，因为可能存在跨页选择的数据
       //checkedRows同上
@@ -121,7 +154,7 @@ export default {
       const { fixedLeft, fixedRight } = this.hasFixedColumns,
         // rows = JSON.parse(JSON.stringify(this.checkedRows)),
         rows = this.checkedRows,
-        para = { checked, index, row, rows }
+        para = { checked, index, row, rows, keys:this.checkedKeys }
       if (fixedLeft && this.hasCheckbox && this.who === "left") {
         this.$emit("select-change", para)
       } else if (!fixedLeft && this.hasCheckbox && this.who === "main") {
@@ -223,7 +256,7 @@ export default {
           <k-checkbox
             value={this.formatCheckedKey(row)}
             checked={checked}
-            onChange={() => this.toggleRow($event, row, index)}
+            style="pointer-events:none;"
           />
         )
         //如果有单选框
@@ -258,25 +291,34 @@ export default {
 
       return field
     },
-    //渲染tr
-    renderTr(column, row, index) {
+    getRowKey(row,index,keys) {
       let k = []
       let arr = []
-      if(this.loopKey) {
-        arr = (this.loopKey + "").trim().split(/\s?\,\s?/)
+      if(keys) {
+        arr = (keys + '').trim().split(/\s?\,\s?/)
       }
-      arr.forEach(el => {
+      arr.forEach(el=>{
         if (el.toLowerCase() === "index") {
           k.push(index + "")
         } else if (row[el]) {
           k.push(row[el])
         }
       })
+      return k.join(',')
+    },
+    //渲染tr
+    renderTr(column, row, index) {
+      let k = this.getRowKey(row,index,this.loopKey)
+      const curHighlightRowKey = this.getRowKey(row,index,this.highlightKey)
       const trProps = {
         attrs: {
-          'data-key': k.join(',')
+          'data-key': k,
+          'data-highlight': curHighlightRowKey,
         },
-        key: k.join(','),
+        key: k,
+        class: {
+          'k-table-tr-highlight': curHighlightRowKey==this.currentHighlightKey,
+        },
         on: {
           mouseover: () => {
             this.$emit("trmouseover", row, index)
@@ -285,6 +327,11 @@ export default {
             this.$emit("trmouseout", row, index)
           },
           click: () => {
+            //处理高亮
+            if(this.canHighlightRow) {
+              this.currentHighlightKey = this.getRowKey(row,index,this.highlightKey)
+              this.$emit('toggle-highlight', {row,index})
+            }
             //可以在此处理复选单选
             const k = this.formatCheckedKey(row)
             if (this.hasCheckbox) {

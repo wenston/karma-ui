@@ -39,7 +39,7 @@
 export default {
   data() {
     return {
-      value: "100020",
+      value: "",
       value1: "100022",
       list: [],
       list1: [
@@ -574,8 +574,8 @@ export default {
   methods: {
     onFocus() {
       setTimeout(()=>{
-        this.list = this.list1
-      },2500)
+        // this.list = this.list1
+      },1500)
     },
     onToggle(e) {
       console.log(e)
@@ -583,8 +583,11 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.value1 = "100020"
-    }, 1000)
+      this.value = "300034"
+    }, 1800)
+    setTimeout(() => {
+      this.list = this.list1
+    }, 1500)
   },
   watch: {
     value(v) {

@@ -1,5 +1,4 @@
 .k-checkbox {
-
   margin-right: var(--checkbox-gutter);
   &:nth-last-of-type(1) {
     margin-right:0;

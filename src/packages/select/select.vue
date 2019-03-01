@@ -128,7 +128,7 @@ export default {
     initIns() {
       this.$nextTick(() => {
         this.ins.init(this, this.$slots.default, {
-          className: "k-select__list",
+          bodyClassName: "k-select__list",
           tag: "div",
           bodyTag: 'ul'
         })
@@ -144,9 +144,9 @@ export default {
           i = 0
         }
       }
-      this.ins.$el.querySelector(".k-select__list").scrollTop = offset(
+      this.ins.$refs.body.scrollTop = offset(
         this.options[i].$el,
-        this.ins.$el
+        this.ins.$refs.body
       ).top
     },
     getSelectedOptionIndex() {

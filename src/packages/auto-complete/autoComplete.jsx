@@ -63,7 +63,7 @@ export default {
       //提交数据用的，可能是id或者proid等等
       val: this.value,
       //展示在输入框的那个文本
-      inputText: "",
+      inputText: this.text,
       optionCompName: "",
       isMouseDownOption: false,
       //选中的那个数据的index
@@ -74,7 +74,7 @@ export default {
       options: [], //收集本组件下属的所有option组件
       optionCompName: "",
       //控制延迟加载的转圈图形显示
-      loading: false,
+      loading: false
     }
   },
   watch: {
@@ -83,9 +83,10 @@ export default {
     // },
     data(d) {
       if (d && d.length) {
+        this.getInputTextByKeyField()
         this.filterData = JSON.parse(JSON.stringify(d))
-        if(document.activeElement == this.$refs.input.getInputElement())
-        this.showList()
+        if (document.activeElement == this.$refs.input.getInputElement())
+          this.showList()
       }
     },
     value: {
@@ -222,7 +223,7 @@ export default {
     },
     hideList() {
       if (!this.disabled) {
-        if(this.ins) {
+        if (this.ins) {
           this.ins.hide()
           this.$refs.input.blur()
         }
@@ -241,9 +242,9 @@ export default {
       }
       this.getAllOptionsComponent()
       if (this.options.length) {
-        this.ins.$el.querySelector(".k-auto-complete").scrollTop = offset(
+        this.ins.$refs.body.scrollTop = offset(
           this.options[i].$el,
-          this.ins.$el
+          this.ins.$refs.body
         ).top
       }
     },
@@ -279,41 +280,40 @@ export default {
           focus: e => {
             this.$refs.input.onSelect()
             //如果还没有实例化，则先实例化
-            if(!this.ins) {
+            if (!this.ins) {
               this.ins = layer()
               this.init()
             }
             //如果没有筛选出来的数据，就不显示列表
-            if(this.filterData.length !== 0) {
+            if (this.filterData.length !== 0) {
               this.showList(() => {
                 this.scrollIntoView()
                 this.currentHoverIndex = this.currentIndex
                 this.$forceUpdate()
               })
-            //如果数据源本身就没有，此时可能是正在延迟加载数据中
-            }else if(this.data.length === 0) {
+              //如果数据源本身就没有，此时可能是正在延迟加载数据中
+            } else if (this.data.length === 0) {
               //提示加载中
               this.loading = true
               const loadingProps = {
-                directives: [{
-                  name: 'loading',
-                  value: {
-                    loading: this.loading,
-                    content:'数据获取中...'
+                directives: [
+                  {
+                    name: "loading",
+                    value: {
+                      loading: this.loading,
+                      content: "数据获取中..."
+                    }
                   }
-                }],
+                ],
                 style: {
-                  minHeight: '200px'
+                  minHeight: "200px"
                 }
               }
-              this.$slots.default = (
-                <div {...loadingProps}></div>
-              )
+              this.$slots.default = <div {...loadingProps} />
               this.showList()
               this.$forceUpdate()
             }
-            
-              
+
             this.$emit("focus", e)
           },
           blur: () => {
@@ -344,86 +344,88 @@ export default {
       }
     },
     init() {
-      this.ins && this.$nextTick(() => {
-        const {
-          layerWidth,
-          layerHeight,
-          filterData,
-          $slots,
-          $scopedSlots
-        } = this
-        const slotsDefault =
-          $slots.default ||
-          filterData.map((item, index) => {
-            const optionProps = {
-              class: {
-                "k-option--hover": index == this.currentHoverIndex
-              },
-              props: {
-                tag: "div",
-                selected: item[this.keyField] == this.value
-              },
-              on: {
-                click: e => {
-                  this.currentIndex = index
-                  this.$emit("valueChange", item[this.keyField])
-                  this.$emit("toggle", { row: item, index })
-                  this.ins.hide()
+      this.ins &&
+        this.$nextTick(() => {
+          const {
+            layerWidth,
+            layerHeight,
+            filterData,
+            $slots,
+            $scopedSlots
+          } = this
+          const slotsDefault =
+            $slots.default ||
+            filterData.map((item, index) => {
+              const optionProps = {
+                class: {
+                  "k-option--hover": index == this.currentHoverIndex
+                },
+                props: {
+                  tag: "div",
+                  selected: item[this.keyField] == this.value
+                },
+                on: {
+                  click: e => {
+                    this.currentIndex = index
+                    this.$emit("valueChange", item[this.keyField])
+                    this.$emit("toggle", { row: item, index })
+                    this.ins.hide()
+                  }
                 }
               }
-            }
-            return (
-              <k-option {...optionProps}>
-                {$scopedSlots.default({
-                  row: item,
-                  index
-                })}
-              </k-option>
-            )
-          })
-        const slotsHeader = $slots.header
-        const slotsFooter = $slots.footer
-        let arrClassName = ["k-auto-complete"]
-        if (slotsHeader) {
-          arrClassName.push("k-auto-complete-has-header")
-        }
-        if (slotsFooter) {
-          arrClassName.push("k-auto-complete-has-footer")
-        }
-        this.ins.init(
-          this,
-          {
-            //列表的插槽内容
-            default: slotsDefault,
-            //列表头部的内容
-            header: slotsHeader,
-            //列表底部的内容
-            footer: slotsFooter
-          },
-          {
-            //弹框标签类型
-            tag: "div",
-            //弹框列表头部标签类型
-            headerTag: "div",
-            //弹框列表底部标签类型
-            footerTag: "div",
-            //列表class
-            className: arrClassName.join(" "),
-            //弹框列表头部class
-            headerClassName: "k-auto-complete-header",
-            footerClassName: "k-auto-complete-footer",
-
-            //弹框宽。如果不指定宽，则宽度和输入框一致
-            width: layerWidth,
-            //高度暂时没有设置。TODO
-            height: layerHeight
+              return (
+                <k-option {...optionProps}>
+                  {$scopedSlots.default({
+                    row: item,
+                    index
+                  })}
+                </k-option>
+              )
+            })
+          const slotsHeader = $slots.header
+          const slotsFooter = $slots.footer
+          let arrClassName = ["k-auto-complete"]
+          if (slotsHeader) {
+            arrClassName.push("k-auto-complete-has-header")
           }
-        )
-      })
+          if (slotsFooter) {
+            arrClassName.push("k-auto-complete-has-footer")
+          }
+          this.ins.init(
+            this,
+            {
+              //列表的插槽内容
+              default: slotsDefault,
+              //列表头部的内容
+              header: slotsHeader,
+              //列表底部的内容
+              footer: slotsFooter
+            },
+            {
+              //弹框标签类型
+              tag: "div",
+              //弹框列表头部标签类型
+              headerTag: "div",
+              //弹框列表底部标签类型
+              footerTag: "div",
+              //列表class
+              bodyClassName: arrClassName.join(" "),
+              //弹框列表头部class
+              headerClassName: "k-auto-complete-header",
+              footerClassName: "k-auto-complete-footer",
+
+              //弹框宽。如果不指定宽，则宽度和输入框一致
+              width: layerWidth,
+              //高度暂时没有设置。TODO
+              height: layerHeight
+            }
+          )
+        })
     }
   },
   directives: {
-    esc,loading
+    esc,
+    loading
   },
   render() {
     const inputProps = this.inputProps()
@@ -433,8 +435,8 @@ export default {
     this.ins && this.ins.destroy()
   },
   mounted() {
-    if(!this.lazy) {
-      if(!this.ins) {
+    if (!this.lazy) {
+      if (!this.ins) {
         this.ins = layer()
         this.init()
       }

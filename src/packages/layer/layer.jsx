@@ -47,7 +47,7 @@ export default {
       layerHeight: 0,
       visible: false,
       //default插槽的class
-      className: "",
+      bodyClassName: "",
       //header插槽的class
       headerClassName: "",
       //footer插槽的class
@@ -205,7 +205,7 @@ export default {
           </this.headerTag>
         ) : null}
 
-        <this.bodyTag class={{ [this.className]: !!this.className }}>
+        <this.bodyTag ref="body" class={{ [this.bodyClassName]: !!this.bodyClassName }}>
           {this.list}
         </this.bodyTag>
         {this.footerSlots ? (

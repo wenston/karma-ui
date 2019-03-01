@@ -79,7 +79,8 @@ export default {
         ...$attrs,
         href: this.href,
         target: this.target,
-        disabled: this.loading || this.disabled
+        disabled: this.loading || this.disabled,
+        tabindex: 1
       },
       on: {
         ...$listeners,

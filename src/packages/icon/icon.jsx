@@ -4,7 +4,11 @@ export default {
     size: [String,Number],
     color: String,
     name: String,
-    weight: Boolean
+    weight: Boolean,
+    tag: {
+      type: String,
+      default: 'i'
+    }
   },
   render() {
     const {$props,$listeners} = this
@@ -23,7 +27,7 @@ export default {
       }
     }
     return (
-      <i {...iconProps} />
+      <this.tag {...iconProps} />
     )
   }
 }

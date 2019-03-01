@@ -75,6 +75,9 @@
     > tbody > tr {
       background-color: white;
       transition: var(--transition);
+      &.k-table-tr-highlight {
+        background-color: var(--table-tr-highlight-color) !important;
+      }
     }
 
     @each $name in (huge, large, big, medium, small, mini) {

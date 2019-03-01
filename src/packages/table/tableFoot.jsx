@@ -29,6 +29,7 @@ export default {
     isObject: any =>
       Object.prototype.toString.call(any).toLowerCase() === "[object object]",
     getColSum(field) {
+      if(!field) {return 0}
       const f = field.split(".")
       let t = 0
       if (f.length === 1 && f[0]) {

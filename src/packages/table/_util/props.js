@@ -1,4 +1,14 @@
 export const props = {
+  //点击某一行时，是否支持高亮显示
+  canHighlightRow: {
+    type: Boolean,
+    default: false,
+  },
+  //高亮时的唯一标示，如Id
+  highlightKey: {
+    type: String,
+    default: 'index,Id'
+  },
   //循环行时的那个key，指的是字段名
   //loopKey可以是以逗号分隔的多个字段名，也可以是单个
   loopKey: {
@@ -74,6 +84,17 @@ export const props = {
   checkboxKey: {
     type: String,
     default: "Id"
+  },
+  //支持sync，保存的是选择的行数据
+  
+  selectedRows: {
+    type: Array,
+    default: () => []
+  },
+  //支持sync，保存的是checkboxKey作为key 的数组
+  selectedKeys: {
+    type: Array,
+    default: () => []
   },
   //支持单选的情况下，需指定一个唯一的标示，同checkboxKey
   radioKey: {
