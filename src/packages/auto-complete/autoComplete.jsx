@@ -61,9 +61,9 @@ export default {
       //layer实例
       ins: null,
       //提交数据用的，可能是id或者proid等等
-      val: this.value,
+      // val: this.value,
       //展示在输入框的那个文本
-      inputText: this.text,
+      inputText: '',
       optionCompName: "",
       isMouseDownOption: false,
       //选中的那个数据的index
@@ -92,9 +92,7 @@ export default {
     value: {
       immediate: true,
       handler(v) {
-        if (v) {
-          this.getInputTextByKeyField()
-        }
+        this.getInputTextByKeyField()
       }
     }
   },
@@ -141,19 +139,27 @@ export default {
     },
     //
     getInputTextByKeyField() {
-      let text = ""
-      if (this.data && this.data.length && this.keyField) {
+      let text = "",row,index
+      if (this.value && this.value!=='' && this.data && this.data.length && this.keyField) {
         for (let i = 0, len = this.data.length; i < len; i++) {
           let item = this.data[i]
           if (item[this.keyField] == this.value) {
+            row = item
             text = item[this.valueField]
             this.currentIndex = i
             this.currentHoverIndex = i
+            index = i
             break
           }
         }
       }
       this.inputText = text
+      // this.$emit('toggle',{row,index})
+      // return {row,index}
+    },
+    getInputTextAndToggle() {
+      let {row,index} = this.getInputTextByKeyField()
+      this.$emit('toggle',{row,index})
     },
     //根据inputText获取keyField对应的值
     getValueByInputText() {
@@ -261,6 +267,10 @@ export default {
       }
       fn(this.ins)
       this.options = arr
+    },
+    //可供外部调用
+    focus() {
+      this.$refs.input.focus()
     },
     inputProps() {
       return {

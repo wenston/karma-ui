@@ -206,6 +206,7 @@ export default {
     //才能对齐
     justifyColumns() {
       this.$nextTick(() => {
+        if(!this.$refs.mainTable) {return}
         if (this.height || this.maxHeight) {
           const mainTable = this.$refs.mainTable,
             body = mainTable.querySelector(".k-table-body"),
@@ -317,8 +318,11 @@ export default {
       })
     },
     mainTableScroll() {
+      //如果此表格放在了可能会从dom中移除的组件中，则
+      //mainTable可能会出现undefined的问题，
+      //故需对mainTable进行判断
       const { mainTable, leftTable, rightTable } = this.$refs,
-        scrollLeft = mainTable.scrollLeft,
+        scrollLeft = mainTable?mainTable.scrollLeft:0,
         clsLeft = "k-table-wrapper--fixed_left_shadow",
         clsRight = "k-table-wrapper--fixed_right_shadow"
 

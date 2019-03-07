@@ -40,9 +40,20 @@ export default {
   data() {
     return {}
   },
-  methods: {},
+  methods: {
+    setHighlightRow(e) {
+      this.$refs.table.setHighlightRow(e)
+    },
+    setSelectedRows(x) {
+      this.$refs.table.setSelectedRows(x)
+    },
+    setSelectedKeys(x) {
+      this.$refs.table.setSelectedKeys(x)
+    }
+  },
   render() {
     const tableProps = {
+      ref: 'table',
       props: {
         ...this.$props
       },
