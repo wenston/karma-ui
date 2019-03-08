@@ -91,7 +91,7 @@ export default {
         }
       }
     },
-    //获取与layer相关的vm的$el的尺寸信息
+    //获取与layer相关的vm的$el的位置、尺寸信息
     _getElemPosition() {
       if (!this.vm || !this.vm.$el) {
         return

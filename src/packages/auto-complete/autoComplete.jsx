@@ -139,27 +139,26 @@ export default {
     },
     //
     getInputTextByKeyField() {
-      let text = "",row,index
+      let text = ""
       if (this.value && this.value!=='' && this.data && this.data.length && this.keyField) {
         for (let i = 0, len = this.data.length; i < len; i++) {
           let item = this.data[i]
           if (item[this.keyField] == this.value) {
-            row = item
             text = item[this.valueField]
             this.currentIndex = i
             this.currentHoverIndex = i
-            index = i
             break
           }
         }
       }
       this.inputText = text
+      return text
       // this.$emit('toggle',{row,index})
       // return {row,index}
     },
-    getInputTextAndToggle() {
-      let {row,index} = this.getInputTextByKeyField()
-      this.$emit('toggle',{row,index})
+    //外部调用
+    getName() {
+      return this.getInputTextByKeyField()
     },
     //根据inputText获取keyField对应的值
     getValueByInputText() {
