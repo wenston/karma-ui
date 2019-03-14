@@ -16,8 +16,8 @@
   /*尺寸*/
   --huge: 50px;
   --large: 40px;
-  --big: 36px;
-  --medium: 32px;
+  --big: 34px;
+  --medium: 30px;
   --small: 28px;
   --mini: 24px;
   /*边框颜色，form表单相关控件的边框、分页器按钮边框*/
@@ -67,7 +67,7 @@
   --button-huge: 0 30px;
   --button-large: 0 24px;
   --button-big: 0 20px;
-  --button-medium: 0 12px;
+  --button-medium: 0 14px;
   --button-small: 0 8px;
   --button-mini: 0 8px;
   /*button height*/
@@ -134,7 +134,7 @@
   --tips-padding: 20px;
   --tips-bg-color: color(rgb(60, 70, 80) a(85%));
   --tips-box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
-  --tips-z-index: 1000000;
+  --tips-z-index: 9999;
   --tips-radius: calc(var(--radius)*2);
   --tips-cont-color: #fff;
   --tips-cont-font-size: 14px;
@@ -157,7 +157,7 @@
   --checkbox-checked-text-color: var(--primary-color);
 
   /*popup*/
-  --popup-z-index: 9998;
+  --popup-z-index: 999;
   --popup-radius: var(--radius);
   --popup-mask-bg-color: color(rgb(70,70,70) a(60%));
   --popup-container-width: 300px;
@@ -174,7 +174,7 @@
   --popup-content-min-height: 70px;
   --popup-content-padding: 15px;
   --popup-content-bg-color: var(--bg-color);
-  --popup-footer-padding: 7px 15px 10px;
+  --popup-footer-padding: 12px 15px 10px;
   --popup-footer-text-align: right;
   --popup-footer-border-top: 1px solid #e0e0e0;
   --popup-close-btn-color: var(--font-color-2);

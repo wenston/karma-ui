@@ -35,9 +35,13 @@ export default {
       isShow = v.loading
       el[instance].setOptions({...settings,...v})
     }
-    isShow && el[instance].show()
+    if(isShow) {
+      el[instance].show()
+    }else{
+      el[instance].hide(true)
+    }
   },
-  update(el, binding) {
+  componentUpdated(el, binding) {
     let isShow = false,
       v = binding.value
     if (typeof v === "boolean") {
@@ -47,9 +51,19 @@ export default {
       el[instance].setOptions({...settings,...v})
     }
     if (isShow) {
-      debounce().then(el[instance].show)
+      debounce().then(()=>{
+        if(el[instance])
+        el[instance].show()
+      })
     } else {
-      debounce().then(el[instance].hide)
+      debounce().then(()=>{
+        //为什么要加if判断，
+        //因为可能存在unbind的情况，
+        //此时，由于hide方法是在debounce中，
+        //el[instance]就是null了！
+        if(el[instance])
+        el[instance].hide(true)
+      })
     }
   },
   unbind(el, binding) {

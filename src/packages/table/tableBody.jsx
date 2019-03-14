@@ -223,7 +223,8 @@ export default {
               title="新增行"
               class="k-table-icon-action"
               name="k-icon-add"
-              onClick={() => {
+              onClick={e => {
+                e.stopPropagation()
                 this.$emit("add-row", { row, index })
               }}
             />
@@ -231,7 +232,8 @@ export default {
               title="删除行"
               class="k-table-icon-action"
               name="k-icon-delete"
-              onClick={() => {
+              onClick={e => {
+                e.stopPropagation()
                 this.$emit("delete-row", { row, index })
               }}
             />
@@ -325,6 +327,9 @@ export default {
           },
           mouseout: () => {
             this.$emit("trmouseout", row, index)
+          },
+          dblclick: () => {
+            this.$emit('dblclick-row',{row,index})
           },
           click: () => {
             //处理高亮

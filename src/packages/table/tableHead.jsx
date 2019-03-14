@@ -70,7 +70,7 @@ export default {
       return arr.length || 1
     },
     renderTableHead() {
-      let columns = JSON.parse(JSON.stringify(this.headColumns))
+      let columns = this.headColumns
       //记录总共行数
       let maxRowLength = 0
       //记录单元格序列号
@@ -114,7 +114,14 @@ export default {
 
       let renderTd = columns => {
         columns.forEach((col, i, arr) => {
-          let content = col.name || col.field
+          let content = null
+          // console.log(col.name , typeof col.name)
+          if(typeof col.name === 'function') {
+            
+            content = col.name()
+          }else{
+            content = col.name
+          }
           if (this.hasIndex && this.indexText && col.field === this.__index) {
             content = this.indexText
           }
@@ -151,7 +158,7 @@ export default {
             on: {
               handleResizeDown: (e, el) => {
                 if (col.children && col.children.length) {
-                  console.log(col)
+                  // console.log(col)
                   return
                 }
                 this.$emit("handleResizeDown", e, el, col.__index)

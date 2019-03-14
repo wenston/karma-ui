@@ -12,6 +12,7 @@ export const getStyle = (elem, prop) => {
   return window.getComputedStyle(elem, null)[prop]
 }
 
+//注意，offset包含了元素内部的滚动高度！
 export const offset = (elem, parent) => {
   let left = elem.offsetLeft,
     top = elem.offsetTop,

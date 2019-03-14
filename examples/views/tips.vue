@@ -16,19 +16,19 @@ export default {
       this.$tips({
         content:'操作成功啦！',
 
-      }).show().hide(5000)
+      }).show().hide(2000)
     },
     onWarning() {
       this.$tips({
         content:'警告！警告！入侵警告！！',
         type: 'warning'
-      }).show().hide(5000)
+      }).show().hide(2000)
     },
     onError() {
       this.$tips({
         content:<h1>哈哈哈</h1>,
         type: 'error'
-      }).show().hide(5000)
+      }).show().hide(2000)
     },
   }
 }

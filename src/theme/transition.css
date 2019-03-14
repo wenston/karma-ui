@@ -1,20 +1,18 @@
 
-.k-t-slide {
-  &-enter {
-    height:0;
-  }
-  &-enter-to {
-    height: 100px;
-  }
+.k-t-scale-up-down {
+  &-enter,
   &-leave-to {
-    height: 0;
+    transform: scale(.5,1);
+    opacity: 0;
   }
+  &-enter-to,
   &-leave {
-    height: 100px;
+    transform: scale(1,1);
+    opacity: 1;
   }
   &-enter-active,
   &-leave-active {
-    transition: height .25s ease;
+    transition: transform .25s ease;
   }
 }
 .k-t-fade {

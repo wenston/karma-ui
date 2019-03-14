@@ -2,6 +2,7 @@
   position: fixed;
   top: 50%;
   left: 50%;
+  transform: translate(-50%,-50%);
   padding: var(--tips-padding);
   background-color: var(--tips-bg-color);
   box-shadow: var(--tips-box-shadow);
@@ -10,8 +11,7 @@
   transition: var(--transition);
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  transform: translate(-50%, -50%);
+  justify-content: center;
 
   .k-tips__tag {
     text-align: center;

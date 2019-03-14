@@ -47,10 +47,12 @@ export default {
       type: [String, Array],
       default: "Name"
     },
+    //只有展示列表的时候，再初始化layer
+    //此参数同时具有收起列表后销毁layer的功能控制
     lazy: {
       type: Boolean,
       default: true
-    }
+    },
   },
   model: {
     prop: "value",
@@ -226,10 +228,10 @@ export default {
     showList(fn) {
       this.ins && this.ins.show(fn)
     },
-    hideList() {
+    hideList(cb=()=>{}) {
       if (!this.disabled) {
         if (this.ins) {
-          this.ins.hide()
+          this.ins.hide(cb)
           this.$refs.input.blur()
         }
       }
@@ -276,7 +278,9 @@ export default {
         directives: [
           {
             name: "esc",
-            value: this.hideList
+            value: ()=>{
+              this.hideList(this.destroyLayer)
+            }
           }
         ],
         ref: "input",
@@ -327,7 +331,7 @@ export default {
           },
           blur: () => {
             if (!this.isMouseDownOption) {
-              this.hideList()
+              this.hideList(this.destroyLayer)
             }
           },
           // input: () => {
@@ -382,13 +386,18 @@ export default {
                   }
                 }
               }
+              if($scopedSlots.default) {
+                return (
+                  <k-option {...optionProps}>
+                    {$scopedSlots.default({
+                      row: item,
+                      index
+                    })}
+                  </k-option>
+                )
+              }
               return (
-                <k-option {...optionProps}>
-                  {$scopedSlots.default({
-                    row: item,
-                    index
-                  })}
-                </k-option>
+                <k-option {...optionProps}>{item[this.valueField]}</k-option>
               )
             })
           const slotsHeader = $slots.header
@@ -430,6 +439,15 @@ export default {
             }
           )
         })
+    },
+    destroyLayer() {
+      if(this.lazy) {
+        if(this.ins) {
+
+          this.ins.destroy()
+          this.ins = null
+        }
+      }
     }
   },
   directives: {
@@ -441,7 +459,10 @@ export default {
     return <k-input {...inputProps} />
   },
   destroyed() {
-    this.ins && this.ins.destroy()
+    if(this.ins) {
+      this.ins.destroy()
+      this.ins = null
+    }
   },
   mounted() {
     if (!this.lazy) {
@@ -464,7 +485,7 @@ export default {
       //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
       if (!isMouseDownOption) {
         if (document.activeElement != this.$refs.input.getInputElement()) {
-          this.hideList()
+          this.hideList(this.destroyLayer)
         }
       }
     })

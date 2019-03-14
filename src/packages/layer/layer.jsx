@@ -32,7 +32,7 @@ export default {
       footerSlots: null,
       //表签,默认div
       tag: "div",
-      bodyTag: 'div',
+      bodyTag: "div",
       headerTag: "div",
       footerTag: "div",
       //位置
@@ -44,6 +44,7 @@ export default {
       height: 0,
       layerWidth: 0,
       vmHeight: 0,
+      vmWidth: 0,
       layerHeight: 0,
       visible: false,
       //default插槽的class
@@ -53,7 +54,8 @@ export default {
       //footer插槽的class
       footerClassName: "",
       styles: {},
-      afterEnter: () => {}
+      afterEnter: () => {},
+      afterLeave: () => {}
     }
   },
   computed: {
@@ -100,9 +102,10 @@ export default {
       if (!elem) {
         return null
       }
-      const pos = offset(elem)
-      this.left = pos.left
-      this.top = pos.top
+      // const pos = offset(elem)
+      const pos = elem.getBoundingClientRect()
+      this.left = pos.left + window.pageXOffset
+      this.top = pos.top + window.pageYOffset
       if (!this.width) {
         const w = getStyle(elem, "width")
         this.layerWidth = w
@@ -112,6 +115,7 @@ export default {
       // if (!this.height) {
       const h = getStyle(elem, "height")
       this.vmHeight = h
+      this.vmWidth = this.layerWidth
       // } else {
       //   this.vmHeight = this.height
       // }
@@ -119,21 +123,34 @@ export default {
       this._setSizeAndPosition()
     },
     _setSizeAndPosition() {
-      const innerHeight = window.innerHeight
-      let top = this.top + parseFloat(this.vmHeight) + this.gap
-      let height = this.layerHeight
+      //屏幕可视区高度
+      const innerHeight = window.innerHeight,
+        innerWidth = window.innerWidth
+      //关联vm元素的底部距离屏幕最上边的高
+      let top = this.top + parseFloat(this.vmHeight) + this.gap,
+        left = this.left
+      //layer本身的高度
+      let height = this.layerHeight,
+        width = this.layerWidth
 
-      if(top+height>innerHeight) {
-        top = innerHeight - height
-        if(top<0) {
+      //5是layer距离可视区边界的大小
+      if (top + height > innerHeight -5) {
+        top = innerHeight -5 - height
+        if (top < 0) {
           top = 0
+        }
+      }
+      if(left+width>innerWidth) {
+        left = innerWidth - width
+        if(left<0) {
+          left = 0
         }
       }
       setStyle(this.$el, {
         width: this.layerWidth,
 
         top: top + "px",
-        left: this.left + "px"
+        left: left + "px"
       })
       if (this.height) {
         setStyle(this.$el, {
@@ -146,34 +163,48 @@ export default {
         this.afterEnter()
       }
     },
+    _handleAfterLeave() {
+      if (this.afterLeave) {
+        this.afterLeave()
+      }
+    },
 
     show(callback) {
       this.visible = true
       if (callback) {
         this.afterEnter = () => {
-          this.layerHeight = parseFloat(getStyle(this.$el,'height'))
-          this._getElemPosition()
-          callback()
+          this.$nextTick(() => {
+            this.layerHeight = parseFloat(getStyle(this.$el, "height"))
+            this._getElemPosition()
+            callback()
+          })
         }
-      }else{
-        this.afterEnter = ()=>{
-          this.$nextTick(()=>{
-            this.layerHeight = parseFloat(getStyle(this.$el,'height'))
+      } else {
+        this.afterEnter = () => {
+          this.$nextTick(() => {
+            this.layerHeight = parseFloat(getStyle(this.$el, "height"))
             this._getElemPosition()
           })
         }
       }
     },
-    hide() {
+    hide(cb) {
       this.visible = false
+      if (cb) {
+        this.afterLeave = cb
+      }
     },
     destroy() {
       this.parent.removeChild(this.$el)
       this.$destroy()
     }
   },
+  destroyed() {
+    window.removeEventListener("resize", this._getElemPosition)
+  },
   mounted() {
     this.$nextTick(this._getElemPosition)
+    window.addEventListener("resize", this._getElemPosition)
   },
   updated() {
     this.$nextTick(this._getElemPosition)
@@ -205,7 +236,10 @@ export default {
           </this.headerTag>
         ) : null}
 
-        <this.bodyTag ref="body" class={{ [this.bodyClassName]: !!this.bodyClassName }}>
+        <this.bodyTag
+          ref="body"
+          class={{ [this.bodyClassName]: !!this.bodyClassName }}
+        >
           {this.list}
         </this.bodyTag>
         {this.footerSlots ? (
@@ -220,7 +254,8 @@ export default {
     if (this.hasTransition) {
       const transitionProps = {
         on: {
-          enter: this._handleEnter
+          enter: this._handleEnter,
+          "after-leave": this._handleAfterLeave
         },
         props: {
           name: this.transitionName
@@ -230,7 +265,7 @@ export default {
         {
           name: "show",
           value: this.visible
-        },
+        }
         // {
         //   name: "clickoutside",
         //   value: this.hide

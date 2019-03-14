@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     focusAndScrollIntoView() {
-      this.$el.scrollIntoView({behavior: 'smooth'})
+      this.$el.scrollIntoView({ behavior: "smooth" })
       this.$refs.input.focus()
     },
     clear() {
@@ -79,6 +79,7 @@ export default {
         this.showDelete = false
       }
     },
+    
     showList() {
       if (!this.disabled) {
         this.showOptionList = true
@@ -111,7 +112,11 @@ export default {
         )
       } else {
         return (
-          <span slot="append">
+          <span slot="append"
+            onClick={e=>{
+              this.$refs.input.focus()
+              e.stopPropagation()
+            }}>
             <k-icon
               size="14"
               class={{
@@ -130,7 +135,7 @@ export default {
         this.ins.init(this, this.$slots.default, {
           bodyClassName: "k-select__list",
           tag: "div",
-          bodyTag: 'ul'
+          bodyTag: "ul"
         })
       })
     },
@@ -266,10 +271,6 @@ export default {
   render() {
     const inputProps = {
       directives: [
-        // {
-        //   name: "clickoutside",
-        //   value: this.hideList
-        // },
         {
           name: "esc",
           value: this.hideList
@@ -291,6 +292,7 @@ export default {
       on: {
         focus: e => {
           this.showList()
+          e.stopPropagation()
         },
         blur: () => {
           //失去焦点的时候，如果鼠标还在列表中呈现mousedown状态，则不隐藏

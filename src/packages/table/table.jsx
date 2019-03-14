@@ -408,10 +408,10 @@ export default {
       const tdOldWidth = parseFloat(getStyle(el, "width"))
       const totalHeight = getStyle(this.$refs.mainTable, "height")
       const baseLine = this.$refs.baseLine
-      const left = offset(el, this.$el).left + tdOldWidth - scrollLeft
+      const left = offset(el, this.$el).left + tdOldWidth - scrollLeft +17
       baseLine.style.height = totalHeight
       baseLine.style.left = left + "px"
-      this.currentResizeTd.startX = e.clientX + scrollLeft
+      this.currentResizeTd.startX = e.clientX
       this.currentResizeTd.tdOldWidth = tdOldWidth
       this.currentResizeTd.baseLineLeft = left
       this.currentResizeTd.colIndex = index
@@ -420,8 +420,9 @@ export default {
     handleResizeMove(e) {
       const el = this.currentResizeTd
       const dx = e.clientX - el.startX
-      const scrollLeft = this.$refs.mainTable.scrollLeft
-      this.$refs.baseLine.style.left = scrollLeft + el.baseLineLeft + dx + "px"
+      // const scrollLeft = this.$refs.mainTable.scrollLeft
+      // this.$refs.baseLine.style.left = scrollLeft + el.baseLineLeft + dx + "px"
+      this.$refs.baseLine.style.left = el.baseLineLeft + dx + 'px'
     },
     handleResizeUp(e) {
       const { mainTable, leftTable, rightTable } = this.$refs
@@ -482,7 +483,9 @@ export default {
     emitHighlight(e) {
       this.$emit('toggle-highlight',e)
     },
-    
+    emitDblclickRow(e) {
+      this.$emit('dblclick-row',e)
+    }
   },
   mounted() {
     this.justifyColumns()
@@ -527,6 +530,7 @@ export default {
         "select-change": this.emitSelectChange,
         "toggle-radio-row": this.emitRadioChange,
         'toggle-highlight': this.emitHighlight,
+        'dblclick-row': this.emitDblclickRow,
         bodyscroll: this.bodyScroll,
         //TODO: 由于是js控制的hover后背景变色，如果有合并行的情况，会有不准确的问题。待修正
         trmouseover: this.trMouseover,

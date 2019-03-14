@@ -45,7 +45,7 @@
 
   &:hover,
   &:active {
-    transform: scale(1.11, 1.11);
+    transform: scale(1.2, 1.2);
     color: var(--popup-close-btn-hover-color);
   }
 }
