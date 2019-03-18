@@ -501,7 +501,7 @@ export default {
           typeof this.emptyText === "function"
             ? this.emptyText()
             : this.emptyText
-        tbody.push(
+          text && tbody.push(
           <tr>
             <k-cell class="k-table-td-center" colspan={colspan}>{text}</k-cell>
           </tr>
