@@ -73,6 +73,12 @@
         height: var(--input-$(name));
         font-size: var(--input-$(name)-font-size);
       }
+      &.k-input-capsule {
+        & .k-input {
+          border-radius: calc(var(--input-$(name)/2));
+        }
+      }
+      
 
       & .k-textarea {
         height: calc(var(--input-$(name)) * 2);

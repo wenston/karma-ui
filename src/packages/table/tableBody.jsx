@@ -342,7 +342,7 @@ export default {
                 index,
                 this.highlightKey
               )
-              this.$emit("toggle-highlight", { row, index })
+              this.$emit("toggle-highlight", { row, index, value:curHighlightRowKey })
             }
             //可以在此处理复选单选
             const k = this.formatCheckedKey(row)

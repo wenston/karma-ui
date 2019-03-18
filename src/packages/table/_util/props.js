@@ -9,6 +9,14 @@ export const props = {
     type: String,
     default: 'index,Id'
   },
+  //高亮时，highlightKey对应的值
+  //可以通过设置此值，来高亮某行
+  //用以替代setHighlightRow方法
+  //支持sync
+  highlightValue: {
+    type: [String,Number],
+    default: ''
+  },
   //循环行时的那个key，指的是字段名
   //loopKey可以是以逗号分隔的多个字段名，也可以是单个
   loopKey: {

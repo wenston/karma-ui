@@ -11,6 +11,9 @@
       nowrap
       resize-width
       max-height="calc(100vh - 130px)"
+      canHighlightRow
+      highlightKey="name"
+      :highlightValue.sync="highlightValue"
       @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
@@ -658,6 +661,7 @@ export default {
         }
       ],
       table1,
+      highlightValue: '小花',
       columns1: [
         {
           style: { width: "150" },
@@ -808,6 +812,9 @@ export default {
   },
   watch: {
     currentId(v) {
+      console.log(v)
+    },
+    highlightValue(v) {
       console.log(v)
     }
   },

@@ -51,7 +51,8 @@ export default {
     styles: Object,
     inputStyles: Object,
     simple: Boolean, //简易型。只有下边框
-    noStyle: Boolean
+    noStyle: Boolean,
+    capsule: Boolean,//胶囊形状的输入框
   },
   computed: {
     isInput() {
@@ -94,7 +95,8 @@ export default {
           ["k-input-" + this.size]: true,
           "k-input-block": this.block,
           "k-input-simple": this.simple,
-          "k-input-nostyle": this.noStyle
+          "k-input-nostyle": this.noStyle,
+          "k-input-capsule": this.capsule
         }}
         style={this.styles}
       >

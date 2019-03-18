@@ -16,7 +16,7 @@
     <h3 class="layout__title">可清除文本的输入框</h3>
     <div>
       <div>
-        <k-input v-model="clear" clearable></k-input>
+        <k-input v-model="clear" clearable capsule></k-input>
       </div>
     </div>
     <h3 class="layout__title">输入验证</h3>

@@ -33,7 +33,7 @@ export default {
     __index: "@_index",
     __checkbox: "@_checkbox",
     __radio: "@_radio",
-    __action: '@_action'
+    __action: "@_action"
   },
   computed: {
     leftWrapperClasses() {
@@ -91,8 +91,15 @@ export default {
   },
   methods: {
     setHighlightRow(e) {
-      if(this.$refs.mainTbodyWrapper)
-      this.$refs.mainTbodyWrapper.setHighlightRow(e)
+      if (this.$refs.mainTbodyWrapper) {
+        this.$refs.mainTbodyWrapper.setHighlightRow(e)
+      }
+      if (this.$refs.leftTbodyWrapper) {
+        this.$refs.leftTbodyWrapper.setHighlightRow(e)
+      }
+      if (this.$refs.rightTbodyWrapper) {
+        this.$refs.rightTbodyWrapper.setHighlightRow(e)
+      }
     },
     setSelectedRows(x) {
       this.$refs.mainTbodyWrapper.setCheckedRows(x)
@@ -127,9 +134,9 @@ export default {
       this.$refs.theadWrapper.onCheckedAll(
         e.rows.length === this.$props.data.length
       )
-      this.$emit('update:selectedRows', e.rows)
-      this.$emit('update:selectedKeys',e.keys)
-      this.$emit("select-change", /*JSON.parse(JSON.stringify(e))*/e)
+      this.$emit("update:selectedRows", e.rows)
+      this.$emit("update:selectedKeys", e.keys)
+      this.$emit("select-change", /*JSON.parse(JSON.stringify(e))*/ e)
     },
     emitRadioChange(e) {
       //{radioKey的值value，row,index}
@@ -147,7 +154,11 @@ export default {
       //如果存在固定左侧列的情况，则index和checkbox或者radio列，默认也要固定
       //如果存在固定右侧列的情况，则index和checkbox或者radio不需要固定
       let obj = {
-        style: { width: cellWidth, backgroundColor: '#fafafa', textAlign:'center' }
+        style: {
+          width: cellWidth,
+          backgroundColor: "#fafafa",
+          textAlign: "center"
+        }
       }
       if (fixedLeft) {
         obj.fixed = "left"
@@ -161,9 +172,9 @@ export default {
         headColumns = [{ ...obj, field: "@_radio" }, ...headColumns]
       }
       //处理有操作按钮的情况
-      if( this.hasAction) {
-        columns = [{...obj,field: '@_action'},...columns]
-        headColumns = [{...obj,field: '@_action'},...headColumns]
+      if (this.hasAction) {
+        columns = [{ ...obj, field: "@_action" }, ...columns]
+        headColumns = [{ ...obj, field: "@_action" }, ...headColumns]
       }
       //处理有序号的情况
       if (this.hasIndex) {
@@ -184,13 +195,13 @@ export default {
       //该元素上进行样式操作，如：overflow:hidden
       //会造成宽度闪动（由于突然没有了滚动条）
       //此时，更好的做法是克隆一个相同的节点，并计算
-      const w1 = getStyle(el,'width')
-      const h1 = getStyle(el,'height')
+      const w1 = getStyle(el, "width")
+      const h1 = getStyle(el, "height")
       el = el.cloneNode(true)
       el.style.width = w1
       el.style.height = h1
-      el.style.position = 'absolute'
-      el.style.top = '-9999px'
+      el.style.position = "absolute"
+      el.style.top = "-9999px"
 
       document.body.appendChild(el)
       const oldOverflowY = getStyle(el, "overflowY")
@@ -221,7 +232,9 @@ export default {
     //才能对齐
     justifyColumns() {
       this.$nextTick(() => {
-        if(!this.$refs.mainTable) {return}
+        if (!this.$refs.mainTable) {
+          return
+        }
         if (this.height || this.maxHeight) {
           const mainTable = this.$refs.mainTable,
             body = mainTable.querySelector(".k-table-body"),
@@ -337,7 +350,7 @@ export default {
       //mainTable可能会出现undefined的问题，
       //故需对mainTable进行判断
       const { mainTable, leftTable, rightTable } = this.$refs,
-        scrollLeft = mainTable?mainTable.scrollLeft:0,
+        scrollLeft = mainTable ? mainTable.scrollLeft : 0,
         clsLeft = "k-table-wrapper--fixed_left_shadow",
         clsRight = "k-table-wrapper--fixed_right_shadow"
 
@@ -437,7 +450,7 @@ export default {
       const dx = e.clientX - el.startX
       // const scrollLeft = this.$refs.mainTable.scrollLeft
       // this.$refs.baseLine.style.left = scrollLeft + el.baseLineLeft + dx + "px"
-      this.$refs.baseLine.style.left = el.baseLineLeft + dx + 'px'
+      this.$refs.baseLine.style.left = el.baseLineLeft + dx + "px"
     },
     handleResizeUp(e) {
       const { mainTable, leftTable, rightTable } = this.$refs
@@ -490,20 +503,22 @@ export default {
     },
 
     emitAddRow(e) {
-      this.$emit('add-row', e)
+      this.$emit("add-row", e)
     },
     emitDeleteRow(e) {
-      this.$emit('delete-row', e)
+      this.$emit("delete-row", e)
     },
     emitHighlight(e) {
-      this.$emit('toggle-highlight',e)
+      this.setHighlightRow(e)
+      this.$emit('update:highlightValue',e.value)
+      this.$emit("toggle-highlight", e)
     },
     emitDblclickRow(e) {
-      this.$emit('dblclick-row',e)
+      this.$emit("dblclick-row", e)
     },
-    handleSort(type,col) {
-      const {name,field} = col
-      this.$emit('sort', {type,field,name})
+    handleSort(type, col) {
+      const { name, field } = col
+      this.$emit("sort", { type, field, name })
     }
   },
   mounted() {
@@ -532,10 +547,10 @@ export default {
     let heightStyle = {}
     if (this.height) {
       heightStyle.height = `calc(${this.height} - ${this.headHeight ||
-        '0px'} - ${this.footHeight || '0px'})`
+        "0px"} - ${this.footHeight || "0px"})`
     } else if (this.maxHeight) {
       heightStyle.maxHeight = `calc(${this.maxHeight} - ${this.headHeight ||
-        '0px'} - ${this.footHeight || '0px'})`
+        "0px"} - ${this.footHeight || "0px"})`
     }
     let tableBodyProps = {
       props: {
@@ -544,17 +559,16 @@ export default {
       },
       style: heightStyle,
       on: {
-        'add-row': this.emitAddRow,
-        'delete-row': this.emitDeleteRow,
+        "add-row": this.emitAddRow,
+        "delete-row": this.emitDeleteRow,
         "select-change": this.emitSelectChange,
         "toggle-radio-row": this.emitRadioChange,
-        'toggle-highlight': this.emitHighlight,
-        'dblclick-row': this.emitDblclickRow,
+        "toggle-highlight": this.emitHighlight,
+        "dblclick-row": this.emitDblclickRow,
         bodyscroll: this.bodyScroll,
         //TODO: 由于是js控制的hover后背景变色，如果有合并行的情况，会有不准确的问题。待修正
         trmouseover: this.trMouseover,
-        trmouseout: this.trMouseout,
-        
+        trmouseout: this.trMouseout
       }
     }
 
@@ -633,5 +647,15 @@ export default {
         {this.rBaseLine()}
       </div>
     )
+  },
+  watch: {
+    highlightValue: {
+      immediate: true,
+      handler(v) {
+        this.$nextTick(() => {
+          this.setHighlightRow({ key: v })
+        })
+      }
+    }
   }
 }
