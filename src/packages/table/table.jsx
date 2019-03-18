@@ -500,6 +500,10 @@ export default {
     },
     emitDblclickRow(e) {
       this.$emit('dblclick-row',e)
+    },
+    handleSort(type,col) {
+      const {name,field} = col
+      this.$emit('sort', {type,field,name})
     }
   },
   mounted() {
@@ -565,6 +569,7 @@ export default {
         onHead-mounted={headHeight => {
           this.headHeight = headHeight
         }}
+        onSort={this.handleSort}
       />
     )
     //table的tfoot

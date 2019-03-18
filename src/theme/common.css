@@ -8,6 +8,9 @@
   display: block;
   width: 100%;
 }
+.k-cursor-pointer {
+  cursor: pointer;
+}
 
 .k-center {
   @extend .k-absolute;

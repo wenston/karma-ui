@@ -116,10 +116,9 @@ export default {
         columns.forEach((col, i, arr) => {
           let content = null
           // console.log(col.name , typeof col.name)
-          if(typeof col.name === 'function') {
-            
+          if (typeof col.name === "function") {
             content = col.name()
-          }else{
+          } else {
             content = col.name
           }
           if (this.hasIndex && this.indexText && col.field === this.__index) {
@@ -145,7 +144,8 @@ export default {
               colspan,
               rowspan,
               resizeWidth: this.resizeWidth,
-              tag: "th"
+              tag: "th",
+              sorter: col.sorter === undefined ? false : col.sorter
             },
             class: {
               "k-table-td-center":
@@ -162,6 +162,9 @@ export default {
                   return
                 }
                 this.$emit("handleResizeDown", e, el, col.__index)
+              },
+              sort: type => {
+                this.$emit('sort', type,col)
               }
             }
           }

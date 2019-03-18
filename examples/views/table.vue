@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <h3 class="layout__title">基本用法</h3>
-    <k-table :data="[]"
+    <k-table :data="table"
       min-content
       :columns="columns"
       has-checkbox
@@ -14,7 +14,7 @@
       @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
-    <!-- <k-table :data="table1"
+    <k-table :data="table1"
       height="200px"
       :columns="columns1"
       @select-change="onSelectChange"
@@ -22,7 +22,8 @@
       nowrap
       hover
       resize-width
-      min-content>
+      min-content
+      @sort="onSort">
       <template slot="xxx"
         slot-scope="{row}">
         <a :class="css.code"
@@ -42,7 +43,7 @@
       </ul>
     </k-table>
     <h3 class="layout__title">根据数据自动合并行</h3>
-    <k-table :data="table1"
+    <!-- <k-table :data="table1"
       :columns="columns2"
       has-radio
       radioKey="Code,Id"
@@ -675,6 +676,7 @@ export default {
           field: "TotalPrice",
           name: "金额",
           scopedSlots: "TotalPrice",
+          sorter:1
           // sum: (total) => {
           //   return (
           //     <div style="text-align:right;color: red;">
@@ -692,7 +694,8 @@ export default {
           style: { width: "200" },
           field: "Detail",
           name: "商品",
-          scopedSlots: "Detail"
+          scopedSlots: "Detail",
+          sorter: 0
         },
         {
           style: { width: "70" },
@@ -798,7 +801,10 @@ export default {
     onDel(row, row1, index) {
       console.log(row, row1, index);
       // row.Details.splice(index,1)
-    }
+    },
+    onSort({type,field,name}) {
+      console.log(type,field,name)
+    },
   },
   watch: {
     currentId(v) {
