@@ -179,11 +179,26 @@ export default {
       // 此时存在一个问题：如果width是fit-content时，滚动条宽度为0！
       // 所以还是直接采用创建节点来计算滚动条宽度的方法
       // console.log(el)
+
+      //注意：计算当前元素的滚动条宽度时，如果直接在
+      //该元素上进行样式操作，如：overflow:hidden
+      //会造成宽度闪动（由于突然没有了滚动条）
+      //此时，更好的做法是克隆一个相同的节点，并计算
+      const w1 = getStyle(el,'width')
+      const h1 = getStyle(el,'height')
+      el = el.cloneNode(true)
+      el.style.width = w1
+      el.style.height = h1
+      el.style.position = 'absolute'
+      el.style.top = '-9999px'
+
+      document.body.appendChild(el)
       const oldOverflowY = getStyle(el, "overflowY")
       el.style.overflowY = "hidden"
       const w = el.clientWidth
       el.style.overflowY = oldOverflowY
       const wScroll = el.clientWidth
+      document.body.removeChild(el)
       return w - wScroll
       // const div = document.createElement('div')
       // div.style.cssText = `
@@ -408,7 +423,7 @@ export default {
       const tdOldWidth = parseFloat(getStyle(el, "width"))
       const totalHeight = getStyle(this.$refs.mainTable, "height")
       const baseLine = this.$refs.baseLine
-      const left = offset(el, this.$el).left + tdOldWidth - scrollLeft +17
+      const left = offset(el, this.$el).left + tdOldWidth - scrollLeft
       baseLine.style.height = totalHeight
       baseLine.style.left = left + "px"
       this.currentResizeTd.startX = e.clientX

@@ -17,7 +17,7 @@
 export default {
   data() {
     return {
-      data: Array.apply(null,{length:5}).map(t=>({})),
+      data: Array.apply(null,{length:15}).map(t=>({})),
       columns: [
         {
           field: "ProName",

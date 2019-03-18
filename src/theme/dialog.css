@@ -1,0 +1,12 @@
+.k-dialog {
+  display: flex;
+  min-height: 60px;
+  align-items: flex-start;
+  line-height: 24px;
+  & .k-dialog-icon {
+    flex: none;
+    color: var(--warning-color);
+    margin-right: 6px;
+    font-size: 16px;
+  }
+}

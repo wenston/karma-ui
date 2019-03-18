@@ -1,6 +1,6 @@
 <template>
   <transition name="k-t-fade">
-    <div :class="[
+    <div ref="popup" tabindex="-1" :class="[
         'k-popup',
         layout.indexOf('mask')>-1?'k-popup--mask':'k-popup--transparent'
       ]"
@@ -35,7 +35,7 @@
           </div>
           <div class="k-popup__footer"
             v-if="layout.indexOf('footer')>-1">
-            <div class="k-popup__footer__con">
+            <div :class="['k-popup__footer__con',{'k-popup__footer__con--line':hasBottomLine}]">
               <slot name="footer">
                 <k-button @click="onCancel"
                   :size="buttonSize">{{cancelText}}</k-button>
@@ -87,6 +87,10 @@ export default {
     buttonSize: {
       type: String,
       default: "medium"
+    },
+    hasBottomLine: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
@@ -111,6 +115,19 @@ export default {
   },
   directives: {
     dnd
+  },
+  watch: {
+    show(v) {
+      if(v) {
+        this.$nextTick().then(()=>{
+          this.$refs.popup.focus()
+        })
+      }else{
+        if(this.$refs.popup) {
+          this.$refs.popup.blur()
+        }
+      }
+    }
   }
 }
 </script>

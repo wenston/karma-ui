@@ -19,9 +19,7 @@ export default {
       this.$dialog({
         content(){
           return (
-            <div>
-              <k-button>jsx</k-button>
-            </div>
+            <div>xxxfff</div>
           )
         },
         ok:()=>{

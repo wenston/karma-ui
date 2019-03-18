@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <h3 class="layout__title">基本用法</h3>
-    <k-table :data="table"
+    <k-table :data="[]"
       min-content
       :columns="columns"
       has-checkbox

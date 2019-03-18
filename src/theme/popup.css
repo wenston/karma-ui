@@ -91,5 +91,8 @@
   display: table-cell;
   padding: var(--popup-footer-padding);
   text-align: var(--popup-footer-text-align);
-  border-top: var(--popup-footer-border-top);
+  &.k-popup__footer__con--line {
+
+    border-top: var(--popup-footer-border-top);
+  }
 }

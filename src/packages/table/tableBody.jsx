@@ -11,7 +11,7 @@ let baseData = {
   checkedKeys: [], //保存复选的所有key
   checkedRows: [], //保存复选的所有行数据
   currentRadioValue: "",
-  currentHighlightKey: ''
+  currentHighlightKey: ""
 }
 export default {
   mixins: [mixins],
@@ -38,7 +38,7 @@ export default {
       checkedKeys: [], //保存复选的所有key
       checkedRows: [], //保存复选的所有行数据
       currentRadioValue: "",
-      currentHighlightKey: ''
+      currentHighlightKey: ""
     }
   },
   computed: {
@@ -87,20 +87,23 @@ export default {
     },
     selectedRows(rows) {
       this.checkedRows = rows
-    },
+    }
   },
   methods: {
     //传入row,index，或者只传index都行，或者只传key
-    setHighlightRow({row,index,key}) {
-      if(row) {
-        this.currentHighlightKey = this.getRowKey(row,index,this.highlightKey)
-
-      }else if(typeof index === 'number') {
+    setHighlightRow({ row, index, key }) {
+      if (row) {
+        this.currentHighlightKey = this.getRowKey(row, index, this.highlightKey)
+      } else if (typeof index === "number") {
         const i = +index
-        if(typeof i === 'number') {
-          this.currentHighlightKey = this.getRowKey(this.data[i],i,this.highlightKey)
+        if (typeof i === "number") {
+          this.currentHighlightKey = this.getRowKey(
+            this.data[i],
+            i,
+            this.highlightKey
+          )
         }
-      }else if(key) {
+      } else if (key) {
         this.currentHighlightKey = key
       }
     },
@@ -154,7 +157,7 @@ export default {
       const { fixedLeft, fixedRight } = this.hasFixedColumns,
         // rows = JSON.parse(JSON.stringify(this.checkedRows)),
         rows = this.checkedRows,
-        para = { checked, index, row, rows, keys:this.checkedKeys }
+        para = { checked, index, row, rows, keys: this.checkedKeys }
       if (fixedLeft && this.hasCheckbox && this.who === "left") {
         this.$emit("select-change", para)
       } else if (!fixedLeft && this.hasCheckbox && this.who === "main") {
@@ -293,33 +296,33 @@ export default {
 
       return field
     },
-    getRowKey(row,index,keys) {
+    getRowKey(row, index, keys) {
       let k = []
       let arr = []
-      if(keys) {
-        arr = (keys + '').trim().split(/\s?\,\s?/)
+      if (keys) {
+        arr = (keys + "").trim().split(/\s?\,\s?/)
       }
-      arr.forEach(el=>{
+      arr.forEach(el => {
         if (el.toLowerCase() === "index") {
           k.push(index + "")
         } else if (row[el]) {
           k.push(row[el])
         }
       })
-      return k.join(',')
+      return k.join(",")
     },
     //渲染tr
     renderTr(column, row, index) {
-      let k = this.getRowKey(row,index,this.loopKey)
-      const curHighlightRowKey = this.getRowKey(row,index,this.highlightKey)
+      let k = this.getRowKey(row, index, this.loopKey)
+      const curHighlightRowKey = this.getRowKey(row, index, this.highlightKey)
       const trProps = {
         attrs: {
-          'data-key': k,
-          'data-highlight': curHighlightRowKey,
+          "data-key": k,
+          "data-highlight": curHighlightRowKey
         },
         key: k,
         class: {
-          'k-table-tr-highlight': curHighlightRowKey==this.currentHighlightKey,
+          "k-table-tr-highlight": curHighlightRowKey == this.currentHighlightKey
         },
         on: {
           mouseover: () => {
@@ -329,13 +332,17 @@ export default {
             this.$emit("trmouseout", row, index)
           },
           dblclick: () => {
-            this.$emit('dblclick-row',{row,index})
+            this.$emit("dblclick-row", { row, index })
           },
           click: () => {
             //处理高亮
-            if(this.canHighlightRow) {
-              this.currentHighlightKey = this.getRowKey(row,index,this.highlightKey)
-              this.$emit('toggle-highlight', {row,index})
+            if (this.canHighlightRow) {
+              this.currentHighlightKey = this.getRowKey(
+                row,
+                index,
+                this.highlightKey
+              )
+              this.$emit("toggle-highlight", { row, index })
             }
             //可以在此处理复选单选
             const k = this.formatCheckedKey(row)
@@ -481,12 +488,25 @@ export default {
         //如果有合并行的情况
         return this.renderMergeRow(bodyScopedSlots, columns, data)
       }
-      data.forEach((row, index) => {
-        const column = columns.map(col => {
-          return this.renderTableCell(row, col, index)
+      if (data.length) {
+        data.forEach((row, index) => {
+          const column = columns.map(col => {
+            return this.renderTableCell(row, col, index)
+          })
+          tbody.push(this.renderTr(column, row, index))
         })
-        tbody.push(this.renderTr(column, row, index))
-      })
+      } else {
+        let colspan = this.columns ? this.columns.length : 1
+        let text =
+          typeof this.emptyText === "function"
+            ? this.emptyText()
+            : this.emptyText
+        tbody.push(
+          <tr>
+            <k-cell class="k-table-td-center" colspan={colspan}>{text}</k-cell>
+          </tr>
+        )
+      }
       return tbody
     },
     bodyScroll(e) {
