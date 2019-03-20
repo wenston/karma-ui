@@ -180,6 +180,7 @@ export default {
     },
     toClear() {
       this.$emit("valueChange", "")
+      this.focus()
     },
     focus() {
       this.$refs.input.focus()

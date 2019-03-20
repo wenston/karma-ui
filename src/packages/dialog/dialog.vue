@@ -8,7 +8,7 @@
     @after-ok="afterOk"
   >
   <div class='k-dialog'>
-    <k-icon name="k-icon-tip" class="k-dialog-icon" />
+    <k-icon name="k-icon-question" class="k-dialog-icon" />
     <template v-if="$slots.default">
       <slot></slot>
     </template>

@@ -28,9 +28,9 @@
             v-if="layout.indexOf('body')>-1">
             <div class="k-popup__content">
               <slot name="body">
-
               </slot>
-              <slot></slot>
+              <slot>
+              </slot>
             </div>
           </div>
           <div class="k-popup__footer"

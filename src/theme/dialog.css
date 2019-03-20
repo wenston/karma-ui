@@ -3,10 +3,11 @@
   min-height: 60px;
   align-items: flex-start;
   line-height: 24px;
+  font-size: 14px;
   & .k-dialog-icon {
     flex: none;
     color: var(--warning-color);
-    margin-right: 6px;
-    font-size: 16px;
+    margin-right: 8px;
+    font-size: 24px;
   }
 }

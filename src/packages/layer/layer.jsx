@@ -134,8 +134,9 @@ export default {
         width = this.layerWidth
 
       //5是layer距离可视区边界的大小
-      if (top + height > innerHeight -5) {
-        top = innerHeight -5 - height
+      const wholeHeight = innerHeight+window.pageYOffset
+      if (top + height > wholeHeight -5) {
+        top = wholeHeight -5 - height
         if (top < 0) {
           top = 0
         }

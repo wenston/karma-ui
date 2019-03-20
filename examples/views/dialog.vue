@@ -19,7 +19,7 @@ export default {
       this.$dialog({
         content(){
           return (
-            <div>xxxfff</div>
+            <div>确认要删除吗，确认要删除吗，确认要删除吗，确认要删除吗，确认要删除吗，确认要删除吗，</div>
           )
         },
         ok:()=>{
