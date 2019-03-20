@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <h3 class="layout__title">基本用法</h3>
-    <k-table :data="table"
+    <!-- <k-table :data="table"
       min-content
       :columns="columns"
       has-checkbox
@@ -14,7 +14,7 @@
       canHighlightRow
       highlightKey="name"
       :highlightValue.sync="highlightValue"
-      @select-change="onSelectChange"></k-table>
+      @select-change="onSelectChange"></k-table> -->
     <h3 class="layout__title">自定义列</h3>
 
     <k-table :data="table1"
@@ -25,7 +25,7 @@
       nowrap
       hover
       resize-width
-      min-content
+      :bordered="false"
       @sort="onSort">
       <template slot="xxx"
         slot-scope="{row}">
@@ -668,7 +668,7 @@ export default {
           field: "Code",
           name: "单号",
           scopedSlots: "xxx", //xxx是作用域插槽的名称
-          fixed: "left"
+          // fixed: "left"
         },
         {
           style: { width: "100" },
@@ -730,7 +730,7 @@ export default {
           style: { width: "70" },
           field: "Action",
           name: "操作",
-          fixed: "right",
+          // fixed: "right",
           customRender: ({ row, index }) => {
             return (
               <a href="javascript:;" onClick={() => this.onDel(row, index)}>

@@ -183,6 +183,7 @@ export default {
       this.focus()
     },
     focus() {
+      if(this.$refs.input)
       this.$refs.input.focus()
     },
     blur() {
@@ -204,7 +205,18 @@ export default {
         old = isNaN(old) ? "" : old < 0 ? "" : old
       }
       this.oldValue = old
+    },
+    autofocus: {
+      immediate: true,
+      handler(f) {
+        if(f) {
+          this.focus()
+        }
+      }
     }
+  },
+  mounted() {
+    this.autofocus && this.$nextTick().then(this.focus)
   },
   directives: {
     select: {

@@ -230,6 +230,12 @@ export default {
     //thead的列宽和tbody的列宽对不上,
     //此时需要给thead外层的div一个padding-right:滚动条宽度
     //才能对齐
+    getBarWidthWhenAuto(el) {
+      const width = parseFloat(getStyle(el,'width'))
+      const childTable = el.querySelector('.k-table')
+      const w =  parseFloat(getStyle(childTable,'width'))
+      return width - w
+    },
     justifyColumns() {
       this.$nextTick(() => {
         if (!this.$refs.mainTable) {
@@ -240,12 +246,11 @@ export default {
             body = mainTable.querySelector(".k-table-body"),
             head = mainTable.querySelector(".k-table-head"),
             foot = mainTable.querySelector(".k-table-foot"),
-            scrollbarWidth = this.getScrollBarWidth(body),
+            scrollbarWidth = this.minContent?0:this.getBarWidthWhenAuto(body),
             leftTable = this.$refs.leftTable,
             rightTable = this.$refs.rightTable
           head && (head.style.paddingRight = scrollbarWidth + "px")
           foot && (foot.style.paddingRight = scrollbarWidth + "px")
-
           if (leftTable) {
             leftTable.querySelector(".k-table-head").style.paddingRight =
               scrollbarWidth + "px"

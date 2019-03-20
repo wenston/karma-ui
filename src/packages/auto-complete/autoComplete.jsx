@@ -52,7 +52,7 @@ export default {
     lazy: {
       type: Boolean,
       default: true
-    },
+    }
   },
   model: {
     prop: "value",
@@ -65,7 +65,7 @@ export default {
       //提交数据用的，可能是id或者proid等等
       // val: this.value,
       //展示在输入框的那个文本
-      inputText: '',
+      inputText: "",
       optionCompName: "",
       isMouseDownOption: false,
       //选中的那个数据的index
@@ -142,7 +142,13 @@ export default {
     //
     getInputTextByKeyField() {
       let text = ""
-      if (this.value && this.value!=='' && this.data && this.data.length && this.keyField) {
+      if (
+        this.value &&
+        this.value !== "" &&
+        this.data &&
+        this.data.length &&
+        this.keyField
+      ) {
         for (let i = 0, len = this.data.length; i < len; i++) {
           let item = this.data[i]
           if (item[this.keyField] == this.value) {
@@ -158,9 +164,13 @@ export default {
       // this.$emit('toggle',{row,index})
       // return {row,index}
     },
-    //外部调用
+    //外部调用，获取valueField对应的值
     getName() {
       return this.getInputTextByKeyField()
+    },
+    //外部调用,获取输入框里的文本
+    getInputValue() {
+      return this.inputText
     },
     //根据inputText获取keyField对应的值
     getValueByInputText() {
@@ -228,7 +238,7 @@ export default {
     showList(fn) {
       this.ins && this.ins.show(fn)
     },
-    hideList(cb=()=>{}) {
+    hideList(cb = () => {}) {
       if (!this.disabled) {
         if (this.ins) {
           this.ins.hide(cb)
@@ -278,7 +288,7 @@ export default {
         directives: [
           {
             name: "esc",
-            value: ()=>{
+            value: () => {
               this.hideList(this.destroyLayer)
             }
           }
@@ -307,26 +317,25 @@ export default {
               //如果数据源本身就没有，此时可能是正在延迟加载数据中
             } else if (this.data.length === 0) {
               //提示加载中
-              this.loading = true
-              const loadingProps = {
-                directives: [
-                  {
-                    name: "loading",
-                    value: {
-                      loading: this.loading,
-                      content: "数据获取中..."
-                    }
-                  }
-                ],
-                style: {
-                  minHeight: "200px"
-                }
-              }
-              this.$slots.default = <div {...loadingProps} />
+              // this.loading = true
+              // const loadingProps = {
+              //   directives: [
+              //     {
+              //       name: "loading",
+              //       value: {
+              //         loading: this.loading,
+              //         content: "数据获取中..."
+              //       }
+              //     }
+              //   ],
+              //   style: {
+              //     minHeight: "200px"
+              //   }
+              // }
+              // this.$slots.default = <div {...loadingProps} />
               this.showList()
-              this.$forceUpdate()
+              // this.$forceUpdate()
             }
-
             this.$emit("focus", e)
           },
           blur: () => {
@@ -366,40 +375,65 @@ export default {
             $slots,
             $scopedSlots
           } = this
-          const slotsDefault =
-            $slots.default ||
-            filterData.map((item, index) => {
-              const optionProps = {
-                class: {
-                  "k-option--hover": index == this.currentHoverIndex
-                },
-                props: {
-                  tag: "div",
-                  selected: item[this.keyField] == this.value
-                },
-                on: {
-                  click: e => {
-                    this.currentIndex = index
-                    this.$emit("valueChange", item[this.keyField])
-                    this.$emit("toggle", { row: item, index })
-                    this.ins.hide()
-                  }
+          if (this.filterData.length === 0) {
+            //提示加载中
+            this.loading = true
+
+            // this.showList()
+            // this.$forceUpdate()
+          } else {
+            this.loading = false
+          }
+          const loadingProps = {
+            directives: [
+              {
+                name: "loading",
+                value: {
+                  loading: this.loading,
+                  content: "数据获取中..."
                 }
               }
-              if($scopedSlots.default) {
+            ],
+            style: {
+              minHeight: "200px"
+            }
+          }
+          const slotsDefault =
+            $slots.default ||
+            (filterData.length &&
+              filterData.map((item, index) => {
+                const optionProps = {
+                  class: {
+                    "k-option--hover": index == this.currentHoverIndex
+                  },
+                  props: {
+                    tag: "div",
+                    selected: item[this.keyField] == this.value
+                  },
+                  on: {
+                    click: e => {
+                      this.currentIndex = index
+                      this.$emit("valueChange", item[this.keyField])
+                      this.$emit("toggle", { row: item, index })
+                      this.ins.hide()
+                    }
+                  }
+                }
+                if ($scopedSlots.default) {
+                  return (
+                    <k-option {...optionProps}>
+                      {$scopedSlots.default({
+                        row: item,
+                        index
+                      })}
+                    </k-option>
+                  )
+                }
                 return (
-                  <k-option {...optionProps}>
-                    {$scopedSlots.default({
-                      row: item,
-                      index
-                    })}
-                  </k-option>
+                  <k-option {...optionProps}>{item[this.valueField]}</k-option>
                 )
-              }
-              return (
-                <k-option {...optionProps}>{item[this.valueField]}</k-option>
-              )
-            })
+              })) ||
+            (this.data.length === 0 && <div {...loadingProps} />)
           const slotsHeader = $slots.header
           const slotsFooter = $slots.footer
           let arrClassName = ["k-auto-complete"]
@@ -441,9 +475,8 @@ export default {
         })
     },
     destroyLayer() {
-      if(this.lazy) {
-        if(this.ins) {
-
+      if (this.lazy) {
+        if (this.ins) {
           this.ins.destroy()
           this.ins = null
         }
@@ -459,7 +492,7 @@ export default {
     return <k-input {...inputProps} />
   },
   destroyed() {
-    if(this.ins) {
+    if (this.ins) {
       this.ins.destroy()
       this.ins = null
     }

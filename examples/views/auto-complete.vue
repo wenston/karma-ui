@@ -10,11 +10,7 @@
         placeholder="商品名称"
         @focus="onFocus"
         @toggle="onToggle">
-        <div slot-scope="{row}"
-          :key="row.Id"
-          class="list">
-          {{row.Name}}
-        </div>
+        
       </k-auto-complete>
       <k-button @click="clear">清空</k-button>
       <br>
