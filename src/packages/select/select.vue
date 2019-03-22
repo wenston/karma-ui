@@ -1,5 +1,5 @@
 <script>
-import { offset } from "karma-ui/util/dom"
+import { offset,getStyle } from "karma-ui/util/dom"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 // import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
@@ -139,7 +139,22 @@ export default {
         })
       })
     },
-    scrollIntoView(index) {
+    // scrollIntoView(index) {
+    //   let i = 0
+    //   if (typeof index === "number") {
+    //     i = index
+    //   } else {
+    //     i = this.getSelectedOptionIndex()
+    //     if (i === -1) {
+    //       i = 0
+    //     }
+    //   }
+    //   this.ins.$refs.body.scrollTop = offset(
+    //     this.options[i].$el,
+    //     this.ins.$refs.body
+    //   ).top
+    // },
+    scrollIntoViewIfNeed(index) {
       let i = 0
       if (typeof index === "number") {
         i = index
@@ -149,10 +164,17 @@ export default {
           i = 0
         }
       }
-      this.ins.$refs.body.scrollTop = offset(
+      let top = offset(
         this.options[i].$el,
         this.ins.$refs.body
       ).top
+      let optionHeight = parseFloat(getStyle(this.options[i].$el,'height'))
+      let bodyHeight = parseFloat(getStyle(this.ins.$refs.body,'height'))
+      let scrollTop = this.ins.$refs.body.scrollTop
+      if(top > bodyHeight + scrollTop-optionHeight || top<scrollTop) {
+
+          this.ins.$refs.body.scrollTop = top - bodyHeight + optionHeight
+        }
     },
     getSelectedOptionIndex() {
       let i = -1
@@ -187,7 +209,7 @@ export default {
         { k: this.options[i].value, v: this.options[i].label },
         false
       )
-      this.scrollIntoView(i)
+      this.scrollIntoViewIfNeed(i)
 
       e.preventDefault()
     },
@@ -255,7 +277,7 @@ export default {
         //获取到所有option组件
         this.getAllOptionsComponent()
         //展示下拉列表并定位到选中的元素
-        this.ins.show(this.scrollIntoView)
+        this.ins.show(this.scrollIntoViewIfNeed)
         //绑定键盘上下键操作
         this.addUpDownEvent()
       } else {

@@ -1,4 +1,4 @@
-import { offset } from "karma-ui/util/dom"
+import { offset,getStyle } from "karma-ui/util/dom"
 import { debounce } from "karma-ui/util/throttle_debounce"
 import { layer } from "karma-ui/packages/layer/index"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
@@ -52,6 +52,11 @@ export default {
     lazy: {
       type: Boolean,
       default: true
+    },
+    //前端分页，有值就代表有分页，没有值就没有分页
+    pageSize: {
+      type: [Number,String],
+      default: void 0
     }
   },
   model: {
@@ -136,7 +141,7 @@ export default {
       }
       this.currentHoverIndex = i
       // console.log(i)
-      this.scrollIntoView(i)
+      this.scrollIntoViewIfNeed(i)
       this.$forceUpdate()
     },
     //
@@ -224,14 +229,14 @@ export default {
           if (arr.length === 0) {
             this.ins.hide()
           } else {
-            this.showList(this.scrollIntoView)
+            this.showList(this.scrollIntoViewIfNeed)
           }
           this.$forceUpdate()
         })
       } else {
         this.filterData = this.data
         if (document.activeElement == this.$refs.input.getInputElement()) {
-          this.showList(this.scrollIntoView)
+          this.showList(this.scrollIntoViewIfNeed)
         }
       }
     },
@@ -246,7 +251,26 @@ export default {
         }
       }
     },
-    scrollIntoView(index) {
+    // scrollIntoView(index) {
+    //   let i = 0
+    //   if (typeof index === "number") {
+    //     i = index
+    //   } else {
+    //     this.filterData.forEach((el, index) => {
+    //       if (el[this.keyField] == this.value) {
+    //         i = index
+    //       }
+    //     })
+    //   }
+    //   this.getAllOptionsComponent()
+    //   if (this.options.length) {
+    //     this.ins.$refs.body.scrollTop = offset(
+    //       this.options[i].$el,
+    //       this.ins.$refs.body
+    //     ).top
+    //   }
+    // },
+    scrollIntoViewIfNeed(index) {
       let i = 0
       if (typeof index === "number") {
         i = index
@@ -259,10 +283,17 @@ export default {
       }
       this.getAllOptionsComponent()
       if (this.options.length) {
-        this.ins.$refs.body.scrollTop = offset(
+        let top = offset(
           this.options[i].$el,
           this.ins.$refs.body
         ).top
+        let optionHeight = parseFloat(getStyle(this.options[i].$el,'height'))
+        let bodyHeight = parseFloat(getStyle(this.ins.$refs.body,'height'))
+        let scrollTop = this.ins.$refs.body.scrollTop
+        if(top > bodyHeight + scrollTop-optionHeight || top<scrollTop) {
+
+          this.ins.$refs.body.scrollTop = top - bodyHeight + optionHeight
+        }
       }
     },
     getAllOptionsComponent() {
@@ -310,7 +341,7 @@ export default {
             //如果没有筛选出来的数据，就不显示列表
             if (this.filterData.length !== 0) {
               this.showList(() => {
-                this.scrollIntoView()
+                this.scrollIntoViewIfNeed()
                 this.currentHoverIndex = this.currentIndex
                 this.$forceUpdate()
               })

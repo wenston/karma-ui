@@ -17,6 +17,7 @@ export default {
   methods: {
     onShow() {
       this.$dialog({
+        layout: 'body,mask,footer',
         content(){
           return (
             <div>确认要删除吗，确认要删除吗，确认要删除吗，确认要删除吗，确认要删除吗，确认要删除吗，</div>

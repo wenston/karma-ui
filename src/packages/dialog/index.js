@@ -13,7 +13,8 @@ export default {
       ok,
       cancel,
       okText,
-      cancelText
+      cancelText,
+      layout
     }) {
 
       instance.$props.title = title
@@ -21,6 +22,7 @@ export default {
       instance.$props.okText = okText
 
       instance.$props.cancelText = cancelText
+      instance.$props.layout = layout
 
       if (typeof content === 'function') {
         instance.$slots.default = content.call(this)

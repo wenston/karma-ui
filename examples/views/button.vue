@@ -10,7 +10,7 @@
     <h3 class="layout__title">尺寸、类型</h3>
     <div>
       <div>
-        <k-button type="primary" size="huge">huge</k-button>
+        <k-button type="primary" size="huge" capsule>huge</k-button>
         <k-button type="danger" size="large">large</k-button>
         <k-button type="warning" size="big">big</k-button>
         <k-button type="default" size="medium">默认</k-button>

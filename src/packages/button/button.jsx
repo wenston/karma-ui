@@ -25,7 +25,9 @@ export default {
     loadingIconName: {
       type: String,
       default: "k-icon-loading"
-    }
+    },
+    capsule: Boolean,
+    autofocus: Boolean
   },
   computed: {
     classes() {
@@ -33,7 +35,8 @@ export default {
         ["k-btn"]: true,
         ["k-btn--" + this.type]: true,
         ["k-btn--" + this.size]: true,
-        "k-btn--block": this.block
+        "k-btn--block": this.block,
+        'k-btn--capsule': this.capsule
       }
     },
     iconSize() {
@@ -97,6 +100,22 @@ export default {
   methods: {
     handleClick(e) {
       if (!this.disabled) this.$emit("click", e)
+    },
+    focus() {
+      this.$el.focus()
+    }
+  },
+  mounted() {
+    this.autofocus && this.$nextTick().then(this.focus)
+  },
+  watch: {
+    autofocus: {
+      immediate: true,
+      handler(b) {
+        if(b) {
+          this.$nextTick().then(this.focus)
+        }
+      }
     }
   }
 }

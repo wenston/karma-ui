@@ -77,6 +77,9 @@ $types: primary, warning, danger, success;
       height: var(--button-$(size)-height);
       line-height: calc(var(--button-$(size)-height) - 2px);
       font-size: var(--button-$(size)-font-size);
+      &.k-btn--capsule {
+        border-radius: calc(var(--button-$(size)-height) / 2);
+      }
     }
   }
 
