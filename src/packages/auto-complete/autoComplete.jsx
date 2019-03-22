@@ -418,6 +418,7 @@ export default {
             // e.preventDefault()
           },
           valueChange: v => {
+            this.pageIndex = 1
             this.inputText = v
             this.currentIndex = this.currentHoverIndex = -1
             if (v.trim() === "") {
@@ -466,7 +467,7 @@ export default {
             $slots.default ||
             (filterData.length &&
               filterData
-                .slice(0, this.pageIndex * this.pageSize)
+                .slice(0, this.pageIndex * (this.pageSize ||filterData.length))
                 .map((item, index) => {
                   const optionProps = {
                     class: {
