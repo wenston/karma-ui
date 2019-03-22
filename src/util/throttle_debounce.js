@@ -11,12 +11,12 @@ export const throttle = (interval= 100) => {
     return Promise.reject()
   }
 }
-
+let debounceTimer = null
 export const debounce = (delay = 100) => {
-  let timer = null
-  clearTimeout(timer)
+  // let timer = null
+  clearTimeout(debounceTimer)
   return new Promise((resolve)=>{
-    timer = setTimeout(()=>{
+    debounceTimer = setTimeout(()=>{
       resolve()
     }, delay)
   })

@@ -9,7 +9,8 @@
         layer-width="250px"
         placeholder="商品名称"
         @focus="onFocus"
-        @toggle="onToggle">
+        @toggle="onToggle"
+        pageSize="12">
         
       </k-auto-complete>
       <k-button @click="clear">清空</k-button>

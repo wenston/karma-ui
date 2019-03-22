@@ -1,4 +1,4 @@
-import { offset,getStyle } from "karma-ui/util/dom"
+import { offset, getStyle } from "karma-ui/util/dom"
 import { debounce } from "karma-ui/util/throttle_debounce"
 import { layer } from "karma-ui/packages/layer/index"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
@@ -55,7 +55,7 @@ export default {
     },
     //前端分页，有值就代表有分页，没有值就没有分页
     pageSize: {
-      type: [Number,String],
+      type: [Number, String],
       default: void 0
     }
   },
@@ -81,7 +81,16 @@ export default {
       options: [], //收集本组件下属的所有option组件
       optionCompName: "",
       //控制延迟加载的转圈图形显示
-      loading: false
+      loading: false,
+      pageIndex: 1
+    }
+  },
+  computed: {
+    totalPages() {
+      if (this.pageSize && this.filterData.length) {
+        return Math.ceil(this.filterData.length / this.pageSize)
+      }
+      return 1
     }
   },
   watch: {
@@ -240,12 +249,40 @@ export default {
         }
       }
     },
-    showList(fn) {
-      this.ins && this.ins.show(fn)
+    handleLayerBodyScroll() {
+      debounce(150).then(()=>{
+        const body = this.ins.$refs.body
+        let bodyHeight = parseFloat(getStyle(body,'height'))
+        let scrollTop = body.scrollTop
+        let scrollHeight = body.scrollHeight
+        if(bodyHeight + scrollTop >= scrollHeight) {
+          if(this.totalPages>1) {
+            if(this.pageIndex<this.totalPages) {
+              this.pageIndex += 1
+              this.$forceUpdate()
+            }
+          }
+        }
+      })
+    },
+    showList(fn = () => {}) {
+      this.ins &&
+        this.ins.show(() => {
+          fn()
+          this.ins.$refs.body.addEventListener(
+            "scroll",
+            this.handleLayerBodyScroll
+          )
+        })
     },
     hideList(cb = () => {}) {
       if (!this.disabled) {
         if (this.ins) {
+          //remove事件
+          this.ins.$refs.body.removeEventListener(
+            "scroll",
+            this.handleLayerBodyScroll
+          )
           this.ins.hide(cb)
           this.$refs.input.blur()
         }
@@ -283,15 +320,11 @@ export default {
       }
       this.getAllOptionsComponent()
       if (this.options.length) {
-        let top = offset(
-          this.options[i].$el,
-          this.ins.$refs.body
-        ).top
-        let optionHeight = parseFloat(getStyle(this.options[i].$el,'height'))
-        let bodyHeight = parseFloat(getStyle(this.ins.$refs.body,'height'))
+        let top = offset(this.options[i].$el, this.ins.$refs.body).top
+        let optionHeight = parseFloat(getStyle(this.options[i].$el, "height"))
+        let bodyHeight = parseFloat(getStyle(this.ins.$refs.body, "height"))
         let scrollTop = this.ins.$refs.body.scrollTop
-        if(top > bodyHeight + scrollTop-optionHeight || top<scrollTop) {
-
+        if (top > bodyHeight + scrollTop - optionHeight || top < scrollTop) {
           this.ins.$refs.body.scrollTop = top - bodyHeight + optionHeight
         }
       }
@@ -432,38 +465,42 @@ export default {
           const slotsDefault =
             $slots.default ||
             (filterData.length &&
-              filterData.map((item, index) => {
-                const optionProps = {
-                  class: {
-                    "k-option--hover": index == this.currentHoverIndex
-                  },
-                  props: {
-                    tag: "div",
-                    selected: item[this.keyField] == this.value
-                  },
-                  on: {
-                    click: e => {
-                      this.currentIndex = index
-                      this.$emit("valueChange", item[this.keyField])
-                      this.$emit("toggle", { row: item, index })
-                      this.ins.hide()
+              filterData
+                .slice(0, this.pageIndex * this.pageSize)
+                .map((item, index) => {
+                  const optionProps = {
+                    class: {
+                      "k-option--hover": index == this.currentHoverIndex
+                    },
+                    props: {
+                      tag: "div",
+                      selected: item[this.keyField] == this.value
+                    },
+                    on: {
+                      click: e => {
+                        this.currentIndex = index
+                        this.$emit("valueChange", item[this.keyField])
+                        this.$emit("toggle", { row: item, index })
+                        this.ins.hide()
+                      }
                     }
                   }
-                }
-                if ($scopedSlots.default) {
+                  if ($scopedSlots.default) {
+                    return (
+                      <k-option {...optionProps}>
+                        {$scopedSlots.default({
+                          row: item,
+                          index
+                        })}
+                      </k-option>
+                    )
+                  }
                   return (
                     <k-option {...optionProps}>
-                      {$scopedSlots.default({
-                        row: item,
-                        index
-                      })}
+                      {item[this.valueField]}
                     </k-option>
                   )
-                }
-                return (
-                  <k-option {...optionProps}>{item[this.valueField]}</k-option>
-                )
-              })) ||
+                })) ||
             (this.data.length === 0 && <div {...loadingProps} />)
           const slotsHeader = $slots.header
           const slotsFooter = $slots.footer
