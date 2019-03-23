@@ -72,7 +72,7 @@ export default {
       return arr.length || 1
     },
     renderTableHead() {
-      console.log(this.headColumns)
+      // console.log(this.headColumns)
       let columns = this.headColumns
       //记录总共行数
       let maxRowLength = 0

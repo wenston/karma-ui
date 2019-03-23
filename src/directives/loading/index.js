@@ -4,13 +4,12 @@ import { debounce } from "karma-ui/util/throttle_debounce"
 import LoadingComponent from "karma-ui/packages/loading/Loading.vue"
 const instance = "@@instance"
 let settings = {
-  content:'努力加载中...',
-  position: 'absolute',
+  content: "努力加载中...",
+  position: "absolute",
   isFullScreen: true,
   color: "#378cee",
   backgroundColor: "rgba(255,255,255,.75)",
-  iconColor: "#378cee",
-  
+  iconColor: "#378cee"
 }
 export default {
   bind(el, binding) {
@@ -33,11 +32,11 @@ export default {
       isShow = v
     } else {
       isShow = v.loading
-      el[instance].setOptions({...settings,...v})
+      el[instance].setOptions({ ...settings, ...v })
     }
-    if(isShow) {
+    if (isShow) {
       el[instance].show()
-    }else{
+    } else {
       el[instance].hide(true)
     }
   },
@@ -48,21 +47,15 @@ export default {
       isShow = v
     } else {
       isShow = v.loading
-      el[instance].setOptions({...settings,...v})
+      el[instance].setOptions({ ...settings, ...v })
     }
     if (isShow) {
-      debounce().then(()=>{
-        if(el[instance])
-        el[instance].show()
+      Vue.nextTick(() => {
+        if (el[instance]) el[instance].show()
       })
     } else {
-      debounce().then(()=>{
-        //为什么要加if判断，
-        //因为可能存在unbind的情况，
-        //此时，由于hide方法是在debounce中，
-        //el[instance]就是null了！
-        if(el[instance])
-        el[instance].hide(true)
+      Vue.nextTick(() => {
+        if (el[instance]) el[instance].hide(true)
       })
     }
   },

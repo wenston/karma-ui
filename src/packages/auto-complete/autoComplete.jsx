@@ -205,43 +205,41 @@ export default {
     },
     getFilterData() {
       if (this.inputText.trim() !== "") {
-        debounce(150).then(() => {
-          //将用户输入，转化成关键字数组，以逐个匹配
-          const arrText = this.inputText.toLowerCase().split(/\s+/)
-          const arrField =
-            typeof this.searchField === "string"
-              ? [this.searchField]
-              : Array.isArray(this.searchField)
-              ? this.searchField
-              : []
-          if (arrField.length === 0) {
-            console.warn(`${this.$options.name}是否没有传入searchField参数？`)
-          }
-          //搜索出来
-          let arr = []
-          this.data.forEach(item => {
-            let has = false
-            arrField.forEach(field => {
-              const fieldText = (item[field] + "").toLowerCase()
-              arrText.forEach(text => {
-                text = (text + "").trim()
-                if (fieldText.indexOf(text) > -1) {
-                  has = true
-                }
-              })
+        //将用户输入，转化成关键字数组，以逐个匹配
+        const arrText = this.inputText.toLowerCase().split(/\s+/)
+        const arrField =
+          typeof this.searchField === "string"
+            ? [this.searchField]
+            : Array.isArray(this.searchField)
+            ? this.searchField
+            : []
+        if (arrField.length === 0) {
+          console.warn(`${this.$options.name}是否没有传入searchField参数？`)
+        }
+        //搜索出来
+        let arr = []
+        this.data.forEach(item => {
+          let has = false
+          arrField.forEach(field => {
+            const fieldText = (item[field] + "").toLowerCase()
+            arrText.forEach(text => {
+              text = (text + "").trim()
+              if (fieldText.indexOf(text) > -1) {
+                has = true
+              }
             })
-            if (has) {
-              arr.push({ ...item })
-            }
           })
-          this.filterData = arr
-          if (arr.length === 0) {
-            this.ins.hide()
-          } else {
-            this.showList(this.scrollIntoViewIfNeed)
+          if (has) {
+            arr.push({ ...item })
           }
-          this.$forceUpdate()
         })
+        this.filterData = arr
+        if (arr.length === 0) {
+          this.ins.hide()
+        } else {
+          this.showList(this.scrollIntoViewIfNeed)
+        }
+        this.$forceUpdate()
       } else {
         this.filterData = this.data
         if (document.activeElement == this.$refs.input.getInputElement()) {
@@ -249,22 +247,20 @@ export default {
         }
       }
     },
-    handleLayerBodyScroll() {
-      debounce(150).then(()=>{
-        const body = this.ins.$refs.body
-        let bodyHeight = parseFloat(getStyle(body,'height'))
-        let scrollTop = body.scrollTop
-        let scrollHeight = body.scrollHeight
-        if(bodyHeight + scrollTop >= scrollHeight) {
-          if(this.totalPages>1) {
-            if(this.pageIndex<this.totalPages) {
-              this.pageIndex += 1
-              this.$forceUpdate()
-            }
+    handleLayerBodyScroll: debounce(100,function() {
+      const body = this.ins.$refs.body
+      let bodyHeight = parseFloat(getStyle(body, "height"))
+      let scrollTop = body.scrollTop
+      let scrollHeight = body.scrollHeight
+      if (bodyHeight + scrollTop >= scrollHeight) {
+        if (this.totalPages > 1) {
+          if (this.pageIndex < this.totalPages) {
+            this.pageIndex += 1
+            this.$forceUpdate()
           }
         }
-      })
-    },
+      }
+    }),
     showList(fn = () => {}) {
       this.ins &&
         this.ins.show(() => {
@@ -467,7 +463,7 @@ export default {
             $slots.default ||
             (filterData.length &&
               filterData
-                .slice(0, this.pageIndex * (this.pageSize ||filterData.length))
+                .slice(0, this.pageIndex * (this.pageSize || filterData.length))
                 .map((item, index) => {
                   const optionProps = {
                     class: {
