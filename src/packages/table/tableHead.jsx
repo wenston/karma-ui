@@ -4,7 +4,9 @@ import KColGroup from "./colGroup"
 import KCell from "./tableCell"
 import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KRadio from "karma-ui/packages/radio/radio"
+import mixins from "./_mixins/"
 export default {
+  mixins: [mixins],
   components: {
     KColGroup,
     KCell,
@@ -38,7 +40,7 @@ export default {
       }
     },
     hasSum() {
-      return this.columns.some(col => "sum" in col)
+      return this.c_filter_columns.some(col => "sum" in col)
     }
   },
   methods: {
@@ -70,6 +72,7 @@ export default {
       return arr.length || 1
     },
     renderTableHead() {
+      console.log(this.headColumns)
       let columns = this.headColumns
       //记录总共行数
       let maxRowLength = 0
@@ -185,7 +188,7 @@ export default {
     return (
       <div class={this.headWrapperClasses}>
         <table class={this.headClasses}>
-          <k-col-group columns={this.columns} />
+          <k-col-group columns={this.c_filter_columns} />
           <thead>{this.renderTableHead()}</thead>
         </table>
       </div>

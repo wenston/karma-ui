@@ -19,13 +19,15 @@
 
     <k-table :data="table1"
       height="200px"
-      :columns="columns1"
+      :columns="fnColumns()"
+      hasCheckbox
       @select-change="onSelectChange"
       size="big"
       nowrap
       hover
       resize-width
       :bordered="false"
+      :selectedRows.sync="selectedRows"
       @sort="onSort">
       <template slot="xxx"
         slot-scope="{row}">
@@ -45,6 +47,11 @@
         </li>
       </ul>
     </k-table>
+    <div>
+      <k-button type="warning"
+        @click="onClear">清空所选</k-button>
+      <k-button @click="onShowSomeCol">根据条件展示特定列</k-button>
+    </div>
     <h3 class="layout__title">根据数据自动合并行</h3>
     <!-- <k-table :data="table1"
       :columns="columns2"
@@ -499,7 +506,7 @@ let table1 = [
       }
     ]
   }
-];
+]
 export default {
   data() {
     return {
@@ -510,9 +517,9 @@ export default {
           class: "三年级一班",
           chinese: "90",
           math: "100",
-          wuli:'80',
-          english: '93',
-          history: '100'
+          wuli: "80",
+          english: "93",
+          history: "100"
         },
         {
           name: "小花",
@@ -520,9 +527,9 @@ export default {
           class: "三年级二班",
           chinese: "90",
           math: "99",
-          wuli:'82',
-          english: '90',
-          history: '84'
+          wuli: "82",
+          english: "90",
+          history: "84"
         },
         {
           name: "小力",
@@ -530,9 +537,9 @@ export default {
           class: "三年级三班",
           chinese: "100",
           math: "100",
-          wuli:'89',
-          english: '98',
-          history: '89'
+          wuli: "89",
+          english: "98",
+          history: "89"
         },
         {
           name: "小娟",
@@ -540,9 +547,9 @@ export default {
           class: "三年级一班",
           chinese: "92",
           math: "98",
-          wuli:'63',
-          english: '91',
-          history: '96'
+          wuli: "63",
+          english: "91",
+          history: "96"
         },
         {
           name: "晓丽",
@@ -550,9 +557,9 @@ export default {
           class: "三年级一班",
           chinese: "91",
           math: "91",
-          wuli:'82',
-          english: '93',
-          history: '78'
+          wuli: "82",
+          english: "93",
+          history: "78"
         },
         {
           name: "志玲",
@@ -560,9 +567,9 @@ export default {
           class: "三年级四班",
           chinese: "99",
           math: "98",
-          wuli:'80',
-          english: '90',
-          history: '89'
+          wuli: "80",
+          english: "90",
+          history: "89"
         },
         {
           name: "小军",
@@ -570,9 +577,9 @@ export default {
           class: "三年级一班",
           chinese: "92",
           math: "100",
-          wuli:'59',
-          english: '93',
-          history: '81'
+          wuli: "59",
+          english: "93",
+          history: "81"
         },
         {
           name: "小刚",
@@ -580,9 +587,9 @@ export default {
           class: "三年级二班",
           chinese: "93",
           math: "97",
-          wuli:'80',
-          english: '90',
-          history: '89'
+          wuli: "80",
+          english: "90",
+          history: "89"
         }
       ],
       columns: [
@@ -590,12 +597,12 @@ export default {
           name: () => {
             return <span style="color:red">学生信息</span>
           },
-          fixed: 'left',
+          fixed: "left",
           children: [
             {
               style: { width: 80 },
               field: "name",
-              name: "姓名",
+              name: "姓名"
             },
             {
               style: { width: 80 },
@@ -618,7 +625,7 @@ export default {
                 {
                   style: { width: 90 },
                   field: "chinese",
-                  name: "语文",
+                  name: "语文"
                   // sum: true//需要汇总
                 },
                 {
@@ -656,18 +663,18 @@ export default {
           name: "操作",
           // fixed: "right",
           customRender: (row, index) => {
-            return <a href="javascript:;">删除</a>;
+            return <a href="javascript:;">删除</a>
           }
         }
       ],
       table1,
-      highlightValue: '小花',
+      highlightValue: "小花",
       columns1: [
         {
           style: { width: "150" },
           field: "Code",
           name: "单号",
-          scopedSlots: "xxx", //xxx是作用域插槽的名称
+          scopedSlots: "xxx" //xxx是作用域插槽的名称
           // fixed: "left"
         },
         {
@@ -676,18 +683,15 @@ export default {
           name: "供应商"
         },
         {
+          field: "TaxRate",
+          name: "税率"
+        },
+        {
           style: { width: "80", textAlign: "right" },
           field: "TotalPrice",
           name: "金额",
           scopedSlots: "TotalPrice",
-          sorter:1
-          // sum: (total) => {
-          //   return (
-          //     <div style="text-align:right;color: red;">
-          //       <b >{total.toFixed(2)}</b>
-          //     </div>
-          //   )
-          // }
+          sorter: 1
         },
         {
           style: { width: "100" },
@@ -736,7 +740,7 @@ export default {
               <a href="javascript:;" onClick={() => this.onDel(row, index)}>
                 删除
               </a>
-            );
+            )
           }
         }
       ],
@@ -766,7 +770,7 @@ export default {
           style: { width: "60", padding: "0 3px" },
           field: "Details.ProCount",
           name: "数量",
-          scopedSlots: "ProCount",
+          scopedSlots: "ProCount"
           // sum: true
         },
         {
@@ -791,39 +795,95 @@ export default {
               >
                 删除
               </a>
-            );
+            )
           }
         }
       ],
-      currentId: ''
-    };
+      currentId: "",
+      selectedKeys: [],
+      selectedRows: [],
+      random: 0.6
+    }
   },
   methods: {
+    fnColumns() {
+      const tax =
+        this.random > 0.5
+          ? {
+              field: "TaxRate",
+              name: "税率",
+              sum: true
+            }
+          : null
+      return [
+        {
+          style: { width: "150" },
+          field: "Code",
+          name: "单号",
+          scopedSlots: "xxx" //xxx是作用域插槽的名称
+          // fixed: "left"
+        },
+        {
+          style: { width: "100" },
+          field: "SupplierName",
+          name: "供应商"
+        },
+        tax,
+        {
+          style: { width: "80", textAlign: "right" },
+          field: "TotalPrice",
+          name: "金额",
+          scopedSlots: "TotalPrice",
+          sorter: 1,
+          sum: true
+        },
+        {
+          style: { width: "100" },
+          field: "StoreName",
+          name: "收货仓库"
+        }
+      ]
+    },
+    onShowSomeCol() {
+      this.random = Math.random()
+      console.log(this.random)
+    },
     onSelectChange(e) {
-      console.log(e);
+      // console.log(e);
     },
     onDel(row, row1, index) {
-      console.log(row, row1, index);
+      console.log(row, row1, index)
       // row.Details.splice(index,1)
     },
-    onSort({type,field,name}) {
-      console.log(type,field,name)
+    onSort({ type, field, name }) {
+      console.log(type, field, name)
     },
+    onClear() {
+      // this.selectedKeys = []
+      this.selectedRows = []
+    }
   },
+  computed: {},
   watch: {
     currentId(v) {
-      console.log(v)
+      // console.log(v)
     },
     highlightValue(v) {
-      console.log(v)
+      // console.log(v)
+    },
+    selectedKeys(keys) {
+      console.log(keys)
+    },
+    selectedRows(rows) {
+      console.log(rows)
     }
   },
   mounted() {
-    setTimeout(()=>{
-      this.currentId = 'PC04201811230002,1053'
-    },1500)
+    setTimeout(() => {
+      this.currentId = "PC04201811230002,1053"
+    }, 1500)
   }
-};
+}
 </script>
 <style lang="postcss" module="css">
 .code {

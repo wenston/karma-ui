@@ -82,11 +82,19 @@ export default {
       }
     },
     selectedKeys(keys) {
-      //目前监控不到！为什么！
       this.checkedKeys = keys
     },
     selectedRows(rows) {
       this.checkedRows = rows
+      //收集keys
+      let keys = []
+      this.checkedRows.forEach(r => {
+        const k = this.formatCheckedKey(r)
+        keys.push(k)
+      })
+      this.checkedKeys = keys
+
+      this.emitSelectChange()
     }
   },
   methods: {
@@ -113,6 +121,7 @@ export default {
     setCheckedKeys(x) {
       this.checkedKeys = x
     },
+    //父级调用
     onCheckedAll(checked) {
       //当不选择时，不可以将checkedKeys直接清空，因为可能存在跨页选择的数据
       //checkedRows同上
@@ -154,7 +163,7 @@ export default {
       //NOTE: 如果出现选不中的情况，需检查传入的checkboxKey是否有问题
     },
     emitSelectChange(checked, row, index) {
-      const { fixedLeft, fixedRight } = this.hasFixedColumns,
+      let { fixedLeft, fixedRight } = this.hasFixedColumns,
         // rows = JSON.parse(JSON.stringify(this.checkedRows)),
         rows = this.checkedRows,
         para = { checked, index, row, rows, keys: this.checkedKeys }
@@ -315,7 +324,7 @@ export default {
     renderTr(column, row, index) {
       let k = this.getRowKey(row, index, this.loopKey)
       const curHighlightRowKey = this.getRowKey(row, index, this.highlightKey)
-      const trProps = {
+      let trProps = {
         attrs: {
           "data-key": k,
           "data-highlight": curHighlightRowKey
@@ -325,12 +334,6 @@ export default {
           "k-table-tr-highlight": curHighlightRowKey == this.currentHighlightKey
         },
         on: {
-          mouseover: () => {
-            this.$emit("trmouseover", row, index)
-          },
-          mouseout: () => {
-            this.$emit("trmouseout", row, index)
-          },
           dblclick: () => {
             this.$emit("dblclick-row", { row, index })
           },
@@ -342,7 +345,11 @@ export default {
                 index,
                 this.highlightKey
               )
-              this.$emit("toggle-highlight", { row, index, value:curHighlightRowKey })
+              this.$emit("toggle-highlight", {
+                row,
+                index,
+                value: curHighlightRowKey
+              })
             }
             //可以在此处理复选单选
             const k = this.formatCheckedKey(row)
@@ -385,7 +392,15 @@ export default {
           }
         }
       }
-      return this.hover ? <tr {...trProps}>{column}</tr> : <tr>{column}</tr>
+      if (this.hover) {
+        trProps.on.mouseover = () => {
+          this.$emit("trmouseover", row, index)
+        }
+        trProps.on.mouseout = () => {
+          this.$emit("trmouseout", row, index)
+        }
+      }
+      return <tr {...trProps}>{column}</tr>
     },
     //渲染单元格
     renderTableCell(row, col, index) {
@@ -472,7 +487,9 @@ export default {
     },
     //渲染表格的tbody
     renderTableBody() {
-      const { bodyScopedSlots, columns, data } = this
+      const { bodyScopedSlots, data } = this
+      //过滤出可用的列（如果某些列是undeinfed null '' 0 false 非Object类型，就剔除）
+      const columns = this.c_filter_columns
       let tbody = [],
         //level是数据的层级，1是只有1层，2是有1层嵌套，3是有2层嵌套...
         level = 1
@@ -496,16 +513,19 @@ export default {
           tbody.push(this.renderTr(column, row, index))
         })
       } else {
-        let colspan = this.columns ? this.columns.length : 1
+        let colspan = this.c_filter_columns ? this.c_filter_columns.length : 1
         let text =
           typeof this.emptyText === "function"
             ? this.emptyText()
             : this.emptyText
-          text && tbody.push(
-          <tr>
-            <k-cell class="k-table-td-center" colspan={colspan}>{text}</k-cell>
-          </tr>
-        )
+        text &&
+          tbody.push(
+            <tr>
+              <k-cell class="k-table-td-center" colspan={colspan}>
+                {text}
+              </k-cell>
+            </tr>
+          )
       }
       return tbody
     },
@@ -527,7 +547,7 @@ export default {
         }}
       >
         <table class={tableClasses}>
-          <k-col-group columns={this.columns} />
+          <k-col-group columns={this.c_filter_columns} />
           <tbody>{this.renderTableBody()}</tbody>
         </table>
       </div>

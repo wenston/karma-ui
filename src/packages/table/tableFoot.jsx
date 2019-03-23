@@ -2,7 +2,9 @@ import { getStyle } from "karma-ui/util/dom"
 import { props } from "./_util/props"
 import KCell from "./tableCell"
 import KColGroup from "./colGroup"
+import mixins from "./_mixins/"
 export default {
+  mixins: [mixins],
   components: {
     KCell,
     KColGroup
@@ -22,7 +24,7 @@ export default {
       }
     },
     hasSum() {
-      return this.columns.some(col => "sum" in col)
+      return this.c_filter_columns.some(col => "sum" in col)
     }
   },
   methods: {
@@ -102,7 +104,7 @@ export default {
     },
     renderTd() {
       const { sumText } = this
-      const tds = this.columns.map((col, i) => {
+      const tds = this.c_filter_columns.map((col, i) => {
         const content = i === 0 ? sumText : this.getSumContent(col, i)
         return <k-cell>{content}</k-cell>
       })
@@ -115,7 +117,7 @@ export default {
       return (
         <div class="k-table-foot">
           <table class={tableClasses}>
-            <k-col-group columns={this.columns} />
+            <k-col-group columns={this.c_filter_columns} />
             <tfoot>{this.renderTd()}</tfoot>
           </table>
         </div>

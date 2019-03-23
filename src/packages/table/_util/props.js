@@ -38,12 +38,19 @@ export const props = {
   //style里的宽度如果没有指定，则会有一个默认的120px的宽度，见colGroup.jsx
   /**
    *
-   *  [{field:'字段名',name:'字段描述',scopedSlots:'slotName',style:{},sum:true,sorter:true}]
+   *  [{
+   *    field:'字段名',
+   *    name:'字段描述',
+   *    scopedSlots:'slotName',
+   *    style:{},
+   *    sum:true,
+   *    sorter:true
+   *  }]
    * sum：是否需要汇总，类型：Boolean,String,Number,Function
    * sorter: 是否排序，Boolean
    */
   columns: {
-    type: Array,
+    type: [Array,Function],
     default:()=>[]
   },
   //是否有边框
