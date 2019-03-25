@@ -110,9 +110,6 @@ export default {
       handler(v) {
         this.getInputTextByKeyField()
       }
-    },
-    pageIndex(i) {
-      // console.log('监控pageIndex',i)
     }
   },
   methods: {
@@ -264,14 +261,19 @@ export default {
       }
     }),
     showList(fn = () => {}) {
-      this.ins &&
-        this.ins.show(() => {
-          fn()
-          this.ins.$refs.body.addEventListener(
-            "scroll",
-            this.handleLayerBodyScroll
-          )
-        })
+      this.$nextTick().then(()=>{
+        this.ins &&
+          this.ins.show(() => {
+            fn()
+            // 优化事件绑定时机：由layer抛出事件告诉父组件
+            // layer已经初始化完毕，之后进行事件绑定
+            // 而不是在layer展示出来后绑定
+            // this.ins.$refs.body.addEventListener(
+            //   "scroll",
+            //   this.handleLayerBodyScroll
+            // )
+          })
+      })
     },
     hideList(cb = () => {}) {
       if (!this.disabled) {
@@ -283,9 +285,8 @@ export default {
           )
           this.ins.hide(cb)
           this.$refs.input.blur()
-          this.$nextTick(()=>{
+          this.$nextTick(() => {
             //如果没有选择，或者输入框没有东西，则重置成第一页
-
             // if(!this.value && !this.inputText) {
             //   this.pageIndex = 1
             //   // console.log('没有value吗？')
@@ -374,7 +375,7 @@ export default {
             this.$refs.input.onSelect()
             //如果还没有实例化，则先实例化
             if (!this.ins) {
-              this.ins = layer()
+              this.instanceAndOn()
               this.init()
             }
             //如果没有筛选出来的数据，就不显示列表
@@ -418,6 +419,18 @@ export default {
         }
       }
     },
+    instanceAndOn() {
+      this.ins = layer()
+
+      this.ins.$on('layer-inited',()=>{
+        this.$nextTick().then(()=>{
+          this.ins.$refs.body.addEventListener(
+            'scroll',
+            this.handleLayerBodyScroll
+          )
+        })
+      })
+    },
     init() {
       this.$nextTick(() => {
         // console.log('初始化时的pageIndex',this.pageIndex)
@@ -432,9 +445,6 @@ export default {
           if (this.filterData.length === 0) {
             //提示加载中
             this.loading = true
-
-            // this.showList()
-            // this.$forceUpdate()
           } else {
             this.loading = false
           }
@@ -452,8 +462,7 @@ export default {
               minHeight: "200px"
             }
           }
-          const slotsDefault =
-            $slots.default ||
+          const slotsDefault = $slots.default ||
             (filterData.length &&
               filterData
                 .slice(0, this.pageIndex * (this.pageSize || filterData.length))
@@ -490,8 +499,7 @@ export default {
                       {item[this.valueField]}
                     </k-option>
                   )
-                })) ||
-            (this.data.length === 0 && <div {...loadingProps} />)
+                })) || <k-option {...loadingProps} ></k-option>
           const slotsHeader = $slots.header
           const slotsFooter = $slots.footer
           let arrClassName = ["k-auto-complete"]
@@ -552,13 +560,13 @@ export default {
   },
   destroyed() {
     if (this.ins) {
-      console.log('k-auto-complete被销毁了！当前页：',this.pageIndex)
+      // console.log('k-auto-complete被销毁了！当前页：',this.pageIndex)
     }
   },
   mounted() {
     if (!this.lazy) {
       if (!this.ins) {
-        this.ins = layer()
+        this.instanceAndOn()
         this.init()
       }
     }

@@ -11,7 +11,17 @@
         @focus="onFocus"
         @toggle="onToggle"
         pageSize="12">
-        
+        <div slot="header"
+          class="list header">
+          <span class="name">商品名称</span>
+          <span class="index">库存</span>
+        </div>
+        <div slot-scope="{row,index}"
+          :key="row.Id"
+          class="list">
+          <span class="name">{{row.Name}}</span>
+          <span class="index">{{index}}</span>
+        </div>
       </k-auto-complete>
       <k-button @click="clear">清空</k-button>
       <br>

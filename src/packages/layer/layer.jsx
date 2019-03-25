@@ -92,6 +92,10 @@ export default {
           this.$data[k] = opts[k]
         }
       }
+      this.$nextTick().then(()=>{
+        
+        this.$emit('layer-inited')
+      })
     },
     //获取与layer相关的vm的$el的位置、尺寸信息
     _getElemPosition() {
@@ -206,8 +210,10 @@ export default {
   destroyed() {
   },
   mounted() {
-    this.$nextTick(this._getElemPosition)
-    window.addEventListener("resize", this._getElemPosition)
+    this.$nextTick(()=>{
+      this._getElemPosition()
+      window.addEventListener("resize", this._getElemPosition)
+    })
   },
   updated() {
     this.$nextTick(this._getElemPosition)
