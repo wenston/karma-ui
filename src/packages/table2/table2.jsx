@@ -63,12 +63,14 @@ export default {
       on: {
         ...this.$listeners,
         'add-row':e=>{
-          this.$emit('dataChange', this.data.splice(e.index+1,0,{}))
+          // this.$emit('dataChange', this.data.splice(e.index+1,0,{}))
+          this.data.splice(e.index+1,0,{})
           this.$emit('add-row',e)
         },
         'delete-row':e=>{
           if(this.data.length>1) {
-            this.$emit('dataChange', this.data.splice(e.index,1))
+            // this.$emit('dataChange', this.data.splice(e.index,1))
+            this.data.splice(e.index,1)
             this.$emit('delete-row',e)
           }
         }

@@ -1,6 +1,5 @@
 import Vue from "vue"
 import { getStyle, setStyle } from "karma-ui/util/dom"
-import { debounce } from "karma-ui/util/throttle_debounce"
 import LoadingComponent from "karma-ui/packages/loading/Loading.vue"
 const instance = "@@instance"
 let settings = {

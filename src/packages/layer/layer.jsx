@@ -1,4 +1,4 @@
-import { offset, getStyle, setStyle } from "karma-ui/util/dom"
+import { getStyle, setStyle } from "karma-ui/util/dom"
 // import clickoutside from "karma-ui/util/clickoutside.js"
 // import esc from "karma-ui/util/esc.js"
 export default {
@@ -102,7 +102,6 @@ export default {
       if (!elem) {
         return null
       }
-      // const pos = offset(elem)
       const pos = elem.getBoundingClientRect()
       this.left = pos.left + window.pageXOffset
       this.top = pos.top + window.pageYOffset
@@ -196,12 +195,15 @@ export default {
       }
     },
     destroy() {
-      this.parent.removeChild(this.$el)
       this.$destroy()
     }
   },
-  destroyed() {
+  beforeDestroy() {
     window.removeEventListener("resize", this._getElemPosition)
+    this.parent.removeChild(this.$el)
+
+  },
+  destroyed() {
   },
   mounted() {
     this.$nextTick(this._getElemPosition)

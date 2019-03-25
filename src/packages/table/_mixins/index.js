@@ -5,12 +5,19 @@ export default {
       if(typeof columns === 'function') {
         columns = columns()
       }
-      return columns.filter(
-        col =>
-          !!col &&
-          Object.prototype.toString.call(col).toLowerCase() ===
-            "[object object]"
-      )
+      let arr = []
+      columns.forEach(col=>{
+        if(!!col && Object.prototype.toString.call(col).toLowerCase() ==="[object object]") {
+          arr.push(col)
+        }
+      })
+      return arr
+      // return columns.filter(
+      //   col =>
+      //     !!col &&
+      //     Object.prototype.toString.call(col).toLowerCase() ===
+      //       "[object object]"
+      // )
     },
     headAndBodyColumns() {
       let columns = this.c_filter_columns
@@ -20,7 +27,8 @@ export default {
             if(col.children && col.children.length) {
               fn(col.children)
             }else{
-              bodyColumns.push({...col})
+              // bodyColumns.push({...col})
+              bodyColumns.push(col)
             }
           })
         }

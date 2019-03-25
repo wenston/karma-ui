@@ -110,6 +110,9 @@ export default {
       handler(v) {
         this.getInputTextByKeyField()
       }
+    },
+    pageIndex(i) {
+      // console.log('监控pageIndex',i)
     }
   },
   methods: {
@@ -143,8 +146,7 @@ export default {
             row: this.filterData[this.currentIndex],
             index: this.currentIndex
           })
-          this.$refs.input.blur()
-          this.ins.hide()
+          this.hideList(this.destroyLayer)
         }
         return
       }
@@ -247,7 +249,7 @@ export default {
         }
       }
     },
-    handleLayerBodyScroll: debounce(100,function() {
+    handleLayerBodyScroll: debounce(100, function() {
       const body = this.ins.$refs.body
       let bodyHeight = parseFloat(getStyle(body, "height"))
       let scrollTop = body.scrollTop
@@ -281,6 +283,14 @@ export default {
           )
           this.ins.hide(cb)
           this.$refs.input.blur()
+          this.$nextTick(()=>{
+            //如果没有选择，或者输入框没有东西，则重置成第一页
+
+            // if(!this.value && !this.inputText) {
+            //   this.pageIndex = 1
+            //   // console.log('没有value吗？')
+            // }
+          })
         }
       }
     },
@@ -315,7 +325,7 @@ export default {
         })
       }
       this.getAllOptionsComponent()
-      if (this.options.length) {
+      if (this.options.length && this.options[i] && this.options[i].$el) {
         let top = offset(this.options[i].$el, this.ins.$refs.body).top
         let optionHeight = parseFloat(getStyle(this.options[i].$el, "height"))
         let bodyHeight = parseFloat(getStyle(this.ins.$refs.body, "height"))
@@ -376,25 +386,7 @@ export default {
               })
               //如果数据源本身就没有，此时可能是正在延迟加载数据中
             } else if (this.data.length === 0) {
-              //提示加载中
-              // this.loading = true
-              // const loadingProps = {
-              //   directives: [
-              //     {
-              //       name: "loading",
-              //       value: {
-              //         loading: this.loading,
-              //         content: "数据获取中..."
-              //       }
-              //     }
-              //   ],
-              //   style: {
-              //     minHeight: "200px"
-              //   }
-              // }
-              // this.$slots.default = <div {...loadingProps} />
               this.showList()
-              // this.$forceUpdate()
             }
             this.$emit("focus", e)
           },
@@ -427,8 +419,9 @@ export default {
       }
     },
     init() {
-      this.ins &&
-        this.$nextTick(() => {
+      this.$nextTick(() => {
+        // console.log('初始化时的pageIndex',this.pageIndex)
+        if (this.ins) {
           const {
             layerWidth,
             layerHeight,
@@ -478,7 +471,7 @@ export default {
                         this.currentIndex = index
                         this.$emit("valueChange", item[this.keyField])
                         this.$emit("toggle", { row: item, index })
-                        this.ins.hide()
+                        this.hideList(this.destroyLayer)
                       }
                     }
                   }
@@ -537,7 +530,8 @@ export default {
               height: layerHeight
             }
           )
-        })
+        }
+      })
     },
     destroyLayer() {
       if (this.lazy) {
@@ -558,8 +552,7 @@ export default {
   },
   destroyed() {
     if (this.ins) {
-      this.ins.destroy()
-      this.ins = null
+      console.log('k-auto-complete被销毁了！当前页：',this.pageIndex)
     }
   },
   mounted() {
@@ -571,7 +564,7 @@ export default {
     }
   },
   updated() {
-    this.init()
+    this.ins && this.init()
   },
   created() {
     this.$on("getOptionComponentName", name => {

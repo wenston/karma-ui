@@ -583,16 +583,16 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.value = "300034"
-    }, 1800)
+    // setTimeout(() => {
+    //   this.value = "300034"
+    // }, 1800)
     setTimeout(() => {
       this.list = this.list1
     }, 1500)
   },
   watch: {
     value(v) {
-      // console.log(v)
+      console.log(v)
     }
   }
 }
