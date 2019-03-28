@@ -14,7 +14,10 @@ export default {
       cancel,
       okText,
       cancelText,
-      layout
+      layout,
+      hasIcon = true,
+      iconColor,
+      iconSize
     }) {
 
       instance.$props.title = title
@@ -23,6 +26,9 @@ export default {
 
       instance.$props.cancelText = cancelText
       instance.$props.layout = layout
+      instance.$props.hasIcon = hasIcon
+      instance.$props.iconColor = iconColor
+      instance.$props.iconSize = iconSize
 
       if (typeof content === 'function') {
         instance.$slots.default = content.call(this)

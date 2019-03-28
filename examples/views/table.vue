@@ -26,7 +26,9 @@
       nowrap
       hover
       resize-width
-      :bordered="false"
+      simple
+      :stripe="false"
+      :has-thead="false"
       :selectedRows.sync="selectedRows"
       @sort="onSort">
       <template slot="xxx"

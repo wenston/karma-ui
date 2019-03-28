@@ -58,6 +58,11 @@ export const props = {
     type: Boolean,
     default: true
   },
+  //简易表格，只有下边框
+  simple: {
+    type: Boolean,
+    default: false,
+  },
   //表格尺寸
   size: {
     type: String,
@@ -83,6 +88,11 @@ export const props = {
   hasAction: {
     type: Boolean,
     default: false
+  },
+  //是否有表头
+  hasThead: {
+    type: Boolean,
+    default: true
   },
   //序号index对应的表头描述
   indexText: {

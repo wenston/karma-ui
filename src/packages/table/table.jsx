@@ -40,6 +40,8 @@ export default {
       const { fixedLeft } = this.hasFixedColumns
       return {
         "k-table-wrapper": true,
+        "k-table-wrapper--bordered": this.bordered,
+        "k-table-wrapper--simple": this.simple,
         "k-table-wrapper--fixed_left": fixedLeft
       }
     },
@@ -47,13 +49,15 @@ export default {
       const { fixedRight } = this.hasFixedColumns
       return {
         "k-table-wrapper": true,
+
+        "k-table-wrapper--bordered": this.bordered,
+        "k-table-wrapper--simple": this.simple,
         "k-table-wrapper--fixed_right": fixedRight
       }
     },
     tableClass() {
       return {
         "k-table": true,
-        "k-table--bordered": this.bordered,
         [`k-table--${this.size}`]: true,
         "k-table--stripe": this.stripe,
         "k-table--auto": this.tableLayoutAuto,
@@ -231,9 +235,9 @@ export default {
     //此时需要给thead外层的div一个padding-right:滚动条宽度
     //才能对齐
     getBarWidthWhenAuto(el) {
-      const width = parseFloat(getStyle(el,'width'))
-      const childTable = el.querySelector('.k-table')
-      const w =  parseFloat(getStyle(childTable,'width'))
+      const width = parseFloat(getStyle(el, "width"))
+      const childTable = el.querySelector(".k-table")
+      const w = parseFloat(getStyle(childTable, "width"))
       return width - w
     },
     justifyColumns() {
@@ -246,7 +250,9 @@ export default {
             body = mainTable.querySelector(".k-table-body"),
             head = mainTable.querySelector(".k-table-head"),
             foot = mainTable.querySelector(".k-table-foot"),
-            scrollbarWidth = this.minContent?0:this.getBarWidthWhenAuto(body),
+            scrollbarWidth = this.minContent
+              ? 0
+              : this.getBarWidthWhenAuto(body),
             leftTable = this.$refs.leftTable,
             rightTable = this.$refs.rightTable
           head && (head.style.paddingRight = scrollbarWidth + "px")
@@ -515,7 +521,7 @@ export default {
     },
     emitHighlight(e) {
       this.setHighlightRow(e)
-      this.$emit('update:highlightValue',e.value)
+      this.$emit("update:highlightValue", e.value)
       this.$emit("toggle-highlight", e)
     },
     emitDblclickRow(e) {
@@ -578,7 +584,7 @@ export default {
     }
 
     //table的thead
-    const thead = (
+    const thead = this.hasThead ? (
       <k-table-head
         {...{ props }}
         head-columns={headColumns}
@@ -590,7 +596,7 @@ export default {
         }}
         onSort={this.handleSort}
       />
-    )
+    ) : null
     //table的tfoot
     const tfoot = (
       <k-table-foot
@@ -604,7 +610,11 @@ export default {
     //主表格
     const mainTable = (
       <div
-        class="k-table-wrapper"
+        class={{
+          "k-table-wrapper": true,
+          "k-table-wrapper--bordered": this.bordered,
+          "k-table-wrapper--simple": this.simple
+        }}
         ref="mainTable"
         onScroll={this.mainTableScroll}
       >

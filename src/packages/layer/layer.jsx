@@ -11,14 +11,11 @@ export default {
     hasTransition: {
       type: Boolean,
       default: true
-    },
-    transitionType: {
-      type: String,
-      default: "slide-down"
     }
   },
   data() {
     return {
+      transitionType: "slide-down",
       //相对于vm定位
       //vm是 定位的依据
       vm: null,
@@ -55,15 +52,12 @@ export default {
       footerClassName: "",
       styles: {},
       afterEnter: () => {},
-      afterLeave: () => {}
+      afterLeave: () => {},
     }
   },
   computed: {
     transitionName() {
-      if (this.transitionType) {
-        return `k-transition-${this.transitionType}`
-      }
-      return ""
+      return `k-transition-${this.transitionType}`
     }
   },
   provide() {
@@ -92,9 +86,8 @@ export default {
           this.$data[k] = opts[k]
         }
       }
-      this.$nextTick().then(()=>{
-        
-        this.$emit('layer-inited')
+      this.$nextTick().then(() => {
+        this.$emit("layer-inited")
       })
     },
     //获取与layer相关的vm的$el的位置、尺寸信息
@@ -137,22 +130,21 @@ export default {
         width = this.layerWidth
 
       //5是layer距离可视区边界的大小
-      const wholeHeight = innerHeight+window.pageYOffset
-      if (top + height > wholeHeight -5) {
-        top = wholeHeight -5 - height
+      const wholeHeight = innerHeight + window.pageYOffset
+      if (top + height > wholeHeight - 5) {
+        top = wholeHeight - 5 - height
         if (top < 0) {
           top = 0
         }
       }
-      if(left+width>innerWidth) {
+      if (left + width > innerWidth) {
         left = innerWidth - width
-        if(left<0) {
+        if (left < 0) {
           left = 0
         }
       }
       setStyle(this.$el, {
         width: this.layerWidth,
-
         top: top + "px",
         left: left + "px"
       })
@@ -205,12 +197,10 @@ export default {
   beforeDestroy() {
     window.removeEventListener("resize", this._getElemPosition)
     this.parent.removeChild(this.$el)
-
   },
-  destroyed() {
-  },
+  destroyed() {},
   mounted() {
-    this.$nextTick(()=>{
+    this.$nextTick(() => {
       this._getElemPosition()
       window.addEventListener("resize", this._getElemPosition)
     })
@@ -267,7 +257,7 @@ export default {
           "after-leave": this._handleAfterLeave
         },
         props: {
-          name: this.transitionName
+          name:"k-transition-slide-down"
         }
       }
       p.directives = [

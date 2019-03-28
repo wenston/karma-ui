@@ -50,7 +50,6 @@ export default {
     tableClasses() {
       return {
         "k-table": true,
-        "k-table--bordered": this.bordered,
         [`k-table--${this.size}`]: true,
         "k-table--stripe": this.stripe,
         "k-table--auto": this.tableLayoutAuto,
