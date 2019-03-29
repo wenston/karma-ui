@@ -110,7 +110,7 @@ export default {
       handler(v) {
         this.getInputTextByKeyField()
       }
-    }
+    },
   },
   methods: {
     handleKeyup(e) {
@@ -173,6 +173,11 @@ export default {
         }
       }
       this.inputText = text
+      if(this.inputText === '') {
+        this.currentHoverIndex = -1
+        this.currentIndex = -1
+        this.getFilterData()
+      }
       return text
       // this.$emit('toggle',{row,index})
       // return {row,index}
@@ -241,7 +246,7 @@ export default {
         this.$forceUpdate()
       } else {
         this.filterData = this.data
-        if (document.activeElement == this.$refs.input.getInputElement()) {
+        if (this.$refs.input && document.activeElement == this.$refs.input.getInputElement()) {
           this.showList(this.scrollIntoViewIfNeed)
         }
       }
