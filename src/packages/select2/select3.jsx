@@ -1,6 +1,4 @@
-import { scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
-import KButton from "karma-ui/packages/button/button.jsx"
 import { layer } from "karma-ui/packages/layer/index"
 import clickoutside from "karma-ui/util/clickoutside"
 import esc from "karma-ui/util/esc"
@@ -12,7 +10,6 @@ export default {
   name: "KSelect2",
   components: {
     KInput,
-    KButton,
     KIcon,
     KOption,
     KCheckbox,
@@ -24,25 +21,13 @@ export default {
     //多选的值，可以是数组、字符串（可以用逗号分隔）、单个数值
     value: [Array, String, Number],
     //选择基准关键字
-    keyField: {
+    selectKey: {
       type: String,
       default: "Id"
     },
     //描述，data中的字段名
     textField: String,
-    placeholder: String,
-    searchPlaceholder: String,
-    //模糊匹配需要搜索的字段
-    searchField: {
-      type: [String, Array],
-      default: "Name"
-    },
-    block: Boolean,
-    simple: Boolean,
-    layerWidth: {
-      type: [String,Boolean],
-      default: 'auto'
-    }
+    placeholder: String
   },
   data() {
     let arr = []
@@ -70,39 +55,24 @@ export default {
   },
   computed: {
     filterData() {
-      let arr = []
-      if (this.searchText.trim() !== "") {
-        //将用户输入，转化成关键字数组，以逐个匹配
-        const arrText = this.searchText.toLowerCase().split(/\s+/)
-        const arrField =
-          typeof this.searchField === "string"
-            ? [this.searchField]
-            : Array.isArray(this.searchField)
-            ? this.searchField
-            : []
-        if (arrField.length === 0) {
-          console.warn(`${this.$options.name}是否没有传入searchField参数？`)
-        }
-        //搜索出来
-        this.data.forEach(item => {
-          let has = false
-          arrField.forEach(field => {
-            const fieldText = (item[field] + "").toLowerCase()
-            arrText.forEach(text => {
-              text = (text + "").trim()
-              if (fieldText.indexOf(text) > -1) {
-                has = true
+      const data = this.data
+      const v = (this.searchText + "").trim().split(/\s+/)
+      if (data) {
+        if (Array.isArray(data)) {
+          return data.filter(item => {
+            for (const k in item) {
+              for (let i = 0, len = v.length; i < len; i++) {
+                const item_k = (item[k]+'').toLowerCase()
+                const lowerV = v[i].toLowerCase()
+                if (item_k.indexOf(lowerV) > -1) {
+                  return item
+                }
               }
-            })
+            }
           })
-          if (has) {
-            arr.push({ ...item })
-          }
-        })
-      } else {
-        arr = this.data
+        } else {
+        }
       }
-      return arr
     }
   },
   methods: {
@@ -123,9 +93,9 @@ export default {
         props: {
           active: this.visible,
           readonly: true,
-          placeholder: this.placeholder,
-          block: true,
-          simple: this.simple
+          styles: {
+            width: "225px"
+          }
         },
         on: {
           focus: e => {
@@ -135,24 +105,23 @@ export default {
       }
       return <k-input {...p} />
     },
-    //搜索匹配框、全选
+    //搜索匹配框、全选、刷新数据按钮
     rSearchInput() {
       const p = {
         class: "k-select2-searchinput",
         props: {
           clearable: true,
           size: "small",
-          placeholder: this.searchPlaceholder,
+          placeholder: this.placeholder,
           block: true,
           value: this.searchText,
-          simple: this.simple
-          // active: this.visible
+          active: this.visible
         },
         ref: "searchInput",
         on: {
           valueChange: v => {
-            this.currentIndex = -1
             this.searchText = v
+            this.$forceUpdate()
           },
           input: e => {}
         }
@@ -167,13 +136,13 @@ export default {
               let set = new Set(this.dataValue)
               const filterData = this.filterData
               filterData.forEach(el => {
-                set.add(el[this.keyField] + "")
+                set.add(el[this.selectKey] + "")
               })
               this.dataValue = [...set]
             } else {
               this.dataValue = []
             }
-            
+            this.isCheckedAll = b
             this.emitValue()
             // this.$forceUpdate()
           }
@@ -185,6 +154,15 @@ export default {
             <span slot="prepend">
               <k-checkbox {...checkProps} />
             </span>
+            <div slot="append" class="k-select2-refresh" tabindex="1">
+              <k-icon
+                color="white"
+                size="14"
+                title="刷新"
+                name="k-icon-refresh"
+                weight
+              />
+            </div>
           </k-input>
         </div>
       )
@@ -195,33 +173,35 @@ export default {
       if (filterData) {
         let list = []
         if (Array.isArray(filterData)) {
-          list = filterData.map((item, index) => {
+          list = filterData.map((item,index) => {
             const p = {
-              ref: "filterDataList" + item[this.keyField],
               class: "k-select2-checkbox",
               props: {
                 text: item[this.textField],
-                value: item[this.keyField],
-                checked: this.dataValue.some(id => id == item[this.keyField])
+                value: item[this.selectKey],
+                checked: this.dataValue.some(id => id == item[this.selectKey])
               },
               on: {
                 checkedChange: checked => {
                   let set = new Set(this.dataValue)
-                  const v = item[this.keyField] + ""
+                  const v = item[this.selectKey] + ""
                   if (checked) {
                     set.add(v)
                   } else {
                     set.delete(v)
                   }
                   this.dataValue = [...set]
-                  this.emitValue()
+                  this.isCheckedAll =
+                    filterData.length > 0 &&
+                    filterData.length === this.dataValue.length
                   // this.$forceUpdate()
+                  this.emitValue()
                 }
               }
             }
             const itemClass = {
-              "k-select2-list-item": true,
-              "k-select2-list-item-hover": this.currentIndex === index
+              'k-select2-list-item': true,
+              'k-select2-list-item-hover': this.currentIndex === index
             }
             return (
               <div class={itemClass}>
@@ -245,14 +225,14 @@ export default {
     rCheckedList() {
       const dataValue = this.dataValue
       const filterData = this.filterData
-      const keyField = this.keyField
+      const selectKey = this.selectKey
       const textField = this.textField
       let arr = []
       let list = null
       if (dataValue.length) {
         if (Array.isArray(filterData)) {
           filterData.forEach(item => {
-            if (dataValue.some(el => el == item[keyField])) {
+            if (dataValue.some(el => el == item[selectKey])) {
               arr.push(item)
             }
           })
@@ -266,10 +246,13 @@ export default {
               <span
                 class="k-select2-checked-del"
                 onClick={e => {
-                  const k = item[keyField] + ""
+                  const k = item[selectKey] + ""
                   const i = dataValue.indexOf(k)
                   this.dataValue.splice(i, 1)
                   this.emitValue()
+                  if (this.isCheckedAll) {
+                    this.isCheckedAll = false
+                  }
                   e.stopPropagation()
                 }}
               >
@@ -285,12 +268,9 @@ export default {
         )
       }
     },
-    refresh() {
-      this.$emit("refresh")
-    },
     hideLayer() {
-      this.visible = false
       this.layerIns.hide()
+      this.visible = false
       this.removeUpdownEvent()
     },
     showLayer() {
@@ -302,28 +282,7 @@ export default {
     //实例化option列表
     initIns() {
       this.$nextTick(() => {
-        // this.layerIns.init(this, [this.rSearchInput(), this.rList()])
-        this.layerIns.init(
-          this,
-          {
-            header: this.rSearchInput(),
-            default: this.rList(),
-            footer: (
-              <div class="k-select2-footer">
-                <k-button size="mini" onClick={this.hideLayer}>
-                  关闭
-                </k-button>
-                <k-button size="mini" type="primary" onClick={this.refresh}>
-                  刷新
-                </k-button>
-              </div>
-            )
-          },
-          {
-            width: this.layerWidth,
-            canCloseByClickoutside: true
-          }
-        )
+        this.layerIns.init(this, [this.rSearchInput(), this.rList()])
       })
     },
     isSame(v, ov) {
@@ -341,95 +300,53 @@ export default {
       if (Array.isArray(this.value)) {
         this.$emit("valueChange", v)
       } else if (typeof this.value === "string") {
-        this.$emit("valueChange", v.filter(el => !!el).join(","))
+        this.$emit("valueChange", v.filter(el=>!!el).join(","))
       } else {
         this.$emit("valueChange", v)
       }
     },
-    scrollIntoViewIfNeed(index) {
-      const key = this.filterData[index][this.keyField]
-      const currentEl = this.$refs["filterDataList" + key].$el
-      scrollIntoViewIfNeed(currentEl, this.layerIns.$refs.body)
-    },
     handleKeydown(e) {
-      const filterData = this.filterData
       const code = e.keyCode
       if (code != 40 && code != 38 && code != 13) {
         return
       }
       let index = this.currentIndex
-      if (code == 38) {
+      if(code == 38) {
         index -= 1
-        if (index < 0) {
-          index = filterData.length - 1
+        if(index<0) {
+          index = this.filterData.length-1
         }
-      } else if (code == 40) {
+      }else if(code == 40) {
         index += 1
-        if (index > filterData.length - 1) {
+        if(index>this.filterData.length-1) {
           index = 0
         }
-      } else {
-        if (index < 0 && filterData.length > 0) {
-          index = 0
-        }
-        //选择或者取消选择
-        let set = new Set(this.dataValue)
-        const item = filterData[index]
-        let v = ""
-        if (item) {
-          v = item[this.keyField] + ""
-          if (set.has(v)) {
-            set.delete(v)
-          } else {
-            set.add(v)
-          }
-          this.dataValue = [...set]
-        }
+      }else{
+        console.log(index)
       }
       this.currentIndex = index
-      this.scrollIntoViewIfNeed(index)
       this.$forceUpdate()
     },
     addUpdownEvent() {
-      document.addEventListener("keydown", this.handleKeydown)
+      document.addEventListener('keydown', this.handleKeydown)
     },
     removeUpdownEvent() {
-      document.removeEventListener("keydown", this.handleKeydown)
-    },
-    canCheckAll() {
-      this.$nextTick(()=>{
-        const d = this.filterData
-        if (d && d.length) {
-          //判断filterData里的所有keyField对应的值，是否都在dataValue里边
-          let b = true,
-            i = 0,
-            len = d.length
-          let set = new Set(this.dataValue)
-          while (i < len) {
-            const v = d[i][this.keyField] + ""
-            if (!set.has(v)) {
-              b = false
-              break
-            }
-            i += 1
-          }
-          this.isCheckedAll = b
-        }else{
-          this.isCheckedAll = false
-        }
-        this.$forceUpdate()
-      })
+      document.removeEventListener('keydown', this.handleKeydown)
     }
   },
   render() {
     const p = {
       directives: [
+        // {
+        //   name: "clickoutside",
+        //   value: this.hideLayer
+        // },
         {
           name: "esc",
           value: this.hideLayer
         }
       ],
-      class: ["k-select2", { "k-block": this.block }],
+      class: "k-select2",
       on: {
         click: e => {
           this.$refs.boxInput.focus()
@@ -444,6 +361,26 @@ export default {
     )
   },
   watch: {
+    // dataValue(v, ov) {
+      //会出现连续触发两次的问题！且v和ov一样！为什么？
+      //因为以上原因，所以改为手动：this.emitValue()
+      // console.log(v,ov)
+      // if (!this.isSame(v, ov)) {
+        // throttle().then(()=>{
+
+          // v = JSON.parse(JSON.stringify(v))
+          // if (Array.isArray(this.value)) {
+          //   this.$emit("valueChange", v)
+          // } else if (typeof this.value === "string") {
+          //   this.$emit("valueChange", v.split(","))
+          // } else {
+          //   this.$emit("valueChange", v)
+          // }
+        // }).catch(err=>{
+          
+        // })
+      // }
+    // },
     value(v, ov) {
       // console.log('value:',v,ov)
       if (!this.isSame(v, ov)) {
@@ -455,15 +392,6 @@ export default {
           this.dataValue = [v + ""]
         }
       }
-    },
-    filterData() {
-      this.canCheckAll()
-    },
-    searchText() {
-      this.canCheckAll()
-    },
-    dataValue() {
-      this.canCheckAll()
     }
   },
   destroyed() {
@@ -473,9 +401,6 @@ export default {
     this.initIns()
   },
   mounted() {
-    this.layerIns.$on("after-hide", () => {
-      this.visible = false
-    })
     this.initIns()
   },
   directives: {

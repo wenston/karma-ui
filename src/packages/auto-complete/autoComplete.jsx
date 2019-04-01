@@ -1,4 +1,4 @@
-import { offset, getStyle } from "karma-ui/util/dom"
+import { getStyle, scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import { debounce } from "karma-ui/util/throttle_debounce"
 import { layer } from "karma-ui/packages/layer/index"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
@@ -332,13 +332,7 @@ export default {
       }
       this.getAllOptionsComponent()
       if (this.options.length && this.options[i] && this.options[i].$el) {
-        let top = offset(this.options[i].$el, this.ins.$refs.body).top
-        let optionHeight = parseFloat(getStyle(this.options[i].$el, "height"))
-        let bodyHeight = parseFloat(getStyle(this.ins.$refs.body, "height"))
-        let scrollTop = this.ins.$refs.body.scrollTop
-        if (top > bodyHeight + scrollTop - optionHeight || top < scrollTop) {
-          this.ins.$refs.body.scrollTop = top - bodyHeight + optionHeight
-        }
+        scrollIntoViewIfNeed(this.options[i].$el,this.ins.$refs.body)
       }
     },
     getAllOptionsComponent() {
@@ -507,13 +501,6 @@ export default {
                 })) || <k-option {...loadingProps} ></k-option>
           const slotsHeader = $slots.header
           const slotsFooter = $slots.footer
-          let arrClassName = ["k-auto-complete"]
-          if (slotsHeader) {
-            arrClassName.push("k-auto-complete-has-header")
-          }
-          if (slotsFooter) {
-            arrClassName.push("k-auto-complete-has-footer")
-          }
           this.ins.init(
             this,
             {
@@ -531,12 +518,6 @@ export default {
               headerTag: "div",
               //弹框列表底部标签类型
               footerTag: "div",
-              //列表class
-              bodyClassName: arrClassName.join(" "),
-              //弹框列表头部class
-              headerClassName: "k-auto-complete-header",
-              footerClassName: "k-auto-complete-footer",
-
               //弹框宽。如果不指定宽，则宽度和输入框一致
               width: layerWidth,
               //高度暂时没有设置。TODO
@@ -562,6 +543,9 @@ export default {
   render() {
     const inputProps = this.inputProps()
     return <k-input {...inputProps} />
+  },
+  beforeDestroy() {
+    this.destroyLayer()
   },
   destroyed() {
     if (this.ins) {

@@ -1,5 +1,5 @@
 <script>
-import { offset,getStyle } from "karma-ui/util/dom"
+import { offset,getStyle, scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 // import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
@@ -164,17 +164,7 @@ export default {
           i = 0
         }
       }
-      let top = offset(
-        this.options[i].$el,
-        this.ins.$refs.body
-      ).top
-      let optionHeight = parseFloat(getStyle(this.options[i].$el,'height'))
-      let bodyHeight = parseFloat(getStyle(this.ins.$refs.body,'height'))
-      let scrollTop = this.ins.$refs.body.scrollTop
-      if(top > bodyHeight + scrollTop-optionHeight || top<scrollTop) {
-
-          this.ins.$refs.body.scrollTop = top - bodyHeight + optionHeight
-        }
+      scrollIntoViewIfNeed(this.options[i].$el,this.ins.$refs.body)
     },
     getSelectedOptionIndex() {
       let i = -1

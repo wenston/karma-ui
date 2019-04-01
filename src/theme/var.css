@@ -82,7 +82,12 @@
   /*圆角*/
   --button-radius: var(--radius);
   /*按钮之间的间距*/
-  --button-gutter: 15px;
+  --button-huge-gutter: 20px;
+  --button-large-gutter: 18px;
+  --button-big-gutter: 15px;
+  --button-medium-gutter: 12px;
+  --button-small-gutter: 10px;
+  --button-mini-gutter: 8px;
   /* button font-size */
   --button-huge-font-size: 18px;
   --button-large-font-size: 16px;
@@ -105,7 +110,7 @@
   --select-clear-hover-color: color(var(--select-down-color) b(+40%));
   --select-option-z-index: 99;
   --select-option-box-shadow: var(--box-shadow);
-  --select-option-max-height: 251px;
+  --select-option-max-height: 28vh;
   --select-option-bg-color: var(--bg-color);
   /* option */
   --option-height: 25px;

@@ -17,10 +17,6 @@ $types: primary, warning, danger, success;
   transition: var(--button-transition);
   outline: 0;
 
-  &:not(:last-child) {
-    margin-right: var(--button-gutter);
-  }
-
   &.k-btn--default {
     background-color: var(--button-default-bg-color);
     border-color: var(--button-default-border-color);
@@ -57,8 +53,7 @@ $types: primary, warning, danger, success;
         }
 
         &:active {
-          box-shadow: 
-            var(--button-active-box-shadow),
+          box-shadow: var(--button-active-box-shadow),
             0 0 0 2px color(var(--$(type)-color) a(20%));
         }
       }
@@ -79,6 +74,10 @@ $types: primary, warning, danger, success;
       font-size: var(--button-$(size)-font-size);
       &.k-btn--capsule {
         border-radius: calc(var(--button-$(size)-height) / 2);
+      }
+
+      &:not(:last-child) {
+        margin-right: var(--button-$(size)-gutter);
       }
     }
   }

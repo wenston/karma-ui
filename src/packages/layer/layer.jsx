@@ -1,5 +1,5 @@
 import { getStyle, setStyle } from "karma-ui/util/dom"
-// import clickoutside from "karma-ui/util/clickoutside.js"
+import clickoutside from "karma-ui/util/clickoutside.js"
 // import esc from "karma-ui/util/esc.js"
 export default {
   name: "KLayer",
@@ -50,6 +50,8 @@ export default {
       headerClassName: "",
       //footer插槽的class
       footerClassName: "",
+      //
+      canCloseByClickoutside: false,
       styles: {},
       afterEnter: () => {},
       afterLeave: () => {},
@@ -80,6 +82,18 @@ export default {
       } else {
         this.list = slots
       }
+      //className
+      let bodyClasses = ['k-layer-body']
+      if(this.headerSlots) {
+        bodyClasses.push('k-layer-has-header')
+        this.headerClassName = 'k-layer-header'
+      }
+      if(this.footerSlots) {
+        bodyClasses.push('k-layer-has-footer')
+        this.footerClassName = 'k-layer-footer'
+      }
+      this.bodyClassName = bodyClasses.join(' ')
+
       this.vm = vm
       for (let k in opts) {
         if (opts[k]) {
@@ -186,7 +200,8 @@ export default {
     },
     hide(cb) {
       this.visible = false
-      if (cb) {
+      this.$emit('after-hide')
+      if (cb && typeof cb === 'function') {
         this.afterLeave = cb
       }
     },
@@ -211,10 +226,10 @@ export default {
   watch: {
     vm: "_getElemPosition"
   },
-  // directives: {
-  //   clickoutside,
-  //   esc
-  // },
+  directives: {
+    clickoutside,
+    // esc
+  },
   render() {
     let p = {
       class: {
@@ -274,6 +289,15 @@ export default {
         //   value: this.hide
         // }
       ]
+      if(this.canCloseByClickoutside) {
+        p.directives.push({
+          name: 'clickoutside',
+          value:{
+            fn: this.hide,
+            whiteList: [this.vm.$el]
+          }
+        })
+      }
       return <transition {...transitionProps}>{content}</transition>
     }
     return content

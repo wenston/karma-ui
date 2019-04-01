@@ -4,7 +4,9 @@
     <div>
       <k-select2 v-model="ids"
         :data="dataList"
-        text-field="Name">
+        text-field="Name"
+        style="width: 200px"
+        :layer-width="false">
         
       </k-select2>
     </div>
@@ -15,7 +17,7 @@
 export default {
   data() {
     return {
-      ids: [],
+      ids: '',
       dataList: [
         {
           Name: "新天地大楼",

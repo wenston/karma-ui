@@ -15,10 +15,9 @@
   
 }
 .k-select2-list {
-  @extend .k-select__list;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  margin-top: -1px;
+  border: none;
 }
 .k-select2-list-item {
   height: var(--option-height);
@@ -39,18 +38,6 @@
     line-height: 25px;
     cursor: pointer;
     @extend .k-ellipsis;
-  }
-}
-.k-select2-refresh {
-  border-left: 1px solid var(--primary-color);
-  cursor: pointer;
-  line-height: 28px;
-  height: 28px;
-  background-color: var(--primary-color);
-  transition: var(--transition);
-  &:focus,
-  &:hover {
-    background-color: color(var(--primary-color) s(+8%) l(+8%));
   }
 }
 .k-select2-checked-list {
@@ -94,4 +81,11 @@
       color: var(--font-color-1);
     }
   }
+}
+
+.k-select2-footer {
+  padding: 5px 5px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
