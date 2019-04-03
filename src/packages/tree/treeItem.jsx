@@ -2,18 +2,16 @@ import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KIcon from "karma-ui/packages/icon/icon"
 import KTransition from "karma-ui/packages/transition/transition"
 import KTreeList from "./treeList"
+import getAllParent from "karma-ui/util/getAllParent"
+import props from "./props"
 export default {
   components: { KCheckbox, KIcon, KTransition, KTreeList },
   props: {
-    data: Object,
-    keyField: String,
-    textField: String,
-    childField: String,
-    icon: Array,
-    size: String,
+    ...props,
+    item: Object,
     isLastOne: Boolean, //是不是数组中最后一条数据
     active: [Number, String], //当前选择的节点数据
-    spread: Boolean,//
+    spread: Boolean //
   },
   data() {
     return {
@@ -22,6 +20,103 @@ export default {
   },
   inject: ["tree"],
   methods: {
+    isSelected(item) {
+      //console.log(item,this.selectedData)
+      const set = new Set(this.tree.checkedKeys.map(t => t + ""))
+      const v = item[this.keyField] + ""
+      return set.has(v)
+    },
+    cancelChecked(data, set) {
+      //data是当前数据及其所有父级，set是selectedKeys
+      //如果data只有1，则代表只选择了顶级一层的数据
+      const { keyField, childField } = this
+      if (data.length === 1) {
+        const v = data[0][keyField] + ""
+        set.delete(v)
+      } else {
+        function deleteFromSet(data, set) {
+          let len = data.length,
+            i = len - 1
+          do {
+            if (i === len - 1) {
+              set.delete(data[i][keyField] + "")
+            } else {
+              //搜集所有同级，判断是否有一个被选中
+              let has = false
+              for (
+                let j = 0, jlen = data[i][childField].length;
+                j < jlen;
+                j++
+              ) {
+                const c = data[i][childField][j]
+                if (set.has(c[keyField] + "")) {
+                  has = true
+                  break
+                }
+              }
+              if (has) {
+                break
+              } else {
+                deleteFromSet(data.slice(0, -1), set)
+              }
+            }
+            i = i - 1
+          } while (i >= 0)
+        }
+        deleteFromSet(data, set)
+      }
+      return set
+    },
+    selectParent(item, checked) {
+      //将此节点及父级相关的节点push到selectedData
+      let arr = getAllParent(
+        this.tree.sourceData,
+        item[this.keyField],
+        this.keyField,
+        this.childField
+      )
+      let set = new Set(this.tree.checkedKeys.map(k => k + ""))
+      // console.log(arr)
+      let vals = []
+      arr.forEach(el => {
+        vals.push(el[this.keyField] + "")
+      })
+
+      if (checked) {
+        vals.forEach(k => {
+          set.add(k)
+        })
+      } else {
+        //取消选中此项，
+        //并判断同级有没有被选中，如果所有同级都没有被选中，则父级取消选中
+        set = this.cancelChecked(arr, set)
+      }
+      this.tree.checkedKeys = [...set]
+      // this.$emit('')
+      // console.log(this.tree.checkedKeys)
+    },
+    selectChilds(item, checked) {
+      const { keyField, childField } = this
+
+      let set = new Set(this.tree.checkedKeys.map(t => t + ""))
+      function selectChildren(data, set, type = "add") {
+        data.forEach(el => {
+          set[type](el[keyField] + "")
+          if (el[childField] && el[childField].length) {
+            selectChildren(el[childField], set, type)
+          }
+        })
+      }
+      if (item[childField] && item[childField].length) {
+        if (checked) {
+          selectChildren(item[childField], set)
+        } else {
+          selectChildren(item[childField], set, "delete")
+        }
+      }
+
+      this.tree.checkedKeys = [...set]
+    },
     leafIcon() {
       const icon = this.icon[2]
       return <k-icon class="k-tree-icon-leaf" name={icon} />
@@ -47,35 +142,60 @@ export default {
       return <k-icon {...p} />
     },
     renderText(item) {
-      const textField = this.textField
+      const { textField, keyField, active, hasCheckbox } = this
       const p = {
         class: [
           "k-tree-text",
           {
-            "k-tree-text--active": this.active == item[this.keyField]
+            "k-tree-text--active": active == item[keyField]
           }
         ],
         on: {
           click: () => {
             // 暂时用不到这种方式
             // this.$emit("toggle", item)
-            this.tree.currentValue = item[this.keyField]
+            this.tree.currentValue = item[keyField]
           }
         }
       }
-      return <span {...p}>{item[textField]}</span>
+      const text = <span {...p}>{item[textField]}</span>
+      if (hasCheckbox) {
+        const checkProp = {
+          class: "k-tree-checkbox",
+          props: {
+            checked: this.isSelected(item),
+            value: item[keyField]
+          },
+          on: {
+            checkedChange: checked => {
+              //选中、取消选中子级所有节点
+              this.selectChilds(item, checked)
+              //选中、取消选中父级所有节点
+              this.selectParent(item, checked)
+              //选中、取消选中时，应向组件外抛出事件，把数据发送出去
+            }
+          },
+          nativeOn: {
+            click: e => {
+              e.stopPropagation()
+            }
+          }
+        }
+        return [<k-checkbox {...checkProp} />, text]
+      }
+      return text
     }
   },
   watch: {
     spread(v) {
-      this.open =v
+      this.open = v
     },
     open(v) {
-      this.$emit('update:spread',v)
+      this.$emit("update:spread", v)
     }
   },
   render() {
-    const childData = this.data[this.childField]
+    const childData = this.item[this.childField]
     const open = this.open
     //注意参数的传递！
     const child = {
@@ -111,13 +231,13 @@ export default {
           onClick={() => {
             if (childData.length) {
               this.open = !open
-              this.tree.$emit('expand', this.open, this.tree.toPure(this.data))
+              this.tree.$emit("expand", this.open, this.tree.toPure(this.item))
             }
           }}
         >
           {childData.length ? icon : this.leafIcon()}
         </span>
-        {this.renderText(this.data)}
+        {this.renderText(this.item)}
         <k-transition>
           <KTreeList {...child} />
         </k-transition>
