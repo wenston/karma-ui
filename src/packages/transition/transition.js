@@ -16,13 +16,13 @@ export default {
   },
   data() {
     return {
-      height: '',
-      paddingTop: '',
-      paddingBottom: '',
-      marginBottom: '',
-      marginTop: '',
-      borderTopWidth: '',
-      borderBottomWidth: ''
+      height: "",
+      paddingTop: "",
+      paddingBottom: "",
+      marginBottom: "",
+      marginTop: "",
+      borderTopWidth: "",
+      borderBottomWidth: ""
     }
   },
   methods: {
@@ -34,7 +34,7 @@ export default {
             clearInterval(t)
             res()
           }
-        }, 8)
+        }, 0)
       })
     },
     setProperty(el) {
@@ -108,16 +108,33 @@ export default {
         })
       })
     },
+    beforeLeave(el) {
+      this.setProperty(el)
+      setStyle(el,{
+        height: this.height,
+        opacity: 1,
+        paddingBottom: this.paddingBottom,
+        paddingTop: this.paddingTop,
+        marginTop: this.marginTop,
+        marginBottom: this.marginBottom,
+        borderBottomWidth: this.borderBottomWidth,
+        borderTopWidth: this.borderTopWidth,
+        transition: this.duration + "ms " + this.timingFunction
+      })
+    },
     leave(el, done) {
-      setStyle(el, {
-        height: 0,
-        opacity: 0,
-        paddingBottom: 0,
-        paddingTop: 0,
-        marginTop: 0,
-        marginBottom: 0,
-        borderBottomWidth: 0,
-        borderTopWidth: 0
+      setTimeout(()=>{
+
+        setStyle(el, {
+          height: 0,
+          opacity: 0,
+          paddingBottom: 0,
+          paddingTop: 0,
+          marginTop: 0,
+          marginBottom: 0,
+          borderBottomWidth: 0,
+          borderTopWidth: 0
+        })
       })
     },
     afterLeave(el) {
@@ -125,7 +142,11 @@ export default {
       setStyle(el, {
         display: "none"
       })
-      this.$emit('after-transition')
+      this.$emit("after-transition")
+    },
+    afterEnter(el) {
+      el.removeAttribute('style')
+      this.$emit("after-transition")
     }
   },
   render() {
@@ -140,7 +161,8 @@ export default {
         leaveActiveClass=""
         onBeforeEnter={this.beforeEnter}
         onEnter={this.enter}
-        onAfterEnter={()=>{this.$emit('after-transition')}}
+        onAfterEnter={this.afterEnter}
+        onBeforeLeave={this.beforeLeave}
         onLeave={this.leave}
         onAfterLeave={this.afterLeave}
       >

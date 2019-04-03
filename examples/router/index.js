@@ -162,6 +162,13 @@ export default new VueRouter({
           component(res) {
             import("../views/tips.vue").then(comp => res(comp))
           }
+        },
+        {
+          path: "/tree",
+          name: "tree",
+          component(res) {
+            import("../views/tree.vue").then(comp => res(comp))
+          }
         }
       ]
     }

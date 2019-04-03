@@ -114,6 +114,9 @@ export default {
           },{
             name:'tips',
             title:'tips 提示'
+          },{
+            name:'tree',
+            title:'tree 树'
           }
         ],
         directives: [

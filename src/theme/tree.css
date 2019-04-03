@@ -1,0 +1,84 @@
+.k-tree {
+  line-height: 24px;
+  font-size: 12px;
+  @extend .k-no-select;
+  & > .k-tree-item {
+    position: relative;
+    &.k-tree-item--dotted,
+    &:not(:last-child) {
+      & > .k-tree-icon-wrapper {
+        &:after {
+          position: absolute;
+          content: "";
+          width: 0;
+          border-left: 1px dotted color(var(--border-color) b(40%));
+          left: 5.5px;
+          pointer-events: none;
+          top: 1.5em;
+          /* bottom: 0; */
+          height: calc(100% - 1em);
+        }
+      }
+    }
+    & .k-tree-item {
+      & > .k-tree-icon-wrapper {
+        &:before {
+          content: '';
+          position: absolute;
+          width: 0.8em;
+          height: 0;
+          border-top: 1px dotted color(var(--border-color) b(40%));
+          left: -0.85em;
+          top: 1em;
+        }
+      }
+    }
+    & .k-tree-icon {
+      font-size: 14px;
+      color: color(var(--border-color) b(40%));
+      cursor: pointer;
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+    & .k-tree-text {
+      cursor: pointer;
+      display: inline-block;
+      padding: 2px 5px;
+      border-radius: 2px;
+      line-height: 1.5;
+      &:hover {
+        color: var(--primary-color);
+      }
+      &.k-tree-text--active {
+        background-color:color(var(--primary-color) a(20%));
+        color: var(--primary-color);
+      }
+    }
+  }
+  & & {
+    margin-left: 1.5em;
+  }
+  &.k-tree--big {
+    font-size: 14px;
+    line-height: 28px;
+    & > .k-tree-item {
+      &:not(:last-child) {
+        & > .k-tree-icon-wrapper {
+          &:after {
+            left: 6.5px;
+          }
+        }
+      }
+      & .k-tree-icon {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.k-tree-icon-leaf {
+  font-size: 12px;
+  color: var(--font-color-4);
+  /* color: color(var(--success-color) a(40%)); */
+}
