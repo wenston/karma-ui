@@ -32,7 +32,7 @@ export default {
   //大小尺寸
   size: String, //目前只支持两种：默认和big
 
-  //用户选择的数据，支持sync
+  //用户选择的数据(拍平的数据)，支持sync
   selectedData: {
     type: Array,
     default: () => []

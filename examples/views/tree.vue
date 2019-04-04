@@ -5,14 +5,17 @@
       <k-tree class="tree"
         :data="treeDataBig"
         size="big"
-        :selectedData="selectedData"
+        :selectedData.sync="selectedData"
+        :icon="['k-icon-arrow-right','k-icon-arrow-down','k-icon-success']"
         hasCheckbox></k-tree>
       <k-tree class="tree"
         :data="treeData"
         v-model="categoryId"
         hasCheckbox
+        :selected-keys.sync="selectedKeys"
         @toggle="toggleTree"
         @expand="expand"
+        @select="onSelect"
         selected-rule="every"></k-tree>
     </div>
     <div>
@@ -25,7 +28,10 @@
 export default {
   data() {
     return {
-      treeData: [
+      treeData: [{
+        Id: 0,
+        Name: '商品分类',
+        Childs: [
         {
           Id: 1,
           Name: "手机",
@@ -164,7 +170,8 @@ export default {
             }
           ]
         }
-      ],
+      ]
+      }],
       treeDataBig: [
         {
           Id: 1,
@@ -306,7 +313,8 @@ export default {
         }
       ],
       categoryId: 39,
-      selectedData: []
+      selectedData: [],
+      selectedKeys: [],
     }
   },
   methods: {
@@ -318,12 +326,16 @@ export default {
     },
     expand(isOpen, obj) {
       // console.log(isOpen, obj)
+    },
+    onSelect(checked,obj) {
+      // console.log('选中或者取消选中：',checked,obj)
     }
   },
   watch: {
     selectedData(d) {
       console.log('选择的数据',d)
-    }
+    },
+    
   }
 }
 </script>

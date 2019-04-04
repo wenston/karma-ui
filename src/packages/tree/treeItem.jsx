@@ -227,7 +227,12 @@ export default {
               this.selectChilds(item, checked)
               //选中、取消选中父级所有节点
               this.selectParent(item, checked)
+              //复选或者取消复选时，当前节点数据
+              this.tree.$emit('select',checked,this.tree.toPure(item))
               //选中、取消选中时，应向组件外抛出事件，把数据发送出去
+              //发送的数据为扁平的数组
+              //从tree组件将数组发出去
+              //见tree组件中的createCheckedDataByCheckedKeys方法
             }
           },
           nativeOn: {

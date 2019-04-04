@@ -1,6 +1,6 @@
 import KTreeList from "./treeList"
-import getAllParent from 'karma-ui/util/getAllParent'
-import props from './props'
+import getAllParent from "karma-ui/util/getAllParent"
+import props from "./props"
 export default {
   name: "KTree",
   components: {
@@ -49,45 +49,41 @@ export default {
   },
   methods: {
     toPure(arr) {
-      if(Array.isArray(arr))
-      return JSON.parse(JSON.stringify(arr)).map(item=>{
-        delete item.__open__
-        return item
-      })
+      if (Array.isArray(arr))
+        return JSON.parse(JSON.stringify(arr)).map(item => {
+          delete item.__open__
+          return item
+        })
       delete arr.__open__
       return JSON.parse(JSON.stringify(arr))
     },
     spreadParent(v) {
       //根据当前节点找到所有父级节点，并将其__open__置为true
       const { keyField, childField, sourceData } = this
-      const arr = getAllParent(sourceData,v,keyField,childField)
+      const arr = getAllParent(sourceData, v, keyField, childField)
 
-      arr.slice(0,-1).forEach(item=>{
+      arr.slice(0, -1).forEach(item => {
         item.__open__ = true
       })
-      this.$emit('toggle',this.toPure(arr))
+      this.$emit("toggle", this.toPure(arr))
     },
-    createCheckedData(k) {
-      const set = new Set(k.map(el=>el+''))
-      const {keyField,childField,sourceData} = this
-      function selectData(data,set) {
-        data = data.filter(item=>{
-          const v = item[keyField] + ''
-          return set.has(v)
-        })
-        console.log(data)
-        for(let i = 0;i<data.length;i++) {
-          const item = data[i]
-          const child = item[childField]
-          if(child && child.length) {
-            selectData(child,set)
+    createCheckedDataByCheckedKeys(k) {
+      const { sourceData, keyField, textField, childField } = this
+      let set = new Set(k.map(t => t + ""))
+      let arr = []
+      function fn(data) {
+        data.forEach(item => {
+          if (set.has(item[keyField] + "")) {
+            const {__open__,...others} = item
+            arr.push(others)
           }
-        }
+          if (item[childField] && item[childField].length) {
+            fn(item[childField])
+          }
+        })
       }
-      let data = JSON.parse(JSON.stringify(sourceData))
-      selectData(data,set)
-      this.checkedData = data
-      console.log(this.checkedData)
+      fn(sourceData)
+      this.checkedData = arr
     }
   },
   render() {
@@ -110,16 +106,15 @@ export default {
   },
   watch: {
     checkedKeys(k) {
-      console.log(k)
-      this.$emit('update:selectedKeys',k)
-      //根据已选中的key构造checkedData数据
-      // this.createCheckedData(k)
-    },
-    checkedData(d) {
-      this.$emit('update:selectedData',d)
+      this.$emit("update:selectedKeys", k)
+      this.createCheckedDataByCheckedKeys(k)
+      //todo: 选中的树形数据
     },
     selectedKeys(k) {
       this.checkedKeys = k
+    },
+    checkedData(d) {
+      this.$emit("update:selectedData", d)
     },
     selectedData(d) {
       this.checkedData = d
