@@ -104,9 +104,6 @@ export default {
   render() {
     const { trigger, visible } = this
     const p = {
-      props: {
-        class: "k-dropdown"
-      },
       on: {
         click: e => {
           if (trigger == "click") {
