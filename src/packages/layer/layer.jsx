@@ -54,7 +54,7 @@ export default {
       canCloseByClickoutside: false,
       styles: {},
       afterEnter: () => {},
-      afterLeave: () => {},
+      afterLeave: () => {}
     }
   },
   computed: {
@@ -83,16 +83,16 @@ export default {
         this.list = slots
       }
       //className
-      let bodyClasses = ['k-layer-body']
-      if(this.headerSlots) {
-        bodyClasses.push('k-layer-has-header')
-        this.headerClassName = 'k-layer-header'
+      let bodyClasses = ["k-layer-body"]
+      if (this.headerSlots) {
+        bodyClasses.push("k-layer-has-header")
+        this.headerClassName = "k-layer-header"
       }
-      if(this.footerSlots) {
-        bodyClasses.push('k-layer-has-footer')
-        this.footerClassName = 'k-layer-footer'
+      if (this.footerSlots) {
+        bodyClasses.push("k-layer-has-footer")
+        this.footerClassName = "k-layer-footer"
       }
-      this.bodyClassName = bodyClasses.join(' ')
+      this.bodyClassName = bodyClasses.join(" ")
 
       this.vm = vm
       for (let k in opts) {
@@ -134,25 +134,27 @@ export default {
     },
     _setSizeAndPosition() {
       //屏幕可视区高度
-      const innerHeight = window.innerHeight,
-        innerWidth = window.innerWidth
+      const clientHeight = document.documentElement.clientHeight,
+        clientWidth = document.documentElement.clientWidth
       //关联vm元素的底部距离屏幕最上边的高
       let top = this.top + parseFloat(this.vmHeight) + this.gap,
         left = this.left
       //layer本身的高度
       let height = this.layerHeight,
-        width = this.layerWidth
+        // width = this.layerWidth
+        width = parseFloat(getStyle(this.$el, "width"))
 
       //5是layer距离可视区边界的大小
-      const wholeHeight = innerHeight + window.pageYOffset
+      const wholeHeight = clientHeight + window.pageYOffset
       if (top + height > wholeHeight - 5) {
         top = wholeHeight - 5 - height
         if (top < 0) {
           top = 0
         }
       }
-      if (left + width > innerWidth) {
-        left = innerWidth - width
+      // console.log(left,width,clientWidth)
+      if (left + width > clientWidth - 5) {
+        left = clientWidth - width - 5
         if (left < 0) {
           left = 0
         }
@@ -179,29 +181,20 @@ export default {
       }
     },
 
-    show(callback) {
+    show(callback = () => {}) {
       this.visible = true
-      if (callback) {
-        this.afterEnter = () => {
-          this.$nextTick(() => {
-            this.layerHeight = parseFloat(getStyle(this.$el, "height"))
-            this._getElemPosition()
-            callback()
-          })
-        }
-      } else {
-        this.afterEnter = () => {
-          this.$nextTick(() => {
-            this.layerHeight = parseFloat(getStyle(this.$el, "height"))
-            this._getElemPosition()
-          })
-        }
+      this.afterEnter = () => {
+        this.$nextTick(() => {
+          this.layerHeight = parseFloat(getStyle(this.$el, "height"))
+          this._getElemPosition()
+          callback()
+        })
       }
     },
-    hide(cb) {
+    hide(cb = () => {}) {
       this.visible = false
-      this.$emit('after-hide')
-      if (cb && typeof cb === 'function') {
+      this.$emit("after-hide")
+      if (cb && typeof cb === "function") {
         this.afterLeave = cb
       }
     },
@@ -227,7 +220,7 @@ export default {
     vm: "_getElemPosition"
   },
   directives: {
-    clickoutside,
+    clickoutside
     // esc
   },
   render() {
@@ -272,7 +265,7 @@ export default {
           "after-leave": this._handleAfterLeave
         },
         props: {
-          name:"k-transition-slide-down"
+          name: "k-transition-slide-down"
         }
       }
       p.directives = [
@@ -289,10 +282,10 @@ export default {
         //   value: this.hide
         // }
       ]
-      if(this.canCloseByClickoutside) {
+      if (this.canCloseByClickoutside) {
         p.directives.push({
-          name: 'clickoutside',
-          value:{
+          name: "clickoutside",
+          value: {
             fn: this.hide,
             whiteList: [this.vm.$el]
           }

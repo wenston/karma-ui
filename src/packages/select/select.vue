@@ -230,7 +230,7 @@ export default {
       this.options = arr
     }
   },
-  destroyed() {
+  beforeDestroy() {
     this.ins.destroy()
   },
   updated() {

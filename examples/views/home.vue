@@ -117,6 +117,9 @@ export default {
           },{
             name:'tree',
             title:'tree 树'
+          },{
+            name:'dropdown',
+            title:'dropdown 下拉展示板'
           }
         ],
         directives: [

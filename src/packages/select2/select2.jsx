@@ -19,7 +19,7 @@ export default {
     ScrollBar
   },
   props: {
-    //数据源
+    //数据源，目前只支持Array类型
     data: [Array, Object],
     //多选的值，可以是数组、字符串（可以用逗号分隔）、单个数值
     value: [Array, String, Number],
@@ -466,8 +466,11 @@ export default {
       this.canCheckAll()
     }
   },
-  destroyed() {
+  beforeDestroy() {
+
     this.layerIns.destroy()
+  },
+  destroyed() {
   },
   updated() {
     this.initIns()

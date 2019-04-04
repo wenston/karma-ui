@@ -169,6 +169,13 @@ export default new VueRouter({
           component(res) {
             import("../views/tree.vue").then(comp => res(comp))
           }
+        },
+        {
+          path: "/dropdown",
+          name: "dropdown",
+          component(res) {
+            import("../views/dropdown.vue").then(comp => res(comp))
+          }
         }
       ]
     }

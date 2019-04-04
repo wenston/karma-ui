@@ -7,6 +7,9 @@
   .k-input {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
   }
    
     .k-input-append {

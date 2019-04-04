@@ -34,11 +34,11 @@
   margin: 0;
   font-size: 12px;
   width: 100%;
-  border: 1px solid var(--border-color);
+  /* border: 1px solid var(--border-color); */
   border-radius: var(--radius);
   z-index: var(--select-option-z-index);
   background-color: var(--select-option-bg-color);
-  box-shadow: var(--select-option-box-shadow);
+  /* box-shadow: var(--select-option-box-shadow); */
   max-height: var(--select-option-max-height);
   overflow-x: hidden;
   transition: transform var(--transition);
