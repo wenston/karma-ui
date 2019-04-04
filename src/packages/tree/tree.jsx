@@ -66,6 +66,28 @@ export default {
         item.__open__ = true
       })
       this.$emit('toggle',this.toPure(arr))
+    },
+    createCheckedData(k) {
+      const set = new Set(k.map(el=>el+''))
+      const {keyField,childField,sourceData} = this
+      function selectData(data,set) {
+        data = data.filter(item=>{
+          const v = item[keyField] + ''
+          return set.has(v)
+        })
+        console.log(data)
+        for(let i = 0;i<data.length;i++) {
+          const item = data[i]
+          const child = item[childField]
+          if(child && child.length) {
+            selectData(child,set)
+          }
+        }
+      }
+      let data = JSON.parse(JSON.stringify(sourceData))
+      selectData(data,set)
+      this.checkedData = data
+      console.log(this.checkedData)
     }
   },
   render() {
@@ -89,7 +111,8 @@ export default {
   watch: {
     checkedKeys(k) {
       this.$emit('update:selectedKeys',k)
-      //构造checkedData数据
+      //根据已选中的key构造checkedData数据
+      this.createCheckedData(k)
     },
     checkedData(d) {
       this.$emit('update:selectedData',d)

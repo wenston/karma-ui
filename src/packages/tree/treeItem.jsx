@@ -68,18 +68,20 @@ export default {
       return set
     },
     selectParent(item, checked) {
+      const {keyField,childField} = this
       //将此节点及父级相关的节点push到selectedData
       let arr = getAllParent(
         this.tree.sourceData,
-        item[this.keyField],
-        this.keyField,
-        this.childField
+        item[keyField],
+        keyField,
+        childField
       )
       let set = new Set(this.tree.checkedKeys.map(k => k + ""))
+      let checkedData = this.tree.checkedData
       // console.log(arr)
       let vals = []
       arr.forEach(el => {
-        vals.push(el[this.keyField] + "")
+        vals.push(el[keyField] + "")
       })
 
       if (checked) {
