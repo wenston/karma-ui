@@ -1,0 +1,11 @@
+.k-select-tree {
+  @extend .k-select2;
+}
+.k-select-tree-body {
+  padding: 10px 12px;
+  background-color: white;
+  width: 250px;
+  max-height: 40vh;
+  min-height: 200px;
+  overflow-y: auto;
+}

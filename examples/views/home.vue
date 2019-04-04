@@ -120,6 +120,9 @@ export default {
           },{
             name:'dropdown',
             title:'dropdown 下拉展示板'
+          },{
+            name:'selectTree',
+            title:'selectTree 下拉树形选择器'
           }
         ],
         directives: [

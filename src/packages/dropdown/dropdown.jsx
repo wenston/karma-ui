@@ -1,4 +1,5 @@
 import { layer } from "karma-ui/packages/layer/index"
+import esc from "karma-ui/util/esc.js"
 export default {
   name: "KDropdown",
   props: {
@@ -34,11 +35,11 @@ export default {
     hideLayer(cb = () => {}) {
       this.ins.hide(cb)
     },
-    hideIt() {
+    hideIt(delay = 200) {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.visible = false
-      }, 200)
+      }, delay)
     },
     showIt() {
       clearTimeout(this.timer)
@@ -79,11 +80,15 @@ export default {
   },
   watch: {
     visible(v) {
+      this.$emit('update:show',v)
       if (v) {
         this.showLayer()
       } else {
         this.hideLayer()
       }
+    },
+    show(v) {
+      this.visible = v
     }
   },
   mounted() {
@@ -104,6 +109,14 @@ export default {
   render() {
     const { trigger, visible } = this
     const p = {
+      directives: [
+        {
+          name: "esc",
+          value: () => {
+            this.hideIt(0)
+          }
+        }
+      ],
       on: {
         click: e => {
           if (trigger == "click") {
@@ -132,5 +145,8 @@ export default {
     this.ins.$el.removeEventListener("mouseover", this.showIt)
     this.ins.$el.removeEventListener("mouseout", this.hideIt)
     this.ins.destroy()
+  },
+  directives: {
+    esc
   }
 }
