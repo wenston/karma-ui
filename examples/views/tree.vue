@@ -10,8 +10,10 @@
       <k-tree class="tree"
         :data="treeData"
         v-model="categoryId"
+        hasCheckbox
         @toggle="toggleTree"
-        @expand="expand"></k-tree>
+        @expand="expand"
+        selected-rule="every"></k-tree>
     </div>
     <div>
       <k-button @click="change">改变树形组件的选择项</k-button>

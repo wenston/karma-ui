@@ -110,9 +110,10 @@ export default {
   },
   watch: {
     checkedKeys(k) {
+      console.log(k)
       this.$emit('update:selectedKeys',k)
       //根据已选中的key构造checkedData数据
-      this.createCheckedData(k)
+      // this.createCheckedData(k)
     },
     checkedData(d) {
       this.$emit('update:selectedData',d)
