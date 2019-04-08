@@ -57,6 +57,10 @@ export default {
     pageSize: {
       type: [Number, String],
       default: void 0
+    },
+    debounceTime: {
+      type: Number,
+      default: 350
     }
   },
   model: {
@@ -82,7 +86,8 @@ export default {
       optionCompName: "",
       //控制延迟加载的转圈图形显示
       loading: false,
-      pageIndex: 1
+      pageIndex: 1,
+      timer: null,
     }
   },
   computed: {
@@ -395,9 +400,12 @@ export default {
               this.hideList(this.destroyLayer)
             }
           },
-          // input: () => {
-          //
-          // },
+          input: () => {
+            clearTimeout(this.timer)
+            this.timer = setTimeout(()=>{
+              this.$emit('input', this.inputText)
+            },this.debounceTime)
+          },
           keyup: e => {
             this.handleKeyup(e)
           },

@@ -185,9 +185,8 @@ export default {
 
       if(v && this.data.length === 0) {
         setTimeout(()=>{
-          console.log('???')
           this.data = this.dataList
-        },1000)
+        },200)
       }
     }
   }

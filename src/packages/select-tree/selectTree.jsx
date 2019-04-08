@@ -13,6 +13,10 @@ export default {
   },
   props: {
     ...KTree.props,
+    placeholder: {
+      type: String,
+      default: '请选择分类'
+    },
     block: {
       type: Boolean,
       default: false
@@ -22,12 +26,22 @@ export default {
     return {
       visible: this.show,
       checkedData: this.selectedData,
-      checkedKeys: this.selectedKeys.join(",")
+      checkedKeys: this.selectedKeys.join(","),
+      list: []
     }
   },
   methods: {
+    isSameKeys(arr1, arr2) {
+      const a1 = JSON.parse(JSON.stringify(arr1))
+        .sort((x, y) => x - y)
+        .join(",")
+      const a2 = JSON.parse(JSON.stringify(arr2))
+        .sort((x, y) => x - y)
+        .join(",")
+      return a1 === a2
+    },
     checkedList() {
-      let list = null,
+      let list = <span class="k-select-tree-placeholder">{this.placeholder}</span>,
         textField = this.textField,
         keyField = this.keyField,
         checkedData = this.checkedData
@@ -58,41 +72,75 @@ export default {
       }
       const p = {
         attrs: {
-          tabindex: 1,
+          tabindex: 1
         },
         class: [
-          'k-select-tree',
+          "k-select-tree",
           {
             ["k-select-tree--block"]: this.block
           }
         ],
         on: {
-          focus: e=>{
+          focus: e => {
             this.visible = true
           },
-          click: e=> {
+          click: e => {
             e.stopPropagation()
           }
         }
       }
       return (
-        <div
-          {...p}
-        >
+        <div {...p}>
           {this.checkedList()}
           {icon}
         </div>
       )
     },
     body() {
-      const p = {
-        props: { ...this.$props, selectedData: this.checkedData },
+      const childField = this.childField
+        , keyField = this.keyField
+      let list = this.list
+      let p = {
+        props: {
+          ...this.$props,
+          selectedData: this.checkedData
+        },
         on: {
           ...this.$listeners,
           "update:selectedData": d => {
             this.checkedData = d
+          },
+          select: (checked,obj) => {
+              // const k = obj[keyField]
+              // if(checked) {
+              //   if(!list.filter(c=>c[keyField]==k)[0]) {
+              //     this.list.push(obj)
+              //   }
+              // }else{
+              //   let i = -1
+              //   list.forEach((c,index)=>{
+              //     if(c[keyField]==k) {
+              //       i = index
+              //     }
+              //   })
+              //   if(i>-1) {
+              //     this.list.splice(i,1)
+              //   }
+              // }
+              // console.log(this.list)
           }
         }
+      }
+      if (this.visible) {
+        p.directives = [
+          {
+            name: "loading",
+            value: {
+              loading: this.data.length === 0,
+              content: "数据获取中..."
+            }
+          }
+        ]
       }
       return <KTree {...p} />
     }
@@ -128,11 +176,19 @@ export default {
     checkedData(d) {
       this.$emit("update:selectedData", d)
     },
-    checkedKeys(v) {
-      this.$emit("update:selectedKeys", v.split(","))
+    checkedKeys(v, oldv) {
+      let arr = v.split(",")
+      if (arr && arr.length && !arr[0]) {
+        arr = []
+      }
+      if (!this.isSameKeys(this.selectedKeys, arr)) {
+        this.$emit("update:selectedKeys", arr)
+      }
     },
-    selectedKeys(v) {
-      this.checkedKeys = v.join(",")
+    selectedKeys(v, oldv) {
+      if (!this.isSameKeys(v, oldv)) {
+        this.checkedKeys = v.join(",")
+      }
     }
   },
   directives: {

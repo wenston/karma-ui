@@ -2,7 +2,7 @@
   @extend .k-select2;
   border-radius: var(--radius);
   border: 1px solid var(--border-color);
-  height: 30px;
+  height: 28px;
   width: 200px;
   line-height: normal;
   background-color: white;
@@ -25,6 +25,9 @@
   max-height: 40vh;
   min-height: 200px;
   overflow-y: auto;
+  & > .k-tree {
+    min-height: 200px;
+  }
 }
 .k-select-tree-checked-list {
   position: absolute !important;
@@ -49,4 +52,8 @@
   &:hover {
     color: var(--font-color-2);
   }
+}
+.k-select-tree-placeholder {
+  color: var(--input-placeholder-color);
+  pointer-events: none;
 }

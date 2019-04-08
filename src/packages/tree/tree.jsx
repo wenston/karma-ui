@@ -26,8 +26,8 @@ export default {
   data() {
     return {
       currentValue: this.value,
-      checkedKeys: this.selectedKeys,
-      checkedData: this.selectedData
+      checkedKeys: JSON.parse(JSON.stringify(this.selectedKeys)),
+      checkedData: JSON.parse(JSON.stringify(this.selectedData))
     }
   },
   computed: {
@@ -75,7 +75,7 @@ export default {
       function fn(data) {
         data.forEach(item => {
           if (set.has(item[keyField] + "")) {
-            const {__open__,...others} = item
+            const { __open__, ...others } = item
             arr.push(others)
           }
           if (item[childField] && item[childField].length) {
@@ -85,6 +85,11 @@ export default {
       }
       fn(sourceData)
       this.checkedData = arr
+    },
+    isSameKeys(arr1,arr2) {
+      const a1 = JSON.parse(JSON.stringify(arr1)).sort((x,y)=>x-y).join(',')
+      const a2 = JSON.parse(JSON.stringify(arr2)).sort((x,y)=>x-y).join(',')
+      return a1 === a2
     }
   },
   render() {
@@ -106,13 +111,17 @@ export default {
     return <k-tree-list {...p} />
   },
   watch: {
-    checkedKeys(k) {
-      this.$emit("update:selectedKeys", k)
-      this.createCheckedDataByCheckedKeys(k)
+    checkedKeys(k,oldKeys) {
+      if(!this.isSameKeys(k,oldKeys)) {
+        this.$emit("update:selectedKeys", k)
+        this.createCheckedDataByCheckedKeys(k)
+      }
       //todo: 选中的树形数据
     },
-    selectedKeys(k) {
-      this.checkedKeys = k
+    selectedKeys(k,oldKeys) {
+      if(!this.isSameKeys(k,this.checkedKeys)) {
+        this.checkedKeys = k
+      }
     },
     checkedData(d) {
       this.$emit("update:selectedData", d)
