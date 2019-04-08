@@ -54,8 +54,9 @@ export default {
           delete item.__open__
           return item
         })
+      arr = JSON.parse(JSON.stringify(arr))
       delete arr.__open__
-      return JSON.parse(JSON.stringify(arr))
+      return arr
     },
     spreadParent(v) {
       //根据当前节点找到所有父级节点，并将其__open__置为true

@@ -2,11 +2,13 @@
   <div class="layout">
     <h3 class="layout__title">基本用法</h3>
     <div>
-      <k-select-tree :data="data"
+      <k-select-tree style="line-height:normal;" :data="data"
         :show.sync="show"
         hasCheckbox
         selected-rule="every"
-        @expand="expand"></k-select-tree>
+        :selected-data.sync="checkedData"
+        :selected-keys.sync="checkedKeys"
+        ></k-select-tree>
     </div>
   </div>
 </template>
@@ -156,7 +158,9 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      checkedData: [],
+      checkedKeys: []
     }
   },
   methods: {
@@ -171,6 +175,12 @@ export default {
     // }
   },
   watch: {
+    checkedData(d) {
+      console.log(d)
+    },
+    checkedKeys(d) {
+      console.log(d)
+    },
     show(v) {
 
       if(v && this.data.length === 0) {
