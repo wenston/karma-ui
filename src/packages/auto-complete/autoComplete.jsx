@@ -260,8 +260,9 @@ export default {
       const body = this.ins.$refs.body
       let bodyHeight = parseFloat(getStyle(body, "height"))
       let scrollTop = body.scrollTop
-      let scrollHeight = body.scrollHeight
-      if (bodyHeight + scrollTop >= scrollHeight) {
+      let scrollHeight = Math.ceil(body.scrollHeight)
+      // console.log(bodyHeight,scrollTop,scrollHeight,this.totalPages)
+      if (bodyHeight + scrollTop >= scrollHeight- 2) {
         if (this.totalPages > 1) {
           if (this.pageIndex < this.totalPages) {
             this.pageIndex += 1

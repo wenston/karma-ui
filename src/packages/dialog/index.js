@@ -46,6 +46,11 @@ export default {
         cancel && cancel()
         instance.$off(['after-cancel', 'after-ok'])
       })
+      instance.hide = () => {
+        instance.$props.show = false
+        instance.$off(['after-cancel', 'after-ok'])
+      }
+      return instance
     }
   }
 }

@@ -3,6 +3,10 @@ import esc from "karma-ui/util/esc.js"
 export default {
   name: "KDropdown",
   props: {
+    //虽然title和body都支持function类型，但还是建议在使用时
+    //使用:title="title()"或者:body="body()"
+    //因为这样写法，body会及时更新，而body函数并不会变化
+    //当body函数不变时，自然就不会引起layer组件重新init
     title: [Array, Object, Function], //支持vnode
     body: [Array, Object, Function],
     tag: {
