@@ -89,7 +89,11 @@ export default {
     },
     show(v) {
       this.visible = v
-    }
+    },
+    title: 'init',
+    body: 'init',
+    "$slots.header": 'init',
+    "$slots.footer": 'init'
   },
   mounted() {
     this.ins.$on("after-hide", () => {
