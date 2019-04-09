@@ -29,11 +29,13 @@ export default {
       currentResizeTd: null //当前要调整列宽的单元格
     }
   },
-  provide: {
-    __index: "@_index",
-    __checkbox: "@_checkbox",
-    __radio: "@_radio",
-    __action: "@_action"
+  provide() {
+    return {
+      __index: "@_index",
+      __checkbox: "@_checkbox",
+      __radio: "@_radio",
+      __action: "@_action"
+    }
   },
   computed: {
     leftWrapperClasses() {

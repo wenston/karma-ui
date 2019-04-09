@@ -7,7 +7,6 @@ export default {
   name: "KSelectTree",
   components: {
     KDropdown,
-    // KInput,
     KTree,
     KIcon
   },
@@ -58,7 +57,7 @@ export default {
     },
     title() {
       let icon = null
-      if (this.selectedData && this.selectedData.length) {
+      if (this.checkedData && this.checkedData.length) {
         icon = (
           <k-icon
             class="k-select-tree-clear"
@@ -109,25 +108,6 @@ export default {
           ...this.$listeners,
           "update:selectedData": d => {
             this.checkedData = d
-          },
-          select: (checked,obj) => {
-              // const k = obj[keyField]
-              // if(checked) {
-              //   if(!list.filter(c=>c[keyField]==k)[0]) {
-              //     this.list.push(obj)
-              //   }
-              // }else{
-              //   let i = -1
-              //   list.forEach((c,index)=>{
-              //     if(c[keyField]==k) {
-              //       i = index
-              //     }
-              //   })
-              //   if(i>-1) {
-              //     this.list.splice(i,1)
-              //   }
-              // }
-              // console.log(this.list)
           }
         }
       }

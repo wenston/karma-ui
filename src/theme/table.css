@@ -161,8 +161,8 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 9px;
-    width: 12px;
+    right: 8px;
+    width: 15px;
     cursor: pointer;
     z-index: 1;
     display: flex;
@@ -203,4 +203,7 @@
   &:not(:first-child) {
     margin-left:2px;
   }
+}
+.k-table-pointer-events-none {
+  pointer-events: none;
 }

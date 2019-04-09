@@ -109,6 +109,9 @@ export default {
   render() {
     const { trigger, visible } = this
     const p = {
+      style: {
+        lineHeight: 1
+      },
       directives: [
         {
           name: "esc",

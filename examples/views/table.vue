@@ -18,6 +18,7 @@
     <h3 class="layout__title">自定义列</h3>
 
     <k-table :data="table1"
+      :min-content="true"
       height="200px"
       :columns="fnColumns()"
       hasCheckbox
@@ -28,7 +29,6 @@
       resize-width
       simple
       :stripe="false"
-      :has-thead="false"
       :selectedRows.sync="selectedRows"
       @sort="onSort">
       <template slot="xxx"

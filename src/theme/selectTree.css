@@ -7,6 +7,7 @@
   line-height: normal;
   background-color: white;
   transition: var(--transition);
+  vertical-align: middle;
   &:focus {
     outline: none;
     border-color:var(--primary-color);
