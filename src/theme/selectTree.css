@@ -8,6 +8,9 @@
   background-color: white;
   transition: var(--transition);
   vertical-align: middle;
+  &:hover {
+    border-color:var(--primary-color);
+  }
   &:focus {
     outline: none;
     border-color:var(--primary-color);
@@ -40,7 +43,7 @@
   overflow: hidden;
 }
 .k-select-tree-checked {
-  padding: 5px;
+  padding: 5px 15px 5px 5px;
   height: 100%;
 }
 .k-select-tree-clear {

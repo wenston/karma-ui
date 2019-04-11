@@ -262,6 +262,7 @@ export default {
       let scrollTop = body.scrollTop
       let scrollHeight = Math.ceil(body.scrollHeight)
       // console.log(bodyHeight,scrollTop,scrollHeight,this.totalPages)
+      // 使用了Math.ceil和 -2，处理临界点高度
       if (bodyHeight + scrollTop >= scrollHeight- 2) {
         if (this.totalPages > 1) {
           if (this.pageIndex < this.totalPages) {

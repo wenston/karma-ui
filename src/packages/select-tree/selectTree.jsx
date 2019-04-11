@@ -14,7 +14,7 @@ export default {
     ...KTree.props,
     placeholder: {
       type: String,
-      default: '请选择分类'
+      default: "请选择分类"
     },
     block: {
       type: Boolean,
@@ -40,7 +40,9 @@ export default {
       return a1 === a2
     },
     checkedList() {
-      let list = <span class="k-select-tree-placeholder">{this.placeholder}</span>,
+      let list = (
+          <span class="k-select-tree-placeholder">{this.placeholder}</span>
+        ),
         textField = this.textField,
         keyField = this.keyField,
         checkedData = this.checkedData
@@ -96,8 +98,8 @@ export default {
       )
     },
     body() {
-      const childField = this.childField
-        , keyField = this.keyField
+      const childField = this.childField,
+        keyField = this.keyField
       let list = this.list
       let p = {
         props: {

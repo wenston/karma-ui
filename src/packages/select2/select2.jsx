@@ -40,8 +40,16 @@ export default {
     block: Boolean,
     simple: Boolean,
     layerWidth: {
-      type: [String,Boolean],
-      default: 'auto'
+      type: [String, Boolean],
+      default: "auto"
+    },
+    hasClose: {
+      type: Boolean,
+      default: true
+    },
+    hasRefresh: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -123,7 +131,7 @@ export default {
         props: {
           active: this.visible,
           readonly: true,
-          placeholder: this.placeholder,
+          placeholder: this.dataValue.length ? "" : this.placeholder,
           block: true,
           simple: this.simple
         },
@@ -173,7 +181,7 @@ export default {
             } else {
               this.dataValue = []
             }
-            
+
             this.emitValue()
             // this.$forceUpdate()
           }
@@ -182,7 +190,7 @@ export default {
       return (
         <div>
           <k-input {...p}>
-            <span slot="prepend">
+            <span class="k-select2-check-all" slot="prepend">
               <k-checkbox {...checkProps} />
             </span>
           </k-input>
@@ -244,7 +252,7 @@ export default {
     //用户选择的数据名称列表
     rCheckedList() {
       const dataValue = this.dataValue
-      const filterData = this.filterData
+      const filterData = this.data
       const keyField = this.keyField
       const textField = this.textField
       let arr = []
@@ -290,7 +298,10 @@ export default {
     },
     hideLayer() {
       this.visible = false
-      this.layerIns.hide()
+      if(this.layerIns) {
+
+        this.layerIns.hide()
+      }
       this.removeUpdownEvent()
     },
     showLayer() {
@@ -303,21 +314,29 @@ export default {
     initIns() {
       this.$nextTick(() => {
         // this.layerIns.init(this, [this.rSearchInput(), this.rList()])
+        const close = this.hasClose ? (
+          <k-button size="mini" onClick={this.hideLayer}>
+            关闭
+          </k-button>
+        ) : null
+        const refresh = this.hasRefresh ? (
+          <k-button size="mini" type="primary" onClick={this.refresh}>
+            刷新
+          </k-button>
+        ) : null
+        const footer =
+          close || refresh ? (
+            <div class="k-select2-footer">
+              {close}
+              {refresh}
+            </div>
+          ) : null
         this.layerIns.init(
           this,
           {
             header: this.rSearchInput(),
             default: this.rList(),
-            footer: (
-              <div class="k-select2-footer">
-                <k-button size="mini" onClick={this.hideLayer}>
-                  关闭
-                </k-button>
-                <k-button size="mini" type="primary" onClick={this.refresh}>
-                  刷新
-                </k-button>
-              </div>
-            )
+            footer
           },
           {
             width: this.layerWidth,
@@ -349,7 +368,7 @@ export default {
     scrollIntoViewIfNeed(index) {
       const key = this.filterData[index][this.keyField]
       const currentEl = this.$refs["filterDataList" + key].$el
-      scrollIntoViewIfNeed(currentEl, this.layerIns.$refs.body)
+      if (currentEl) scrollIntoViewIfNeed(currentEl, this.layerIns.$refs.body)
     },
     handleKeydown(e) {
       const filterData = this.filterData
@@ -369,6 +388,9 @@ export default {
           index = 0
         }
       } else {
+        if (filterData.length === 0) {
+          return
+        }
         if (index < 0 && filterData.length > 0) {
           index = 0
         }
@@ -384,6 +406,7 @@ export default {
             set.add(v)
           }
           this.dataValue = [...set]
+          this.emitValue()
         }
       }
       this.currentIndex = index
@@ -397,7 +420,7 @@ export default {
       document.removeEventListener("keydown", this.handleKeydown)
     },
     canCheckAll() {
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         const d = this.filterData
         if (d && d.length) {
           //判断filterData里的所有keyField对应的值，是否都在dataValue里边
@@ -414,7 +437,7 @@ export default {
             i += 1
           }
           this.isCheckedAll = b
-        }else{
+        } else {
           this.isCheckedAll = false
         }
         this.$forceUpdate()
@@ -467,17 +490,17 @@ export default {
     }
   },
   beforeDestroy() {
-
     this.layerIns.destroy()
   },
-  destroyed() {
-  },
+  destroyed() {},
   updated() {
     this.initIns()
   },
   mounted() {
+    //拦截由layer组件中关闭layer的情况
     this.layerIns.$on("after-hide", () => {
       this.visible = false
+      this.removeUpdownEvent()
     })
     this.initIns()
   },

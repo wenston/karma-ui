@@ -15,7 +15,10 @@
     .k-input-append {
       border-radius: 0;
     }
-  
+  .k-select2-check-all {
+    width: 16px;
+    height: 18px;
+  }
 }
 .k-select2-list {
   border-top-left-radius: 0;
