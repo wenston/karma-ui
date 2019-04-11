@@ -298,8 +298,7 @@ export default {
     },
     hideLayer() {
       this.visible = false
-      if(this.layerIns) {
-
+      if (this.layerIns) {
         this.layerIns.hide()
       }
       this.removeUpdownEvent()
