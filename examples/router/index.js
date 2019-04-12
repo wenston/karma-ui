@@ -47,6 +47,13 @@ export default new VueRouter({
           }
         },
         {
+          path: "/switch",
+          name: "switch",
+          component(res) {
+            import("../views/switch.vue").then(comp => res(comp))
+          }
+        },
+        {
           path: "/select",
           name: "select",
           component(res) {

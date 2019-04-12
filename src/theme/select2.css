@@ -24,6 +24,7 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border: none;
+  min-height: 20vh;
 }
 .k-select2-list-item {
   height: var(--option-height);

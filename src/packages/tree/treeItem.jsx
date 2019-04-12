@@ -298,7 +298,9 @@ export default {
           {childData.length ? icon : this.leafIcon()}
         </span>
         {this.renderText(this.item)}
-        <k-transition>
+        <k-transition onAfter-transition={()=>{
+          this.tree.$emit('after-transition')
+        }}>
           <KTreeList {...child} />
         </k-transition>
       </div>

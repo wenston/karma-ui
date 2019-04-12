@@ -8,6 +8,7 @@ import KSelect2 from 'karma-ui/packages/select2/index.js'
 import KOption from 'karma-ui/packages/option/index.js'
 import KRadio from 'karma-ui/packages/radio/index.js'
 import KCheckbox from 'karma-ui/packages/checkbox/index.js'
+import KSwitch from 'karma-ui/packages/switch/index.js'
 import KInputNumber from 'karma-ui/packages/input-number/index.js'
 import KArea from 'karma-ui/packages/area/index.js'
 import KPopup from 'karma-ui/packages/popup/index.js'
@@ -42,6 +43,7 @@ let obj = {
   KOption,
   KRadio,
   KCheckbox,
+  KSwitch,
   KInputNumber,
   KArea,
   KPopup,

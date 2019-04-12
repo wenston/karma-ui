@@ -15,9 +15,8 @@ export default {
   },
   props: {
     ...props,
-    //当前选择的那个节点，
-    //如果是数组格式，则支持复选（有复选框）
-    value: [String, Number, Array]
+    //当前选择的那个节点，keyField对应的值
+    value: [String, Number]
   },
   model: {
     prop: "value",

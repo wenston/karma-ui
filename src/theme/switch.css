@@ -1,0 +1,43 @@
+.k-switch {
+  display: inline-block;
+  position: relative;
+  border: 1px solid var(--font-color-4);
+  transition: var(--transition);
+  cursor: pointer;
+  background-color: var(--font-color-4);
+  &.k-switch--on {
+    background-color: var(--primary-color);
+    border-color:var(--primary-color);
+  }
+  @each $name in (huge, large, big, medium, small, mini) {
+    &.k-switch--$(name) {
+      height: calc(var(--$(name)) / 1.6);
+      width: calc(var(--$(name)) * 1.4);
+      border-radius: calc(var(--$(name)) / 2);
+      transition: var(--transition);
+      &:after {
+        transition: var(--transition);
+        content: "";
+        position: absolute;
+        width: calc(var(--$(name)) / 1.6 + 2px);
+        height: calc(var(--$(name)) / 1.6 + 2px);
+        top: -3px;
+        border-radius: 100%;
+        left: 0px;
+        background-color: var(--default-color);
+        box-shadow: 5px 1px 5px -3px rgba(0, 0, 0, 0.3);
+        border: 1px solid #ccc;
+      }
+      
+      &.k-switch--on {
+        &:after {
+          left: 100%;
+          transform: translateX(-100%);
+          background-color: white;
+          border: 1px solid var(--primary-color);
+          box-shadow: -5px 1px 5px -3px rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+  }
+}

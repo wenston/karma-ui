@@ -63,6 +63,10 @@ export default {
             title: "checkbox 复选框"
           },
           {
+            name: "switch",
+            title: "switch 开关"
+          },
+          {
             name: "select",
             title: "select 下拉单选"
           },

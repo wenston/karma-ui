@@ -2,12 +2,12 @@ import { scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 import KButton from "karma-ui/packages/button/button.jsx"
 import { layer } from "karma-ui/packages/layer/index"
-import clickoutside from "karma-ui/util/clickoutside"
 import esc from "karma-ui/util/esc"
 import KIcon from "karma-ui/packages/icon/icon"
 import KOption from "karma-ui/packages/option/option"
 import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import ScrollBar from "karma-ui/packages/scrollbar/Scrollbar"
+import loading from "karma-ui/directives/loading/index"
 export default {
   name: "KSelect2",
   components: {
@@ -246,7 +246,19 @@ export default {
             // )
           }
         }
-        return <div class="k-select2-list">{list}</div>
+        const select2ListProp = {
+          class: 'k-select2-list',
+          directives: [
+            {
+              name: 'loading',
+              value: {
+                loading: this.data.length === 0,
+                content:'数据获取中...'
+              }
+            }
+          ]
+        }
+        return <div {...select2ListProp}>{list}</div>
       }
     },
     //用户选择的数据名称列表
@@ -504,7 +516,7 @@ export default {
     this.initIns()
   },
   directives: {
-    clickoutside,
-    esc
+    esc,
+    loading
   }
 }

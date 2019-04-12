@@ -4,6 +4,7 @@
   @extend .k-no-select;
   & > .k-tree-item {
     position: relative;
+    white-space: nowrap;
     & > .k-tree-icon-wrapper {
       width: 16px;
       height: 16px;
