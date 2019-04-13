@@ -43,6 +43,7 @@ export default {
         { "k-switch--on": this.ckd == 1 }
       ],
       on: {
+        ...this.$listeners,
         click: e => {
           const r = this.reverse(this.ckd)
           this.ckd = r

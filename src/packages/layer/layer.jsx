@@ -225,6 +225,9 @@ export default {
   },
   render() {
     let p = {
+      attrs: {
+        tabindex: -1
+      },
       class: {
         "k-layer": true
       },

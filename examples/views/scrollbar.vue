@@ -8,8 +8,9 @@
         :key="n">{{n}}</div>
     </div>
     <k-scrollbar class="scrollbar-wrapper">
-      <div class="bb"
-        :style="{background:'#ccc',width:w+'px',height: h+'px',border:'5px solid red'}"></div>
+      <div>
+        <p v-for="n in total" :key="n">{{n }} - asgasf</p>
+      </div>
     </k-scrollbar>
     <div>
       <k-button @click="onChange">内容变化</k-button>{{m}}
@@ -34,25 +35,31 @@ export default {
     return {
       m: 3,
       w: 100,
-      h: 100
-    };
+      h: 100,
+      total: 0
+    }
   },
   methods: {
     onChange() {
-      this.m = Math.ceil(Math.random() * 90);
-      this.w = Math.ceil(Math.random() * 2500);
-      this.h = Math.ceil(Math.random() * 2500);
+      this.m = Math.ceil(Math.random() * 90)
+      this.w = Math.ceil(Math.random() * 2500)
+      this.h = Math.ceil(Math.random() * 2500)
     },
     scroll(ref) {
-      this.$emit("scroll-into-view", this.$refs[ref]);
+      this.$emit("scroll-into-view", this.$refs[ref])
     }
   },
   updated() {
     // this.$nextTick(() => {
     //   this.$emit("view-updated");
     // });
+  },
+  created() {
+    setTimeout(()=>{
+      this.total = 50
+    },1000)
   }
-};
+}
 </script>
 <style lang="postcss" scoped>
 .bb {
