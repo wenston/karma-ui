@@ -137,8 +137,9 @@ export default {
     },
     emitSelectChange(e) {
       //{checked,rows,row,index}
+      const sourceDataLength = this.$props.data.length
       this.$refs.theadWrapper.onCheckedAll(
-        e.rows.length === this.$props.data.length
+        sourceDataLength > 0 && e.rows.length === sourceDataLength
       )
       this.$emit("update:selectedRows", e.rows)
       this.$emit("update:selectedKeys", e.keys)
