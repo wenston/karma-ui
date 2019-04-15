@@ -6,6 +6,10 @@ export default {
   name: "KDatePicker",
   props: {
     ...KDate.props,
+    range: {
+      type: Boolean,
+      default: false
+    },
     quick: {
       type: [Array, Boolean],
       default: () => [
