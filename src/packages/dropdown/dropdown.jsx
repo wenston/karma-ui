@@ -104,6 +104,9 @@ export default {
       this.visible = false
     })
     this.ins.$on("layer-inited", () => {
+      if(this.visible) {
+        this.showLayer()
+      }
       if (this.trigger == "hover") {
         this.ins.$el.addEventListener("mouseover", this.showIt)
         this.ins.$el.addEventListener("mouseout", this.hideIt)
@@ -132,6 +135,7 @@ export default {
         click: e => {
           if (trigger == "click") {
             this.visible = !visible
+            e.stopPropagation()
           }
         },
         mouseover: e => {

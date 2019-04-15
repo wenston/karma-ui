@@ -13,7 +13,11 @@ export const weeks = [undefined,'一','二','三','四','五','六','日']
 export const addMonths = (m,n) => {
   m=+m
   n=+n
-  return (m+n)%12
+  let next = (m+n)%12
+  if(next === 0) {
+    next = 12
+  }
+  return next
 } 
 export default {
   getMonths,

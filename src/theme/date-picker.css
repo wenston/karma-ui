@@ -5,16 +5,57 @@
   height: 30px;
   text-align: center;
   line-height: 1;
+  padding: 1px;
+}
+.k-date-picker-icon {
+  width: 14px;
+  height: 14px;
+  font-size: 14px !important;
+  color: #ccc;
 }
 .k-date-picker {
   background-color: white;
+  display: flex;
   @extend .k-no-select;
+  .k-date-picker-title {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    line-height: 34px;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 5px;
+    .k-date-picker-prev-next {
+      font-size: 14px;
+      cursor: pointer;
+      color: #666;
+      transition: var(--transition);
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+    .k-date-picker-year-month {
+      font-size: 14px;
+      color: #333;
+      .k-date-picker-item {
+        transition: var(--transition);
+        cursor: pointer;
+        &:hover {
+          color: var(--primary-color);
+        }
+        &:not(:last-child) {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
   table.k-date-picker-main {
     width: 100%;
     border: none;
     border-collapse: collapse;
     & > thead {
       & > tr {
+        border-bottom: 1px solid var(--border-color);
         & > th {
           @extend .k-date-picker-cell;
           color: #333;
@@ -28,17 +69,46 @@
           color: #666;
           cursor: pointer;
           transition: var(--transition);
+          &:hover {
+            &:not(.k-date-picker_not_cur_month),
+            &:not(.k-date-picker-select-day) {
+              background-color: color(var(--primary-color) a(30%));
+              color: var(--primary-color);
+            }
+          }
           &.k-date-picker_not_cur_month {
             color: #ccc;
           }
-          &:hover {
-            &:not(.k-date-picker_not_cur_month) {
-              background-color: color(var(--primary-color) a(30%));
-              /* color: white; */
-            }
+          &.k-date-picker-select-day {
+            background-color: var(--primary-color) !important;
+            color: white !important;
           }
         }
       }
     }
+  }
+  .k-date-picker-quick {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+    padding: 7px 0;
+    .k-date-picker-quick-item {
+      color: #666;
+      font-size: 12px;
+      padding: 5px 15px;
+      line-height: 1.2;
+      transition: var(--transition);
+      &:hover {
+        color: var(--primary-color);
+        background-color:color(var(--primary-color) a(30%));
+      }
+    }
+  }
+  .k-date-picker-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding: 7px;
   }
 }

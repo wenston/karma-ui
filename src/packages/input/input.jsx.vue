@@ -178,7 +178,8 @@ export default {
       // console.log(eType)
       this.$emit(eType, e)
     },
-    toClear() {
+    toClear(e) {
+      e.stopPropagation()
       this.$emit("valueChange", "")
       this.$emit('clear')
     },

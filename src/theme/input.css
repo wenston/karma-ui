@@ -112,6 +112,7 @@
     color: var(--input-clearable-btn-color);
     display: none;
     cursor: pointer;
+    font-size: 13px;
   }
 
   &:hover {
