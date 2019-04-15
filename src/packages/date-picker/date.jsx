@@ -1,57 +1,21 @@
-import KInput from "karma-ui/packages/input/input.jsx"
-import KDropdown from "karma-ui/packages/dropdown/dropdown"
 import KIcon from "karma-ui/packages/icon/icon"
-import KButton from "karma-ui/packages/button/button"
 import util from "./util/date"
 export default {
   inheritAttrs: false,
   name: "KDate",
   components: {
-    KInput,
-    KDropdown,
-    KIcon,
-    KButton
+    KIcon
   },
   props: {
-    ...KInput.props,
-    placeholder: {
-      type: String,
-      default: "选择日期"
-    },
-    clearable: {
-      type: Boolean,
-      default: true
-    },
     value: {
       type: [Number, String, Date],
       default: ""
-    },
-    show: {
-      type: Boolean,
-      default: false
-    },
-    styles: {
-      type: Object,
-      default: () => ({
-        width: "93px"
-      })
-    },
-    trigger: {
-      type: String,
-      default: "click"
     }
   },
-  // model: {
-  //   prop: "value",
-  //   event: "valueChange"
-  // },
   data() {
     return {
-      //当前选择的日期
-      // currentDate: this.value,
       //当前展示的年月日日期
-      showingDate: this.value,
-      visible: this.show
+      showingDate: this.value
     }
   },
   computed: {
@@ -74,36 +38,11 @@ export default {
   },
   methods: {
     emitChange(date) {
-      this.$emit('change',date)
-      this.visible = false
-    },
-    setDate() {
-      this.emitChange(`${this.showingYear}-${this.showingMonth}-${
-        this.showingDay
-      }`)
+      this.$emit("change", date)
     },
     clearDate() {
       this.showingDate = ""
-      this.emitChange('')
-    },
-    renderTitle() {
-      const p = {
-        props: {
-          ...this.$props,
-          readonly:true,
-          value: this.value
-        },
-        on: {
-          clear: () => {
-            this.clearDate()
-          }
-        }
-      }
-      return (
-        <k-input {...p}>
-          <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
-        </k-input>
-      )
+      this.emitChange("")
     },
     _renderWeeksTitle() {
       let weeks = util.weeks.slice(1)
@@ -121,6 +60,7 @@ export default {
       this.showingDate = `${this.showingYear + n}-${this.showingMonth}-${
         this.showingDay
       }`
+      this.$emit('change-ymd',this.showingDate)
     },
     prevNextMonth(n) {
       let showM = this.showingMonth
@@ -132,6 +72,7 @@ export default {
         y = y + 1
       }
       this.showingDate = `${y}-${m}-${this.showingDay}`
+      this.$emit('change-ymd',this.showingDate)
     },
     _renderBodyTitle() {
       return (
@@ -214,7 +155,6 @@ export default {
             click: e => {
               this.showingDate = `${this.showingYear}-${this.showingMonth}-${j}`
               this.emitChange(this.showingDate)
-              this.visible = false
             }
           }
         }
@@ -235,7 +175,6 @@ export default {
               onClick={e => {
                 this.showingDate = `${lastYear}-${lastMonth}-${day}`
                 this.emitChange(this.showingDate)
-                this.visible = false
               }}
             >
               {day}
@@ -256,7 +195,6 @@ export default {
               onClick={e => {
                 this.showingDate = `${nextYear}-${nextMonth}-${j}`
                 this.emitChange(this.showingDate)
-                this.visible = false
               }}
             >
               {j}
@@ -283,49 +221,23 @@ export default {
       return <tbody>{trs}</tbody>
     },
     renderBody() {
-      return [
-        this.$slots.quick,
+      return (
         <div>
           {this._renderBodyTitle()}
           <table class="k-date-picker-main">
             {this._renderWeeksTitle()}
             {this._renderDays(this.showingDate)}
           </table>
-          {this._renderActions()}
-        </div>
-      ]
-    },
-    _renderActions() {
-      return (
-        <div class="k-date-picker-actions">
-          <k-button size="mini" type="primary" onClick={this.setDate}>
-            确定
-          </k-button>
         </div>
       )
     }
   },
   render() {
-    const p = {
-      props: {
-        show: this.visible,
-        trigger: this.trigger,
-        title: this.renderTitle(),
-        body: this.renderBody(),
-        bodyClassName: "k-date-picker"
-      },
-      on: {
-        "update:show": v => {
-          this.visible = v
-          this.$emit("update:show", v)
-        }
-      }
-    }
-    return <KDropdown {...p} />
+    return this.renderBody()
   },
   watch: {
-    show(v) {
-      this.visible = v
+    value(v) {
+      this.showingDate = v
     }
   }
 }

@@ -13,6 +13,11 @@
   font-size: 14px !important;
   color: #ccc;
 }
+.k-date-picker-right {
+  .k-date-picker-right-top {
+    display: flex;
+  }
+}
 .k-date-picker {
   background-color: white;
   display: flex;
@@ -111,4 +116,8 @@
     border-top: 1px solid var(--border-color);
     padding: 7px;
   }
+  .k-date-picker-line {
+    border-left: 1px solid #f1f1f1;
+  }
 }
+

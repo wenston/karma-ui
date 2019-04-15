@@ -1,14 +1,38 @@
 import KDate from "./date"
+import KInput from "karma-ui/packages/input/input.jsx.vue"
+import KDropdown from "karma-ui/packages/dropdown/dropdown"
+import KButton from "karma-ui/packages/button/button"
 export default {
   components: {
-    KDate
+    KDate,
+    KInput,
+    KDropdown,
+    KButton
   },
   name: "KDatePicker",
   props: {
-    ...KDate.props,
+    ...KInput.props,
+    placeholder: {
+      type: String,
+      default: "选择日期"
+    },
+    clearable: {
+      type: Boolean,
+      default: true
+    },
+    styles: {
+      type: Object,
+      default: () => ({
+        width: "93px"
+      })
+    },
     range: {
       type: Boolean,
       default: false
+    },
+    hasActions: {
+      type: Boolean,
+      default: true
     },
     quick: {
       type: [Array, Boolean],
@@ -35,7 +59,8 @@ export default {
   data() {
     return {
       visible: this.show,
-      currentDate: this.value
+      currentDate: this.value,
+      showingDate: ''
     }
   },
   computed: {
@@ -57,23 +82,25 @@ export default {
     }
   },
   methods: {
+    clearDate() {
+      this.currentDate = this.showingDate = ''
+    },
     dateToString() {
-      if(this.currentDate) {
-
+      if (this.currentDate) {
         const y = this.currentYear
         const m =
           this.currentMonth < 10 ? "0" + this.currentMonth : this.currentMonth
         const d = this.currentDay < 10 ? "0" + this.currentDay : this.currentDay
         return `${y}-${m}-${d}`
-      }else{
-        return ''
+      } else {
+        return ""
       }
     },
     setDateByDay(day) {
       const now = new Date() - 0
       //把day转化成毫秒数
       day = day * 86400000
-      this.currentDate = now + day
+      this.showingDate = this.currentDate = now + day
       this.visible = false
     },
     _renderQuick() {
@@ -104,27 +131,103 @@ export default {
         return n
       }
       return "0" + n
+    },
+    renderTitle() {
+      const p = {
+        props: {
+          ...this.$props,
+          readonly: true,
+          value: this.dateToString()
+        },
+        on: {
+          clear: () => {
+            this.clearDate()
+          }
+        }
+      }
+      return (
+        <k-input {...p}>
+          <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
+        </k-input>
+      )
+    },
+    _renderActions() {
+      if (this.hasActions) {
+        return (
+          <div class="k-date-picker-actions">
+            <k-button size="mini" type="primary" onClick={e=>{
+              if(this.range) {
+
+              }else{
+                this.currentDate = this.showingDate
+                this.visible = false
+              }
+            }}>
+              确定
+            </k-button>
+          </div>
+        )
+      }
+    },
+    renderBody() {
+      const startProps = {
+        props: {
+          value: this.currentDate,
+          hasActions: false
+        },
+        on: {
+          ...this.$listeners,
+          "update:show": v => {
+            this.visible = v
+            // this.$emit('update:show',v)
+          },
+          change: d => {
+            this.currentDate = d
+            if(!this.range) {
+              this.visible = false
+            }
+          },
+          'change-ymd': d=> {
+            this.showingDate = d
+          }
+        }
+      }
+      const endProps = {
+        props: {
+          value: this.currentDate,
+          hasActions: true
+        }
+      }
+      return [
+        this._renderQuick(),
+        <div class="k-date-picker-right">
+          <div class="k-date-picker-right-top">
+            <k-date {...startProps} />
+            {this.range
+              ? [<div class="k-date-picker-line" />, <k-date {...endProps} />]
+              : null}
+          </div>
+          {this._renderActions()}
+        </div>
+      ]
     }
   },
   render() {
     const p = {
       props: {
-        ...this.$props,
         show: this.visible,
-        value: this.dateToString()
+        trigger: this.trigger,
+        bodyClassName: "k-date-picker",
+        title: this.renderTitle(),
+        body: this.renderBody()
       },
       on: {
-        ...this.$listeners,
-        "update:show": v => {
+        'update:show':v=> {
           this.visible = v
-          // this.$emit('update:show',v)
-        },
-        change: d => {
-          this.currentDate = d
         }
       }
     }
-    return <k-date {...p}>{this._renderQuick()}</k-date>
+    return <k-dropdown {...p} />
   },
   watch: {
     show(v) {
