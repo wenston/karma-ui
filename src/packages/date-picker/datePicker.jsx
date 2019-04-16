@@ -2,6 +2,7 @@ import KDate from "./date"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 import KDropdown from "karma-ui/packages/dropdown/dropdown"
 import KButton from "karma-ui/packages/button/button"
+import util from "./util/date"
 export default {
   components: {
     KDate,
@@ -16,15 +17,23 @@ export default {
       type: String,
       default: "选择日期"
     },
+    start: [Number, String, Date],
+    end: [Number, String, Date],
+    startPlaceholder: {
+      type: String,
+      default: "开始日期"
+    },
+    endPlaceholder: {
+      type: String,
+      default: "结束日期"
+    },
     clearable: {
       type: Boolean,
       default: true
     },
     styles: {
       type: Object,
-      default: () => ({
-        width: "93px"
-      })
+      default: () => ({})
     },
     range: {
       type: Boolean,
@@ -60,10 +69,38 @@ export default {
     return {
       visible: this.show,
       currentDate: this.value,
-      showingDate: ''
+      showingDate: "",
+      startDate: this.start,
+      endDate: this.end,
+      cacheStart: this.start,
+      cacheEnd: this.end,
+      initStartDate: "",
+      initEndDate: "",
+      startShowingDate: "",
+      endShowingDate: ""
     }
   },
   computed: {
+    hidePrevNext() {
+      const start =
+          new Date(this.startShowingDate) - 0 ||
+          new Date(this.initStartDate) - 0,
+        end =
+          new Date(this.endShowingDate) - 0 || new Date(this.initEndDate) - 0
+      if (isNaN(start) || isNaN(end)) {
+        return true
+      }
+      const startM = new Date(start).getMonth(),
+        endM = new Date(end).getMonth()
+      if (start >= end) {
+        return true
+      } else {
+        if (endM - startM > 1) {
+          return false
+        }
+        return true
+      }
+    },
     formatDate() {
       let now = new Date(this.currentDate)
       if (now == "Invalid Date") {
@@ -83,7 +120,7 @@ export default {
   },
   methods: {
     clearDate() {
-      this.currentDate = this.showingDate = ''
+      this.currentDate = this.showingDate = ""
     },
     dateToString() {
       if (this.currentDate) {
@@ -134,6 +171,10 @@ export default {
     },
     renderTitle() {
       const p = {
+        style: {
+          width: "93px",
+          ...this.styles
+        },
         props: {
           ...this.$props,
           readonly: true,
@@ -145,6 +186,29 @@ export default {
           }
         }
       }
+      if (this.range) {
+        const rangeP = {
+          attrs: {
+            tabindex: 1
+          },
+          class: "k-date-picker-range",
+          style: { width: "180px", ...this.styles }
+        }
+        return (
+          <div {...rangeP}>
+            <div class="k-date-picker-range-placeholder">
+              <span class="k-date-picker-range-item k-d-p-r-p">
+                {this.startPlaceholder}
+              </span>
+              <span class="k-d-p-r-p">至</span>
+              <span class="k-date-picker-range-item">
+                {this.endPlaceholder}
+              </span>
+              <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
+            </div>
+          </div>
+        )
+      }
       return (
         <k-input {...p}>
           <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
@@ -155,47 +219,139 @@ export default {
       if (this.hasActions) {
         return (
           <div class="k-date-picker-actions">
-            <k-button size="mini" type="primary" onClick={e=>{
-              if(this.range) {
-
-              }else{
-                this.currentDate = this.showingDate
-                this.visible = false
-              }
-            }}>
+            <k-button
+              size="mini"
+              type="primary"
+              onClick={e => {
+                if (this.range) {
+                } else {
+                  this.currentDate = this.showingDate
+                  this.visible = false
+                }
+              }}
+            >
               确定
             </k-button>
           </div>
         )
       }
     },
+    handleStartEndChange(d) {
+      const start = new Date(this.startDate) - 0
+      const end = new Date(this.endDate) - 0
+      const dd = new Date(d) - 0
+      if (!start) {
+        this.startDate = d
+      } else {
+        if (!end) {
+          this.endDate = d
+        } else {
+          //重新选择
+          this.startDate = d
+          this.endDate = ""
+        }
+      }
+    },
+    getPrevNextMonth(d, n) {
+      const sd = new Date(d)
+      const sd_y = sd.getFullYear()
+      const sd_m = sd.getMonth() + 1
+      const sd_d = sd.getDate()
+      const next_m = util.addMonths(sd_m, n)
+      let next_y = sd_y
+      if (n === 1 && next_m < sd_m) {
+        next_y += 1
+      } else if (n === -1 && next_m > sd_m) {
+        next_y -= 1
+      }
+
+      return `${next_y}-${next_m}-01`
+    },
     renderBody() {
       const startProps = {
         props: {
-          value: this.currentDate,
-          hasActions: false
+          value: this.initStartDate,
+          hasActions: false,
+          range: this.range,
+          start: this.startDate,
+          end: this.endDate,
+          cacheStart: this.cacheStart,
+          cacheEnd: this.cacheEnd,
+          isStart: true,
+          hidePrevNext: this.hidePrevNext
         },
         on: {
           ...this.$listeners,
-          "update:show": v => {
-            this.visible = v
-            // this.$emit('update:show',v)
-          },
           change: d => {
-            this.currentDate = d
-            if(!this.range) {
+            if (this.range) {
+              this.handleStartEndChange(d)
+            } else {
+              this.currentDate = d
               this.visible = false
             }
           },
-          'change-ymd': d=> {
+          "change-end": d => {
+            this.endDate = d
+            this.startDate = ""
+          },
+          "change-start": d => {
+            this.startDate = d
+            this.endDate = ""
+          },
+          "change-cache-start": d => {
+            this.cacheStart = util.formatDate(d)
+          },
+          "change-cache-end": d => {
+            this.cacheEnd = util.formatDate(d)
+          },
+          "change-showing-date": d => {
+            this.startShowingDate = d
+          },
+          "change-ymd": d => {
             this.showingDate = d
           }
         }
       }
       const endProps = {
         props: {
-          value: this.currentDate,
-          hasActions: true
+          value: this.initEndDate,
+          start: this.startDate,
+          end: this.endDate,
+          range: true,
+          hasActions: true,
+          cacheStart: this.cacheStart,
+          cacheEnd: this.cacheEnd,
+          isEnd: true,
+          hidePrevNext: this.hidePrevNext
+        },
+        on: {
+          ...this.$listeners,
+          change: d => {
+            this.handleStartEndChange(d)
+          },
+          "change-end": d => {
+            this.endDate = d
+            this.cacheEnd = d
+            this.startDate = ""
+          },
+          "change-start": d => {
+            this.startDate = d
+            this.cacheStart = d
+            this.endDate = ""
+          },
+          "change-cache-start": d => {
+            this.cacheStart = util.formatDate(d)
+          },
+          "change-cache-end": d => {
+            this.cacheEnd = util.formatDate(d)
+          },
+          "change-showing-date": d => {
+            this.endShowingDate = d
+          },
+          "change-ymd": d => {
+            // this.showingDate = d
+            // console.log(d)
+          }
         }
       }
       return [
@@ -222,7 +378,7 @@ export default {
         body: this.renderBody()
       },
       on: {
-        'update:show':v=> {
+        "update:show": v => {
           this.visible = v
         }
       }
@@ -230,6 +386,27 @@ export default {
     return <k-dropdown {...p} />
   },
   watch: {
+    visible(v) {
+      if (v) {
+        let start1 = this.range ? this.startDate : this.currentDate
+        let start2 = this.range ? this.endDate : ""
+        if (this.range) {
+          if (this.startDate && this.endDate) {
+          } else {
+            if (this.startDate) {
+              start2 = util.getDateByAddOneMonths(this.startDate, 1)
+            } else if (this.endDate) {
+              start2 = this.endDate
+              start1 = util.getDateByAddOneMonths(this.endDate, -1)
+            } else if (!this.startDate && !this.endDate) {
+              start2 = util.getDateByAddOneMonths(new Date(), 1)
+            }
+          }
+        }
+        this.initEndDate = start2
+        this.initStartDate = start1 || util.formatDate(new Date())
+      }
+    },
     show(v) {
       this.visible = v
     },
@@ -246,6 +423,31 @@ export default {
     },
     value(d) {
       this.currentDate = d
+    },
+    start(d) {
+      this.startDate = d
+    },
+    end(d) {
+      this.endDate = d
+    },
+    startDate(d) {
+      // console.log(d)
+      this.$nextTick(() => {
+        if (d && this.endDate) {
+          this.$emit("update:end", util.formatDate(this.endDate))
+          this.$emit("update:start", util.formatDate(d))
+          this.visible = false
+        }
+      })
+    },
+    endDate(d) {
+      this.$nextTick(() => {
+        if (d && this.startDate) {
+          this.$emit("update:start", util.formatDate(this.startDate))
+          this.$emit("update:end", util.formatDate(d))
+          this.visible = false
+        }
+      })
     }
   }
 }

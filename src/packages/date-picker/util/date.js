@@ -18,9 +18,60 @@ export const addMonths = (m,n) => {
     next = 12
   }
   return next
-} 
+}
+//获取上个月、下个月的日期
+export const getDateByAddOneMonths = (date,n) => {
+  date = new Date(date)
+  const month = date.getMonth() + 1
+  const y = date.getFullYear()
+  const month_n = addMonths(month,n)
+  if(n===1 && month>month_n) {
+    return `${y+1}-${month_n}-01`
+  } else if(n===-1 && month<month_n) {
+    return `${y-1}-${month_n}-01`
+  }
+  return `${y}-${month_n}`
+}
+export const isSameMonth = (date1,date2) => {
+  date1 = new Date(date1)
+  date2 = new Date(date2)
+  return date1.getMonth() === date2.getMonth()
+}
+export const isSameYear = (date1,date2) => {
+  date1 = new Date(date1)
+  date2 = new Date(date2)
+  return date1.getFullYear() === date2.getFullYear()
+}
+export const isSameDay = (d1,d2) => {
+  d1 = new Date(d1)
+  d2 = new Date(d2)
+  return d1.getDate() === d2.getDate()
+}
+export const isSameDate = (d1,d2) => {
+  //只比较是否同年同月同日
+  return isSameDay(d1,d2) && isSameMonth(d1,d2) && isSameYear(d1,d2)
+}
+export const formatDate = (date) => {
+  date = new Date(date)
+  const y = date.getFullYear()
+  let m = date.getMonth() + 1
+  let d = date.getDate()
+  if(m<10) {
+    m='0'+m
+  }
+  if(d<10) {
+    d='0'+d
+  }
+  return `${y}-${m}-${d}`
+}
 export default {
   getMonths,
   weeks,
-  addMonths
+  addMonths,
+  isSameDay,
+  isSameYear,
+  isSameMonth,
+  isSameDate,
+  getDateByAddOneMonths,
+  formatDate
 }

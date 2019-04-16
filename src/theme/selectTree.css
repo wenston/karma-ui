@@ -1,21 +1,6 @@
 .k-select-tree {
   @extend .k-select2;
-  border-radius: var(--radius);
-  border: 1px solid var(--border-color);
-  height: 28px;
-  width: 200px;
-  line-height: normal;
-  background-color: white;
-  transition: var(--transition);
-  vertical-align: middle;
-  &:hover {
-    border-color:var(--primary-color);
-  }
-  &:focus {
-    outline: none;
-    border-color:var(--primary-color);
-    box-shadow: var(--input-focus-active-shadow);
-  }
+  @extend .k-like-input;
   &.k-select-tree--block {
     @extend .k-block;
     position: relative;
@@ -58,6 +43,5 @@
   }
 }
 .k-select-tree-placeholder {
-  color: var(--input-placeholder-color);
-  pointer-events: none;
+  @extend .k-like-input-placeholder;
 }
