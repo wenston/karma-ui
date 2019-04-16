@@ -97,7 +97,7 @@ export default {
       return (
         <div class="k-date-picker-title">
           <div>
-            {this.hidePrevNext && this.isEnd
+            {this.range && this.hidePrevNext && this.isEnd
               ? null
               : [
                   <k-icon
@@ -123,7 +123,7 @@ export default {
             <span class="k-date-picker-item">{this.showingMonth}月</span>
           </div>
           <div>
-            {this.hidePrevNext && this.isStart
+            {this.range && this.hidePrevNext && this.isStart
               ? null
               : [
                   <k-icon

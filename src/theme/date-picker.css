@@ -13,6 +13,13 @@
   font-size: 14px !important;
   color: #ccc;
 }
+.k-date-picker-icon-close {
+  cursor: pointer;
+  @extend .k-date-picker-icon;
+  &:hover {
+    color: #666;
+  }
+}
 .k-date-picker-right {
   .k-date-picker-right-top {
     display: flex;

@@ -137,7 +137,12 @@ export default {
       const now = new Date() - 0
       //把day转化成毫秒数
       day = day * 86400000
-      this.showingDate = this.currentDate = now + day
+      const theDay = day + now
+      if (this.range) {
+        this.endDate = this.startDate = theDay
+      } else {
+        this.showingDate = this.currentDate = theDay
+      }
       this.visible = false
     },
     _renderQuick() {
@@ -197,14 +202,34 @@ export default {
         return (
           <div {...rangeP}>
             <div class="k-date-picker-range-placeholder">
-              <span class="k-date-picker-range-item k-d-p-r-p">
-                {this.startPlaceholder}
-              </span>
+              {this.start ? (
+                <span class="k-date-picker-range-item">{this.start}</span>
+              ) : (
+                <span class="k-date-picker-range-item k-d-p-r-p">
+                  {this.startPlaceholder}
+                </span>
+              )}
+
               <span class="k-d-p-r-p">至</span>
-              <span class="k-date-picker-range-item">
-                {this.endPlaceholder}
-              </span>
-              <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
+              {this.end ? (
+                <span class="k-date-picker-range-item">{this.end}</span>
+              ) : (
+                <span class="k-date-picker-range-item k-d-p-r-p">
+                  {this.endPlaceholder}
+                </span>
+              )}
+              {this.start || this.end ? (
+                <k-icon
+                  name="k-icon-close"
+                  class="k-date-picker-icon-close"
+                  onClick={e => {
+                    this.startDate = this.endDate = ""
+                    e.stopPropagation()
+                  }}
+                />
+              ) : (
+                <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
+              )}
             </div>
           </div>
         )
@@ -216,7 +241,7 @@ export default {
       )
     },
     _renderActions() {
-      if (this.hasActions) {
+      if (this.hasActions && !this.range) {
         return (
           <div class="k-date-picker-actions">
             <k-button
@@ -437,6 +462,10 @@ export default {
           this.$emit("update:end", util.formatDate(this.endDate))
           this.$emit("update:start", util.formatDate(d))
           this.visible = false
+          return
+        }
+        if (!d) {
+          this.$emit("update:start", "")
         }
       })
     },
@@ -446,6 +475,10 @@ export default {
           this.$emit("update:start", util.formatDate(this.startDate))
           this.$emit("update:end", util.formatDate(d))
           this.visible = false
+          return
+        }
+        if (!d) {
+          this.$emit("update:end", "")
         }
       })
     }
