@@ -34,10 +34,10 @@ export default {
       // console.log(v)
     },
     start(d) {
-      // console.log(d)
+      console.log(d)
     },
     end(d) {
-      // console.log(d)
+      console.log(d)
     }
   }
 }

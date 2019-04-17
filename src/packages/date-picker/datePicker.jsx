@@ -19,6 +19,8 @@ export default {
     },
     start: [Number, String, Date],
     end: [Number, String, Date],
+    min: [Number, String, Date],
+    max: [Number, String, Date],
     startPlaceholder: {
       type: String,
       default: "开始日期"
@@ -57,6 +59,40 @@ export default {
         {
           name: "前天",
           day: -2
+        }
+      ]
+    },
+    //快捷选择区间
+    quickRange: {
+      type: [Array, Boolean],
+      default: () => [
+        {
+          name: "近3天",
+          start: util.addDays(new Date(),-2),
+          end: new Date()
+        },
+        {
+          name: "近7天",
+          start:util.addDays(new Date(),-6),
+          end: new Date()
+        },
+        {
+          name: "本周",
+          start: util.getMondayInThisWeek(new Date()),
+          end: new Date()
+        },
+        {
+          name: "上周",
+          ... util.getLastWeek()
+        },
+        {
+          name: "本月",
+          start: util.getFirstDayInThisMonth(),
+          end: new Date()
+        },
+        {
+          name: "上个月",
+          ...util.getLastMonth()
         }
       ]
     }
@@ -146,8 +182,10 @@ export default {
       this.visible = false
     },
     _renderQuick() {
+      let listQuick = [],
+        listQuickRange = []
       if (this.quick && this.quick.length) {
-        const list = this.quick.map(q => {
+        listQuick = this.quick.map(q => {
           return (
             <a
               href="javascript:;"
@@ -160,12 +198,29 @@ export default {
             </a>
           )
         })
-        return (
-          <div slot="quick" class="k-date-picker-quick">
-            {list}
-          </div>
-        )
       }
+      if (this.range && this.quickRange && this.quickRange.length) {
+        listQuickRange = this.quickRange.map(q => {
+          return (
+            <a
+              href="javascript:;"
+              class="k-date-picker-quick-item"
+              onClick={e => {
+                this.startDate = q.start
+                this.endDate = q.end
+              }}
+            >
+              {q.name}
+            </a>
+          )
+        })
+      }
+      return (
+        <div slot="quick" class="k-date-picker-quick">
+          {listQuick}
+          {listQuickRange}
+        </div>
+      )
     },
     to2(n) {
       n = +n
@@ -417,6 +472,11 @@ export default {
         let start2 = this.range ? this.endDate : ""
         if (this.range) {
           if (this.startDate && this.endDate) {
+            if (util.isSameMonth(this.startDate, this.endDate)) {
+              if (util.isSameYear(this.startDate, this.endDate)) {
+                start2 = util.getDateByAddOneMonths(this.startDate, 1)
+              }
+            }
           } else {
             if (this.startDate) {
               start2 = util.getDateByAddOneMonths(this.startDate, 1)

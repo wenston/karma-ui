@@ -395,21 +395,21 @@ export default {
     start(d) {
       if (this.range) {
         this.startDate = d
-        console.log(d)
+        // console.log(d)
       }
     },
     end(d) {
       if (this.range) {
         this.endDate = d
-        console.log(d)
+        // console.log(d)
       }
     },
     cacheStart(d) {
-      console.log("cache start:", d)
+      // console.log("cache start:", d)
       if (this.range) this.startDate = d
     },
     cacheEnd(d) {
-      console.log("cache end:", d)
+      // console.log("cache end:", d)
       if (this.range) this.endDate = d
     }
   }
