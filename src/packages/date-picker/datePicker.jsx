@@ -3,7 +3,9 @@ import KInput from "karma-ui/packages/input/input.jsx.vue"
 import KDropdown from "karma-ui/packages/dropdown/dropdown"
 import KButton from "karma-ui/packages/button/button"
 import util from "./util/date"
+import mixins from "./util/mixins"
 export default {
+  mixins: [mixins],
   components: {
     KDate,
     KInput,
@@ -68,27 +70,27 @@ export default {
       default: () => [
         {
           name: "近3天",
-          start: util.addDays(new Date(),-2),
-          end: new Date()
+          start: util.addDays(new Date(), -2),
+          end: util.formatDate(util.getNow())
         },
         {
           name: "近7天",
-          start:util.addDays(new Date(),-6),
-          end: new Date()
+          start: util.addDays(new Date(), -6),
+          end: util.formatDate(util.getNow())
         },
         {
           name: "本周",
           start: util.getMondayInThisWeek(new Date()),
-          end: new Date()
+          end: util.formatDate(util.getNow())
         },
         {
           name: "上周",
-          ... util.getLastWeek()
+          ...util.getLastWeek()
         },
         {
           name: "本月",
           start: util.getFirstDayInThisMonth(),
-          end: new Date()
+          end: util.formatDate(util.getNow())
         },
         {
           name: "上个月",
@@ -118,23 +120,31 @@ export default {
   },
   computed: {
     hidePrevNext() {
-      const start =
-          new Date(this.startShowingDate) - 0 ||
-          new Date(this.initStartDate) - 0,
-        end =
-          new Date(this.endShowingDate) - 0 || new Date(this.initEndDate) - 0
-      if (isNaN(start) || isNaN(end)) {
+      const start = new Date(this.startShowingDate || this.initStartDate),
+        end = new Date(this.endShowingDate || this.initEndDate),
+        start_ms = start - 0,
+        end_ms = end - 0
+      if (isNaN(start_ms) || isNaN(end_ms)) {
         return true
       }
-      const startM = new Date(start).getMonth(),
-        endM = new Date(end).getMonth()
-      if (start >= end) {
+      if (start_ms >= end_ms) {
         return true
       } else {
-        if (endM - startM > 1) {
+        const start_month = start.getMonth() + 1,
+          end_month = end.getMonth() + 1,
+          start_year = start.getFullYear(),
+          end_year = end.getFullYear()
+        if (end_year > start_year) {
+          if (start_month === 12 && end_month === 1) {
+            return true
+          }
           return false
+        } else {
+          if (end_month - start_month > 1) {
+            return false
+          }
+          return true
         }
-        return true
       }
     },
     formatDate() {
@@ -156,15 +166,18 @@ export default {
   },
   methods: {
     clearDate() {
-      this.currentDate = this.showingDate = ""
+      if (this.range) {
+        this.startDate = this.endDate = ""
+      } else {
+        this.currentDate = this.showingDate = ""
+      }
     },
     dateToString() {
       if (this.currentDate) {
         const y = this.currentYear
-        const m =
-          this.currentMonth < 10 ? "0" + this.currentMonth : this.currentMonth
-        const d = this.currentDay < 10 ? "0" + this.currentDay : this.currentDay
-        return `${y}-${m}-${d}`
+        const m = this.currentMonth
+        const d = this.currentDay
+        return util.formatDate(`${y}-${m}-${d}`)
       } else {
         return ""
       }
@@ -173,7 +186,7 @@ export default {
       const now = new Date() - 0
       //把day转化成毫秒数
       day = day * 86400000
-      const theDay = day + now
+      const theDay = util.formatDate(day + now)
       if (this.range) {
         this.endDate = this.startDate = theDay
       } else {
@@ -186,12 +199,17 @@ export default {
         listQuickRange = []
       if (this.quick && this.quick.length) {
         listQuick = this.quick.map(q => {
+          const d = util.formatDate(new Date() - 0 + q.day * 86400000)
+          const isIn = this.$_is_in_max_min_range(d)
           return (
             <a
               href="javascript:;"
-              class="k-date-picker-quick-item"
+              class={{
+                "k-date-picker-quick-item": true,
+                "k-date-picker-quick-disabled": !isIn
+              }}
               onClick={e => {
-                this.setDateByDay(q.day)
+                if (isIn) this.setDateByDay(q.day)
               }}
             >
               {q.name}
@@ -201,13 +219,21 @@ export default {
       }
       if (this.range && this.quickRange && this.quickRange.length) {
         listQuickRange = this.quickRange.map(q => {
+          const isIn =
+            this.$_is_in_max_min_range(q.start) &&
+            this.$_is_in_max_min_range(q.end)
           return (
             <a
               href="javascript:;"
-              class="k-date-picker-quick-item"
+              class={{
+                "k-date-picker-quick-item": true,
+                "k-date-picker-quick-disabled": !isIn
+              }}
               onClick={e => {
-                this.startDate = q.start
-                this.endDate = q.end
+                if (isIn) {
+                  this.startDate = q.start
+                  this.endDate = q.end
+                }
               }}
             >
               {q.name}
@@ -232,7 +258,7 @@ export default {
     renderTitle() {
       const p = {
         style: {
-          width: "93px",
+          width: this.block ? "" : "93px",
           ...this.styles
         },
         props: {
@@ -243,6 +269,9 @@ export default {
         on: {
           clear: () => {
             this.clearDate()
+          },
+          keyup: e => {
+            if (e.keyCode == 13) this.visible = true
           }
         }
       }
@@ -252,7 +281,15 @@ export default {
             tabindex: 1
           },
           class: "k-date-picker-range",
-          style: { width: "180px", ...this.styles }
+
+          on: {
+            keyup: e => {
+              if (e.keyCode == 13) {
+                this.visible = true
+              }
+            }
+          },
+          style: { width: this.block ? "100%" : "180px", ...this.styles }
         }
         return (
           <div {...rangeP}>
@@ -296,24 +333,42 @@ export default {
       )
     },
     _renderActions() {
-      if (this.hasActions && !this.range) {
-        return (
-          <div class="k-date-picker-actions">
+      if (this.hasActions) {
+        let actions = [
+          <k-button
+            size="mini"
+            onClick={() => {
+              this.clearDate()
+            }}
+          >
+            清空
+          </k-button>,
+          <k-button
+            size="mini"
+            onClick={e => {
+              this.visible = false
+            }}
+          >
+            关闭
+          </k-button>
+        ]
+        if (this.range) {
+        } else {
+          actions.push(
             <k-button
               size="mini"
               type="primary"
               onClick={e => {
-                if (this.range) {
-                } else {
-                  this.currentDate = this.showingDate
-                  this.visible = false
-                }
+                this.currentDate = this.showingDate
+                this.visible = false
               }}
             >
               确定
             </k-button>
-          </div>
-        )
+          )
+        }
+
+        return <div class="k-date-picker-actions">{actions}</div>
       }
     },
     handleStartEndChange(d) {
@@ -355,6 +410,8 @@ export default {
           range: this.range,
           start: this.startDate,
           end: this.endDate,
+          min: this.min,
+          max: this.max,
           cacheStart: this.cacheStart,
           cacheEnd: this.cacheEnd,
           isStart: true,
@@ -397,6 +454,8 @@ export default {
           value: this.initEndDate,
           start: this.startDate,
           end: this.endDate,
+          min: this.min,
+          max: this.max,
           range: true,
           hasActions: true,
           cacheStart: this.cacheStart,
@@ -468,22 +527,24 @@ export default {
   watch: {
     visible(v) {
       if (v) {
-        let start1 = this.range ? this.startDate : this.currentDate
-        let start2 = this.range ? this.endDate : ""
+        const start = this.startDate,
+          end = this.endDate
+        let start1 = this.range ? start : this.currentDate
+        let start2 = this.range ? end : ""
         if (this.range) {
-          if (this.startDate && this.endDate) {
-            if (util.isSameMonth(this.startDate, this.endDate)) {
-              if (util.isSameYear(this.startDate, this.endDate)) {
-                start2 = util.getDateByAddOneMonths(this.startDate, 1)
+          if (start && end) {
+            if (util.isSameMonth(start, end)) {
+              if (util.isSameYear(start, end)) {
+                start2 = util.getDateByAddOneMonths(start, 1)
               }
             }
           } else {
-            if (this.startDate) {
-              start2 = util.getDateByAddOneMonths(this.startDate, 1)
-            } else if (this.endDate) {
-              start2 = this.endDate
-              start1 = util.getDateByAddOneMonths(this.endDate, -1)
-            } else if (!this.startDate && !this.endDate) {
+            if (start) {
+              start2 = util.getDateByAddOneMonths(start, 1)
+            } else if (end) {
+              start2 = end
+              start1 = util.getDateByAddOneMonths(end, -1)
+            } else if (!start && !end) {
               start2 = util.getDateByAddOneMonths(new Date(), 1)
             }
           }
@@ -497,23 +558,23 @@ export default {
     },
     currentDate(d) {
       d = new Date(d) - 0
-      if (d)
-        this.$emit(
-          "valueChange",
-          `${this.currentYear}-${this.to2(this.currentMonth)}-${this.to2(
-            this.currentDay
-          )}`
-        )
+      if (d) this.$emit("valueChange", util.formatDate(d))
       else this.$emit("valueChange", "")
     },
     value(d) {
-      this.currentDate = d
+      if (d) {
+        this.currentDate = util.formatDate(d)
+      }
     },
     start(d) {
-      this.startDate = d
+      if (d) {
+        this.startDate = util.formatDate(d)
+      }
     },
     end(d) {
-      this.endDate = d
+      if (d) {
+        this.endDate = util.formatDate(d)
+      }
     },
     startDate(d) {
       // console.log(d)

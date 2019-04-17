@@ -1,15 +1,18 @@
 <template>
   <div class="layout">
     <h3 class="layout__title">日期选择器</h3>
-    <div style="display:flex">
+    <div>
       <k-button @click="toggle">toggle</k-button>
       单个日期：<k-date-picker v-model="value"
-        :show.sync="show"></k-date-picker>
+        :show.sync="show" simple block></k-date-picker>
       日期区间：<k-date-picker :start.sync="start"
         :end.sync="end"
-        range></k-date-picker>
-        <k-button @click="start='2018-10-10'">2018-10-10</k-button>
-        <k-button @click="end='2019-10-10'">2019-10-10</k-button>
+        :max="max"
+        :min="min"
+        range
+        block></k-date-picker>
+      <k-button @click="start='2018-10-10'">2018-10-10</k-button>
+      <k-button @click="end='2019-10-10'">2019-10-10</k-button>
     </div>
   </div>
 </template>
@@ -22,6 +25,14 @@ export default {
       show: true,
       start: "",
       end: ""
+    }
+  },
+  computed: {
+    max() {
+      return new Date()
+    },
+    min() {
+      return '2019-04-08'
     }
   },
   methods: {

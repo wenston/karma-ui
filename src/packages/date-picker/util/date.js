@@ -111,6 +111,7 @@ export const getLastMonth = () => {
   }
 }
 export default {
+  getNow,
   getMonths,
   weeks,
   addMonths,

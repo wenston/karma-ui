@@ -1,6 +1,8 @@
 import KIcon from "karma-ui/packages/icon/icon"
 import util from "./util/date"
+import mixins from "./util/mixins"
 export default {
+  mixins: [mixins],
   inheritAttrs: false,
   name: "KDate",
   components: {
@@ -15,12 +17,14 @@ export default {
     //start和end记录选中的开始、结束日期
     start: [Number, String, Date],
     end: [Number, String, Date],
+    min: [Number, String, Date],
+    max: [Number, String, Date],
     //cache记录mouseover的开始、结束日期
     cacheStart: [Number, String, Date],
     cacheEnd: [Number, String, Date],
     isStart: Boolean,
     isEnd: Boolean,
-    hidePrevNext: Boolean,
+    hidePrevNext: Boolean
   },
   data() {
     return {
@@ -47,7 +51,7 @@ export default {
     },
     showingDay() {
       return this.showingFormatDate.getDate()
-    },
+    }
   },
   methods: {
     emitEnd(date) {
@@ -96,7 +100,7 @@ export default {
     _renderBodyTitle() {
       return (
         <div class="k-date-picker-title">
-          <div>
+          <div class="k-d-p-p-n-box">
             {this.range && this.hidePrevNext && this.isEnd
               ? null
               : [
@@ -122,7 +126,7 @@ export default {
             <span class="k-date-picker-item">{this.showingYear}年</span>
             <span class="k-date-picker-item">{this.showingMonth}月</span>
           </div>
-          <div>
+          <div class="k-d-p-p-n-box">
             {this.range && this.hidePrevNext && this.isStart
               ? null
               : [
@@ -190,8 +194,12 @@ export default {
       let tds = []
       while (i <= monthDays) {
         const j = i
-        const curFormatDate = `${this.showingYear}-${this.showingMonth}-${j}`
+        const curFormatDate = util.formatDate(
+          `${this.showingYear}-${this.showingMonth}-${j}`
+        )
         const curDate = new Date(curFormatDate) - 0
+        const inMaxMinRange = this.$_is_in_max_min_range(curDate)
+        
         let p = {
           class: {
             "k-date-picker-select-day": (() => {
@@ -214,18 +222,21 @@ export default {
               }
             })(),
             "k-date-picker-current-day": j == this.currentDay,
-            "k-date-picker-active": this.isInRange(curDate)
+            "k-date-picker-active": this.isInRange(curDate),
+            "k-date-picker-disabled": !inMaxMinRange
           },
           on: {
             click: e => {
-              this.showingDate = curFormatDate
-              this.emitChange(this.showingDate)
+              if (inMaxMinRange) {
+                this.showingDate = curFormatDate
+                this.emitChange(this.showingDate)
+              }
             },
             mouseover: e => {
-              this.overAndOut(curDate, e)
+              if (this.range && inMaxMinRange) this.overAndOut(curDate, e)
             },
             mouseout: e => {
-              this.overAndOut(curDate, e)
+              if (this.range && inMaxMinRange) this.overAndOut(curDate, e)
             }
           }
         }
@@ -242,24 +253,28 @@ export default {
         let n = 0
         while (d - n >= 1) {
           const day = lastMonthTotalDays - n
-          const curDate = `${lastYear}-${lastMonth}-${day}`
+          const curDate = util.formatDate(`${lastYear}-${lastMonth}-${day}`)
+          const inMaxMinRange = this.$_is_in_max_min_range(curDate)
           const p = {
             class: [
               "k-date-picker_not_cur_month",
               {
-                "k-date-picker-active": this.isInRange(curDate)
+                "k-date-picker-active": this.isInRange(curDate),
+                "k-date-picker-disabled": !inMaxMinRange
               }
             ],
             on: {
               click: e => {
-                this.showingDate = curDate
-                this.emitChange(this.showingDate)
+                if (inMaxMinRange) {
+                  this.showingDate = curDate
+                  this.emitChange(this.showingDate)
+                }
               },
               mouseover: e => {
-                this.overAndOut(curDate, e)
+                if (this.range && inMaxMinRange) this.overAndOut(curDate, e)
               },
               mouseout: e => {
-                this.overAndOut(curDate, e)
+                if (this.range && inMaxMinRange) this.overAndOut(curDate, e)
               }
             }
           }
@@ -273,12 +288,14 @@ export default {
           len = tds.length
         while (i <= len) {
           const j = i
-          const curDate = `${nextYear}-${nextMonth}-${j}`
+          const curDate = util.formatDate(`${nextYear}-${nextMonth}-${j}`)
+          const inMaxMinRange = this.$_is_in_max_min_range(curDate)
           const p = {
             class: [
               "k-date-picker_not_cur_month",
               {
-                "k-date-picker-active": this.isInRange(curDate)
+                "k-date-picker-active": this.isInRange(curDate),
+                "k-date-picker-disabled": !inMaxMinRange
               }
             ],
             on: {
@@ -286,15 +303,17 @@ export default {
                 if (this.range) {
                   this.emitChange(curDate)
                 } else {
-                  this.showingDate = d
-                  this.emitChange(curDate)
+                  if (inMaxMinRange) {
+                    this.showingDate = d
+                    this.emitChange(curDate)
+                  }
                 }
               },
               mouseover: e => {
-                this.overAndOut(curDate, e)
+                if (this.range && inMaxMinRange) this.overAndOut(curDate, e)
               },
               mouseout: e => {
-                this.overAndOut(curDate, e)
+                if (this.range && inMaxMinRange) this.overAndOut(curDate, e)
               }
             }
           }
@@ -330,9 +349,6 @@ export default {
           if (start) {
             if (curDate - start < 0) {
               this.emitEnd(this.start)
-              // this.$nextTick(() => {
-              //   this.startDate = curDate
-              // })
             } else {
               this.endDate = curDate
               this.$emit("change-cache-end", curDate)
@@ -383,14 +399,14 @@ export default {
       immediate: true,
       handler(d) {
         this.showingDate = d
-        this.$emit('change-showing-date',d)
-      },
+        this.$emit("change-showing-date", d)
+      }
     },
     showingDate: {
       immediate: true,
       handler(d) {
-        this.$emit('change-showing-date',d)
-      },
+        this.$emit("change-showing-date", d)
+      }
     },
     start(d) {
       if (this.range) {

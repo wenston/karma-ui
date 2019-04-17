@@ -59,6 +59,9 @@
     justify-content: space-between;
     border-bottom: 1px solid var(--border-color);
     padding: 0 5px;
+    .k-d-p-p-n-box {
+      width: 32px;
+    }
     .k-date-picker-prev-next {
       font-size: 14px;
       cursor: pointer;
@@ -85,6 +88,7 @@
   }
   table.k-date-picker-main {
     width: 100%;
+    min-width: 210px;
     border: none;
     border-collapse: collapse;
     & > thead {
@@ -116,8 +120,16 @@
           }
           &:hover,
           &.k-date-picker-active {
-            background-color: color(var(--primary-color) a(30%));
-            color: var(--primary-color);
+            &:not(.k-date-picker-disabled) {
+
+              background-color: color(var(--primary-color) a(30%));
+              color: var(--primary-color);
+            }
+          }
+          &.k-date-picker-disabled {
+            cursor: not-allowed;
+            background-color: #f1f1f1;
+            color: #ccc;
           }
         }
       }
@@ -133,10 +145,19 @@
       font-size: 12px;
       padding: 5px 15px;
       line-height: 1.2;
+      white-space: nowrap;
       transition: var(--transition);
       &:hover {
-        color: var(--primary-color);
-        background-color: color(var(--primary-color) a(30%));
+        &:not(.k-date-picker-quick-disabled) {
+
+          color: var(--primary-color);
+          background-color: color(var(--primary-color) a(30%));
+        }
+      }
+      &.k-date-picker-quick-disabled {
+        background-color:#f1f1f1;
+        color: #ccc;
+        cursor: not-allowed;
       }
     }
   }
