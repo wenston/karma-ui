@@ -21,6 +21,11 @@ export default {
       type: Boolean,
       default: false
     },
+    //是否懒渲染，只在展开的时候渲染
+    lazy: {
+      type: Boolean,
+      default: true
+    },
     bodyClassName: String,
     headerClassName: String,
     footerClassName: String
