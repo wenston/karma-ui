@@ -26,23 +26,36 @@ export default {
       type: Boolean,
       default: true
     },
+    //是否在不可见时销毁
+    destroyWhenHide: Boolean,
     bodyClassName: String,
     headerClassName: String,
     footerClassName: String
   },
   data() {
     return {
-      ins: layer(),
+      ins: null,
       visible: this.show,
       timer: null
     }
   },
   methods: {
     showLayer(cb = () => {}) {
+      if (!this.ins) {
+        this.instanceAndBindEvents()
+      }
       this.ins.show(cb)
     },
     hideLayer(cb = () => {}) {
-      this.ins.hide(cb)
+      this.ins &&
+        this.ins.hide(() => {
+          cb()
+          if(this.destroyWhenHide) {
+
+            this.ins.destroy()
+            this.ins = null
+          }
+        })
     },
     hideIt(delay = 200) {
       clearTimeout(this.timer)
@@ -57,39 +70,59 @@ export default {
       })
     },
     init() {
-      this.$nextTick(() => {
-        let body = this.body
-        const $slots = this.$slots
-        const { bodyClassName, footerClassName, headerClassName } = this.$props
-        if (body) {
-          if (typeof body === "function") {
-            body = body()
-          }
-        } else {
-          body = $slots.default
-        }
-
-        this.ins.init(
-          this,
-          {
-            default: body,
-            header: $slots.header,
-            footer: $slots.footer
-          },
-          {
-            width: "auto",
+      this.ins &&
+        this.$nextTick(() => {
+          let body = this.body
+          const $slots = this.$slots
+          const {
             bodyClassName,
             footerClassName,
-            headerClassName,
-            canCloseByClickoutside: true
+            headerClassName
+          } = this.$props
+          if (body) {
+            if (typeof body === "function") {
+              body = body()
+            }
+          } else {
+            body = $slots.default
           }
-        )
+
+          this.ins.init(
+            this,
+            {
+              default: body,
+              header: $slots.header,
+              footer: $slots.footer
+            },
+            {
+              width: "auto",
+              bodyClassName,
+              footerClassName,
+              headerClassName,
+              canCloseByClickoutside: true
+            }
+          )
+        })
+    },
+    instanceAndBindEvents() {
+      this.ins = layer()
+      this.ins.$on("after-hide", () => {
+        this.visible = false
+      })
+      this.ins.$on("layer-inited", () => {
+        if (this.visible) {
+          this.showLayer()
+        }
+        if (this.trigger == "hover") {
+          this.ins.$el.addEventListener("mouseover", this.showIt)
+          this.ins.$el.addEventListener("mouseout", this.hideIt)
+        }
       })
     }
   },
   watch: {
     visible(v) {
-      this.$emit('update:show',v)
+      this.$emit("update:show", v)
       if (v) {
         this.showLayer()
       } else {
@@ -99,25 +132,16 @@ export default {
     show(v) {
       this.visible = v
     },
-    title: 'init',
-    body: 'init',
-    "$slots.header": 'init',
-    "$slots.footer": 'init'
+    title: "init",
+    body: "init",
+    "$slots.header": "init",
+    "$slots.footer": "init"
   },
   mounted() {
-    this.ins.$on("after-hide", () => {
-      this.visible = false
-    })
-    this.ins.$on("layer-inited", () => {
-      if(this.visible) {
-        this.showLayer()
-      }
-      if (this.trigger == "hover") {
-        this.ins.$el.addEventListener("mouseover", this.showIt)
-        this.ins.$el.addEventListener("mouseout", this.hideIt)
-      }
-    })
-    this.init()
+    if (!this.lazy) {
+      this.instanceAndBindEvents()
+      this.init()
+    }
   },
   updated() {
     this.init()
@@ -125,9 +149,7 @@ export default {
   render() {
     const { trigger, visible } = this
     const p = {
-      style: {
-        lineHeight: 1
-      },
+      class: "k-dropdown",
       directives: [
         {
           name: "esc",
@@ -162,9 +184,11 @@ export default {
     )
   },
   beforeDestroy() {
-    this.ins.$el.removeEventListener("mouseover", this.showIt)
-    this.ins.$el.removeEventListener("mouseout", this.hideIt)
-    this.ins.destroy()
+    if (this.ins) {
+      this.ins.$el.removeEventListener("mouseover", this.showIt)
+      this.ins.$el.removeEventListener("mouseout", this.hideIt)
+      this.ins.destroy()
+    }
   },
   directives: {
     esc

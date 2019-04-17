@@ -15,6 +15,10 @@ export default {
   name: "KDatePicker",
   props: {
     ...KInput.props,
+    lazy: {
+      type: Boolean,
+      default: true
+    },
     placeholder: {
       type: String,
       default: "选择日期"
@@ -510,6 +514,7 @@ export default {
   render() {
     const p = {
       props: {
+        lazy: this.lazy,
         show: this.visible,
         trigger: this.trigger,
         bodyClassName: "k-date-picker",

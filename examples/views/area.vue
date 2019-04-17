@@ -4,7 +4,11 @@
     <div>
       <div>
         区域选择
-        <k-area v-model="code" @update:area="afterArea"></k-area>
+        <k-area v-model="code"
+          :province="province"
+          :city="city"
+          :county="county"
+          @update:area="afterArea"></k-area>
         <div>
           {{area}}
         </div>
@@ -14,11 +18,16 @@
 </template>
 
 <script>
+import { province, city, county } from "./areaData.js"
+// console.log(city,county)
 export default {
   data() {
     return {
-      code:'621221',
-      area:null
+      code: "621221",
+      area: null,
+      province,
+      city,
+      county
     }
   },
   methods: {
@@ -30,5 +39,4 @@ export default {
 </script>
 
 <style>
-
 </style>
