@@ -27,11 +27,12 @@
       left: 2px;
       top: 2px;
       width: 7px;
-      height: 5px;
+      height: 4px;
       border: 2px solid #fff;
       border-width: 0 0 2px 2px;
       visibility: hidden;
-      transform: rotate(-54deg);
+      transform: rotate(-58deg) scale(0,0);
+      transition: var(--transition);
     }
   }
   &:hover {
@@ -48,6 +49,7 @@
         background: var(--checkbox-checked-bg-color);
         &:before {
           visibility: visible;
+          transform: rotate(-58deg) scale(.8,.8);
         }
       }
       & ~ .k-checkbox__text {

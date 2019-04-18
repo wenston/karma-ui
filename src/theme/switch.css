@@ -21,7 +21,7 @@
         position: absolute;
         width: calc(var(--$(name)) / 1.6 + 2px);
         height: calc(var(--$(name)) / 1.6 + 2px);
-        top: -2px;
+        top: -3px;
         border-radius: 100%;
         left: 0px;
         background-color: var(--default-color);

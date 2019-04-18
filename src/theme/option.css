@@ -5,6 +5,7 @@
   transition: var(--transition);
   cursor: pointer;
   text-align: left;
+  color: var(--font-color-2);
   @extend .k-ellipsis;
   &:hover,
   &.k-option--hover {
