@@ -11,6 +11,7 @@
     vertical-align: baseline;
     font-size: var(--checkbox-text-font-size);
     color: var(--checkbox-text-color);
+    margin-left: 5px;
   }
   .k-checkbox__icon {
     position: relative;

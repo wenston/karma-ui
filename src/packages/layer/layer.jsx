@@ -101,6 +101,7 @@ export default {
         }
       }
       this.$nextTick().then(() => {
+        this.calcLayerHeightAndGetPosition()
         this.$emit("layer-inited")
       })
     },
@@ -185,8 +186,7 @@ export default {
       this.visible = true
       this.afterEnter = () => {
         this.$nextTick(() => {
-          this.layerHeight = parseFloat(getStyle(this.$el, "height"))
-          this._getElemPosition()
+          // this.calcLayerHeightAndGetPosition()
           callback()
         })
       }
@@ -200,6 +200,10 @@ export default {
     },
     destroy() {
       this.$destroy()
+    },
+    calcLayerHeightAndGetPosition() {
+      this.layerHeight = parseFloat(getStyle(this.$el, "height"))
+      this._getElemPosition()
     }
   },
   beforeDestroy() {
@@ -233,14 +237,14 @@ export default {
       },
       on: {
         ...this.$listeners,
-        mouseover:e=> {
-          this.$emit('mouseover',e)
+        mouseover: e => {
+          this.$emit("mouseover", e)
         },
-        mouseout:e=> {
-          this.$emit('mouseout',e)
+        mouseout: e => {
+          this.$emit("mouseout", e)
         },
-        mousedown: e=> {
-          this.$emit('mousedown',e)
+        mousedown: e => {
+          this.$emit("mousedown", e)
         }
       },
       style: this.styles
