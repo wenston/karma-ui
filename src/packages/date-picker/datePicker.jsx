@@ -286,7 +286,7 @@ export default {
         props: {
           ...this.$props,
           readonly: true,
-          value: util.formatDate(this.currentDate) //this.dateToString()
+          value: this.dateToString()
         },
         on: {
           clear: () => {
