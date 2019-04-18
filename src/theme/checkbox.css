@@ -1,9 +1,10 @@
 .k-checkbox {
   margin-right: var(--checkbox-gutter);
+  display: inline-flex;
   &:nth-last-of-type(1) {
     margin-right:0;
   }
-  display: inline-block;
+  /* display: inline-block; */
   line-height: var(--checkbox-line-height);
   white-space: nowrap;
   .k-checkbox__text {

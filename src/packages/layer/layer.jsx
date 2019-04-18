@@ -232,7 +232,16 @@ export default {
         "k-layer": true
       },
       on: {
-        ...this.$listeners
+        ...this.$listeners,
+        mouseover:e=> {
+          this.$emit('mouseover',e)
+        },
+        mouseout:e=> {
+          this.$emit('mouseout',e)
+        },
+        mousedown: e=> {
+          this.$emit('mousedown',e)
+        }
       },
       style: this.styles
     }
@@ -276,14 +285,6 @@ export default {
           name: "show",
           value: this.visible
         }
-        // {
-        //   name: "clickoutside",
-        //   value: this.hide
-        // },
-        // {
-        //   name: "esc",
-        //   value: this.hide
-        // }
       ]
       if (this.canCloseByClickoutside) {
         p.directives.push({

@@ -47,14 +47,6 @@ export default {
       on: {
         ...this.$listeners,
         click: this.handleClick,
-        mouseover: e=> {
-          e.stopPropagation()
-          this.layerComponent && this.layerComponent.$data.vm.$emit('inovering',true)
-        },
-        mouseout: e=> {
-          e.stopPropagation()
-          // this.layerComponent && this.layerComponent.$data.vm.$emit('inovering',false)
-        },
         mousedown: e => {
           e.stopPropagation()
           this.layerComponent &&

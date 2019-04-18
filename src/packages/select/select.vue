@@ -242,6 +242,12 @@ export default {
     this.ins.$on('after-hide',() => {
       this.hideList()
     })
+    this.ins.$on('mousedown',()=>{
+      this.isMouseDownOption = true
+    })
+    this.ins.$on('mouseout',()=>{
+      this.isMouseDownOption = false
+    })
   },
   created() {
     this.$on("getKeyValueFromOption", (k, v, hide) => {
@@ -250,16 +256,15 @@ export default {
     this.$on("getOptionComponentName", name => {
       this.optionCompName = name
     })
-    this.$on("inovering", isMouseDownOption => {
-      // console.log(isMouseDownOption)
-      this.isMouseDownOption = isMouseDownOption
-      //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
-      if (!isMouseDownOption) {
-        if (document.activeElement != this.$refs.input.getInputElement()) {
-          this.hideList()
-        }
-      }
-    })
+    // this.$on("inovering", isMouseDownOption => {
+    //   this.isMouseDownOption = isMouseDownOption
+    //   //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
+    //   if (!isMouseDownOption) {
+    //     if (document.activeElement != this.$refs.input.getInputElement()) {
+    //       this.hideList()
+    //     }
+    //   }
+    // })
   },
   watch: {
     modelKey(n) {
@@ -312,6 +317,7 @@ export default {
           e.stopPropagation()
         },
         blur: () => {
+          
           //失去焦点的时候，如果鼠标还在列表中呈现mousedown状态，则不隐藏
           if (!this.isMouseDownOption) {
             this.hideList()

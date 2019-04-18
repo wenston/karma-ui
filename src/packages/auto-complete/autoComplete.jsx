@@ -87,7 +87,7 @@ export default {
       //控制延迟加载的转圈图形显示
       loading: false,
       pageIndex: 1,
-      timer: null,
+      timer: null
     }
   },
   computed: {
@@ -115,7 +115,7 @@ export default {
       handler(v) {
         this.getInputTextByKeyField()
       }
-    },
+    }
   },
   methods: {
     handleKeyup(e) {
@@ -178,7 +178,7 @@ export default {
         }
       }
       this.inputText = text
-      if(this.inputText === '') {
+      if (this.inputText === "") {
         this.currentHoverIndex = -1
         this.currentIndex = -1
         this.getFilterData()
@@ -251,7 +251,10 @@ export default {
         this.$forceUpdate()
       } else {
         this.filterData = this.data
-        if (this.$refs.input && document.activeElement == this.$refs.input.getInputElement()) {
+        if (
+          this.$refs.input &&
+          document.activeElement == this.$refs.input.getInputElement()
+        ) {
           this.showList(this.scrollIntoViewIfNeed)
         }
       }
@@ -263,7 +266,7 @@ export default {
       let scrollHeight = Math.ceil(body.scrollHeight)
       // console.log(bodyHeight,scrollTop,scrollHeight,this.totalPages)
       // 使用了Math.ceil和 -2，处理临界点高度
-      if (bodyHeight + scrollTop >= scrollHeight- 2) {
+      if (bodyHeight + scrollTop >= scrollHeight - 2) {
         if (this.totalPages > 1) {
           if (this.pageIndex < this.totalPages) {
             this.pageIndex += 1
@@ -273,7 +276,7 @@ export default {
       }
     }),
     showList(fn = () => {}) {
-      this.$nextTick().then(()=>{
+      this.$nextTick().then(() => {
         this.ins &&
           this.ins.show(() => {
             fn()
@@ -339,7 +342,7 @@ export default {
       }
       this.getAllOptionsComponent()
       if (this.options.length && this.options[i] && this.options[i].$el) {
-        scrollIntoViewIfNeed(this.options[i].$el,this.ins.$refs.body)
+        scrollIntoViewIfNeed(this.options[i].$el, this.ins.$refs.body)
       }
     },
     getAllOptionsComponent() {
@@ -404,9 +407,9 @@ export default {
           },
           input: () => {
             clearTimeout(this.timer)
-            this.timer = setTimeout(()=>{
-              this.$emit('input', this.inputText)
-            },this.debounceTime)
+            this.timer = setTimeout(() => {
+              this.$emit("input", this.inputText)
+            }, this.debounceTime)
           },
           keyup: e => {
             this.handleKeyup(e)
@@ -431,13 +434,20 @@ export default {
     instanceAndOn() {
       this.ins = layer()
 
-      this.ins.$on('layer-inited',()=>{
-        this.$nextTick().then(()=>{
+      this.ins.$on("layer-inited", () => {
+        this.$nextTick().then(() => {
           this.ins.$refs.body.addEventListener(
-            'scroll',
+            "scroll",
             this.handleLayerBodyScroll
           )
         })
+      })
+
+      this.ins.$on("mousedown", () => {
+        this.isMouseDownOption = true
+      })
+      this.ins.$on("mouseout", () => {
+        this.isMouseDownOption = false
       })
     },
     init() {
@@ -508,7 +518,7 @@ export default {
                       {item[this.valueField]}
                     </k-option>
                   )
-                })) || <k-option {...loadingProps} ></k-option>
+                })) || <k-option {...loadingProps} />
           const slotsHeader = $slots.header
           const slotsFooter = $slots.footer
           this.ins.init(
@@ -560,7 +570,6 @@ export default {
   },
   destroyed() {
     if (this.ins) {
-      
       // console.log('k-auto-complete被销毁了！当前页：',this.pageIndex)
     }
   },
@@ -580,14 +589,14 @@ export default {
       this.optionCompName = name
     })
 
-    this.$on("inovering", isMouseDownOption => {
-      this.isMouseDownOption = isMouseDownOption
-      //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
-      if (!isMouseDownOption) {
-        if (document.activeElement != this.$refs.input.getInputElement()) {
-          this.hideList(this.destroyLayer)
-        }
-      }
-    })
+    // this.$on("inovering", isMouseDownOption => {
+    //   this.isMouseDownOption = isMouseDownOption
+    //   //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
+    //   if (!isMouseDownOption) {
+    //     if (document.activeElement != this.$refs.input.getInputElement()) {
+    //       this.hideList(this.destroyLayer)
+    //     }
+    //   }
+    // })
   }
 }
