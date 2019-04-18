@@ -348,18 +348,23 @@ export default {
         if (start || end) {
           if (start) {
             if (curDate - start < 0) {
+              // console.log('变开始为结束')
               this.emitEnd(this.start)
+              this.$emit('change-cache-start',curDate)
             } else {
               this.endDate = curDate
               this.$emit("change-cache-end", curDate)
+
             }
             // console.log(this.startDate,this.endDate)
           } else {
             if (curDate - end > 0) {
+              // console.log('变结束为开始')
               this.emitStart(this.end)
-              this.$nextTick(() => {
-                this.endDate = curDate
-              })
+              this.$emit('change-cache-end',curDate)
+              // this.$nextTick(() => {
+              //   this.endDate = curDate
+              // })
             } else {
               this.startDate = curDate
               this.$emit("change-cache-start", curDate)

@@ -21,18 +21,18 @@
 export default {
   data() {
     return {
-      value: "2019-4-3",
+      value: new Date(),
       show: true,
-      start: "",
-      end: ""
+      start: new Date(),
+      end: new Date()
     }
   },
   computed: {
     max() {
-      return new Date()
+      // return new Date()
     },
     min() {
-      return '2019-04-08'
+      // return '2019-04-08'
     }
   },
   methods: {

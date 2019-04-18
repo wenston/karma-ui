@@ -160,6 +160,10 @@
         color: #ccc;
         cursor: not-allowed;
       }
+      &.k-d-p-q-active {
+        background-color: var(--primary-color);
+        color: white;
+      }
     }
   }
   .k-date-picker-actions {
