@@ -135,8 +135,7 @@ export default {
         this.ins.init(this, this.$slots.default, {
           bodyClassName: "k-select__list",
           tag: "div",
-          bodyTag: "ul",
-          canCloseByClickoutside: true
+          bodyTag: "ul"
         })
       })
     },
@@ -239,9 +238,6 @@ export default {
   },
   mounted() {
     this.initIns()
-    this.ins.$on('after-hide',() => {
-      this.hideList()
-    })
   },
   created() {
     this.$on("getKeyValueFromOption", (k, v, hide) => {
@@ -251,7 +247,6 @@ export default {
       this.optionCompName = name
     })
     this.$on("inovering", isMouseDownOption => {
-      // console.log(isMouseDownOption)
       this.isMouseDownOption = isMouseDownOption
       //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
       if (!isMouseDownOption) {

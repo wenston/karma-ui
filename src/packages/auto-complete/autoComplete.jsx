@@ -531,7 +531,8 @@ export default {
               //弹框宽。如果不指定宽，则宽度和输入框一致
               width: layerWidth,
               //高度暂时没有设置。TODO
-              height: layerHeight
+              height: layerHeight,
+              canCloseByClickoutside: true
             }
           )
         }
