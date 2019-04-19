@@ -7,6 +7,7 @@ export default {
   },
   props: {
     ...props,
+    scopedSlots: Object,
     active: [String, Number] //当前选择的节点数据
   },
   data() {
@@ -31,7 +32,7 @@ export default {
     }
   },
   render() {
-    const { data: sourceData, treeProps } = this
+    let { data: sourceData, treeProps } = this
     const len = sourceData.length - 1
     const root = sourceData.map((item, i) => {
       const treeItemProps = {

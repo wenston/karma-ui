@@ -11,11 +11,14 @@ export default {
     item: Object,
     isLastOne: Boolean, //是不是数组中最后一条数据
     active: [Number, String], //当前选择的节点数据
-    spread: Boolean //
+    spread: Boolean, //
+    scopedSlots: Object
   },
   data() {
     return {
-      open: this.spread
+      open: this.spread,
+      //是否处于加载下一级数据之中
+      loading: false
     }
   },
   inject: ["tree"],
@@ -196,6 +199,15 @@ export default {
       }
       return <k-icon {...p} />
     },
+    loadingIcon() {
+      const p = {
+        props: {
+          name: "k-icon-loading",
+        },
+        class: "k-loading__icon k-tree-icon"
+      }
+      return <k-icon {...p} />
+    },
     renderText(item) {
       const { textField, keyField, active, hasCheckbox } = this
       const p = {
@@ -213,7 +225,18 @@ export default {
           }
         }
       }
-      const text = <span {...p}>{item[textField]}</span>
+      let text = null
+      if (this.scopedSlots && this.scopedSlots.default) {
+        text = (
+          <span {...p}>
+            {this.scopedSlots.default({
+              item
+            })}
+          </span>
+        )
+      } else {
+        text = <span {...p}>{item[textField]}</span>
+      }
       if (hasCheckbox) {
         const checkProp = {
           class: "k-tree-checkbox",
@@ -228,7 +251,7 @@ export default {
               //选中、取消选中父级所有节点
               this.selectParent(item, checked)
               //复选或者取消复选时，当前节点数据
-              this.tree.$emit('select',checked,this.tree.toPure(item))
+              this.tree.$emit("select", checked, this.tree.toPure(item))
               //选中、取消选中时，应向组件外抛出事件，把数据发送出去
               //发送的数据为扁平的数组
               //从tree组件将数组发出去
@@ -244,6 +267,72 @@ export default {
         return [<k-checkbox {...checkProp} />, text]
       }
       return text
+    },
+    renderIconWrapper() {
+      let icon = this.foldIcon()
+      if (this.open) {
+        icon = this.openIcon()
+      } else {
+        if (this.loading) {
+          icon = this.loadingIcon()
+        }
+      }
+      if (this.item[this.leafField]) {
+        icon = this.leafIcon()
+      }
+      let p = {
+        class: "k-tree-icon-wrapper"
+      }
+      if (!this.item[this.leafField]) {
+        p.on = {
+          click: e => {
+            this.handleIconClick()
+          }
+        }
+      }
+      return <span {...p}>{icon}</span>
+    },
+    //点击图标后展开、折叠、加载的操作
+    handleIconClick() {
+      const item = this.item,
+        childField = this.childField,
+        childData = this.item[childField],
+        leafField = this.leafField,
+        pureItem = this.tree.toPure(item)
+      if (this.lazy) {
+        if (!this.open) {
+          if (!childData || childData.length === 0) {
+            this.loading = true
+            this.lazyLoad()
+              .then(data => {
+                if (data.length) {
+                  data.forEach(el => {
+                    el.__open__ = false
+                  })
+                  this.$set(this.item, childField, data)
+                }
+                this.$nextTick(() => {
+                  this.open = true
+                  this.tree.$emit("expand", this.open, pureItem)
+                })
+                this.loading = false
+              })
+              .catch(() => {
+                this.loading = false
+                console.warn("树形结构中的lazyLoad加载数据失败！")
+              })
+          } else {
+            this.open = true
+          }
+        } else {
+          this.open = false
+        }
+      } else {
+        this.open = !this.open
+        if (childData && childData.length) {
+          this.tree.$emit("expand", this.open, pureItem)
+        }
+      }
     }
   },
   watch: {
@@ -255,7 +344,8 @@ export default {
     }
   },
   render() {
-    const childData = this.item[this.childField]
+    const childField = this.childField
+    const childData = this.item[childField]
     const open = this.open
     //注意参数的传递！
     const child = {
@@ -275,7 +365,6 @@ export default {
         }
       ]
     }
-    const icon = open ? this.openIcon() : this.foldIcon()
     const itemProps = {
       class: [
         "k-tree-item",
@@ -284,27 +373,18 @@ export default {
         }
       ]
     }
-    const item = (
+    return (
       <div {...itemProps}>
-        <span
-          class="k-tree-icon-wrapper"
-          onClick={() => {
-            if (childData.length) {
-              this.open = !open
-              this.tree.$emit("expand", this.open, this.tree.toPure(this.item))
-            }
+        {this.renderIconWrapper()}
+        {this.renderText(this.item)}
+        <k-transition
+          onAfter-transition={() => {
+            this.tree.$emit("after-transition")
           }}
         >
-          {childData.length ? icon : this.leafIcon()}
-        </span>
-        {this.renderText(this.item)}
-        <k-transition onAfter-transition={()=>{
-          this.tree.$emit('after-transition')
-        }}>
           <KTreeList {...child} />
         </k-transition>
       </div>
     )
-    return item
   }
 }

@@ -96,7 +96,8 @@ export default {
       props: {
         ...this.$props,
         data: this.sourceData,
-        active: this.currentValue
+        active: this.currentValue,
+        scopedSlots: this.$scopedSlots
       },
       on: {
         toggle: e => {

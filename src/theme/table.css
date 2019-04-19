@@ -63,7 +63,7 @@
   .k-table-head {
     position: relative;
     color: var(--font-color-1);
-    z-index: 0;
+    z-index: 1;
     /* flex: 1; */
   }
 

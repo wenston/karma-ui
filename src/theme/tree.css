@@ -1,5 +1,5 @@
 .k-tree {
-  line-height: 24px;
+  line-height: 2;
   font-size: 12px;
   @extend .k-no-select;
   & > .k-tree-item {
@@ -9,6 +9,7 @@
       width: 16px;
       height: 16px;
       display: inline-block;
+      vertical-align: 1px;
     }
     &.k-tree-item--dotted,
     &:not(:last-child) {
@@ -20,7 +21,7 @@
           border-left: 1px dotted color(var(--border-color) b(40%));
           left: 5.5px;
           pointer-events: none;
-          top: 1.5em;
+          top: 1.6em;
           /* bottom: 0; */
           height: calc(100% - 1em);
         }

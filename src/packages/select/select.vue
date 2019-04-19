@@ -256,15 +256,15 @@ export default {
     this.$on("getOptionComponentName", name => {
       this.optionCompName = name
     })
-    // this.$on("inovering", isMouseDownOption => {
-    //   this.isMouseDownOption = isMouseDownOption
-    //   //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
-    //   if (!isMouseDownOption) {
-    //     if (document.activeElement != this.$refs.input.getInputElement()) {
-    //       this.hideList()
-    //     }
-    //   }
-    // })
+    this.$on("inovering", isMouseDownOption => {
+      this.isMouseDownOption = isMouseDownOption
+      //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
+      if (!isMouseDownOption) {
+        if (document.activeElement != this.$refs.input.getInputElement()) {
+          this.hideList()
+        }
+      }
+    })
   },
   watch: {
     modelKey(n) {
