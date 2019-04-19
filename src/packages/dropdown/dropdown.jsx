@@ -30,13 +30,21 @@ export default {
     destroyWhenHide: Boolean,
     bodyClassName: String,
     headerClassName: String,
-    footerClassName: String
+    footerClassName: String,
+    //是否可以从点击dropdown外部关闭dropdown
+    canCloseByClickoutside: {
+      type: Boolean,
+      default: true
+    },
+    //从外部点击关闭dropdown时，除了whiteList中的元素
+    whiteList: Array
   },
   data() {
     return {
       ins: null,
       visible: this.show,
-      timer: null
+      timer: null,
+      insElement: null
     }
   },
   methods: {
@@ -50,8 +58,7 @@ export default {
       this.ins &&
         this.ins.hide(() => {
           cb()
-          if(this.destroyWhenHide) {
-
+          if (this.destroyWhenHide) {
             this.ins.destroy()
             this.ins = null
           }
@@ -69,7 +76,9 @@ export default {
         this.visible = true
       })
     },
+    //init方法待改进：是否可以加入debounce
     init() {
+      
       this.ins &&
         this.$nextTick(() => {
           let body = this.body
@@ -77,7 +86,8 @@ export default {
           const {
             bodyClassName,
             footerClassName,
-            headerClassName
+            headerClassName,
+            canCloseByClickoutside
           } = this.$props
           if (body) {
             if (typeof body === "function") {
@@ -86,7 +96,7 @@ export default {
           } else {
             body = $slots.default
           }
-
+          // console.log('dropdown接收到的whiteList',this.whiteList)
           this.ins.init(
             this,
             {
@@ -99,13 +109,17 @@ export default {
               bodyClassName,
               footerClassName,
               headerClassName,
-              canCloseByClickoutside: true
+              canCloseByClickoutside,
+              whiteList: this.whiteList
             }
           )
         })
     },
     instanceAndBindEvents() {
       this.ins = layer()
+      if (this.lazy) {
+        this.init()
+      }
       this.ins.$on("after-hide", () => {
         this.visible = false
       })
@@ -116,6 +130,13 @@ export default {
         if (this.trigger == "hover") {
           this.ins.$el.addEventListener("mouseover", this.showIt)
           this.ins.$el.addEventListener("mouseout", this.hideIt)
+        }
+        if (
+          this.insElement == null ||
+          (this.insElement && this.insElement != this.ins.$el)
+        ) {
+          this.insElement = this.ins.$el
+          this.$emit("getLayerElement", this.insElement)
         }
       })
     }
@@ -132,10 +153,14 @@ export default {
     show(v) {
       this.visible = v
     },
+    //如下一大堆的监控和update钩子有什么区别，去掉行不行？
     title: "init",
     body: "init",
+    header: "init",
+    footer: "init",
     "$slots.header": "init",
-    "$slots.footer": "init"
+    "$slots.footer": "init",
+    "$slots.default": "init"
   },
   mounted() {
     if (!this.lazy) {
@@ -144,6 +169,7 @@ export default {
     }
   },
   updated() {
+    // console.log('dropdown updated !!!!')
     this.init()
   },
   render() {
@@ -162,7 +188,6 @@ export default {
         click: e => {
           if (trigger == "click") {
             this.visible = !visible
-            e.stopPropagation()
           }
         },
         mouseover: e => {

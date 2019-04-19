@@ -239,6 +239,9 @@ export default {
   },
   mounted() {
     this.initIns()
+    this.ins.$on('layer-inited',()=>{
+      this.$emit('getLayerElement', this.ins)
+    })
     this.ins.$on('after-hide',() => {
       this.hideList()
     })

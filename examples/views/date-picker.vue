@@ -10,7 +10,9 @@
         :max="max"
         :min="min"
         range
-        block></k-date-picker>
+        block
+        ref="dp2"
+        @getLayerElement="getDatePickerElement"></k-date-picker>
       <k-button @click="start='2018-10-10'">2018-10-10</k-button>
       <k-button @click="end='2019-10-10'">2019-10-10</k-button>
     </div>
@@ -38,6 +40,9 @@ export default {
   methods: {
     toggle(e) {
       this.show = !this.show
+    },
+    getDatePickerElement(el) {
+      console.log(el)
     }
   },
   watch: {

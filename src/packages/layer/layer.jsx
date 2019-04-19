@@ -52,6 +52,7 @@ export default {
       footerClassName: "",
       //
       canCloseByClickoutside: false,
+      whiteList: [],
       styles: {},
       afterEnter: () => {},
       afterLeave: () => {}
@@ -100,6 +101,7 @@ export default {
           this.$data[k] = opts[k]
         }
       }
+      // console.log(opts.whiteList)
       this.$nextTick().then(() => {
         this.calcLayerHeightAndGetPosition()
         this.$emit("layer-inited")
@@ -249,6 +251,35 @@ export default {
       },
       style: this.styles
     }
+    let transitionProps = null
+    if (this.hasTransition) {
+      transitionProps = {
+        on: {
+          enter: this._handleEnter,
+          "after-leave": this._handleAfterLeave
+        },
+        props: {
+          name: "k-transition-slide-down"
+        }
+      }
+      p.directives = [
+        {
+          name: "show",
+          value: this.visible
+        }
+      ]
+      if (this.canCloseByClickoutside) {
+        const list = [this.vm.$el, ...this.whiteList]
+        // console.log("layer组件接收到的whiteList", list)
+        p.directives.push({
+          name: "clickoutside",
+          value: {
+            fn: this.hide,
+            whiteList: list
+          }
+        })
+      }
+    }
     const content = (
       <this.tag {...p}>
         {this.headerSlots ? (
@@ -275,30 +306,6 @@ export default {
       </this.tag>
     )
     if (this.hasTransition) {
-      const transitionProps = {
-        on: {
-          enter: this._handleEnter,
-          "after-leave": this._handleAfterLeave
-        },
-        props: {
-          name: "k-transition-slide-down"
-        }
-      }
-      p.directives = [
-        {
-          name: "show",
-          value: this.visible
-        }
-      ]
-      if (this.canCloseByClickoutside) {
-        p.directives.push({
-          name: "clickoutside",
-          value: {
-            fn: this.hide,
-            whiteList: [this.vm.$el]
-          }
-        })
-      }
       return <transition {...transitionProps}>{content}</transition>
     }
     return content

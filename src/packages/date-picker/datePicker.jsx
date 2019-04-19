@@ -581,6 +581,9 @@ export default {
       on: {
         "update:show": v => {
           this.visible = v
+        },
+        "getLayerElement":el=>{
+          this.$emit('getLayerElement',el)
         }
       }
     }
@@ -590,7 +593,15 @@ export default {
     visible(v) {
       if (v) {
         this.initStartAndEnd()
+        this.$nextTick(()=>{
+          this.$emit('after-show')
+        })
+      }else{
+        this.$nextTick(()=>{
+          this.$emit('after-hide')
+        })
       }
+      this.$emit('update:show',v)
     },
     show(v) {
       this.visible = v

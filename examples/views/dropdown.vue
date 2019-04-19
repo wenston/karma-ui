@@ -4,22 +4,15 @@
     <div>
       <k-dropdown :title="title"
         bodyClassName="body"
-        trigger="click">
+        trigger="click"
+        :white-list="wh">
         <h1 slot="header">这是标题了！！！</h1>
         <em slot="footer">这是底部了</em>
         <div>展示面板打开了！</div>
-        <k-input readonly placeholder="展示什么好呢" />
-        <p>sadfasg</p>
-        <p>sadfasg</p>
-        <p>sadfasg</p>
-        <p>sadfasg</p>
-        <p>sadfasg</p>
-        <p>sadfasg</p>
-        <p>sadfasg</p>
-        <p>sadfasg</p>
+        来一个日期
+        <k-date-picker :start.sync="start" :end.sync="end" @getLayerElement="getDatePickerElement"
+          range />
       </k-dropdown>
-      <k-dropdown :title="title1"
-        :body="body1"></k-dropdown>
     </div>
   </div>
 </template>
@@ -28,18 +21,22 @@
 export default {
   data() {
     return {
-      title:<div>新的title哦，object格式</div>,
-      title1: [<div>哈哈</div>,<div>呵呵</div>],
-      body1: [
-        <k-checkbox text="复选" />,
-        <k-button>按钮</k-button>
-      ]
+      title: <div>新的title哦，object格式</div>,
+      dpElement: null,
+      wh: [],
+      start: '',
+      end: ''
     }
   },
   methods: {
     afterArea(area) {
       this.area = area
     },
+    getDatePickerElement(el) {
+      // this.whiteList = [el]
+      this.wh.push(el)
+      console.log(el)
+    }
     // title() {
     //   return <div>这是个抬头 <k-icon name="k-icon-sort-down" /></div>
     // }
@@ -50,7 +47,6 @@ export default {
 <style>
 .body {
   padding: 20px;
-  height: 400px;
   width: 400px;
   overflow: auto;
   background-color: white;
