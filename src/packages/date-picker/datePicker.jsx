@@ -116,7 +116,7 @@ export default {
     return {
       visible: this.show,
       currentDate: this.value,
-      showingDate: "",
+      showingDate: this.value,
       startDate: start,
       endDate: end,
       cacheStart: start,
@@ -284,7 +284,16 @@ export default {
           ...this.styles
         },
         props: {
-          ...this.$props,
+          // ...this.$props,
+          placeholder:this.placeholder,
+          disabled: this.disabled,
+          block: this.block,
+          simple: this.simple,
+          size:this.size,
+          styles: this.styles,
+          inputStyles: this.inputStyles,
+          noStyle: this.noStyle,
+          capsule: this.capsule,
           readonly: true,
           value: this.dateToString()
         },
@@ -390,11 +399,15 @@ export default {
         ]
         if (this.range) {
         } else {
+          const disabled = !this.$_is_in_max_min_range(this.showingDate)
+          console.log(this.min+','+this.showingDate)
           actions.push(
             <k-button
               size="mini"
               type="primary"
+              disabled={disabled}
               onClick={e => {
+                if(disabled) {return}
                 this.currentDate = this.showingDate
                 this.visible = false
               }}

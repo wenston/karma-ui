@@ -404,7 +404,9 @@ export default {
       immediate: true,
       handler(d) {
         this.showingDate = d
+        if(this.range)
         this.$emit("change-showing-date", d)
+        else this.$emit('change-ymd',d)
       }
     },
     showingDate: {

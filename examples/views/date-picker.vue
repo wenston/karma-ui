@@ -5,6 +5,8 @@
       <k-button @click="toggle">toggle</k-button>
       单个日期：<k-date-picker v-model="value"
         :show.sync="show" simple block></k-date-picker>
+      单个日期：<k-date-picker v-model="value1"
+        :show.sync="show" :min="value" simple block></k-date-picker>
       日期区间：<k-date-picker :start.sync="start"
         :end.sync="end"
         :max="max"
@@ -23,7 +25,8 @@
 export default {
   data() {
     return {
-      value: new Date(),
+      value: '2019-04-19',
+      value1: '',
       show: true,
       start: new Date(),
       end: new Date()

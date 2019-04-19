@@ -115,8 +115,8 @@
             color: var(--primary-color);
           }
           &.k-date-picker-select-day {
-            background-color: var(--primary-color) !important;
-            color: white !important;
+            background-color: var(--primary-color);
+            color: white;
           }
           &:hover,
           &.k-date-picker-active {
