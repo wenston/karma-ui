@@ -340,7 +340,7 @@ export default {
       this.open = v
     },
     open(v) {
-      this.$emit("update:spread", v)
+      this.$emit("update:spread", v,this.$el)
     }
   },
   render() {

@@ -11,7 +11,14 @@ export default {
     active: [String, Number] //当前选择的节点数据
   },
   data() {
-    return {}
+    return {
+      dataList: this.data
+    }
+  },
+  watch: {
+    data(d) {
+      this.dataList = d
+    }
   },
   computed: {
     treeProps() {
@@ -32,7 +39,7 @@ export default {
     }
   },
   render() {
-    let { data: sourceData, treeProps } = this
+    let { dataList: sourceData, treeProps } = this
     const len = sourceData.length - 1
     const root = sourceData.map((item, i) => {
       const treeItemProps = {
@@ -44,12 +51,17 @@ export default {
         },
         on: {
           toggle: this.toggle,
-          "update:spread": b => {
+          "update:spread": (b, el) => {
             // console.log(this.$children)
-            // this.$children.forEach(child=>{
-            //   child.open = false
-            // })
-            // item.__open__ = b
+            if (b) {
+              this.$children.forEach(child => {
+                if (child.$el != el) {
+                  child.open = false
+                } else {
+                  child.open = true
+                }
+              })
+            }
           }
         }
       }
