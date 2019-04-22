@@ -9,7 +9,7 @@
       width: 16px;
       height: 16px;
       display: inline-block;
-      vertical-align: 1px;
+      vertical-align: 3px;
     }
     &.k-tree-item--dotted,
     &:not(:last-child) {
