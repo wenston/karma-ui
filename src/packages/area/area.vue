@@ -24,7 +24,7 @@
     </template>
     <template v-if="qu">
       <k-select v-model="curCounty"
-        :styles="selectStyle"
+        :styles="lastStyle"
         placeholder="区/县">
         <k-option v-for="item in qu[curCity]"
           :key="item.code"
@@ -60,7 +60,17 @@ export default {
       type: Object,
       default: () => ({})
     },
-    code: [String, Number]
+    code: [String, Number],
+    selectStyle: {
+      type: Object,
+      default: () => ({
+        width: '90px'
+      })
+    },
+    lastSelectStyle: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data() {
     return {
@@ -69,10 +79,7 @@ export default {
       qu: this.county,
       curProvince: "",
       curCity: "",
-      curCounty: "",
-      selectStyle: {
-        width: "90px"
-      }
+      curCounty: ""
     }
   },
   model: {
@@ -80,6 +87,9 @@ export default {
     event: "codeChange"
   },
   computed: {
+    lastStyle() {
+      return {...this.selectStyle,...this.lastSelectStyle}
+    },
     sCode() {
       return this.code + ""
     }

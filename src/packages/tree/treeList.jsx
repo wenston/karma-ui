@@ -45,7 +45,11 @@ export default {
         on: {
           toggle: this.toggle,
           "update:spread": b => {
-            item.__open__ = b
+            // console.log(this.$children)
+            // this.$children.forEach(child=>{
+            //   child.open = false
+            // })
+            // item.__open__ = b
           }
         }
       }

@@ -303,7 +303,7 @@ export default {
         if (!this.open) {
           if (!childData || childData.length === 0) {
             this.loading = true
-            this.lazyLoad()
+            this.lazyLoad(item)
               .then(data => {
                 if (data.length) {
                   data.forEach(el => {

@@ -56,5 +56,10 @@ export default {
     type: Boolean,
     default: false
   },
-  lazyLoad: Function
+  lazyLoad: Function,
+  //是否是手风琴效果
+  accordion: {
+    type: Boolean,
+    default: true
+  }
 }

@@ -400,7 +400,7 @@ export default {
         if (this.range) {
         } else {
           const disabled = !this.$_is_in_max_min_range(this.showingDate)
-          console.log(this.min+','+this.showingDate)
+          // console.log(this.min+','+this.showingDate)
           actions.push(
             <k-button
               size="mini"
