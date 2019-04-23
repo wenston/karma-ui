@@ -251,7 +251,7 @@ export default {
               //选中、取消选中父级所有节点
               this.selectParent(item, checked)
               //复选或者取消复选时，当前节点数据
-              this.tree.$emit("select", checked, this.tree.toPure(item))
+              this.tree.$emit("select", checked, item)
               //选中、取消选中时，应向组件外抛出事件，把数据发送出去
               //发送的数据为扁平的数组
               //从tree组件将数组发出去
@@ -294,11 +294,10 @@ export default {
     },
     //点击图标后展开、折叠、加载的操作
     handleIconClick() {
-      const item = this.item,
+      let item = this.item,
         childField = this.childField,
         childData = this.item[childField],
-        leafField = this.leafField,
-        pureItem = this.tree.toPure(item)
+        leafField = this.leafField
       if (this.lazy) {
         if (!this.open) {
           if (!childData || childData.length === 0) {
@@ -313,7 +312,7 @@ export default {
                 }
                 this.$nextTick(() => {
                   this.open = true
-                  this.tree.$emit("expand", this.open, pureItem)
+                  this.tree.$emit("expand", this.open, item)
                 })
                 this.loading = false
               })
@@ -330,7 +329,7 @@ export default {
       } else {
         this.open = !this.open
         if (childData && childData.length) {
-          this.tree.$emit("expand", this.open, pureItem)
+          this.tree.$emit("expand", this.open, item)
         }
       }
     }
