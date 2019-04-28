@@ -78,7 +78,6 @@ export default {
     },
     //init方法待改进：是否可以加入debounce
     init() {
-      
       this.ins &&
         this.$nextTick(() => {
           let body = this.body

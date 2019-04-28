@@ -280,7 +280,7 @@ export default {
     renderTitle() {
       const p = {
         style: {
-          width: this.block ? "" : "93px",
+          width: this.block ? "" : "98px",
           ...this.styles
         },
         props: {

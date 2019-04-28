@@ -80,7 +80,10 @@ export const addDays = (date, day) => {
 }
 export const getMondayInThisWeek = () => {
   const d = getNow()
-  const day = d.getDay()
+  let day = d.getDay()
+  if(day === 0) {
+    day = 7
+  }
   return addDays(new Date(), (day - 1) * -1)
 }
 export const getLastWeek = () => {
