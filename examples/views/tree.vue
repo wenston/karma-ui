@@ -18,15 +18,19 @@
         @select="onSelect"
         selected-rule="every"></k-tree>
       <k-tree class="tree"
-        :data="tree3"
+        v-model="curValue"
+        :data.sync="tree3"
         keyField="Code"
         :lazy-load="toLoad"
+        @toggle="toggleNode"
         lazy>
         <div slot-scope="{item}">{{item.Code}} - {{item.Name}}</div>
       </k-tree>
     </div>
     <div>
       <k-button @click="change">改变树形组件的选择项</k-button>
+      <k-button @click="changeData">外部改变数据</k-button>
+      <k-button @click="addItem">添加点数据</k-button>
     </div>
   </div>
 </template>
@@ -35,6 +39,8 @@
 export default {
   data() {
     return {
+      curValue: '',
+      curItem: {},
       tree3: [
         {
           Code: 1,
@@ -360,11 +366,29 @@ export default {
             Name: (Math.round(Math.random() * 20901) + 19968).toString(16),
             IsLeaf: Math.random()>0.5
           })
+          console.log(this.tree3)
         })
         setTimeout(() => {
           res(d)
         }, Math.random()*500)
       })
+    },
+    addItem() {
+      this.curItem.Childs.push(
+        {
+            Code: Math.floor(Math.random() * 1000),
+            Name: (Math.round(Math.random() * 20901) + 19968).toString(16),
+            IsLeaf: Math.random()>0.5
+          }
+      )
+    },
+    changeData() {
+      this.curItem.Name = '改变'
+    },
+    toggleNode(arr) {
+      let item = arr[arr.length - 1]
+      this.curItem = item
+      // item.Name = '改变值'
     },
     change() {
       this.categoryId = 87

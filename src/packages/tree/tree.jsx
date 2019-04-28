@@ -23,14 +23,22 @@ export default {
     event: "valueChange"
   },
   data() {
+    let d = this.processData()
     return {
       currentValue: this.value,
       checkedKeys: JSON.parse(JSON.stringify(this.selectedKeys)),
-      checkedData: JSON.parse(JSON.stringify(this.selectedData))
+      checkedData: JSON.parse(JSON.stringify(this.selectedData)),
+      sourceData: d
     }
   },
   computed: {
-    sourceData() {
+    // sourceData() {
+      
+    // }
+  },
+  methods: {
+    //对传入组件的data数据进行加工处理
+    processData() {
       const childField = this.childField
       function fn(data) {
         data.forEach(item => {
@@ -44,9 +52,7 @@ export default {
       }
       fn(this.data)
       return this.data
-    }
-  },
-  methods: {
+    },
     toPure(arr) {
       if (Array.isArray(arr))
         return JSON.parse(JSON.stringify(arr)).map(item => {
@@ -65,7 +71,7 @@ export default {
       arr.slice(0, -1).forEach(item => {
         item.__open__ = true
       })
-      this.$emit("toggle", this.toPure(arr))
+      this.$emit("toggle", arr)
     },
     createCheckedDataByCheckedKeys(k) {
       const { sourceData, keyField, textField, childField } = this
@@ -111,6 +117,18 @@ export default {
     return <k-tree-list {...p} />
   },
   watch: {
+    sourceData: {
+      deep: true,
+      handler(d) {
+        this.$emit('update:data',d)
+      }
+    },
+    data: {
+      deep: true,
+      handler(d) {
+        this.sourceData = this.processData()
+      }
+    },
     checkedKeys(k,oldKeys) {
       if(!this.isSameKeys(k,oldKeys)) {
         this.$emit("update:selectedKeys", k)

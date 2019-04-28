@@ -12,13 +12,13 @@ export default {
   },
   data() {
     return {
-      dataList: this.data
+      // dataList: this.data
     }
   },
   watch: {
-    data(d) {
-      this.dataList = d
-    }
+    // data(d) {
+    //   this.dataList = d
+    // }
   },
   computed: {
     treeProps() {
@@ -39,10 +39,11 @@ export default {
     }
   },
   render() {
-    let { dataList: sourceData, treeProps } = this
+    let { data: sourceData, treeProps } = this
     const len = sourceData.length - 1
     const root = sourceData.map((item, i) => {
       const treeItemProps = {
+        key: item[this.keyField],
         props: {
           ...this.$props,
           item,
@@ -53,6 +54,8 @@ export default {
           toggle: this.toggle,
           "update:spread": (b, el) => {
             // console.log(this.$children)
+            item.__open__ = b
+            
             if (b) {
               this.$children.forEach(child => {
                 if (child.$el != el) {
