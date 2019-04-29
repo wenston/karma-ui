@@ -185,6 +185,13 @@ export default new VueRouter({
           }
         },
         {
+          path: "/board",
+          name: "board",
+          component(res) {
+            import("../views/board.vue").then(comp => res(comp))
+          }
+        },
+        {
           path: "/selectTree",
           name: "selectTree",
           component(res) {

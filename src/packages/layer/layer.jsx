@@ -184,16 +184,16 @@ export default {
       }
     },
 
-    show(callback = () => {}) {
+    show(callback) {
       this.visible = true
       this.afterEnter = () => {
         this.$nextTick(() => {
           // this.calcLayerHeightAndGetPosition()
-          callback()
+          callback && callback()
         })
       }
     },
-    hide(cb = () => {}) {
+    hide(cb) {
       this.visible = false
       this.$emit("after-hide")
       if (cb && typeof cb === "function") {
