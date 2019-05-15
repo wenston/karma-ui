@@ -17,7 +17,8 @@ export default {
       layout,
       hasIcon = true,
       iconColor,
-      iconSize
+      iconSize,
+      hasBottomLine = false
     }) {
 
       instance.$props.title = title
@@ -29,6 +30,7 @@ export default {
       instance.$props.hasIcon = hasIcon
       instance.$props.iconColor = iconColor
       instance.$props.iconSize = iconSize
+      instance.$props.hasBottomLine = hasBottomLine
 
       if (typeof content === 'function') {
         instance.$slots.default = content.call(this)

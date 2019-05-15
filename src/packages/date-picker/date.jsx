@@ -304,7 +304,7 @@ export default {
                   this.emitChange(curDate)
                 } else {
                   if (inMaxMinRange) {
-                    this.showingDate = d
+                    this.showingDate = curDate
                     this.emitChange(curDate)
                   }
                 }
