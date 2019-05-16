@@ -6,9 +6,9 @@ let settings = {
   content: "努力加载中...",
   position: "absolute",
   isFullScreen: true,
-  color: "#378cee",
+  color: "#3366ff",
   backgroundColor: "rgba(255,255,255,.75)",
-  iconColor: "#378cee"
+  iconColor: "#3366ff"
 }
 export default {
   bind(el, binding) {

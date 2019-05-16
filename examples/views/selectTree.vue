@@ -2,13 +2,18 @@
   <div class="layout">
     <h3 class="layout__title">基本用法</h3>
     <div>
-      <k-select-tree style="line-height:normal;" :data="data"
+      <k-select-tree style="line-height:normal;display:inline-block;"
+        :data="data"
         :show.sync="show"
         hasCheckbox
         selected-rule="every"
         :selected-data.sync="checkedData"
-        :selected-keys.sync="checkedKeys"
-        ></k-select-tree>
+        :selected-keys.sync="checkedKeys"></k-select-tree>
+      <k-select-tree style="line-height:normal;display:inline-block;"
+        :data="data1"
+        v-model="val"
+        text="mate20"
+        :show.sync="show1"></k-select-tree>
     </div>
   </div>
 </template>
@@ -17,8 +22,12 @@
 export default {
   data() {
     return {
-      show:false,
+      show: false,
+
+      show1: false,
       data: [],
+      data1: [],
+      val: 28,
       dataList: [
         {
           Id: 1,
@@ -164,8 +173,8 @@ export default {
     }
   },
   methods: {
-    expand(e,obj) {
-      console.log(e,obj)
+    expand(e, obj) {
+      console.log(e, obj)
     },
     afterArea(area) {
       this.area = area
@@ -182,11 +191,17 @@ export default {
       console.log(d)
     },
     show(v) {
-
-      if(v && this.data.length === 0) {
-        setTimeout(()=>{
+      if (v && this.data.length === 0) {
+        setTimeout(() => {
           this.data = this.dataList
-        },200)
+        }, 200)
+      }
+    },
+    show1(v) {
+      if (v && this.data1.length === 0) {
+        setTimeout(() => {
+          this.data1 = this.dataList
+        }, 200)
       }
     }
   }

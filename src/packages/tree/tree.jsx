@@ -66,12 +66,15 @@ export default {
     spreadParent(v) {
       //根据当前节点找到所有父级节点，并将其__open__置为true
       const { keyField, childField, sourceData } = this
-      const arr = getAllParent(sourceData, v, keyField, childField)
+      if(sourceData.length) {
 
-      arr.slice(0, -1).forEach(item => {
-        item.__open__ = true
-      })
-      this.$emit("toggle", arr)
+        const arr = getAllParent(sourceData, v, keyField, childField)
+  
+        arr.slice(0, -1).forEach(item => {
+          item.__open__ = true
+        })
+        this.$emit("toggle", arr)
+      }
     },
     createCheckedDataByCheckedKeys(k) {
       const { sourceData, keyField, textField, childField } = this
@@ -127,6 +130,7 @@ export default {
       deep: true,
       handler(d) {
         this.sourceData = this.processData()
+        if(this.value) this.spreadParent(this.value)
       }
     },
     checkedKeys(k,oldKeys) {

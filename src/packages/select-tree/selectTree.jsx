@@ -10,6 +10,7 @@ export default {
     KTree,
     KIcon
   },
+  //根据hasCheckbox判断是否是多选
   props: {
     ...KTree.props,
     placeholder: {
@@ -19,15 +20,24 @@ export default {
     block: {
       type: Boolean,
       default: false
-    }
+    },
+    //textField对应的值，text参数的作用是在树形数据懒加载时用的。因为懒加载
+    //数据是空的，所以找不到对应的名字，故需要在组件外部事先给出来
+    text: [String, Number]
   },
   data() {
     return {
       visible: this.show,
       checkedData: this.selectedData,
       checkedKeys: this.selectedKeys.join(","),
-      list: []
+      list: [],
+      currentVal: this.value,
+      currentText: this.text //currentVal对应的具体值
     }
+  },
+  model: {
+    prop: "value",
+    event: "valueChange"
   },
   methods: {
     isSameKeys(arr1, arr2) {
@@ -40,22 +50,28 @@ export default {
       return a1 === a2
     },
     checkedList() {
-      let list = (
-          <span class="k-select-tree-placeholder">{this.placeholder}</span>
-        ),
-        textField = this.textField,
-        keyField = this.keyField,
-        checkedData = this.checkedData
-      if (checkedData && checkedData.length) {
-        list = checkedData.map((item, i) => {
-          return item[textField] + (i === checkedData.length - 1 ? "" : "，")
-        })
+      if (this.hasCheckbox) {
+        let list = (
+            <span class="k-select-tree-placeholder">{this.placeholder}</span>
+          ),
+          textField = this.textField,
+          keyField = this.keyField,
+          checkedData = this.checkedData
+        if (checkedData && checkedData.length) {
+          list = checkedData.map((item, i) => {
+            return item[textField] + (i === checkedData.length - 1 ? "" : "，")
+          })
+        }
+        return (
+          <ScrollBar speed={10} class="k-select-tree-checked-list">
+            <div class="k-select-tree-checked">{list}</div>
+          </ScrollBar>
+        )
+      } else {
+        return (
+            <div class="k-select-tree-checked-one">{this.currentText}</div>
+        )
       }
-      return (
-        <ScrollBar speed={10} class="k-select-tree-checked-list">
-          <div class="k-select-tree-checked">{list}</div>
-        </ScrollBar>
-      )
     },
     title() {
       let icon = null
@@ -99,15 +115,26 @@ export default {
     },
     body() {
       const childField = this.childField,
-        keyField = this.keyField
+        keyField = this.keyField,
+        textField = this.textField
       let list = this.list
       let p = {
         props: {
           ...this.$props,
+          value: this.currentVal,
           selectedData: this.checkedData
         },
         on: {
           ...this.$listeners,
+          valueChange: v => {
+            this.currentVal = v
+          },
+          toggle: arr => {
+            if (arr.length) {
+              const item = arr[arr.length - 1]
+              this.currentText = item[textField]
+            }
+          },
           "update:selectedData": d => {
             this.checkedData = d
           }
@@ -146,6 +173,12 @@ export default {
     return <KDropdown {...p} />
   },
   watch: {
+    currentVal(v) {
+      this.$emit("valueChange", v)
+    },
+    value(v) {
+      this.currentVal = v
+    },
     visible(v) {
       this.$emit("update:show", v)
     },

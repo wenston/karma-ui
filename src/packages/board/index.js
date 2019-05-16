@@ -11,7 +11,8 @@ export default {
         footer,
         destroyWhenHide = true,
         parent = document.body,
-        afterHide = () => {}
+        afterHide = () => {},
+        bodyClassName
       }
     ) => {
       if (!elem[boardIns]) {
@@ -29,6 +30,7 @@ export default {
         {
           canCloseByClickoutside: true,
           width: "auto",
+          bodyClassName,
           afterLeave: () => {
             afterHide()
             if (destroyWhenHide) {
@@ -38,7 +40,6 @@ export default {
           }
         }
       )
-
 
       return elem[boardIns]
     }
