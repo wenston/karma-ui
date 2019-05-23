@@ -48,6 +48,10 @@ export default {
       type: Boolean,
       default: true
     },
+    hasQuick: {
+      type: Boolean,
+      default: true
+    },
     quick: {
       type: [Array, Boolean],
       default: () => [
@@ -213,62 +217,64 @@ export default {
       }
     },
     _renderQuick() {
-      let listQuick = [],
-        listQuickRange = []
-      if (this.quick && this.quick.length) {
-        listQuick = this.quick.map(q => {
-          const d = util.formatDate(new Date() - 0 + q.day * 86400000)
-          const isIn = this.$_is_in_max_min_range(d)
-          return (
-            <a
-              href="javascript:;"
-              class={{
-                "k-date-picker-quick-item": true,
-                "k-date-picker-quick-disabled": !isIn,
-                "k-d-p-q-active": this.range
-                  ? this.isSameDate(d,d)
-                  : this.isSameDate(d)
-              }}
-              onClick={e => {
-                if (isIn) this.setDateByDay(q.day)
-              }}
-            >
-              {q.name}
-            </a>
-          )
-        })
+      if(this.hasQuick) {
+        let listQuick = [],
+          listQuickRange = []
+        if (this.quick && this.quick.length) {
+          listQuick = this.quick.map(q => {
+            const d = util.formatDate(new Date() - 0 + q.day * 86400000)
+            const isIn = this.$_is_in_max_min_range(d)
+            return (
+              <a
+                href="javascript:;"
+                class={{
+                  "k-date-picker-quick-item": true,
+                  "k-date-picker-quick-disabled": !isIn,
+                  "k-d-p-q-active": this.range
+                    ? this.isSameDate(d,d)
+                    : this.isSameDate(d)
+                }}
+                onClick={e => {
+                  if (isIn) this.setDateByDay(q.day)
+                }}
+              >
+                {q.name}
+              </a>
+            )
+          })
+        }
+        if (this.range && this.quickRange && this.quickRange.length) {
+          listQuickRange = this.quickRange.map(q => {
+            const isIn =
+              this.$_is_in_max_min_range(q.start) &&
+              this.$_is_in_max_min_range(q.end)
+            return (
+              <a
+                href="javascript:;"
+                class={{
+                  "k-date-picker-quick-item": true,
+                  "k-date-picker-quick-disabled": !isIn,
+                  "k-d-p-q-active": this.isSameDate(q.start, q.end)
+                }}
+                onClick={e => {
+                  if (isIn) {
+                    this.startDate = q.start
+                    this.endDate = q.end
+                  }
+                }}
+              >
+                {q.name}
+              </a>
+            )
+          })
+        }
+        return (
+          <div slot="quick" class="k-date-picker-quick">
+            {listQuick}
+            {listQuickRange}
+          </div>
+        )
       }
-      if (this.range && this.quickRange && this.quickRange.length) {
-        listQuickRange = this.quickRange.map(q => {
-          const isIn =
-            this.$_is_in_max_min_range(q.start) &&
-            this.$_is_in_max_min_range(q.end)
-          return (
-            <a
-              href="javascript:;"
-              class={{
-                "k-date-picker-quick-item": true,
-                "k-date-picker-quick-disabled": !isIn,
-                "k-d-p-q-active": this.isSameDate(q.start, q.end)
-              }}
-              onClick={e => {
-                if (isIn) {
-                  this.startDate = q.start
-                  this.endDate = q.end
-                }
-              }}
-            >
-              {q.name}
-            </a>
-          )
-        })
-      }
-      return (
-        <div slot="quick" class="k-date-picker-quick">
-          {listQuick}
-          {listQuickRange}
-        </div>
-      )
     },
     to2(n) {
       n = +n

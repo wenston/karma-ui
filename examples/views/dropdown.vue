@@ -3,6 +3,7 @@
     <h3 class="layout__title">基本用法</h3>
     <div>
       <k-dropdown :title="title"
+        :show.sync="show"
         bodyClassName="body"
         trigger="click"
         :white-list="wh">
@@ -21,6 +22,7 @@
 export default {
   data() {
     return {
+      show:true,
       title: <div>新的title哦，object格式</div>,
       dpElement: null,
       wh: [],

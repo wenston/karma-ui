@@ -141,14 +141,26 @@ export default {
     }
   },
   watch: {
-    visible(v) {
-      this.$emit("update:show", v)
-      if (v) {
-        this.showLayer()
-      } else {
-        this.hideLayer()
+    visible: {
+      immediate:true,
+      handler(v) {
+        this.$emit("update:show", v)
+        if (v) {
+          this.showLayer()
+        } else {
+          this.hideLayer()
+        }
       }
     },
+    // visible(v) {
+    //   this.$emit("update:show", v)
+    //   if (v) {
+    //     console.log('v',v)
+    //     this.showLayer()
+    //   } else {
+    //     this.hideLayer()
+    //   }
+    // },
     show(v) {
       this.visible = v
     },

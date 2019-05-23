@@ -93,6 +93,7 @@ export default {
     },
     _change(obj, hide) {
       this.modelValue = obj.v
+      // console.log(obj)
       this.$emit("modelKeyChange", obj.k)
       this.$emit("change", obj)
       hide && this.hideList()
@@ -254,6 +255,7 @@ export default {
   },
   created() {
     this.$on("getKeyValueFromOption", (k, v, hide) => {
+      // console.log(k,v)
       this._change({ k, v }, hide)
     })
     this.$on("getOptionComponentName", name => {

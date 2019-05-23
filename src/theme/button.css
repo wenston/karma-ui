@@ -86,8 +86,12 @@ $types: primary, warning, danger, success;
     display: block;
     width: 100%;
   }
-
-  & > span + .k-btn__loading {
+  & > span.k-btn-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  & > span.k-btn-cont + .k-btn__loading {
     position: relative;
     top: -1px;
     margin-left: 15px;

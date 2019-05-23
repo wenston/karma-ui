@@ -4,6 +4,7 @@
     <div>
       <div>
         <k-select v-model="curCity"
+          @change="onChange"
           clearable>
           <k-option v-for="(v,k) in cities"
             :value="k"
@@ -41,6 +42,11 @@ export default {
         3:'广州',
         4:'郑州'
       }
+    }
+  },
+  methods: {
+    onChange(obj) {
+      console.log(obj)
     }
   },
   mounted() {

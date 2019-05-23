@@ -13,6 +13,10 @@ export default {
   //根据hasCheckbox判断是否是多选
   props: {
     ...KTree.props,
+    show: {
+      type: Boolean,
+      default: false
+    },
     placeholder: {
       type: String,
       default: "请选择分类"
@@ -69,7 +73,7 @@ export default {
         )
       } else {
         return (
-            <div class="k-select-tree-checked-one">{this.currentText}</div>
+          <div class="k-select-tree-checked-one">{this.currentText}</div>
         )
       }
     },
@@ -134,6 +138,7 @@ export default {
               const item = arr[arr.length - 1]
               this.currentText = item[textField]
             }
+            this.$emit('toggle',arr)
           },
           "update:selectedData": d => {
             this.checkedData = d
@@ -173,6 +178,9 @@ export default {
     return <KDropdown {...p} />
   },
   watch: {
+    text(t) {
+      this.currentText = t
+    },
     currentVal(v) {
       this.$emit("valueChange", v)
     },

@@ -1,8 +1,10 @@
 <template>
   <div class="k-area">
-    <template v-if="sheng&&sheng.length">
+    <template v-if="sheng&&sheng.length&&numLevel>=1">
       <k-select v-model="curProvince"
         :styles="selectStyle"
+        :clearable="clearable"
+        @change="handleChange($event,1)"
         placeholder="省/直辖市">
         <k-option v-for="item in sheng"
           :key="item.code"
@@ -11,9 +13,11 @@
           :selected="item.code==curProvince">{{item.name}}</k-option>
       </k-select>
     </template>
-    <template v-if="shi">
+    <template v-if="shi && numLevel>=2">
       <k-select v-model="curCity"
         :styles="selectStyle"
+        :clearable="clearable"
+        @change="handleChange($event,2)"
         placeholder="市/区">
         <k-option v-for="item in shi[curProvince]"
           :key="item.code"
@@ -22,9 +26,11 @@
           :selected="item.code==curCity">{{item.name}}</k-option>
       </k-select>
     </template>
-    <template v-if="qu">
+    <template v-if="qu && numLevel>=3">
       <k-select v-model="curCounty"
         :styles="lastStyle"
+        @change="handleChange($event,2)"
+        :clearable="clearable"
         placeholder="区/县">
         <k-option v-for="item in qu[curCity]"
           :key="item.code"
@@ -48,6 +54,14 @@ export default {
     KOption
   },
   props: {
+    clearable: {
+      type: Boolean,
+      default: false
+    },
+    level: {
+      type:[Number,String],
+      default: 3
+    },
     province: {
       type: Array,
       default: () => [{}]
@@ -87,6 +101,9 @@ export default {
     event: "codeChange"
   },
   computed: {
+    numLevel() {
+      return +this.level
+    },
     lastStyle() {
       return {...this.selectStyle,...this.lastSelectStyle}
     },
@@ -95,6 +112,21 @@ export default {
     }
   },
   methods: {
+    handleChange(e,n) {
+      if(e.k === undefined) {
+        if(n === 1) {
+
+          this.$emit('codeChange','')
+          this.emit('','','')
+        }else if(n===2) {
+          this.$emit('codeChange',this.curProvince)
+          this.emit(this.curProvince,'','')
+        }else{
+          this.$emit('codeChange',this.curCity)
+          this.emit(this.curProvince,this.curCity,'')
+        }
+      }
+    },
     emit(provinceCode, cityCode, countyCode) {
       // console.log(provinceCode, cityCode, countyCode)
       let pname = this.getProvinceNameByCode(provinceCode)
@@ -187,6 +219,7 @@ export default {
       // })
     },
     sCode(val, oldVal) {
+      // console.log(val,oldVal)
       if (val != oldVal) {
         if (val && val.length === 6) {
           this.emit(...this.splitCode())

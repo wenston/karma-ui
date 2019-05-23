@@ -45,7 +45,7 @@
     }
     & .k-tree-icon {
       font-size: 14px;
-      color: color(var(--border-color) b(40%));
+      color: color(var(--border-color) b(70%));
       cursor: pointer;
       &:hover {
         color: var(--primary-color);
