@@ -4,7 +4,7 @@
     <div>
       <k-button @click="toggle">toggle</k-button>
       单个日期：<k-date-picker v-model="value"
-        :show.sync="show" simple block></k-date-picker>
+        :show.sync="show" disabled simple block></k-date-picker>
       单个日期：<k-date-picker v-model="value1"
         :show.sync="show" :min="value" simple block></k-date-picker>
       日期区间：<k-date-picker :start.sync="start"

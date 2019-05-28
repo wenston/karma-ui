@@ -5,14 +5,6 @@ import KCell from "./tableCell"
 import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KRadio from "karma-ui/packages/radio/radio"
 import KIcon from "karma-ui/packages/icon/icon"
-//data参数放在此处是由于可能存在left,main,right3个不同的实例，因为要保持数据的
-//同步，所以这么做。（主要是在选择时）
-let baseData = {
-  checkedKeys: [], //保存复选的所有key
-  checkedRows: [], //保存复选的所有行数据
-  currentRadioValue: "",
-  currentHighlightKey: ""
-}
 export default {
   mixins: [mixins],
   components: {
@@ -126,34 +118,38 @@ export default {
       //checkedRows同上
       let set = new Set(this.checkedKeys)
       if (checked) {
-        this.data.forEach(row => {
-          const k = this.formatCheckedKey(row)
-          set.add(k)
-          let has = false
-          for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-            if (k === this.formatCheckedKey(this.checkedRows[i])) {
-              has = true
-              break
+        this.data.forEach((row, index) => {
+          if (this.canCheck(row, index)[1]) {
+            const k = this.formatCheckedKey(row)
+            set.add(k)
+            let has = false
+            for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+              if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                has = true
+                break
+              }
             }
-          }
-          if (!has) {
-            // this.checkedRows.push(JSON.parse(JSON.stringify(row)))
-            this.checkedRows.push(row)
+            if (!has) {
+              // this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+              this.checkedRows.push(row)
+            }
           }
         })
       } else {
-        this.data.forEach(row => {
-          const k = this.formatCheckedKey(row)
-          set.delete(k)
-          let j = -1
-          for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-            if (k === this.formatCheckedKey(this.checkedRows[i])) {
-              j = i
-              break
+        this.data.forEach((row, index) => {
+          if (this.canCheck(row, index)[1]) {
+            const k = this.formatCheckedKey(row)
+            set.delete(k)
+            let j = -1
+            for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+              if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                j = i
+                break
+              }
             }
-          }
-          if (j > -1) {
-            this.checkedRows.splice(j, 1)
+            if (j > -1) {
+              this.checkedRows.splice(j, 1)
+            }
           }
         })
       }
@@ -166,10 +162,12 @@ export default {
         // rows = JSON.parse(JSON.stringify(this.checkedRows)),
         rows = this.checkedRows,
         para = { checked, index, row, rows, keys: this.checkedKeys }
-      if (fixedLeft && this.hasCheckbox && this.who === "left") {
-        this.$emit("select-change", para)
-      } else if (!fixedLeft && this.hasCheckbox && this.who === "main") {
-        this.$emit("select-change", para)
+      if (this.canCheck(row, index)[1]) {
+        if (fixedLeft && this.hasCheckbox && this.who === "left") {
+          this.$emit("select-change", para)
+        } else if (!fixedLeft && this.hasCheckbox && this.who === "main") {
+          this.$emit("select-change", para)
+        }
       }
     },
 
@@ -221,8 +219,16 @@ export default {
       })
       return result.join(",")
     },
+    canCheck(row = {}, index) {
+      let can = [false,true]
+      if (this.checkable && typeof this.checkable === "function") {
+        can = this.checkable(row, index)
+      }
+      return can
+    },
     //处理序号列、操作列、多选或者单选的情况
     addFields(row, col, index, cell) {
+      let [ck,canCk] = this.canCheck(row, index)
       //如果有序号列
       if (this.hasIndex && col.field === this.__index) {
         cell = index + 1
@@ -259,25 +265,33 @@ export default {
         if (set.has(k)) {
           checked = true
         }
-        cell = (
-          // <k-checkbox
-          //   value={this.formatCheckedKey(row)}
-          //   type="arr"
-          //   data-arr={this.checkedKeys}
-          //   onChange={() => this.toggleRow($event, row, index)}
-          // />
-          <k-checkbox
-            value={this.formatCheckedKey(row)}
-            checked={checked}
-            style="pointer-events:none;"
-          />
-        )
+        //如果可以操作选中
+        if(canCk) {
+
+          cell = (
+            <k-checkbox
+              value={this.formatCheckedKey(row)}
+              checked={checked}
+              style="pointer-events:none;"
+            />
+          )
+        }else{
+          cell = (
+            <k-checkbox
+              value={this.formatCheckedKey(row)}
+              checked={ck}
+              disabled={!canCk}
+              style="pointer-events:none;"
+            />
+          )
+        }
         //如果有单选框
       } else if (this.hasRadio && col.field === this.__radio) {
         const radioProps = {
           props: {
             modelValue: this.currentRadioValue,
-            value: this.formatCheckedKey(row)
+            value: this.formatCheckedKey(row),
+            disabled: !canCk
           },
           on: {
             modelValueChange: value => {
@@ -352,41 +366,43 @@ export default {
             }
             //可以在此处理复选单选
             const k = this.formatCheckedKey(row)
-            if (this.hasCheckbox) {
-              let checked = false
-              let set = new Set(this.checkedKeys)
-              if (set.has(k)) {
-                set.delete(k)
-                let j = -1
-                for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-                  if (k === this.formatCheckedKey(this.checkedRows[i])) {
-                    j = i
-                    break
+            if (this.canCheck(row, index)[1]) {
+              if (this.hasCheckbox) {
+                let checked = false
+                let set = new Set(this.checkedKeys)
+                if (set.has(k)) {
+                  set.delete(k)
+                  let j = -1
+                  for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+                    if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                      j = i
+                      break
+                    }
+                  }
+                  if (j > -1) {
+                    this.checkedRows.splice(j, 1)
+                  }
+                } else {
+                  set.add(k)
+                  checked = true
+                  let has = false
+                  for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+                    if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                      has = true
+                      break
+                    }
+                  }
+                  if (!has) {
+                    // this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+                    this.checkedRows.push(row)
                   }
                 }
-                if (j > -1) {
-                  this.checkedRows.splice(j, 1)
-                }
-              } else {
-                set.add(k)
-                checked = true
-                let has = false
-                for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-                  if (k === this.formatCheckedKey(this.checkedRows[i])) {
-                    has = true
-                    break
-                  }
-                }
-                if (!has) {
-                  // this.checkedRows.push(JSON.parse(JSON.stringify(row)))
-                  this.checkedRows.push(row)
-                }
+                this.checkedKeys = [...set]
+                this.emitSelectChange(checked, row, index)
+              } else if (this.hasRadio) {
+                this.currentRadioValue = k
+                this.$emit("toggle-radio-row", { value: k, row, index })
               }
-              this.checkedKeys = [...set]
-              this.emitSelectChange(checked, row, index)
-            } else if (this.hasRadio) {
-              this.currentRadioValue = k
-              this.$emit("toggle-radio-row", { value: k, row, index })
             }
           }
         }

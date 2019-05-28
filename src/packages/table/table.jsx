@@ -135,12 +135,31 @@ export default {
       mainTbodyWrapper && mainTbodyWrapper.onCheckedAll(b)
       rightTbodyWrapper && rightTbodyWrapper.onCheckedAll(b)
     },
+    canCheck(row = {}, index) {
+      let can = [false,true]
+      if (this.checkable && typeof this.checkable === "function") {
+        can = this.checkable(row, index)
+      }
+      return can
+    },
     emitSelectChange(e) {
       //{checked,rows,row,index}
       const sourceDataLength = this.$props.data.length
-      this.$refs.theadWrapper.onCheckedAll(
-        sourceDataLength > 0 && e.rows.length === sourceDataLength
-      )
+      let cant = 0
+      this.$props.data.forEach((row, index) => {
+        if (!this.canCheck(row, index)[1]) {
+          cant += 1
+        }
+      })
+      if (cant === 0) {
+        this.$refs.theadWrapper.onCheckedAll(
+          sourceDataLength > 0 && e.rows.length === sourceDataLength
+        )
+      } else {
+        this.$refs.theadWrapper.onCheckedAll(
+          sourceDataLength > 0 && e.rows.length === sourceDataLength - cant
+        )
+      }
       this.$emit("update:selectedRows", e.rows)
       this.$emit("update:selectedKeys", e.keys)
       this.$emit("select-change", /*JSON.parse(JSON.stringify(e))*/ e)

@@ -19,7 +19,6 @@
 
     <k-table :data="table1"
       :min-content="true"
-      height="200px"
       :columns="fnColumns()"
       hasCheckbox
       @select-change="onSelectChange"
@@ -30,6 +29,7 @@
       simple
       :stripe="false"
       :selectedRows.sync="selectedRows"
+      :checkable="checkable"
       @sort="onSort">
       <template slot="xxx"
         slot-scope="{row}">
@@ -808,6 +808,11 @@ export default {
     }
   },
   methods: {
+    checkable(row,index) {
+      // console.log(row,index)
+      if(row.SupplierName === '融商') {return [true,false]}
+      return [false,true]
+    },
     fnColumns() {
       const tax =
         this.random > 0.5

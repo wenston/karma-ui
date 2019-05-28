@@ -457,6 +457,7 @@ export default {
       return `${next_y}-${next_m}-01`
     },
     renderBody() {
+      if(this.readonly || this.disabled) {return}
       const startProps = {
         props: {
           value: this.initStartDate,
