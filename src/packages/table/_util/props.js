@@ -111,8 +111,12 @@ export const props = {
     type: String,
     default: "Id"
   },
+  //可否选择某行
+  checkable: {
+    type: [Boolean,Function],
+    default: true
+  },
   //支持sync，保存的是选择的行数据
-  
   selectedRows: {
     type: Array,
     default: () => []

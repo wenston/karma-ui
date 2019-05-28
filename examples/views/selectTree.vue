@@ -3,7 +3,7 @@
     <h3 class="layout__title">基本用法</h3>
     <div>
       <k-select-tree style="line-height:normal;display:inline-block;"
-        :data="data"
+        :data="dataList"
         :show.sync="show"
         hasCheckbox
         selected-rule="every"
@@ -168,8 +168,34 @@ export default {
           ]
         }
       ],
-      checkedData: [],
-      checkedKeys: []
+      checkedData: [
+        {
+          Id: 42,
+          Name: "配件",
+          PId: 0,
+          Childs: [
+            {
+              Id: 43,
+              Name: "耳机",
+              PId: 42,
+              Childs: [
+                { Id: 44, Name: "蓝牙", PId: 43, Childs: [], __open__: false }
+              ],
+              __open__: false
+            }
+          ]
+        },
+        {
+          Id: 43,
+          Name: "耳机",
+          PId: 42,
+          Childs: [
+            { Id: 44, Name: "蓝牙", PId: 43, Childs: [], __open__: false }
+          ]
+        },
+        { Id: 44, Name: "蓝牙", PId: 43, Childs: [] }
+      ],
+      checkedKeys: ["42", "43", "44"]
     }
   },
   methods: {
