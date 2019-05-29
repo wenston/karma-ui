@@ -54,6 +54,14 @@
         @click="onClear">清空所选</k-button>
       <k-button @click="onShowSomeCol">根据条件展示特定列</k-button>
     </div>
+    <h3 class="layout__title">测试有不能选择的情况</h3>
+    <k-table :data="data3"
+      :checkable="checkable3"
+      :columns="columns3"
+      :selectedKeys.sync="selectedKeys3"
+      :selectedRows.sync="selectedRows3"
+      hasCheckbox
+      checkboxKey="ProductId" />
     <h3 class="layout__title">根据数据自动合并行</h3>
     <!-- <k-table :data="table1"
       :columns="columns2"
@@ -804,14 +812,138 @@ export default {
       currentId: "",
       selectedKeys: [],
       selectedRows: [],
-      random: 0.6
+      random: 0.6,
+      data3: [
+        {
+          CustomerName: "大融商001",
+          InitShopNumber: 3,
+          ProductOrderId: 16,
+          OrderKeyId: 10,
+          SettleUnit: "单客户",
+          ProductName: "b2b商城",
+          MarketPrice: "5000元/年",
+          SettlePrice: "2000元/年",
+          BuyMonth: 12,
+          ContractBeginDate: "2019-05-28",
+          MarketSummaryPrice: 5000,
+          SettleSummaryPrice: 2000,
+          RemainMonth: 13,
+          AuditResultCode: "00601",
+          AuditResultName: "同意",
+          CustomerId: 41,
+          OrderId: "2019052810103777726",
+          ValidityBeginDateByChannel: "2019-05-28",
+          MarketPriceMonth: 416.67,
+          SettlePriceMonth: 166.67,
+          GiftDays: 7,
+          ProductId: 3,
+          OrderTypeCode: "00701",
+          OrderTypeName: "渠道申请开通",
+          OrderMemo: "我先开通一个b2b商城",
+          HasOpened: "Y"
+        },
+        {
+          CustomerName: "大融商001",
+          InitShopNumber: 3,
+          ProductOrderId: 30,
+          OrderKeyId: 14,
+          SettleUnit: "单门店",
+          ProductName: "会员系统",
+          MarketPrice: "500元/年",
+          SettlePrice: "200元/年",
+          BuyMonth: 24,
+          ContractBeginDate: "2019-06-01",
+          MarketSummaryPrice: 3000,
+          SettleSummaryPrice: 1200,
+          RemainMonth: 24,
+          AuditResultCode: "00602",
+          AuditResultName: "不同意",
+          CustomerId: 41,
+          OrderId: "2019052811305680704",
+          ValidityBeginDateByChannel: "2019-06-01",
+          MarketPriceMonth: 41.67,
+          SettlePriceMonth: 16.67,
+          GiftDays: 7,
+          ProductId: 2,
+          OrderTypeCode: "00701",
+          OrderTypeName: "渠道申请开通",
+          OrderMemo: "我先开通一个b2b商城",
+          HasOpened: "N"
+        },
+        {
+          CustomerName: "大融商001",
+          InitShopNumber: 3,
+          ProductOrderId: 31,
+          OrderKeyId: 14,
+          SettleUnit: "单门店",
+          ProductName: "进销存系统",
+          MarketPrice: "500元/年",
+          SettlePrice: "200元/年",
+          BuyMonth: 13,
+          ContractBeginDate: "2019-05-31",
+          MarketSummaryPrice: 1625,
+          SettleSummaryPrice: 650,
+          RemainMonth: 14,
+          AuditResultCode: "00602",
+          AuditResultName: "不同意",
+          CustomerId: 41,
+          OrderId: "2019052811305680704",
+          ValidityBeginDateByChannel: "2019-05-31",
+          MarketPriceMonth: 41.67,
+          SettlePriceMonth: 16.67,
+          GiftDays: 7,
+          ProductId: 1,
+          OrderTypeCode: "00701",
+          OrderTypeName: "渠道申请开通",
+          OrderMemo: "我先开通一个b2b商城",
+          HasOpened: "N"
+        }
+      ],
+      columns3: [
+        {
+          name: "功能模块",
+          field: "ProductName",
+          style: { width: 150 }
+        },
+        {
+          name: "结算单位",
+          field: "SettleUnit"
+        },
+        {
+          name: "市场价",
+          style: { width: 90 },
+          field: "MarketPrice"
+        },
+        {
+          name: "结算价",
+          style: { width: 90 },
+          field: "SettlePrice"
+        }
+      ],
+      selectedKeys3: [],
+      selectedRows3: [
+        
+      ]
     }
   },
   methods: {
-    checkable(row,index) {
-      // console.log(row,index)
-      if(row.SupplierName === '融商') {return [true,false]}
+    checkable3(row,index) {
+      if(row.HasOpened === 'Y') {
+        return [true,false]
+      }
       return [false,true]
+      // if (row.HasOpened && row.HasOpened.toLowerCase() === "n") {
+      //     return [false, true]
+      //   } else {
+      //     return [true, false]
+      //   }
+    },
+    checkable(row, index) {
+      // console.log(row,index)
+      if (row.SupplierName === "融商") {
+        return [true, false]
+      }
+      return [false, true]
     },
     fnColumns() {
       const tax =
@@ -888,7 +1020,9 @@ export default {
   mounted() {
     setTimeout(() => {
       this.currentId = "PC04201811230002,1053"
-    }, 1500)
+      this.selectedKeys3 = ['2','1']
+      this.selectedRows3 = this.data3.slice(1)
+    }, 0)
   }
 }
 </script>

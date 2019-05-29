@@ -113,8 +113,10 @@ export const props = {
   },
   //可否选择某行，返回布尔值数组
   //[当前行是否被选中，当前行是否能被选中操作]的函数，接收两个参数，row、index
+  //checkable的选中数据，不在selectedRows和selectedKeys里体现！
   checkable: Function,
   //支持sync，保存的是选择的行数据
+  //selectedRows和selectedKeys里不包括不能进行选择操作的数据！
   selectedRows: {
     type: Array,
     default: () => []

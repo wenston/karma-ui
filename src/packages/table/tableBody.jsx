@@ -27,8 +27,8 @@ export default {
   inject: ["__index", "__checkbox", "__radio", "__action"],
   data() {
     return {
-      checkedKeys: [], //保存复选的所有key
-      checkedRows: [], //保存复选的所有行数据
+      checkedKeys: this.selectedKeys || [], //保存复选的所有key
+      checkedRows: this.selectedRows || [], //保存复选的所有行数据
       currentRadioValue: "",
       currentHighlightKey: ""
     }
@@ -75,18 +75,20 @@ export default {
     selectedKeys(keys) {
       this.checkedKeys = keys
     },
-    selectedRows(rows) {
-      this.checkedRows = rows
-      //收集keys
-      let keys = []
-      this.checkedRows.forEach(r => {
-        const k = this.formatCheckedKey(r)
-        keys.push(k)
-      })
-      this.checkedKeys = keys
-
-      this.emitSelectChange()
-    }
+    selectedRows: {
+      immediate: true,
+      handler(rows) {
+        this.checkedRows = rows
+        //收集keys
+        let keys = []
+        this.checkedRows.forEach(r => {
+          const k = this.formatCheckedKey(r)
+          keys.push(k)
+        })
+        this.checkedKeys = keys
+        this.emitSelectChange()
+      }
+    },
   },
   methods: {
     //传入row,index，或者只传index都行，或者只传key
@@ -166,6 +168,7 @@ export default {
         if (fixedLeft && this.hasCheckbox && this.who === "left") {
           this.$emit("select-change", para)
         } else if (!fixedLeft && this.hasCheckbox && this.who === "main") {
+          console.log(para)
           this.$emit("select-change", para)
         }
       }
