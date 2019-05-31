@@ -26,16 +26,17 @@
       border-color: var(--primary-color);
     }
 
-    &.k-input-disabled {
-      background-color: var(--disabled-color);
-    }
-
     &::placeholder {
       color: var(--input-placeholder-color);
     }
 
     &[readonly] {
       cursor: default;
+    }
+
+    &.k-input-disabled {
+      background-color: var(--disabled-color);
+      cursor: not-allowed;
     }
   }
 
@@ -75,10 +76,9 @@
       }
       &.k-input-capsule {
         & .k-input {
-          border-radius: calc(var(--input-$(name)/2));
+          border-radius: calc(var(--input-$(name) / 2));
         }
       }
-      
 
       & .k-textarea {
         height: calc(var(--input-$(name)) * 2);
@@ -148,6 +148,7 @@
       }
       &.k-input-disabled {
         background-color: transparent;
+        cursor: not-allowed;
       }
       &:focus,
       &:active {

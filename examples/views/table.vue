@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <h3 class="layout__title">基本用法</h3>
-    <!-- <k-table :data="table"
+    <k-table :data="table"
       min-content
       :columns="columns"
       has-checkbox
@@ -14,7 +14,7 @@
       canHighlightRow
       highlightKey="name"
       :highlightValue.sync="highlightValue"
-      @select-change="onSelectChange"></k-table> -->
+      @select-change="onSelectChange"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
     <k-table :data="table1"
@@ -903,7 +903,8 @@ export default {
         {
           name: "功能模块",
           field: "ProductName",
-          style: { width: 150 }
+          style: { width: 150 },
+          fixed: 'left'
         },
         {
           name: "结算单位",

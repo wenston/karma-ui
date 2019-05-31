@@ -4,7 +4,7 @@
     <div>
       <k-button @click="toggle">toggle</k-button>
       单个日期：<k-date-picker v-model="value"
-        :show.sync="show" disabled simple block></k-date-picker>
+        :show.sync="show" disabled ></k-date-picker>
       单个日期：<k-date-picker v-model="value1"
         :show.sync="show" :min="value" simple block></k-date-picker>
       日期区间：<k-date-picker :start.sync="start"
@@ -12,9 +12,9 @@
         :max="max"
         :min="min"
         range
-        block
         ref="dp2"
         :hasQuick="false"
+        disabled
         @getLayerElement="getDatePickerElement"></k-date-picker>
       <k-button @click="start='2018-10-10'">2018-10-10</k-button>
       <k-button @click="end='2019-10-10'">2019-10-10</k-button>

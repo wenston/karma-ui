@@ -168,7 +168,7 @@ export default {
         if (fixedLeft && this.hasCheckbox && this.who === "left") {
           this.$emit("select-change", para)
         } else if (!fixedLeft && this.hasCheckbox && this.who === "main") {
-          console.log(para)
+          // console.log(para)
           this.$emit("select-change", para)
         }
       }

@@ -28,6 +28,10 @@
 .k-date-picker-range {
   position: relative;
   @extend .k-like-input;
+  &.k-date-picker-range-disabled {
+    background-color: var(--disabled-color);
+    cursor: not-allowed;
+  }
 }
 .k-date-picker-range-placeholder {
   font-size: 12px;

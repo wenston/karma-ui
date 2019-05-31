@@ -313,11 +313,10 @@ export default {
         }
       }
       if (this.range) {
-        const rangeP = {
-          attrs: {
-            tabindex: 1
-          },
-          class: "k-date-picker-range",
+        let rangeP = {
+          class: ["k-date-picker-range",{
+            'k-date-picker-range-disabled': this.disabled
+          }],
 
           on: {
             keyup: e => {
@@ -327,6 +326,11 @@ export default {
             }
           },
           style: { width: this.block ? "100%" : "180px", ...this.styles }
+        }
+        if(!this.disabled) {
+          rangeP.attrs = {
+            tabindex: 1
+          }
         }
         return (
           <div {...rangeP}>
@@ -351,7 +355,7 @@ export default {
                   {this.endPlaceholder}
                 </span>
               )}
-              {this.start || this.end ? (
+              {((this.start || this.end)&&!this.disabled) ? (
                 <k-icon
                   name="k-icon-close"
                   class="k-date-picker-icon-close"
@@ -369,7 +373,7 @@ export default {
       }
       return (
         <k-input {...p}>
-          {this.value ? (
+          {this.value && !this.disabled ? (
             <k-icon
               name="k-icon-close"
               class="k-date-picker-icon-close"
@@ -606,6 +610,9 @@ export default {
           this.$emit('getLayerElement',el)
         }
       }
+    }
+    if(this.disabled) {
+      return this.renderTitle()
     }
     return <k-dropdown {...p} />
   },
