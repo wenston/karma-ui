@@ -366,7 +366,7 @@ export default {
             Name: (Math.round(Math.random() * 20901) + 19968).toString(16),
             IsLeaf: Math.random()>0.5
           })
-          console.log(this.tree3)
+          // console.log(this.tree3)
         })
         setTimeout(() => {
           res(d)
@@ -388,6 +388,7 @@ export default {
     toggleNode(arr) {
       let item = arr[arr.length - 1]
       this.curItem = item
+      console.log('toggleNode',this.curItem)
       // item.Name = '改变值'
     },
     change() {

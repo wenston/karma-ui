@@ -122,13 +122,15 @@ export default {
   watch: {
     sourceData: {
       deep: true,
-      handler(d) {
+      handler(d,oldD) {
+        if(JSON.stringify(d)!==JSON.stringify(oldD))
         this.$emit('update:data',d)
       }
     },
     data: {
       deep: true,
-      handler(d) {
+      handler(d,oldD) {
+        if(JSON.stringify(d)===JSON.stringify(oldD)) {return}
         this.sourceData = this.processData()
         if(this.value) this.spreadParent(this.value)
       }

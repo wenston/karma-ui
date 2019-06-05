@@ -25,7 +25,6 @@
     box-shadow: none;
     & .k-table {
       border: none;
-
       & > thead > tr > th,
       & > tbody > tr > td,
       & > tfoot > tr > td {

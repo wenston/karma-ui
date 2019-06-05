@@ -1,6 +1,6 @@
 import setProps from 'karma-ui/util/setPropsGlobal.js'
-import 'karma-ui/theme/index.css'
 import 'karma-ui/theme/font/iconfont.css'
+import 'karma-ui/theme/index.css'
 import KButton from 'karma-ui/packages/button/index.js'
 import KInput from 'karma-ui/packages/input/index.js'
 import KSelect from 'karma-ui/packages/select/index.js'

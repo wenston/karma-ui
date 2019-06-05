@@ -9,7 +9,7 @@
       width: 16px;
       height: 16px;
       display: inline-block;
-      vertical-align: 1px;
+      vertical-align: 2px;
     }
     &.k-tree-item--dotted,
     &:not(:last-child) {
@@ -95,9 +95,8 @@
 }
 
 .k-tree-icon-leaf {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--font-color-4);
-  /* color: color(var(--success-color) a(40%)); */
 }
 .k-tree-checkbox {
   margin-left: 5px;
