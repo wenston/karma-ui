@@ -25,7 +25,6 @@
     box-shadow: none;
     & .k-table {
       border: none;
-
       & > thead > tr > th,
       & > tbody > tr > td,
       & > tfoot > tr > td {
@@ -63,7 +62,7 @@
   .k-table-head {
     position: relative;
     color: var(--font-color-1);
-    z-index: 0;
+    z-index: 1;
     /* flex: 1; */
   }
 
@@ -161,8 +160,8 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 9px;
-    width: 12px;
+    right: 8px;
+    width: 15px;
     cursor: pointer;
     z-index: 1;
     display: flex;
@@ -203,4 +202,7 @@
   &:not(:first-child) {
     margin-left:2px;
   }
+}
+.k-table-pointer-events-none {
+  pointer-events: none;
 }

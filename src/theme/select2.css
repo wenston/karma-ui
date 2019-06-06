@@ -7,17 +7,24 @@
   .k-input {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
   }
-   
-    .k-input-append {
-      border-radius: 0;
-    }
-  
+
+  .k-input-append {
+    border-radius: 0;
+  }
+  .k-select2-check-all {
+    width: 16px;
+    height: 16px;
+  }
 }
 .k-select2-list {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border: none;
+  /* min-height: 20vh; */
 }
 .k-select2-list-item {
   height: var(--option-height);
@@ -62,12 +69,12 @@
     line-height: 18px;
     padding: 0 3px;
     display: inline-block;
-    vertical-align:middle;
+    vertical-align: middle;
     color: var(--font-color-2);
   }
   .k-select2-checked-del {
     display: inline-block;
-    vertical-align:middle;
+    vertical-align: middle;
     cursor: pointer;
     background-color: var(--border-color);
     width: 15px;

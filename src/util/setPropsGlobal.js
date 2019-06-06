@@ -16,7 +16,7 @@ export default (comp, options = {}) => {
     let props = comp.props
     for(let prop in props) {
       if('default' in props[prop]) {
-        if(options[prop]) {
+        if(prop in options) {
           props[prop].default = options[prop]
         }
       }

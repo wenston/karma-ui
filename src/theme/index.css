@@ -12,6 +12,7 @@
 @import 'option.css';
 @import 'radio.css';
 @import 'checkbox.css';
+@import 'switch.css';
 @import 'area.css';
 @import 'carousel.css';
 @import 'tips.css';
@@ -25,3 +26,5 @@
 @import 'transition.css';
 @import 'table.css';
 @import 'tree.css';
+@import 'selectTree.css';
+@import 'dropdown.css';

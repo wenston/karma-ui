@@ -1,13 +1,15 @@
 .k-tree {
-  line-height: 24px;
+  line-height: 2;
   font-size: 12px;
   @extend .k-no-select;
   & > .k-tree-item {
     position: relative;
+    white-space: nowrap;
     & > .k-tree-icon-wrapper {
       width: 16px;
       height: 16px;
       display: inline-block;
+      vertical-align: 2px;
     }
     &.k-tree-item--dotted,
     &:not(:last-child) {
@@ -19,7 +21,7 @@
           border-left: 1px dotted color(var(--border-color) b(40%));
           left: 5.5px;
           pointer-events: none;
-          top: 1.5em;
+          top: 1.6em;
           /* bottom: 0; */
           height: calc(100% - 1em);
         }
@@ -43,7 +45,7 @@
     }
     & .k-tree-icon {
       font-size: 14px;
-      color: color(var(--border-color) b(40%));
+      color: color(var(--border-color) b(70%));
       cursor: pointer;
       &:hover {
         color: var(--primary-color);
@@ -93,9 +95,8 @@
 }
 
 .k-tree-icon-leaf {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--font-color-4);
-  /* color: color(var(--success-color) a(40%)); */
 }
 .k-tree-checkbox {
   margin-left: 5px;

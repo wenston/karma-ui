@@ -10,6 +10,7 @@
         placeholder="商品名称"
         @focus="onFocus"
         @toggle="onToggle"
+        @input="onInput"
         pageSize="12">
         <div slot="header"
           class="list header">
@@ -590,6 +591,9 @@ export default {
     },
     onToggle(e) {
       console.log('toggle',e)
+    },
+    onInput(text) {
+      console.log(text)
     }
   },
   mounted() {

@@ -74,7 +74,7 @@ export default {
       )
     }
     if (this.$slots.default) {
-      Content = <span>{$slots.default}</span>
+      Content = <span class="k-btn-cont">{$slots.default}</span>
     }
     const buttonProps = {
       class: classes,

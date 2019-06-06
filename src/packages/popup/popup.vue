@@ -4,8 +4,8 @@
         'k-popup',
         layout.indexOf('mask')>-1?'k-popup--mask':'k-popup--transparent'
       ]"
-      v-if="show">
-      <div v-if="show"
+      v-show="show">
+      <div v-show="show"
         class="k-popup__wrapper">
         <div class="k-popup__container"
           v-dnd="{handlerClass:'k-popup__header__title'}">

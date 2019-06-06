@@ -93,6 +93,7 @@ export default {
     },
     _change(obj, hide) {
       this.modelValue = obj.v
+      // console.log(obj)
       this.$emit("modelKeyChange", obj.k)
       this.$emit("change", obj)
       hide && this.hideList()
@@ -135,7 +136,8 @@ export default {
         this.ins.init(this, this.$slots.default, {
           bodyClassName: "k-select__list",
           tag: "div",
-          bodyTag: "ul"
+          bodyTag: "ul",
+          canCloseByClickoutside: true
         })
       })
     },
@@ -230,7 +232,7 @@ export default {
       this.options = arr
     }
   },
-  destroyed() {
+  beforeDestroy() {
     this.ins.destroy()
   },
   updated() {
@@ -238,9 +240,22 @@ export default {
   },
   mounted() {
     this.initIns()
+    this.ins.$on('layer-inited',()=>{
+      this.$emit('getLayerElement', this.ins)
+    })
+    this.ins.$on('after-hide',() => {
+      this.hideList()
+    })
+    this.ins.$on('mousedown',()=>{
+      this.isMouseDownOption = true
+    })
+    this.ins.$on('mouseout',()=>{
+      this.isMouseDownOption = false
+    })
   },
   created() {
     this.$on("getKeyValueFromOption", (k, v, hide) => {
+      // console.log(k,v)
       this._change({ k, v }, hide)
     })
     this.$on("getOptionComponentName", name => {
@@ -307,6 +322,7 @@ export default {
           e.stopPropagation()
         },
         blur: () => {
+          
           //失去焦点的时候，如果鼠标还在列表中呈现mousedown状态，则不隐藏
           if (!this.isMouseDownOption) {
             this.hideList()

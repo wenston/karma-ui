@@ -2,7 +2,6 @@
   <k-popup ref="popup"
     v-bind="$props"
     :show.sync="show"
-    :hasBottomLine="false"
     @after-cancel="afterCancel"
     @after-ok="afterOk">
     <div class='k-dialog'>

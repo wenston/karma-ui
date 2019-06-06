@@ -2,27 +2,27 @@ export const props = {
   //点击某一行时，是否支持高亮显示
   canHighlightRow: {
     type: Boolean,
-    default: false,
+    default: false
   },
   //高亮时的唯一标示，如Id
   highlightKey: {
     type: String,
-    default: 'index,Id'
+    default: "index,Id"
   },
   //高亮时，highlightKey对应的值
   //可以通过设置此值，来高亮某行
   //用以替代setHighlightRow方法
   //支持sync
   highlightValue: {
-    type: [String,Number],
-    default: ''
+    type: [String, Number],
+    default: ""
   },
   //循环行时的那个key，指的是字段名
   //loopKey可以是以逗号分隔的多个字段名，也可以是单个
   loopKey: {
-    type: [String,Number],
+    type: [String, Number],
     //index是指的数据行号
-    default: 'index,Id'
+    default: "index,Id"
   },
   //是否为自动宽的表格：table-layout:auto,默认否
   tableLayoutAuto: Boolean,
@@ -50,8 +50,8 @@ export const props = {
    * sorter: 是否排序，Boolean
    */
   columns: {
-    type: [Array,Function],
-    default:()=>[]
+    type: [Array, Function],
+    default: () => []
   },
   //是否有边框
   bordered: {
@@ -61,7 +61,7 @@ export const props = {
   //简易表格，只有下边框
   simple: {
     type: Boolean,
-    default: false,
+    default: false
   },
   //表格尺寸
   size: {
@@ -111,8 +111,12 @@ export const props = {
     type: String,
     default: "Id"
   },
+  //可否选择某行，返回布尔值数组
+  //[当前行是否被选中，当前行是否能被选中操作]的函数，接收两个参数，row、index
+  //checkable的选中数据，不在selectedRows和selectedKeys里体现！
+  checkable: Function,
   //支持sync，保存的是选择的行数据
-  
+  //selectedRows和selectedKeys里不包括不能进行选择操作的数据！
   selectedRows: {
     type: Array,
     default: () => []
@@ -125,7 +129,7 @@ export const props = {
   //支持单选的情况下，需指定一个唯一的标示，同checkboxKey
   radioKey: {
     type: String,
-    default: 'Id'
+    default: "Id"
   },
   //是否支持单选
   hasRadio: {
@@ -134,7 +138,7 @@ export const props = {
   },
   //单选时，选中的radioKey对应的值
   currentValue: {
-    type: [Number,String]
+    type: [Number, String]
   },
   //表格宽度，默认情况下：是100%，即：各个列都是等宽
   //，且各个列的宽之和是等于表格总宽度的
@@ -172,7 +176,7 @@ export const props = {
     default: false
   },
   emptyText: {
-    type: [String,Function],
-    default: '暂无相关数据'
+    type: [String, Function],
+    default: "暂无相关数据"
   }
 }

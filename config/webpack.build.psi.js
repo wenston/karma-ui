@@ -94,7 +94,7 @@ module.exports = {
         loader: "url-loader",
         options: {
           limit: 1,
-          name: "./fonts/[name].[hash:7].[ext]"
+          name: "./fonts/[name].[ext]"
           // name: './fonts/[name].[hash:7].[ext]'
         }
       }

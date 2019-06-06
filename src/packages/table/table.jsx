@@ -29,11 +29,13 @@ export default {
       currentResizeTd: null //当前要调整列宽的单元格
     }
   },
-  provide: {
-    __index: "@_index",
-    __checkbox: "@_checkbox",
-    __radio: "@_radio",
-    __action: "@_action"
+  provide() {
+    return {
+      __index: "@_index",
+      __checkbox: "@_checkbox",
+      __radio: "@_radio",
+      __action: "@_action"
+    }
   },
   computed: {
     leftWrapperClasses() {
@@ -133,11 +135,31 @@ export default {
       mainTbodyWrapper && mainTbodyWrapper.onCheckedAll(b)
       rightTbodyWrapper && rightTbodyWrapper.onCheckedAll(b)
     },
+    canCheck(row = {}, index) {
+      let can = [false,true]
+      if (this.checkable && typeof this.checkable === "function") {
+        can = this.checkable(row, index)
+      }
+      return can
+    },
     emitSelectChange(e) {
       //{checked,rows,row,index}
-      this.$refs.theadWrapper.onCheckedAll(
-        e.rows.length === this.$props.data.length
-      )
+      const sourceDataLength = this.$props.data.length
+      let cant = 0
+      this.$props.data.forEach((row, index) => {
+        if (!this.canCheck(row, index)[1]) {
+          cant += 1
+        }
+      })
+      if (cant === 0) {
+        this.$refs.theadWrapper.onCheckedAll(
+          sourceDataLength > 0 && e.rows.length === sourceDataLength
+        )
+      } else {
+        this.$refs.theadWrapper.onCheckedAll(
+          sourceDataLength > 0 && e.rows.length === sourceDataLength - cant
+        )
+      }
       this.$emit("update:selectedRows", e.rows)
       this.$emit("update:selectedKeys", e.keys)
       this.$emit("select-change", /*JSON.parse(JSON.stringify(e))*/ e)

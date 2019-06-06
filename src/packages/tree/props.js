@@ -29,6 +29,10 @@ export default {
     type: String,
     default: "Name"
   },
+  leafField: {
+    type: String,
+    default: 'IsLeaf'
+  },
   //大小尺寸
   size: String, //目前只支持两种：默认和big
 
@@ -47,5 +51,15 @@ export default {
   selectedRule: {
     type: String,
     default: "some" //every
+  },
+  lazy: {
+    type: Boolean,
+    default: false
+  },
+  lazyLoad: Function,
+  //是否是手风琴效果
+  accordion: {
+    type: Boolean,
+    default: true
   }
 }

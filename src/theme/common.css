@@ -11,7 +11,29 @@
 .k-cursor-pointer {
   cursor: pointer;
 }
-
+.k-like-input {
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  height: 28px;
+  width: 200px;
+  line-height: normal;
+  background-color: white;
+  transition: var(--transition);
+  vertical-align: middle;
+  &:hover {
+    border-color:var(--primary-color);
+  }
+  &:focus {
+    outline: none;
+    border-color:var(--primary-color);
+    box-shadow: var(--input-focus-active-shadow);
+  }
+}
+.k-like-input-placeholder {
+  color: var(--input-placeholder-color);
+  pointer-events: none;
+  font-size: 12px;
+}
 .k-center {
   @extend .k-absolute;
   text-align: center;

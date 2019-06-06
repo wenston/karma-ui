@@ -47,7 +47,6 @@ export default {
       on: {
         ...this.$listeners,
         click: this.handleClick,
-
         mousedown: e => {
           e.stopPropagation()
           this.layerComponent &&

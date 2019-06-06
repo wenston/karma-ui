@@ -39,7 +39,7 @@
         opacity: .8;
       }
       & ~.k-radio__text {
-        opacity: .8;
+        opacity: .9;
         color:var(--disabled-color);
         user-select: none;
       }
@@ -59,7 +59,7 @@
         & ~.k-radio__icon {
           border-color:var(--primary-color);
           background-color:var(--primary-color);
-          opacity: .6;
+          opacity: .8;
         }
       }
       & ~ .k-radio__text {

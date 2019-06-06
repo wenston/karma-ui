@@ -47,6 +47,13 @@ export default new VueRouter({
           }
         },
         {
+          path: "/switch",
+          name: "switch",
+          component(res) {
+            import("../views/switch.vue").then(comp => res(comp))
+          }
+        },
+        {
           path: "/select",
           name: "select",
           component(res) {
@@ -168,6 +175,27 @@ export default new VueRouter({
           name: "tree",
           component(res) {
             import("../views/tree.vue").then(comp => res(comp))
+          }
+        },
+        {
+          path: "/dropdown",
+          name: "dropdown",
+          component(res) {
+            import("../views/dropdown.vue").then(comp => res(comp))
+          }
+        },
+        {
+          path: "/board",
+          name: "board",
+          component(res) {
+            import("../views/board.vue").then(comp => res(comp))
+          }
+        },
+        {
+          path: "/selectTree",
+          name: "selectTree",
+          component(res) {
+            import("../views/selectTree.vue").then(comp => res(comp))
           }
         }
       ]

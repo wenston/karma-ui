@@ -52,9 +52,10 @@ export default {
       footerClassName: "",
       //
       canCloseByClickoutside: false,
+      whiteList: [],
       styles: {},
       afterEnter: () => {},
-      afterLeave: () => {},
+      afterLeave: () => {}
     }
   },
   computed: {
@@ -83,16 +84,16 @@ export default {
         this.list = slots
       }
       //className
-      let bodyClasses = ['k-layer-body']
-      if(this.headerSlots) {
-        bodyClasses.push('k-layer-has-header')
-        this.headerClassName = 'k-layer-header'
+      let bodyClasses = ["k-layer-body"]
+      if (this.headerSlots) {
+        bodyClasses.push("k-layer-has-header")
+        this.headerClassName = "k-layer-header"
       }
-      if(this.footerSlots) {
-        bodyClasses.push('k-layer-has-footer')
-        this.footerClassName = 'k-layer-footer'
+      if (this.footerSlots) {
+        bodyClasses.push("k-layer-has-footer")
+        this.footerClassName = "k-layer-footer"
       }
-      this.bodyClassName = bodyClasses.join(' ')
+      this.bodyClassName = bodyClasses.join(" ")
 
       this.vm = vm
       for (let k in opts) {
@@ -100,7 +101,9 @@ export default {
           this.$data[k] = opts[k]
         }
       }
+      // console.log(opts.whiteList)
       this.$nextTick().then(() => {
+        this.calcLayerHeightAndGetPosition()
         this.$emit("layer-inited")
       })
     },
@@ -134,25 +137,27 @@ export default {
     },
     _setSizeAndPosition() {
       //屏幕可视区高度
-      const innerHeight = window.innerHeight,
-        innerWidth = window.innerWidth
+      const clientHeight = document.documentElement.clientHeight,
+        clientWidth = document.documentElement.clientWidth
       //关联vm元素的底部距离屏幕最上边的高
       let top = this.top + parseFloat(this.vmHeight) + this.gap,
         left = this.left
       //layer本身的高度
       let height = this.layerHeight,
-        width = this.layerWidth
+        // width = this.layerWidth
+        width = parseFloat(getStyle(this.$el, "width"))
 
       //5是layer距离可视区边界的大小
-      const wholeHeight = innerHeight + window.pageYOffset
+      const wholeHeight = clientHeight + window.pageYOffset
       if (top + height > wholeHeight - 5) {
         top = wholeHeight - 5 - height
         if (top < 0) {
           top = 0
         }
       }
-      if (left + width > innerWidth) {
-        left = innerWidth - width
+      // console.log(left,width,clientWidth)
+      if (left + width > clientWidth - 5) {
+        left = clientWidth - width - 5
         if (left < 0) {
           left = 0
         }
@@ -181,32 +186,26 @@ export default {
 
     show(callback) {
       this.visible = true
-      if (callback) {
-        this.afterEnter = () => {
-          this.$nextTick(() => {
-            this.layerHeight = parseFloat(getStyle(this.$el, "height"))
-            this._getElemPosition()
-            callback()
-          })
-        }
-      } else {
-        this.afterEnter = () => {
-          this.$nextTick(() => {
-            this.layerHeight = parseFloat(getStyle(this.$el, "height"))
-            this._getElemPosition()
-          })
-        }
+      this.afterEnter = () => {
+        this.$nextTick(() => {
+          // this.calcLayerHeightAndGetPosition()
+          callback && callback()
+        })
       }
     },
     hide(cb) {
       this.visible = false
-      this.$emit('after-hide')
-      if (cb && typeof cb === 'function') {
+      this.$emit("after-hide")
+      if (cb && typeof cb === "function") {
         this.afterLeave = cb
       }
     },
     destroy() {
       this.$destroy()
+    },
+    calcLayerHeightAndGetPosition() {
+      this.layerHeight = parseFloat(getStyle(this.$el, "height"))
+      this._getElemPosition()
     }
   },
   beforeDestroy() {
@@ -227,18 +226,59 @@ export default {
     vm: "_getElemPosition"
   },
   directives: {
-    clickoutside,
+    clickoutside
     // esc
   },
   render() {
     let p = {
+      attrs: {
+        tabindex: -1
+      },
       class: {
         "k-layer": true
       },
       on: {
-        ...this.$listeners
+        ...this.$listeners,
+        mouseover: e => {
+          this.$emit("mouseover", e)
+        },
+        mouseout: e => {
+          this.$emit("mouseout", e)
+        },
+        mousedown: e => {
+          this.$emit("mousedown", e)
+        }
       },
       style: this.styles
+    }
+    let transitionProps = null
+    if (this.hasTransition) {
+      transitionProps = {
+        on: {
+          enter: this._handleEnter,
+          "after-leave": this._handleAfterLeave
+        },
+        props: {
+          name: "k-transition-slide-down"
+        }
+      }
+      p.directives = [
+        {
+          name: "show",
+          value: this.visible
+        }
+      ]
+      if (this.canCloseByClickoutside) {
+        const list = [this.vm.$el, ...this.whiteList]
+        // console.log("layer组件接收到的whiteList", list)
+        p.directives.push({
+          name: "clickoutside",
+          value: {
+            fn: this.hide,
+            whiteList: list
+          }
+        })
+      }
     }
     const content = (
       <this.tag {...p}>
@@ -266,38 +306,6 @@ export default {
       </this.tag>
     )
     if (this.hasTransition) {
-      const transitionProps = {
-        on: {
-          enter: this._handleEnter,
-          "after-leave": this._handleAfterLeave
-        },
-        props: {
-          name:"k-transition-slide-down"
-        }
-      }
-      p.directives = [
-        {
-          name: "show",
-          value: this.visible
-        }
-        // {
-        //   name: "clickoutside",
-        //   value: this.hide
-        // },
-        // {
-        //   name: "esc",
-        //   value: this.hide
-        // }
-      ]
-      if(this.canCloseByClickoutside) {
-        p.directives.push({
-          name: 'clickoutside',
-          value:{
-            fn: this.hide,
-            whiteList: [this.vm.$el]
-          }
-        })
-      }
       return <transition {...transitionProps}>{content}</transition>
     }
     return content

@@ -24,6 +24,7 @@
 
 .k-popup__container {
   display: table;
+  border-collapse: collapse;
   position: relative;
   width: var(--popup-container-width);
   margin: 0px auto;

@@ -15,23 +15,30 @@ export default {
   },
   props: {
     ...props,
-    //当前选择的那个节点，
-    //如果是数组格式，则支持复选（有复选框）
-    value: [String, Number, Array]
+    //当前选择的那个节点，keyField对应的值
+    value: [String, Number]
   },
   model: {
     prop: "value",
     event: "valueChange"
   },
   data() {
+    let d = this.processData()
     return {
       currentValue: this.value,
-      checkedKeys: this.selectedKeys,
-      checkedData: this.selectedData
+      checkedKeys: JSON.parse(JSON.stringify(this.selectedKeys)),
+      checkedData: JSON.parse(JSON.stringify(this.selectedData)),
+      sourceData: d
     }
   },
   computed: {
-    sourceData() {
+    // sourceData() {
+      
+    // }
+  },
+  methods: {
+    //对传入组件的data数据进行加工处理
+    processData() {
       const childField = this.childField
       function fn(data) {
         data.forEach(item => {
@@ -45,27 +52,29 @@ export default {
       }
       fn(this.data)
       return this.data
-    }
-  },
-  methods: {
+    },
     toPure(arr) {
       if (Array.isArray(arr))
         return JSON.parse(JSON.stringify(arr)).map(item => {
           delete item.__open__
           return item
         })
+      arr = JSON.parse(JSON.stringify(arr))
       delete arr.__open__
-      return JSON.parse(JSON.stringify(arr))
+      return arr
     },
     spreadParent(v) {
       //根据当前节点找到所有父级节点，并将其__open__置为true
       const { keyField, childField, sourceData } = this
-      const arr = getAllParent(sourceData, v, keyField, childField)
+      if(sourceData.length) {
 
-      arr.slice(0, -1).forEach(item => {
-        item.__open__ = true
-      })
-      this.$emit("toggle", this.toPure(arr))
+        const arr = getAllParent(sourceData, v, keyField, childField)
+  
+        arr.slice(0, -1).forEach(item => {
+          item.__open__ = true
+        })
+        this.$emit("toggle", arr)
+      }
     },
     createCheckedDataByCheckedKeys(k) {
       const { sourceData, keyField, textField, childField } = this
@@ -74,7 +83,7 @@ export default {
       function fn(data) {
         data.forEach(item => {
           if (set.has(item[keyField] + "")) {
-            const {__open__,...others} = item
+            const { __open__, ...others } = item
             arr.push(others)
           }
           if (item[childField] && item[childField].length) {
@@ -84,6 +93,11 @@ export default {
       }
       fn(sourceData)
       this.checkedData = arr
+    },
+    isSameKeys(arr1,arr2) {
+      const a1 = JSON.parse(JSON.stringify(arr1)).sort((x,y)=>x-y).join(',')
+      const a2 = JSON.parse(JSON.stringify(arr2)).sort((x,y)=>x-y).join(',')
+      return a1 === a2
     }
   },
   render() {
@@ -91,7 +105,8 @@ export default {
       props: {
         ...this.$props,
         data: this.sourceData,
-        active: this.currentValue
+        active: this.currentValue,
+        scopedSlots: this.$scopedSlots
       },
       on: {
         toggle: e => {
@@ -105,13 +120,32 @@ export default {
     return <k-tree-list {...p} />
   },
   watch: {
-    checkedKeys(k) {
-      this.$emit("update:selectedKeys", k)
-      this.createCheckedDataByCheckedKeys(k)
+    sourceData: {
+      deep: true,
+      handler(d,oldD) {
+        if(JSON.stringify(d)!==JSON.stringify(oldD))
+        this.$emit('update:data',d)
+      }
+    },
+    data: {
+      deep: true,
+      handler(d,oldD) {
+        if(JSON.stringify(d)===JSON.stringify(oldD)) {return}
+        this.sourceData = this.processData()
+        if(this.value) this.spreadParent(this.value)
+      }
+    },
+    checkedKeys(k,oldKeys) {
+      if(!this.isSameKeys(k,oldKeys)) {
+        this.$emit("update:selectedKeys", k)
+        this.createCheckedDataByCheckedKeys(k)
+      }
       //todo: 选中的树形数据
     },
-    selectedKeys(k) {
-      this.checkedKeys = k
+    selectedKeys(k,oldKeys) {
+      if(!this.isSameKeys(k,this.checkedKeys)) {
+        this.checkedKeys = k
+      }
     },
     checkedData(d) {
       this.$emit("update:selectedData", d)
