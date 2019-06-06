@@ -40,7 +40,9 @@ export default {
     rowData: {
       type: [Object,Function],
       default: () => ({})
-    }
+    },
+    //beforeDeleteRow是能返回Promise的函数
+    beforeDeleteRow: Function
     //占位行数，当不足时自动补充空行
     // placeholderRows: {
     //   type: Number,
@@ -83,8 +85,12 @@ export default {
         'delete-row':e=>{
           if(this.data.length>1) {
             // this.$emit('dataChange', this.data.splice(e.index,1))
-            this.data.splice(e.index,1)
-            this.$emit('delete-row',e)
+            if(this.beforeDeleteRow && typeof this.beforeDeleteRow === 'function') {
+              this.beforeDeleteRow(e).then(()=>{
+                this.data.splice(e.index,1)
+                this.$emit('delete-row',e)
+              }).catch(()=>{})
+            }
           }
         }
       }
