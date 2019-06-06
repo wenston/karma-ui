@@ -4,7 +4,7 @@
     <div>
       <k-table2 :data="data"
         :columns="columns"
-        height="calc(100vh - 120px)">
+        max-height="calc(100vh - 120px)">
         <template slot="color" slot-scope="{row}">
           <k-input block no-style v-model="row.Color"></k-input>
         </template>
@@ -14,10 +14,18 @@
 </template>
 
 <script>
+const baseRowData = () => ({
+  ProName: '',
+        Color: '',
+        RetailPrice: '',
+        ProCount: '',
+        Id: '',
+        ProId: '',
+})
 export default {
   data() {
     return {
-      data: Array.apply(null,{length:15}).map(t=>({})),
+      data: Array.apply(null,{length:3}).map(t=>baseRowData()),
       columns: [
         {
           field: "ProName",
@@ -31,19 +39,26 @@ export default {
                 value: row.ProId,
                 data: this.list,
                 noStyle: true,
+                pageSize: 7,
                 layerWidth: false,//没值表示和输入框等宽
               },
               on: {
                 valueChange: v => {
-                  
+                  row.Id = row.ProId = v
+                  console.log(v)
                 },
                 toggle: (e) => {
                   
                   if(e.row) {
                     e.row.ProCount = 1
-                    this.data.splice(index,1,e.row)
+                    // this.data.splice(index,1,e.row)
+                    // this.data[i]
+                    console.log(this.data[index])
+                    for(let k in row) {
+                      this.data[index][k] = e.row[k]
+                    }
                   }else{
-                    this.data.splice(index,1,{})
+                    this.data.splice(index,1,baseRowData())
                   }
                 }
               },
@@ -51,13 +66,14 @@ export default {
                 default: ({ row, index }) => {
                   return (
                     <div>
-                      <span>{row.Name}</span>
+                      <span>{row.ProName}</span>
                       <span>{index}</span>
                     </div>
                   )
                 }
               }
             }
+            {/**当选一个商品时，autoComple组件会被vue自动销毁，为什么？？？ */}
             return <k-auto-complete {...p}>
             </k-auto-complete>
             

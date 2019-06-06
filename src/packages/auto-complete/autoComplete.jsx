@@ -569,8 +569,8 @@ export default {
     this.destroyLayer()
   },
   destroyed() {
+    // console.log('k-auto-complete被销毁了！当前页：',this.pageIndex)
     if (this.ins) {
-      // console.log('k-auto-complete被销毁了！当前页：',this.pageIndex)
     }
   },
   mounted() {

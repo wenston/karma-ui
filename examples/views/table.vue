@@ -26,7 +26,6 @@
       nowrap
       hover
       resize-width
-      simple
       :stripe="false"
       :selectedRows.sync="selectedRows"
       :checkable="checkable"
@@ -960,8 +959,8 @@ export default {
           style: { width: "150" },
           field: "Code",
           name: "单号",
-          scopedSlots: "xxx" //xxx是作用域插槽的名称
-          // fixed: "left"
+          scopedSlots: "xxx", //xxx是作用域插槽的名称
+          fixed: "left"
         },
         {
           style: { width: "100" },
