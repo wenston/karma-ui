@@ -16,6 +16,7 @@ $types: primary, warning, danger, success;
   text-decoration: none;
   transition: var(--button-transition);
   outline: 0;
+  position: relative;
 
   &.k-btn--default {
     background-color: var(--button-default-bg-color);
@@ -92,9 +93,9 @@ $types: primary, warning, danger, success;
     justify-content: center;
   }
   & > span.k-btn-cont + .k-btn__loading {
-    position: relative;
-    top: -1px;
-    margin-left: 15px;
+    position: absolute;
+    top: 0;
+    right: 5px;
     @extend .k-roll;
   }
 }

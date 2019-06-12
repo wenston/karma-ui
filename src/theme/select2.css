@@ -2,6 +2,7 @@
   display: inline-block;
   line-height: normal;
   position: relative;
+  width: var(--select2-width);
 }
 .k-select2-searchinput {
   .k-input {

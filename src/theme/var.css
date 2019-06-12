@@ -121,10 +121,13 @@
   --option-selected-bg-color: var(--primary-color);
   --option-selected-bg-gradient-color: var(--primary-gradient-color);
 
+  /* select2 */
+  --select2-width: var(--input-width);
 
   /* radio */
   --radio-font-size: 12px;
   --radio-size: 14px;
+  --radio-icon-text-gutter: 5px;
   --radio-gutter: 20px;
   --radio-border-color: color(var(--input-border-color) shade(10%));
   --radio-hover-border-color: var(--primary-color);
