@@ -13,8 +13,6 @@
         :min="min"
         range
         ref="dp2"
-        :hasQuick="false"
-        disabled
         @getLayerElement="getDatePickerElement"></k-date-picker>
       <k-button @click="start='2018-10-10'">2018-10-10</k-button>
       <k-button @click="end='2019-10-10'">2019-10-10</k-button>
@@ -35,10 +33,10 @@ export default {
   },
   computed: {
     max() {
-      // return new Date()
+      return new Date
     },
     min() {
-      // return '2019-04-08'
+      return new Date() - 30*3600*24*1000
     }
   },
   methods: {
