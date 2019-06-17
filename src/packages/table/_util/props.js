@@ -148,7 +148,7 @@ export const props = {
 
   minContent: {
     type: Boolean,
-    default: false
+    default: true
   },
   //表格主题tbody高度，有高度的情况下，可以实现表头固定
   //NOTE: 是给表格主题外部div的高度

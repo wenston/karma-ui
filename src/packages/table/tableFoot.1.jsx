@@ -10,22 +10,17 @@ export default {
     KColGroup
   },
   props: {
-    ...props,
-    bottom: Number,
+    ...props
   },
   computed: {
-    tableWrapperClasses() {
-      return [
-        'k-tfootwrapper'
-      ]
-    },
     tableClasses() {
-      return ['k-table',
-        'k-tfoot',
-        {
-          'k-tfootshadow': this.bottom>0,"k-table--auto": !this.minContent
-        }
-      ]
+      return {
+        "k-table": true,
+        [`k-table--${this.size}`]: true,
+        "k-table--nowrap": this.nowrap,
+        'k-table--auto': this.tableLayoutAuto,
+        "k-table--min-content": this.minContent
+      }
     },
     hasSum() {
       return this.c_filter_columns.some(col => "sum" in col)
@@ -107,35 +102,32 @@ export default {
       }
     },
     renderTd() {
-      // const { sumText } = this
-      // const tds = this.c_filter_columns.map((col, i) => {
-      //   const content = i === 0 ? sumText : this.getSumContent(col, i)
-      //   return <k-cell>{content}</k-cell>
-      // })
-      const tds = this.columns.map((col,i)=>{
-        return <k-cell>{0}</k-cell>
+      const { sumText } = this
+      const tds = this.c_filter_columns.map((col, i) => {
+        const content = i === 0 ? sumText : this.getSumContent(col, i)
+        return <k-cell>{content}</k-cell>
       })
       return <tr>{tds}</tr>
     }
   },
   render() {
-    // if (this.hasSum) {
+    if (this.hasSum) {
       const { tableClasses } = this
       return (
-        <div class={this.tableWrapperClasses}>
+        <div class="k-table-foot">
           <table class={tableClasses}>
-            {this.$slots.colgroup}
+            <k-col-group columns={this.c_filter_columns} />
             <tfoot>{this.renderTd()}</tfoot>
           </table>
         </div>
       )
-    // }
-    // return false
+    }
+    return false
   },
   mounted() {
-    // this.$nextTick(() => {
-    //   //注意： 0必须要写成'0px'的形式，否则calc失效！
-    //   this.$emit("foot-mounted", this.hasSum ? getStyle(this.$el, "height") : '0px')
-    // })
+    this.$nextTick(() => {
+      //注意： 0必须要写成'0px'的形式，否则calc失效！
+      this.$emit("foot-mounted", this.hasSum ? getStyle(this.$el, "height") : '0px')
+    })
   }
 }
