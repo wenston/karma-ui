@@ -13,7 +13,9 @@
         :data="data1"
         v-model="val"
         text="mate20"
-        :show.sync="show1"></k-select-tree>
+        :show.sync="show1"
+        simple
+        clearable></k-select-tree>
     </div>
   </div>
 </template>

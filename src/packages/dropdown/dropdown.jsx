@@ -14,7 +14,7 @@ export default {
       default: "div"
     },
     trigger: {
-      type: String,
+      type: [String, Boolean], //Boolean时，取值是false，表示没有事件
       default: "click"
     },
     show: {
@@ -142,7 +142,7 @@ export default {
   },
   watch: {
     visible: {
-      immediate:true,
+      immediate: true,
       handler(v) {
         this.$emit("update:show", v)
         if (v) {
@@ -185,7 +185,7 @@ export default {
   },
   render() {
     const { trigger, visible } = this
-    const p = {
+    let p = {
       class: "k-dropdown",
       directives: [
         {
@@ -194,8 +194,10 @@ export default {
             this.hideIt(0)
           }
         }
-      ],
-      on: {
+      ]
+    }
+    if (trigger) {
+      p.on = {
         click: e => {
           if (trigger == "click") {
             this.visible = !visible
@@ -213,6 +215,7 @@ export default {
         }
       }
     }
+
     return (
       <this.tag {...p}>
         {typeof this.title === "function" ? this.title() : this.title}

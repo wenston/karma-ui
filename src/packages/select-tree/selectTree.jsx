@@ -3,6 +3,7 @@ import KTree from "karma-ui/packages/tree/tree"
 import KIcon from "karma-ui/packages/icon/icon"
 import loading from "karma-ui/directives/loading/index"
 import ScrollBar from "karma-ui/packages/scrollbar/Scrollbar"
+//TODO: 需增加clearable
 export default {
   name: "KSelectTree",
   components: {
@@ -25,6 +26,11 @@ export default {
       type: Boolean,
       default: false
     },
+    simple: {
+      type: Boolean,
+      default: false
+    },
+    clearable: Boolean,
     //textField对应的值，text参数的作用是在树形数据懒加载时用的。因为懒加载
     //数据是空的，所以找不到对应的名字，故需要在组件外部事先给出来
     text: [String, Number]
@@ -72,20 +78,30 @@ export default {
           </ScrollBar>
         )
       } else {
-        return (
-          <div class="k-select-tree-checked-one">{this.currentText}</div>
-        )
+        return <div class="k-select-tree-checked-one">{this.currentText}</div>
       }
     },
     title() {
       let icon = null
-      if (this.checkedData && this.checkedData.length) {
+      if (
+        (this.checkedData && this.checkedData.length) ||
+        (this.clearable && this.currentVal !== "" && this.currentVal !== undefined)
+      ) {
         icon = (
           <k-icon
             class="k-select-tree-clear"
             name="k-icon-close"
             onClick={e => {
-              this.checkedKeys = ""
+              if (this.checkedData && this.checkedData.length) {
+                this.checkedKeys = ""
+              } else if (
+                this.currentVal !== "" &&
+                this.currentVal !== undefined && 
+                this.clearable
+              ) {
+                this.currentVal = ""
+                this.currentText = ''
+              }
               e.stopPropagation()
             }}
           />
@@ -98,7 +114,8 @@ export default {
         class: [
           "k-select-tree",
           {
-            ["k-select-tree--block"]: this.block
+            ["k-select-tree--block"]: this.block,
+            ["k-select-tree--simple"]: this.simple
           }
         ],
         on: {
@@ -138,7 +155,7 @@ export default {
               const item = arr[arr.length - 1]
               this.currentText = item[textField]
             }
-            this.$emit('toggle',arr)
+            this.$emit("toggle", arr)
           },
           "update:selectedData": d => {
             this.checkedData = d

@@ -119,6 +119,7 @@ export default {
   },
   methods: {
     handleKeyup(e) {
+      this.$emit('keyup',e)
       const code = e.keyCode
       if (code != 40 && code != 38 && code != 13) {
         return
@@ -147,7 +148,7 @@ export default {
           this.$emit("toggle", {
             row: this.filterData[this.currentIndex],
             index: this.currentIndex
-          })
+          },e)
           this.hideList(this.destroyLayer)
         }
         return
