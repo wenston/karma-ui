@@ -36,20 +36,20 @@ export default {
     }
   },
   computed: {
-    c_columns() {
-      let c = this.columns.map(item => {
-        if (item) {
-          let col = typeof item === "function" ? item() : item
-          return col
-        }
-      })
-      return c
-    },
+    // c_columns() {
+    //   let c = this.columns.map(item => {
+    //     if (item) {
+    //       let col = typeof item === "function" ? item() : item
+    //       return col
+    //     }
+    //   })
+    //   return c
+    // },
     tableWrapperClasses() {
       return ["k-tablebox"]
     },
     colGroup() {
-      return <k-col-group columns={this.c_columns} />
+      return <k-col-group columns={this.headAndBodyColumns} />
     }
   },
   methods: {
@@ -103,7 +103,7 @@ export default {
     let baseProps = {
       props: {
         ...this.$props,
-        columns: this.c_columns
+        columns: this.headAndBodyColumns
       }
     }
     return (

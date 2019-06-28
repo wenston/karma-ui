@@ -3,7 +3,6 @@
     <h3 class="layout__title">基本用法</h3>
     <k-table :data="dataList"
       height="calc(100vh - 120px)"
-      :min-content="true"
       :columns="columns">
       <template slot="TotalPrice" slot-scope="{row}">
         <span style="color:red;text-align:right">{{row.TotalPrice.toFixed(2)}}</span>
