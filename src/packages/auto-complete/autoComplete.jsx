@@ -106,6 +106,20 @@ export default {
       if (d && d.length) {
         this.getInputTextByKeyField()
         this.filterData = JSON.parse(JSON.stringify(d))
+        const i = this.currentHoverIndex
+        
+        //如果v-model有数据，且有分页、当前数据不在第一页
+        //
+        if (
+          this.pageSize &&
+          this.pageIndex == 1 &&
+          i > this.pageSize * this.pageIndex - 1
+        ) {
+          const half = Math.ceil(this.pageSize/2)
+          this.filterData = this.filterData.slice(i-half,i+half)
+          this.currentHoverIndex = this.currentIndex = half
+        }
+
         if (document.activeElement == this.$refs.input.getInputElement())
           this.showList()
       }
@@ -116,10 +130,16 @@ export default {
         this.getInputTextByKeyField()
       }
     }
+    // currentHoverIndex(hoverIndex) {
+    //   console.log("hoverIndex:", hoverIndex)
+    // },
+    // currentIndex(cI) {
+    //   console.log("currentIndex:", cI)
+    // }
   },
   methods: {
     handleKeyup(e) {
-      this.$emit('keyup',e)
+      this.$emit("keyup", e)
       const code = e.keyCode
       if (code != 40 && code != 38 && code != 13) {
         return
@@ -145,10 +165,14 @@ export default {
             "valueChange",
             this.filterData[this.currentIndex][this.keyField]
           )
-          this.$emit("toggle", {
-            row: this.filterData[this.currentIndex],
-            index: this.currentIndex
-          },e)
+          this.$emit(
+            "toggle",
+            {
+              row: this.filterData[this.currentIndex],
+              index: this.currentIndex
+            },
+            e
+          )
           this.hideList(this.destroyLayer)
         }
         return
@@ -162,7 +186,8 @@ export default {
     getInputTextByKeyField() {
       let text = ""
       if (
-        this.value &&
+        this.value !== undefined &&
+        this.value !== null &&
         this.value !== "" &&
         this.data &&
         this.data.length &&

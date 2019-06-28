@@ -26,7 +26,7 @@
       </k-auto-complete>
       <k-button @click="clear">清空</k-button>
       <br>
-      <k-auto-complete :data="list"
+      <!-- <k-auto-complete :data="list"
         v-model="value1">
         <div slot="header"
           class="list header">
@@ -40,7 +40,7 @@
           <span class="index">{{index}}</span>
         </div>
         <div slot="footer">底部 测试</div>
-      </k-auto-complete>
+      </k-auto-complete> -->
     </div>
   </div>
 </template>
