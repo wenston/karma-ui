@@ -48,7 +48,7 @@
 export default {
   data() {
     return {
-      value: "",
+      value: "300249",
       value1: "100022",
       list: [],
       list1: [
