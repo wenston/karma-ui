@@ -91,6 +91,10 @@ export default {
           <k-icon
             class="k-select-tree-clear"
             name="k-icon-close"
+            tabindex="-1"
+            onFocus={e=>{
+              e.stopPropagation()
+            }}
             onClick={e => {
               if (this.checkedData && this.checkedData.length) {
                 this.checkedKeys = ""
@@ -149,6 +153,12 @@ export default {
           ...this.$listeners,
           valueChange: v => {
             this.currentVal = v
+            if(!this.hasCheckbox) {
+              if(v!=='' && v !==undefined) {
+
+                this.visible = false
+              }
+            }
           },
           toggle: arr => {
             if (arr.length) {

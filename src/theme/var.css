@@ -187,7 +187,7 @@
 
   /*loading*/
   --loading-bg-color:color(#07192c a(70%));
-  --loading-z-index:9;
+  --loading-z-index:1000;
   --loading-radius:calc(var(--radius)*2);
   --loading-width:120px;
   --loading-height:100px;
