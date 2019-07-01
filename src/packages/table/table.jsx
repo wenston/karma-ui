@@ -24,7 +24,9 @@ export default {
   data() {
     return {
       theadTop: 0,
-      tfootBottom: 0
+      tfootBottom: 0,
+      currentResizeTd: null,
+      showBaseLine: false,
     }
   },
   provide() {
@@ -49,7 +51,7 @@ export default {
       return ["k-tablebox"]
     },
     colGroup() {
-      return <k-col-group columns={this.headAndBodyColumns} />
+      return <k-col-group columns={this.machiningColumns.bodyColumns} />
     }
   },
   methods: {
@@ -74,7 +76,81 @@ export default {
         this.onTableWrapperScroll()
         window.addEventListener("resize", this.onTableWrapperScroll)
       })
-    }
+    },
+    //e是事件对象，el是当前要调整宽度的单元格，index是第几个单元格
+    handleResizeDown(e, el, index) {
+      this.currentResizeTd = el
+      document.addEventListener("mousemove", this.handleResizeMove)
+      document.addEventListener("mouseup", this.handleResizeUp)
+      const scrollLeft = this.$refs.mainTable.scrollLeft
+      const tdOldWidth = parseFloat(getStyle(el, "width"))
+      const totalHeight = getStyle(this.$refs.mainTable, "height")
+      const baseLine = this.$refs.baseLine
+      const left = offset(el, this.$el).left + tdOldWidth - scrollLeft
+      baseLine.style.height = totalHeight
+      baseLine.style.left = left + "px"
+      this.currentResizeTd.startX = e.clientX
+      this.currentResizeTd.tdOldWidth = tdOldWidth
+      this.currentResizeTd.baseLineLeft = left
+      this.currentResizeTd.colIndex = index
+      this.showBaseLine = true
+    },
+    handleResizeMove(e) {
+      const el = this.currentResizeTd
+      const dx = e.clientX - el.startX
+      // const scrollLeft = this.$refs.mainTable.scrollLeft
+      // this.$refs.baseLine.style.left = scrollLeft + el.baseLineLeft + dx + "px"
+      this.$refs.baseLine.style.left = el.baseLineLeft + dx + "px"
+    },
+    handleResizeUp(e) {
+      const { mainTable, leftTable, rightTable } = this.$refs
+      this.resizeColumnWidth(mainTable, e)
+      leftTable && this.resizeColumnWidth(leftTable, e)
+      rightTable && this.resizeColumnWidth(rightTable, e)
+
+      this.showBaseLine = false
+      this.currentResizeTd = null
+      document.removeEventListener("mousemove", this.handleResizeMove)
+      document.removeEventListener("mouseup", this.handleResizeUp)
+    },
+    resizeColumnWidth(t, e) {
+      const { colIndex, startX, tdOldWidth } = this.currentResizeTd
+      if (t) {
+        const head = t.querySelector(".k-table-head"),
+          body = t.querySelector(".k-table-body"),
+          foot = t.querySelector(".k-table-foot"),
+          resize = el => {
+            if (el) {
+              const cols = el.querySelectorAll("col")
+              if (cols) {
+                cols[+colIndex].style.width =
+                  tdOldWidth + e.clientX - startX + "px"
+              }
+            }
+          }
+        head && resize(head)
+        body && resize(body)
+        foot && resize(foot)
+      }
+    },
+    //调整列宽时，显示出来一个基准线
+    rBaseLine() {
+      if (this.resizeWidth) {
+        const p = {
+          class: {
+            "k-table-base-line": true
+          },
+          ref: "baseLine",
+          directives: [
+            {
+              name: "show",
+              value: this.showBaseLine
+            }
+          ]
+        }
+        return <div {...p} />
+      }
+    },
   },
   updated() {
     this.onTableWrapperScroll()
@@ -86,12 +162,13 @@ export default {
     window.removeEventListener("resize", this.onTableWrapperScroll)
   },
   render() {
+    const { bodyColumns, headColumns } = this.machiningColumns
     //对columns进行初步处理，剔除null/undefined/false/''等无效的列
 
     // 2. 整理出来colgroup
     const colgroup = <template slot="colgroup">{this.colGroup}</template>
     const tableWrapperProps = {
-      ref: "tableWrapper",
+      ref: "mainTable",
       class: this.tableWrapperClasses,
       style: {
         height: this.height
@@ -103,13 +180,23 @@ export default {
     let baseProps = {
       props: {
         ...this.$props,
-        columns: this.headAndBodyColumns
+        columns: bodyColumns
+      }
+    }
+    let headProps = {
+      props: {
+        ...baseProps.props,
+        columns: headColumns,
+        top: this.theadTop
+      },
+      on: {
+        handleResizeDown: this.handleResizeDown
       }
     }
     return (
       <div class="k-tableouter">
         <div {...tableWrapperProps}>
-          <KTableHead {...baseProps} ref="thead" top={this.theadTop}>
+          <KTableHead {...headProps} ref="thead">
             {colgroup}
           </KTableHead>
           <KTableBody {...baseProps} bodyScopedSlots={this.$scopedSlots}>
@@ -119,6 +206,7 @@ export default {
             {colgroup}
           </KTableFoot>
         </div>
+        {this.rBaseLine()}
       </div>
     )
   }
