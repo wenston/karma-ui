@@ -5,6 +5,8 @@
       height="calc(100vh - 120px)"
       :columns="columns"
       hasIndex
+      hasAction
+      hasCheckbox
       resizeWidth>
       <template slot="TotalPrice"
         slot-scope="{row}">
@@ -22,32 +24,43 @@ export default {
       dataList: table1,
       columns: [
         {
-          style: { width: "150" },
-          name: () => <em>单号</em>,
-          customRender: row => <a href="javascript:;">{row.Code}</a>
-          // fixed: "left"
-        },
-        {
-          style: { width: "140" },
-          field: "SupplierName",
-          name: <span style="color:red">供应商</span>
-        },
-        {
-          name: "税率和金额",
+          name: "主体",
           children: [
             {
-              field: "TaxRate",
-              name: "税率"
+              name: "主体1",
+              children: [
+                {
+                  style: { width: "150" },
+                  name: () => <em>单号</em>,
+                  customRender: row => <a href="javascript:;">{row.Code}</a>
+                  // fixed: "left"
+                },
+                {
+                  style: { width: "140" },
+                  field: "SupplierName",
+                  name: <span style="color:red">供应商</span>
+                }
+              ]
             },
             {
-              style: { width: "80", textAlign: "right" },
-              field: "TotalPrice",
-              name: "金额",
-              scopedSlots: "TotalPrice",
-              sorter: 1
+              name: "税率和金额",
+              children: [
+                {
+                  field: "TaxRate",
+                  name: "税率"
+                },
+                {
+                  style: { width: "130", textAlign: "right" },
+                  field: "TotalPrice",
+                  name: "金额",
+                  scopedSlots: "TotalPrice",
+                  sorter: 1
+                }
+              ]
             }
           ]
         },
+
         {
           style: { width: "100" },
           field: "StoreName",
@@ -66,15 +79,21 @@ export default {
           name: "经手人"
         },
         {
-          style: { width: "70" },
-          field: "UserNameAdded",
-          name: "制单人"
+          name: "制单",
+          children: [
+            {
+              style: { width: "70" },
+              field: "UserNameAdded",
+              name: "制单人"
+            },
+            {
+              style: { width: "160" },
+              field: "DateAdded",
+              name: "制单时间"
+            }
+          ]
         },
-        {
-          style: { width: "160" },
-          field: "DateAdded",
-          name: "制单时间"
-        },
+
         {
           style: { width: "60" },
           field: "Status",

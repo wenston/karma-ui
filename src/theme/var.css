@@ -269,5 +269,5 @@
   --table-fixed-right-shadow: -6px 0 3px -3px rgba(0,0,0,.10);
 
   /** 列宽调整的基准线 */
-  --table-base-line-color: color(var(--danger-color) a(70%));
+  --table-base-line-color: color(var(--danger-color) a(50%));
 }

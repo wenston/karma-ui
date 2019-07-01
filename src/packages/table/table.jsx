@@ -26,7 +26,7 @@ export default {
       theadTop: 0,
       tfootBottom: 0,
       currentResizeTd: null,
-      showBaseLine: false,
+      showBaseLine: false
     }
   },
   provide() {
@@ -38,15 +38,6 @@ export default {
     }
   },
   computed: {
-    // c_columns() {
-    //   let c = this.columns.map(item => {
-    //     if (item) {
-    //       let col = typeof item === "function" ? item() : item
-    //       return col
-    //     }
-    //   })
-    //   return c
-    // },
     tableWrapperClasses() {
       return ["k-tablebox"]
     },
@@ -55,10 +46,17 @@ export default {
     }
   },
   methods: {
+    
+    emitAddRow(e) {
+      this.$emit("add-row", e)
+    },
+    emitDeleteRow(e) {
+      this.$emit("delete-row", e)
+    },
     onTableWrapperScroll() {
-      const { thead, tfoot, tableWrapper } = this.$refs
-      if (thead && tfoot && tableWrapper) {
-        const tar = tableWrapper
+      const { thead, tfoot, mainTable } = this.$refs
+      if (thead && tfoot && mainTable) {
+        const tar = mainTable
         const scrollTop = tar.scrollTop
         const scrollLeft = tar.scrollLeft
         const theadEl = thead.$el
@@ -88,7 +86,7 @@ export default {
       const baseLine = this.$refs.baseLine
       const left = offset(el, this.$el).left + tdOldWidth - scrollLeft
       baseLine.style.height = totalHeight
-      baseLine.style.left = left + "px"
+      baseLine.style.left = (left + 1) + "px"
       this.currentResizeTd.startX = e.clientX
       this.currentResizeTd.tdOldWidth = tdOldWidth
       this.currentResizeTd.baseLineLeft = left
@@ -116,9 +114,9 @@ export default {
     resizeColumnWidth(t, e) {
       const { colIndex, startX, tdOldWidth } = this.currentResizeTd
       if (t) {
-        const head = t.querySelector(".k-table-head"),
-          body = t.querySelector(".k-table-body"),
-          foot = t.querySelector(".k-table-foot"),
+        const head = t.querySelector(".k-theadwrapper"),
+          body = t.querySelector(".k-tbodywrapper"),
+          foot = t.querySelector(".k-tfootwrapper"),
           resize = el => {
             if (el) {
               const cols = el.querySelectorAll("col")
@@ -137,9 +135,7 @@ export default {
     rBaseLine() {
       if (this.resizeWidth) {
         const p = {
-          class: {
-            "k-table-base-line": true
-          },
+          class: ["k-table-base-line"],
           ref: "baseLine",
           directives: [
             {
@@ -150,7 +146,7 @@ export default {
         }
         return <div {...p} />
       }
-    },
+    }
   },
   updated() {
     this.onTableWrapperScroll()
@@ -169,7 +165,12 @@ export default {
     const colgroup = <template slot="colgroup">{this.colGroup}</template>
     const tableWrapperProps = {
       ref: "mainTable",
-      class: this.tableWrapperClasses,
+      class: [
+        this.tableWrapperClasses,
+        {
+          "k-no-select": this.showBaseLine
+        }
+      ],
       style: {
         height: this.height
       },
@@ -184,6 +185,9 @@ export default {
       }
     }
     let headProps = {
+      class: {
+        ...baseProps.class
+      },
       props: {
         ...baseProps.props,
         columns: headColumns,
@@ -193,13 +197,23 @@ export default {
         handleResizeDown: this.handleResizeDown
       }
     }
+    let bodyProps = {
+      props: {
+        ...baseProps.props
+      },
+      on: {
+        
+        "add-row": this.emitAddRow,
+        "delete-row": this.emitDeleteRow,
+      }
+    }
     return (
       <div class="k-tableouter">
         <div {...tableWrapperProps}>
           <KTableHead {...headProps} ref="thead">
             {colgroup}
           </KTableHead>
-          <KTableBody {...baseProps} bodyScopedSlots={this.$scopedSlots}>
+          <KTableBody {...bodyProps} bodyScopedSlots={this.$scopedSlots}>
             {colgroup}
           </KTableBody>
           <KTableFoot {...baseProps} ref="tfoot" bottom={this.tfootBottom}>
