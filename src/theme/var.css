@@ -104,9 +104,9 @@
   --button-transition: .15s ease;
 
   /* select */
-  --select-down-size: 12px;
+  --select-down-size: 14px;
   --select-down-color: color(var(--input-border-color) b(+20%));
-  --select-clear-size: 12px;
+  --select-clear-size: 14px;
   --select-clear-hover-color: color(var(--select-down-color) b(+40%));
   --select-option-z-index: 99;
   --select-option-box-shadow: var(--box-shadow);

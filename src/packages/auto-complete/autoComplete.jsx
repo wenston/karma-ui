@@ -241,7 +241,7 @@ export default {
     getFilterData() {
       if (this.inputText.trim() !== "") {
         //将用户输入，转化成关键字数组，以逐个匹配
-        const arrText = this.inputText.toLowerCase().split(/\s+/)
+        const arrText = this.inputText.toLowerCase().split(/\s+/).filter(el=>el.length>0)
         const arrField =
           typeof this.searchField === "string"
             ? [this.searchField]
@@ -258,10 +258,11 @@ export default {
           arrField.forEach(field => {
             const fieldText = (item[field] + "").toLowerCase()
             arrText.forEach(text => {
-              text = (text + "").trim()
-              if (fieldText.indexOf(text) > -1) {
-                has = true
-              }
+                text = (text + "").trim()
+                if (fieldText.indexOf(text) > -1) {
+                  has = true
+                }
+              
             })
           })
           if (has) {

@@ -33,7 +33,11 @@ export default {
     disabled: Boolean,
     clearable: Boolean,
     simple: Boolean,
-    block: Boolean
+    block: Boolean,
+    icon: {
+      type: Array,
+      default: () => ["k-icon-arrow-down", "k-icon-close"]
+    }
   },
   data() {
     return {
@@ -108,7 +112,11 @@ export default {
               e.stopPropagation()
             }}
           >
-            <k-icon size="14" class="k-select__clear" name="k-icon-close" />
+            <k-icon
+              size="14"
+              class="k-select__clear"
+              name={this.icon[1] || "k-icon-close"}
+            />
           </span>
         )
       } else {
@@ -126,7 +134,7 @@ export default {
                 "k-select__down": true,
                 "k-select__down--up": this.ifOptionList
               }}
-              name="k-icon-arrow-down"
+              name={this.icon[0] || "k-icon-arrow-down"}
             />
           </span>
         )
@@ -293,9 +301,8 @@ export default {
       }
     },
     showOptionList(v) {
-      if(!v) {
-        
-        this.$emit("blur",this.$refs.input.$el)
+      if (!v) {
+        this.$emit("blur", this.$refs.input.$el)
       }
     }
   },
