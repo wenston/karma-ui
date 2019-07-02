@@ -74,7 +74,7 @@ export default {
         // rows = JSON.parse(JSON.stringify(this.checkedRows)),
         rows = this.checkedRows,
         para = { checked, index, row, rows, keys: this.checkedKeys }
-      if (this.canCheck(row, index)[1]) {
+      if (this.canCheckRow(row, index)[1]) {
         // if (fixedLeft && this.hasCheckbox && this.who === "left") {
         //   this.$emit("select-change", para)
         // } else if (!fixedLeft && this.hasCheckbox && this.who === "main") {
