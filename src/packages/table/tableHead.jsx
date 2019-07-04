@@ -40,6 +40,13 @@ export default {
     }
   },
   methods: {
+    //父组件调用，改变复选框状态
+    onCheckedAll(b) {
+      this.isCheckedAll = b
+    },
+    toggleCheckedAll(e) {
+      this.$emit("togglechecked", e.target.checked)
+    },
     getRowspan(obj, max) {
       if (obj.children && obj.children.length !== 0) {
         return 1
@@ -139,12 +146,9 @@ export default {
               sorter: col.sorter === undefined ? false : col.sorter
             },
             class: {
-              "k-table-td-center":
+              "k-text-center":
                 colspan > 1 ||
-                col.field === this.__index ||
-                col.field === this.__action ||
-                col.field === this.__checkbox ||
-                col.field === this.__radio
+                this.$_is_built_in_column(col.field)
             },
             on: {
               handleResizeDown: (e, el) => {

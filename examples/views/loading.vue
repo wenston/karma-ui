@@ -3,7 +3,9 @@
     <h3 class="layout__title">基本用法</h3>
     <div v-loading="{
         loading,
-        content:''
+        content:'',
+        timeout: 3000,
+        afterTimeout:afterTimeout
       }" >
       <p>sdfsadfasdf</p>
       <p>xxxxxxxxxxxxxxxx</p>
@@ -32,6 +34,10 @@ export default {
     }
   },
   methods: {
+    afterTimeout() {
+      this.loading = false
+      console.log('手动改loading')
+    },
     ontest() {
       this.loading = !this.loading
     }

@@ -18,8 +18,8 @@ export default {
     ...props
   },
   model: {
-    prop: "vvv",
-    event: "vvvChange"
+    prop: "value",
+    event: "valueChange"
   },
   data() {
     return {
@@ -46,7 +46,53 @@ export default {
     }
   },
   methods: {
-    
+    toggleCheckedAll(b) {
+      const { tbody } = this.$refs
+      tbody && tbody.onCheckedAll(b)
+    },
+    canCheckRow(row = {}, index) {
+      let can = [false, true]
+      if (this.checkable && typeof this.checkable === "function") {
+        can = this.checkable(row, index)
+      }
+      return can
+    },
+    emitSelectChange(e) {
+      //{checked,rows,row,index}
+      const sourceDataLength = this.$props.data.length
+      let cant = 0
+      this.$props.data.forEach((row, index) => {
+        if (!this.canCheckRow(row, index)[1]) {
+          cant += 1
+        }
+      })
+      if (cant === 0) {
+        this.$refs.thead.onCheckedAll(
+          sourceDataLength > 0 && e.rows.length === sourceDataLength
+        )
+      } else {
+        this.$refs.thead.onCheckedAll(
+          sourceDataLength > 0 && e.rows.length === sourceDataLength - cant
+        )
+      }
+      this.$emit("update:selectedRows", e.rows)
+      this.$emit("update:selectedKeys", e.keys)
+      this.$emit("select-change", /*JSON.parse(JSON.stringify(e))*/ e)
+    },
+    emitHighlight(e) {
+      this.setHighlightRow(e)
+      this.$emit("update:highlightValue", e.value)
+      this.$emit("toggle-highlight", e)
+    },
+    emitRadioChange(e) {
+      //{radioKey的值value，row,index}
+      this.$emit("valueChange", e.value)
+      //向组件外发射
+      this.$emit("radio-change", e)
+    },
+    emitDblclickRow(e) {
+      this.$emit("dblclick-row", e)
+    },
     emitAddRow(e) {
       this.$emit("add-row", e)
     },
@@ -86,7 +132,7 @@ export default {
       const baseLine = this.$refs.baseLine
       const left = offset(el, this.$el).left + tdOldWidth - scrollLeft
       baseLine.style.height = totalHeight
-      baseLine.style.left = (left + 1) + "px"
+      baseLine.style.left = left + 1 + "px"
       this.currentResizeTd.startX = e.clientX
       this.currentResizeTd.tdOldWidth = tdOldWidth
       this.currentResizeTd.baseLineLeft = left
@@ -194,7 +240,8 @@ export default {
         top: this.theadTop
       },
       on: {
-        handleResizeDown: this.handleResizeDown
+        handleResizeDown: this.handleResizeDown,
+        togglechecked: this.toggleCheckedAll
       }
     }
     let bodyProps = {
@@ -202,9 +249,12 @@ export default {
         ...baseProps.props
       },
       on: {
-        
         "add-row": this.emitAddRow,
         "delete-row": this.emitDeleteRow,
+        "dblclick-row": this.emitDblclickRow,
+        "toggle-radio-row": this.emitRadioChange,
+        "toggle-highlight": this.emitHighlight,
+        "select-change": this.emitSelectChange
       }
     }
     return (
@@ -213,7 +263,11 @@ export default {
           <KTableHead {...headProps} ref="thead">
             {colgroup}
           </KTableHead>
-          <KTableBody {...bodyProps} bodyScopedSlots={this.$scopedSlots}>
+          <KTableBody
+            {...bodyProps}
+            ref="tbody"
+            bodyScopedSlots={this.$scopedSlots}
+          >
             {colgroup}
           </KTableBody>
           <KTableFoot {...baseProps} ref="tfoot" bottom={this.tfootBottom}>

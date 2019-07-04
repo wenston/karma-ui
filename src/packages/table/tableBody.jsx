@@ -64,11 +64,56 @@ export default {
         this.checkedKeys = keys
         this.emitSelectChange()
       }
-    },
+    }
   },
   methods: {
     bodyScroll(e) {},
-    
+
+    //父级调用
+    onCheckedAll(checked) {
+      //当不选择时，不可以将checkedKeys直接清空，因为可能存在跨页选择的数据
+      //checkedRows同上
+      let set = new Set(this.checkedKeys)
+      if (checked) {
+        this.data.forEach((row, index) => {
+          if (this.canCheckRow(row, index)[1]) {
+            const k = this.formatCheckedKey(row)
+            set.add(k)
+            let has = false
+            for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+              if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                has = true
+                break
+              }
+            }
+            if (!has) {
+              // this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+              this.checkedRows.push(row)
+            }
+          }
+        })
+      } else {
+        this.data.forEach((row, index) => {
+          if (this.canCheckRow(row, index)[1]) {
+            const k = this.formatCheckedKey(row)
+            set.delete(k)
+            let j = -1
+            for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+              if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                j = i
+                break
+              }
+            }
+            if (j > -1) {
+              this.checkedRows.splice(j, 1)
+            }
+          }
+        })
+      }
+      this.checkedKeys = [...set]
+      this.emitSelectChange()
+      //NOTE: 如果出现选不中的情况，需检查传入的checkboxKey是否有问题
+    },
     emitSelectChange(checked, row, index) {
       let { fixedLeft, fixedRight } = this.hasFixedColumns,
         // rows = JSON.parse(JSON.stringify(this.checkedRows)),
@@ -99,7 +144,7 @@ export default {
       return result.join(",")
     },
     canCheckRow(row = {}, index) {
-      let can = [false,true]
+      let can = [false, true]
       if (this.checkable && typeof this.checkable === "function") {
         can = this.checkable(row, index)
       }
@@ -113,10 +158,10 @@ export default {
       })
       return tbody
     },
-    
+
     //处理序号列、操作列、多选或者单选的情况
     addFields(row, col, index, cell) {
-      let [ck,canCk] = this.canCheckRow(row, index)
+      let [ck, canCk] = this.canCheckRow(row, index)
       //如果有序号列
       if (this.hasIndex && col.field === this.__index) {
         cell = index + 1
@@ -154,8 +199,8 @@ export default {
           checked = true
         }
         //如果可以操作选中
-        if(canCk) {
 
+        if (canCk) {
           cell = (
             <k-checkbox
               value={this.formatCheckedKey(row)}
@@ -163,7 +208,7 @@ export default {
               style="pointer-events:none;"
             />
           )
-        }else{
+        } else {
           cell = (
             <k-checkbox
               value={this.formatCheckedKey(row)}
@@ -194,6 +239,9 @@ export default {
     },
     //单元格渲染
     renderTd(row, index, col) {
+      const style =
+        typeof col.style === "function" ? col.style(row, index) : col.style
+      const { width, ...restStyle } = { width: "", ...style }
       let cont = null
       if (col.customRender) {
         if (typeof col.customRender === "function") {
@@ -203,21 +251,115 @@ export default {
         }
       } else if (col.scopedSlots) {
         cont = this.bodyScopedSlots[col.scopedSlots]({
-          row,index
+          row,
+          index
         })
       } else if (col.field) {
         cont = row[col.field]
-        cont = this.addFields(row,col,index,cont)
+        cont = this.addFields(row, col, index, cont)
       }
-      return <k-cell>{cont}</k-cell>
+      let cellProps = {
+        class: {
+          "k-text-center": this.$_is_built_in_column(col.field)
+        },
+        style: restStyle
+      }
+      return <k-cell {...cellProps}>{cont}</k-cell>
+    },
+
+    getRowKey(row, index, keys) {
+      let k = []
+      let arr = []
+      if (keys) {
+        arr = (keys + "").trim().split(/\s?\,\s?/)
+      }
+      arr.forEach(el => {
+        if (el.toLowerCase() === "index") {
+          k.push(index + "")
+        } else if (row[el]) {
+          k.push(row[el])
+        }
+      })
+      return k.join(",")
     },
     //渲染数据的一行
     renderTr(row, index) {
-      let tr = []
+      let k = this.getRowKey(row, index, this.loopKey)
+      const curHighlightRowKey = this.getRowKey(row, index, this.highlightKey)
+      let tds = []
       this.columns.forEach(col => {
-        tr.push(this.renderTd(row, index, col))
+        tds.push(this.renderTd(row, index, col))
       })
-      return <tr>{tr}</tr>
+      let trProps = {
+        attrs: {
+          "data-key": k,
+          "data-highlight": curHighlightRowKey
+        },
+        key: k,
+        class: {
+          "k-table-tr-highlight": curHighlightRowKey == this.currentHighlightKey
+        },
+        on: {
+          dblclick: () => {
+            this.$emit("dblclick-row", { row, index })
+          },
+          click: () => {
+            if (this.canHighlightRow) {
+              this.currentHighlightKey = this.getRowKey(
+                row,
+                index,
+                this.highlightKey
+              )
+              this.$emit("toggle-highlight", {
+                row,
+                index,
+                value: curHighlightRowKey
+              })
+            }
+            //可以在此处理复选单选
+            const k = this.formatCheckedKey(row)
+            if (this.canCheckRow(row, index)[1]) {
+              if (this.hasCheckbox) {
+                let checked = false
+                let set = new Set(this.checkedKeys)
+                if (set.has(k)) {
+                  set.delete(k)
+                  let j = -1
+                  for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+                    if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                      j = i
+                      break
+                    }
+                  }
+                  if (j > -1) {
+                    this.checkedRows.splice(j, 1)
+                  }
+                } else {
+                  set.add(k)
+                  checked = true
+                  let has = false
+                  for (let i = 0, len = this.checkedRows.length; i < len; i++) {
+                    if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                      has = true
+                      break
+                    }
+                  }
+                  if (!has) {
+                    // this.checkedRows.push(JSON.parse(JSON.stringify(row)))
+                    this.checkedRows.push(row)
+                  }
+                }
+                this.checkedKeys = [...set]
+                this.emitSelectChange(checked, row, index)
+              } else if (this.hasRadio) {
+                this.currentRadioValue = k
+                this.$emit("toggle-radio-row", { value: k, row, index })
+              }
+            }
+          }
+        }
+      }
+      return <tr {...trProps}>{tds}</tr>
     }
   },
   render() {

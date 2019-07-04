@@ -112,5 +112,16 @@ export default {
       }
       return size[this.size]
     }
+  },
+  methods: {
+    //判断是否是内置列
+    $_is_built_in_column(field) {
+      return (
+        field === this.__index ||
+        field === this.__action ||
+        field === this.__checkbox ||
+        field === this.__radio
+      )
+    }
   }
 }

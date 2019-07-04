@@ -4,6 +4,8 @@
     <k-table :data="dataList"
       height="calc(100vh - 120px)"
       :columns="columns"
+      :selected-keys.sync="selectedKeys"
+      :selected-rows.sync="selectedRows"
       hasIndex
       hasAction
       hasCheckbox
@@ -22,15 +24,18 @@ export default {
   data() {
     return {
       dataList: table1,
+      selectedKeys: [],
+      selectedRows: [],
       columns: [
         {
           name: "主体",
+          style: {backgroundColor:'green'},
           children: [
             {
               name: "主体1",
               children: [
                 {
-                  style: { width: "150" },
+                  style: { width: "150",backgroundColor:'rgba(255,255,0,.1)' },
                   name: () => <em>单号</em>,
                   customRender: row => <a href="javascript:;">{row.Code}</a>
                   // fixed: "left"
