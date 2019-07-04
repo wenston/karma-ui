@@ -26,7 +26,7 @@
       </k-auto-complete>
       <k-button @click="clear">清空</k-button>
       <br>
-      <!-- <k-auto-complete :data="list"
+      <k-auto-complete :data="list"
         v-model="value1">
         <div slot="header"
           class="list header">
@@ -39,8 +39,10 @@
           <span class="name">{{row.Name}}</span>
           <span class="index">{{index}}</span>
         </div>
-        <div slot="footer">底部 测试</div>
-      </k-auto-complete> -->
+        <div slot="footer">
+          <k-button size="mini" @click="onFresh">刷新</k-button>
+        </div>
+      </k-auto-complete>
     </div>
   </div>
 </template>
@@ -581,6 +583,12 @@ export default {
     }
   },
   methods: {
+    onFresh() {
+      this.list = []
+      setTimeout(()=>{
+        this.list = this.list1
+      },1500)
+    },
     clear() {
       this.value = ''
     },

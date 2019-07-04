@@ -107,7 +107,7 @@ export default {
         this.getInputTextByKeyField()
         this.filterData = JSON.parse(JSON.stringify(d))
         const i = this.currentHoverIndex
-        
+
         //如果v-model有数据，且有分页、当前数据不在第一页
         //
         if (
@@ -115,13 +115,16 @@ export default {
           this.pageIndex == 1 &&
           i > this.pageSize * this.pageIndex - 1
         ) {
-          const half = Math.ceil(this.pageSize/2)
-          this.filterData = this.filterData.slice(i-half,i+half)
+          const half = Math.ceil(this.pageSize / 2)
+          this.filterData = this.filterData.slice(i - half, i + half)
           this.currentHoverIndex = this.currentIndex = half
         }
 
         if (document.activeElement == this.$refs.input.getInputElement())
           this.showList()
+      } else {
+        this.filterData = []
+        if (this.pageSize) this.currentHoverIndex = this.currentIndex = 1
       }
     },
     value: {
@@ -241,7 +244,10 @@ export default {
     getFilterData() {
       if (this.inputText.trim() !== "") {
         //将用户输入，转化成关键字数组，以逐个匹配
-        const arrText = this.inputText.toLowerCase().split(/\s+/).filter(el=>el.length>0)
+        const arrText = this.inputText
+          .toLowerCase()
+          .split(/\s+/)
+          .filter(el => el.length > 0)
         const arrField =
           typeof this.searchField === "string"
             ? [this.searchField]
@@ -258,11 +264,10 @@ export default {
           arrField.forEach(field => {
             const fieldText = (item[field] + "").toLowerCase()
             arrText.forEach(text => {
-                text = (text + "").trim()
-                if (fieldText.indexOf(text) > -1) {
-                  has = true
-                }
-              
+              text = (text + "").trim()
+              if (fieldText.indexOf(text) > -1) {
+                has = true
+              }
             })
           })
           if (has) {

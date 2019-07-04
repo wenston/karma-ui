@@ -1,6 +1,8 @@
 <template>
   <transition name="k-t-fade">
-    <div ref="popup" tabindex="-1" :class="[
+    <div ref="popup"
+      tabindex="-1"
+      :class="[
         'k-popup',
         layout.indexOf('mask')>-1?'k-popup--mask':'k-popup--transparent'
       ]"
@@ -91,6 +93,10 @@ export default {
     hasBottomLine: {
       type: Boolean,
       default: true
+    },
+    allowBodyScroll: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -118,12 +124,18 @@ export default {
   },
   watch: {
     show(v) {
-      if(v) {
-        this.$nextTick().then(()=>{
+      if (v) {
+        if (!this.allowBodyScroll) {
+          document.body.classList.add("k-overflow-hidden")
+        }
+        this.$nextTick().then(() => {
           this.$refs.popup.focus()
         })
-      }else{
-        if(this.$refs.popup) {
+      } else {
+        if (!this.allowBodyScroll) {
+          document.body.classList.remove("k-overflow-hidden")
+        }
+        if (this.$refs.popup) {
           this.$refs.popup.blur()
         }
       }
