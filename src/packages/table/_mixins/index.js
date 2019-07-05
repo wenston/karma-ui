@@ -48,7 +48,7 @@ export default {
       let obj = {
         style: {
           width: cellWidth,
-          backgroundColor: "#fafafa",
+          // backgroundColor: "#fafafa",
           textAlign: "center"
         }
       }
@@ -111,6 +111,9 @@ export default {
         huge: "60"
       }
       return size[this.size]
+    },
+    hasSum() {
+      return this.machiningColumns.bodyColumns.some(col => "sum" in col)
     }
   },
   methods: {
@@ -124,9 +127,9 @@ export default {
       )
     },
     //获取单元格的style
-    $_get_td_style(row, index, col) {
+    $_get_td_style(row, index, col,obj = {}) {
       const style =
-        typeof col.style === "function" ? col.style(row, index) : col.style
+        typeof col.style === "function" ? col.style(row, index,obj) : col.style
       const { width, ...restStyle } = { width: "", ...style }
       return restStyle
     }

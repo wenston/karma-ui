@@ -1,4 +1,5 @@
 import { props } from "./_util/props"
+import { debounce } from "karma-ui/util/throttle_debounce"
 import mixins from "./_mixins/"
 import KColGroup from "./colGroup"
 import KCell from "./tableCell"
@@ -16,6 +17,7 @@ export default {
   },
   props: {
     ...props,
+    hoverIndex: Number,
     bodyScopedSlots: Object, //接收来自KTable的插槽内容$scopedSlots
     //主体表格main、左固定表格left、右固定表格right
     //根据不同表格，有选择的渲染某些数据：复选和单选
@@ -30,7 +32,8 @@ export default {
       checkedKeys: this.selectedKeys || [], //保存复选的所有key
       checkedRows: this.selectedRows || [], //保存复选的所有行数据
       currentRadioValue: "",
-      currentHighlightKey: ""
+      currentHighlightKey: "",
+      hoverTimeout: null
     }
   },
   computed: {
@@ -42,7 +45,7 @@ export default {
     }
   },
   watch: {
-    currentValue: {
+    value: {
       immediate: true,
       handler(v) {
         this.currentRadioValue = v
@@ -170,10 +173,23 @@ export default {
     //tbody渲染
     renderTBody() {
       let tbody = []
-      this.data.forEach((row, index) => {
-        tbody.push(this.renderTr(row, index))
-      })
-      return tbody
+      if(this.data.length) {
+
+        this.data.forEach((row, index) => {
+          tbody.push(this.renderTr(row, index))
+        })
+        return tbody
+      }else{
+        const colspan = this.columns.length || 1
+        let text = typeof this.emptyText === "function"
+        ? this.emptyText()
+        : this.emptyText
+        if(text) {
+          return <tr>
+            <k-cell class="k-text-center" colspan={colspan}>{text}</k-cell>
+          </tr>
+        }
+      }
     },
 
     //处理序号列、操作列、多选或者单选的情况
@@ -276,7 +292,7 @@ export default {
         class: {
           "k-text-center": this.$_is_built_in_column(col.field)
         },
-        style: this.$_get_td_style(row,index,col)
+        style: this.$_get_td_style(row, index, col)
       }
       return <k-cell {...cellProps}>{cont}</k-cell>
     },
@@ -311,7 +327,9 @@ export default {
         },
         key: k,
         class: {
-          "k-table-tr-highlight": curHighlightRowKey == this.currentHighlightKey
+          "k-table-tr-highlight":
+            curHighlightRowKey == this.currentHighlightKey,
+          "k-table-tr-hover": this.hoverIndex === index
         },
         on: {
           dblclick: () => {
@@ -373,10 +391,25 @@ export default {
           }
         }
       }
+      if (this.hover) {
+        trProps.on.mouseover = () => {
+          clearTimeout(this.hoverTimeout)
+          this.hoverTimeout = setTimeout(() => {
+            this.$emit("update:hoverIndex", index)
+          },80)
+        }
+        trProps.on.mouseout = () => {
+          clearTimeout(this.hoverTimeout)
+          this.hoverTimeout = setTimeout(() => {
+            this.$emit("update:hoverIndex", -1)
+          },20)
+        }
+      }
       return <tr {...trProps}>{tds}</tr>
     }
   },
   render() {
+    console.log('body渲染了')
     const { bodyWrapperClasses, tableClasses } = this
     return (
       <div

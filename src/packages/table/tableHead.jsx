@@ -150,7 +150,7 @@ export default {
                 colspan > 1 ||
                 this.$_is_built_in_column(col.field)
             },
-            style: this.$_get_td_style(null,null,col),
+            style: this.$_get_td_style(null,null,col,{thead:true}),
             on: {
               handleResizeDown: (e, el) => {
                 if (col.children && col.children.length) {

@@ -100,7 +100,7 @@ export default {
         colspan: this.colspan
       },
       class: {
-        "k-table-td-relative": this.resizeWidth,
+        "k-table-td-relative": this.resizeWidth || this.hasSorter,
         "k-cursor-pointer": this.hasSorter,
         "k-no-select": this.hasSorter
       }

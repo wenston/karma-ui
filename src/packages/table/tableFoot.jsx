@@ -1,136 +1,87 @@
 import { getStyle } from "karma-ui/util/dom"
 import { props } from "./_util/props"
 import KCell from "./tableCell"
-import KColGroup from "./colGroup"
 import mixins from "./_mixins/"
 export default {
   mixins: [mixins],
   components: {
-    KCell,
-    KColGroup
+    KCell
   },
   props: {
     ...props,
-    bottom: Number,
+    bottom: Number
   },
   computed: {
     tableWrapperClasses() {
-      return [
-        'k-tfootwrapper'
-      ]
+      return ["k-tfootwrapper"]
     },
     tableClasses() {
-      return ['k-table',
-        'k-tfoot',
+      return [
+        "k-table",
+        "k-tfoot",
         {
-          'k-tfootshadow': this.bottom>0,"k-table--auto": !this.minContent
+          "k-tfootshadow": this.bottom > 0,
+          "k-table--auto": !this.minContent
         }
       ]
-    },
-    hasSum() {
-      return this.c_filter_columns.some(col => "sum" in col)
     }
   },
   methods: {
-    isObject: any =>
-      Object.prototype.toString.call(any).toLowerCase() === "[object object]",
-    getColSum(field) {
-      if(!field) {return 0}
-      const f = field.split(".")
-      let t = 0
-      if (f.length === 1 && f[0]) {
-        // console.log(f[0])
-        this.data.forEach(el => {
-          const v = +el[f[0]]
-          t += isNaN(v)?0:v
-        })
-      } else {
-        const me = this
-        let isEnd = false
-        function fnObj(obj, fields) {
-          for (let i = 0, len = fields.length; i < len; i++) {
-            const fd = fields[i]
-            if (Array.isArray(obj[fd])) {
-              fn(obj[fd], fields.slice(1))
-            } else if (me.isObject(obj[fd])) {
-              fnObj(obj[fd], fields.slice(1))
-            } else {
-              t += +obj[fd]
-              isEnd = true
-              break
-            }
-          }
-        }
-        function fn(data, fields) {
-          for (let i = 0, len = fields.length; i < len; i++) {
-            const fd = fields[i]
-            for (let j = 0, jlen = data.length; j < jlen; j++) {
-              const dd = data[j]
-
-              if (Array.isArray(dd[fd])) {
-                dd[fd].forEach(el => {
-                  fnObj(el, fields.slice(1))
-                })
-              } else {
-                if (me.isObject(dd[fd])) {
-                  fnObj(dd[fd], fields.slice(1))
-                } else {
-                  t += +dd[fd]
-                  isEnd = true
-                  break
-                }
-              }
-            }
-            if (isEnd) break
-          }
-        }
-        fn(this.data, f)
-      }
-      return t
-    },
-    getSumContent(col, i) {
+    getSumTotal(col, iCol) {
       const { sum, field } = col
       const type = typeof sum
-      if(type === 'undefined' || (type === 'boolean'&&!sum)) {
+      if (type === "undefined" || (type === "boolean" && !sum)) {
         return null
       }
       if (type === "string" || type === "number") {
         return sum
       } else {
-        const total = this.getColSum(field)
+        let total = 0
+        if (field) {
+          this.data.forEach(row => {
+            total += +row[field]
+          })
+        }
+        total = total || ""
         if (type === "function") {
-          //total是算出来的总和，i是此列的序号
-          return sum(total, i)
+          return sum(total)
         } else if (type === "boolean") {
           return total
         }
       }
     },
     renderTd() {
-      // const { sumText } = this
-      // const tds = this.c_filter_columns.map((col, i) => {
-      //   const content = i === 0 ? sumText : this.getSumContent(col, i)
-      //   return <k-cell>{content}</k-cell>
-      // })
-      const tds = this.columns.map((col,i)=>{
-        return <k-cell>{0}</k-cell>
+      //只自动计算一级数据，如果有二级数据，需要自己算哦
+      const tds = this.columns.map((col, i) => {
+        const content = i === 0 ? this.sumText : this.getSumTotal(col, i)
+        return (
+          <k-cell
+            tag="th"
+            style={this.$_get_td_style(null, null, col, { tfoot: true })}
+          >
+            {content}
+          </k-cell>
+        )
       })
       return <tr>{tds}</tr>
     }
   },
   render() {
-    // if (this.hasSum) {
-      const { tableClasses } = this
-      return (
-        <div class={this.tableWrapperClasses}>
-          <table class={tableClasses}>
-            {this.$slots.colgroup}
-            <tfoot>{this.renderTd()}</tfoot>
-          </table>
-        </div>
-      )
-    // }
-    // return false
+    const { tableClasses, tableWrapperClasses } = this
+    const wrapperProps = {
+      class: tableWrapperClasses,
+      style: {
+        bottom: this.bottom + "px"
+      }
+    }
+    return (
+      <div {...wrapperProps}>
+        <table class={tableClasses}>
+          {this.$slots.colgroup}
+          <tfoot>{this.renderTd()}</tfoot>
+        </table>
+      </div>
+    )
   },
   mounted() {
     // this.$nextTick(() => {

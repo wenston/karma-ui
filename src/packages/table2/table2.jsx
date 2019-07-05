@@ -56,14 +56,9 @@ export default {
     setHighlightRow(e) {
       this.$refs.table.setHighlightRow(e)
     },
-    setSelectedRows(x) {
-      this.$refs.table.setSelectedRows(x)
-    },
-    setSelectedKeys(x) {
-      this.$refs.table.setSelectedKeys(x)
-    },
     getRowData(e) {
-      return typeof this.rowData === 'function'?this.rowData(e):this.rowData
+      let d = typeof this.rowData === 'function'?this.rowData(e):this.rowData
+      return JSON.parse(JSON.stringify(d))
     }
   },
   render() {
@@ -90,6 +85,9 @@ export default {
                 this.data.splice(e.index,1)
                 this.$emit('delete-row',e)
               }).catch(()=>{})
+            }else{
+              this.data.splice(e.index,1)
+              this.$emit('delete-row',e)
             }
           }
         }

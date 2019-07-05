@@ -4,6 +4,8 @@
     <div>
       <k-table2 :data="data"
         :columns="columns"
+        :hover="false"
+        :row-data="baseRowData"
         max-height="calc(100vh - 120px)">
         <template slot="color" slot-scope="{row}">
           <k-input block no-style v-model="row.Color"></k-input>
@@ -25,6 +27,7 @@ const baseRowData = () => ({
 export default {
   data() {
     return {
+      baseRowData,
       data: Array.apply(null,{length:3}).map(t=>baseRowData()),
       columns: [
         {

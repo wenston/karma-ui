@@ -26,7 +26,8 @@ export default {
       theadTop: 0,
       tfootBottom: 0,
       currentResizeTd: null,
-      showBaseLine: false
+      showBaseLine: false,
+      hoverIndex: -1
     }
   },
   provide() {
@@ -39,10 +40,21 @@ export default {
   },
   computed: {
     tableWrapperClasses() {
-      return ["k-tablebox"]
+      return [
+        "k-tablebox",
+        `k-tablebox--${this.size}`,
+        {
+          "k-tablebox--stripe": this.stripe,
+          "k-tablebox--bordered": !this.simple && this.bordered,
+          "k-tablebox--simple": this.simple
+        }
+      ]
     },
     colGroup() {
       return <k-col-group columns={this.machiningColumns.bodyColumns} />
+    },
+    rColGroup() {
+      return <template slot="colgroup">{this.colGroup}</template>
     }
   },
   watch: {
@@ -56,6 +68,10 @@ export default {
     }
   },
   methods: {
+    handleSort(type, col) {
+      const { name, field } = col
+      this.$emit("sort", { type, field, name })
+    },
     setHighlightRow(e) {
       if (this.$refs.tbody) {
         this.$refs.tbody.setHighlightRow(e)
@@ -81,14 +97,17 @@ export default {
           cant += 1
         }
       })
-      if (cant === 0) {
-        this.$refs.thead.onCheckedAll(
-          sourceDataLength > 0 && e.rows.length === sourceDataLength
-        )
-      } else {
-        this.$refs.thead.onCheckedAll(
-          sourceDataLength > 0 && e.rows.length === sourceDataLength - cant
-        )
+      if(this.$refs.thead) {
+
+        if (cant === 0) {
+          this.$refs.thead.onCheckedAll(
+            sourceDataLength > 0 && e.rows.length === sourceDataLength
+          )
+        } else {
+          this.$refs.thead.onCheckedAll(
+            sourceDataLength > 0 && e.rows.length === sourceDataLength - cant
+          )
+        }
       }
       this.$emit("update:selectedRows", e.rows)
       this.$emit("update:selectedKeys", e.keys)
@@ -116,18 +135,20 @@ export default {
     },
     onTableWrapperScroll() {
       const { thead, tfoot, mainTable } = this.$refs
-      if (thead && tfoot && mainTable) {
+      if (mainTable) {
         const tar = mainTable
         const scrollTop = tar.scrollTop
         const scrollLeft = tar.scrollLeft
-        const theadEl = thead.$el
-        const tfootEl = tfoot.$el
         const scrollHeight = tar.scrollHeight
         const clientHeight = tar.clientHeight
-        this.theadTop = scrollTop
-        theadEl.style.top = scrollTop + "px"
-        this.tfootBottom = scrollHeight - clientHeight - scrollTop
-        tfootEl.style.bottom = this.tfootBottom + "px"
+        if (thead) {
+          const theadEl = thead.$el
+          this.theadTop = scrollTop
+          theadEl.style.top = scrollTop + "px"
+        }
+        if (tfoot) {
+          this.tfootBottom = scrollHeight - clientHeight - scrollTop
+        }
       }
     },
     init() {
@@ -207,6 +228,16 @@ export default {
         }
         return <div {...p} />
       }
+    },
+    rTfoot(baseProps) {
+      if (this.hasSum) {
+        const colgroup = <template slot="colgroup">{this.colGroup}</template>
+        return (
+          <KTableFoot {...baseProps} ref="tfoot" bottom={this.tfootBottom}>
+            {colgroup}
+          </KTableFoot>
+        )
+      }
     }
   },
   updated() {
@@ -233,7 +264,9 @@ export default {
         }
       ],
       style: {
-        height: this.height
+        height: this.height,
+        maxHeight: this.maxHeight,
+        minHeight: this.minHeight
       },
       on: {
         scroll: this.onTableWrapperScroll
@@ -256,12 +289,15 @@ export default {
       },
       on: {
         handleResizeDown: this.handleResizeDown,
-        togglechecked: this.toggleCheckedAll
+        togglechecked: this.toggleCheckedAll,
+        sort: this.handleSort
       }
     }
     let bodyProps = {
       props: {
-        ...baseProps.props
+        ...baseProps.props,
+        hoverIndex: this.hoverIndex,
+        bodyScopedSlots: this.$scopedSlots
       },
       on: {
         "add-row": this.emitAddRow,
@@ -269,25 +305,38 @@ export default {
         "dblclick-row": this.emitDblclickRow,
         "toggle-radio-row": this.emitRadioChange,
         "toggle-highlight": this.emitHighlight,
-        "select-change": this.emitSelectChange
+        "select-change": this.emitSelectChange,
+        "update:hoverIndex": i => {
+          this.hoverIndex = i
+        }
+      }
+    }
+    let footProps = null
+    if (this.hasSum) {
+      footProps = {
+        props: {
+          ...baseProps.props,
+          bottom: this.tfootBottom
+        }
       }
     }
     return (
       <div class="k-tableouter">
         <div {...tableWrapperProps}>
-          <KTableHead {...headProps} ref="thead">
-            {colgroup}
-          </KTableHead>
-          <KTableBody
-            {...bodyProps}
-            ref="tbody"
-            bodyScopedSlots={this.$scopedSlots}
-          >
+          {this.hasThead ? (
+            <KTableHead {...headProps} ref="thead">
+              {colgroup}
+            </KTableHead>
+          ) : null}
+
+          <KTableBody {...bodyProps} ref="tbody">
             {colgroup}
           </KTableBody>
-          <KTableFoot {...baseProps} ref="tfoot" bottom={this.tfootBottom}>
-            {colgroup}
-          </KTableFoot>
+          {this.hasSum ? (
+            <KTableFoot {...footProps} ref="tfoot">
+              {colgroup}
+            </KTableFoot>
+          ) : null}
         </div>
         {this.rBaseLine()}
       </div>
