@@ -45,7 +45,22 @@ export default {
       return <k-col-group columns={this.machiningColumns.bodyColumns} />
     }
   },
+  watch: {
+    highlightValue: {
+      immediate: true,
+      handler(v) {
+        this.$nextTick(() => {
+          this.setHighlightRow({ key: v })
+        })
+      }
+    }
+  },
   methods: {
+    setHighlightRow(e) {
+      if (this.$refs.tbody) {
+        this.$refs.tbody.setHighlightRow(e)
+      }
+    },
     toggleCheckedAll(b) {
       const { tbody } = this.$refs
       tbody && tbody.onCheckedAll(b)

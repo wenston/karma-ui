@@ -24,12 +24,12 @@ export default {
   data() {
     return {
       dataList: table1,
-      selectedKeys: [],
+      selectedKeys: [1500],
       selectedRows: [],
       columns: [
         {
           name: "主体",
-          style: {backgroundColor:'green'},
+          style: {backgroundColor:'rgba(23,100,200,.1)'},
           children: [
             {
               name: "主体1",
@@ -41,7 +41,21 @@ export default {
                   // fixed: "left"
                 },
                 {
-                  style: { width: "140" },
+                  style: (row,index)=>{
+                    if(row&&index!==null) {
+
+                      if(index%2===0) {
+                        return {
+                          backgroundColor: '#333',
+                          color: 'white'
+                        }
+                      }else {
+                        return {
+                          color: 'gold'
+                        }
+                      }
+                    }
+                  },
                   field: "SupplierName",
                   name: <span style="color:red">供应商</span>
                 }
@@ -67,7 +81,6 @@ export default {
         },
 
         {
-          style: { width: "100" },
           field: "StoreName",
           name: "收货仓库"
         },
@@ -120,6 +133,11 @@ export default {
         }
       ]
     }
+  },
+  mounted() {
+    // setTimeout(()=>{
+    //   this.selectedRows = [{"SupplierId":100005,"SupplierName":"华为技术有限公司","FinalPrice":200,"HaveWorkFlow":0,"BalanceCode":"","TradeMode":0,"TaxRate":0,"Code":"PC04201907020001","TotalPrice":200,"Description":"","Source":0,"SourceCode":null,"Status":3,"UserIdAdded":300124,"UserNameAdded":"秦鹏森","PrintCount":0,"StoreId":9,"BranchId":129,"HandlerId":300124,"HandlerName":"秦鹏森","ChkUserId":0,"ChkUserName":null,"ChkDateTime":null,"CompanyCode":"S00000186","PayType":0,"Receipt":0,"UserBranchId":0,"Id":1491,"DateAdded":"2019-07-02 15:21:55","StoreName":"总仓","BalanceName":"","Details":[{"PurchasingContractCode":"PC04201907020001","ProCount1":0,"StoreId":9,"Status":3,"SupplierId":100005,"CategoryId":301374,"ProName":"小夜灯","ProId":300038,"ProPrice":200,"AccountingType":1,"ProCount":1,"TaxRate":1,"Description":"","Description1":"","Description2":"","Id":2946,"DateAdded":"2019-07-05 10:38:55"}]},{"SupplierId":100005,"SupplierName":"华为技术有限公司","FinalPrice":200,"HaveWorkFlow":0,"BalanceCode":"","TradeMode":0,"TaxRate":0,"Code":"PC04201907040001","TotalPrice":200,"Description":"","Source":0,"SourceCode":null,"Status":6,"UserIdAdded":10,"UserNameAdded":"张总","PrintCount":0,"StoreId":9,"BranchId":129,"HandlerId":10,"HandlerName":"张总","ChkUserId":0,"ChkUserName":null,"ChkDateTime":null,"CompanyCode":"S00000186","PayType":0,"Receipt":0,"UserBranchId":0,"Id":1500,"DateAdded":"2019-07-04 11:31:21","StoreName":"总仓","BalanceName":"","Details":[{"PurchasingContractCode":"PC04201907040001","ProCount1":1,"StoreId":9,"Status":6,"SupplierId":100005,"CategoryId":301374,"ProName":"小夜灯","ProId":300038,"ProPrice":200,"AccountingType":1,"ProCount":1,"TaxRate":1,"Description":"","Description1":"","Description2":"","Id":2962,"DateAdded":"2019-07-05 10:38:55"}]}]
+    // },1000)
   }
 }
 </script>

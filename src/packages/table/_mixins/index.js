@@ -122,6 +122,13 @@ export default {
         field === this.__checkbox ||
         field === this.__radio
       )
+    },
+    //获取单元格的style
+    $_get_td_style(row, index, col) {
+      const style =
+        typeof col.style === "function" ? col.style(row, index) : col.style
+      const { width, ...restStyle } = { width: "", ...style }
+      return restStyle
     }
   }
 }

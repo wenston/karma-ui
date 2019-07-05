@@ -67,6 +67,23 @@ export default {
     }
   },
   methods: {
+    //传入row,index，或者只传index都行，或者只传key
+    setHighlightRow({ row, index, key }) {
+      if (row) {
+        this.currentHighlightKey = this.getRowKey(row, index, this.highlightKey)
+      } else if (typeof index === "number") {
+        const i = +index
+        if (typeof i === "number") {
+          this.currentHighlightKey = this.getRowKey(
+            this.data[i],
+            i,
+            this.highlightKey
+          )
+        }
+      } else if (key) {
+        this.currentHighlightKey = key
+      }
+    },
     bodyScroll(e) {},
 
     //父级调用
@@ -239,9 +256,6 @@ export default {
     },
     //单元格渲染
     renderTd(row, index, col) {
-      const style =
-        typeof col.style === "function" ? col.style(row, index) : col.style
-      const { width, ...restStyle } = { width: "", ...style }
       let cont = null
       if (col.customRender) {
         if (typeof col.customRender === "function") {
@@ -262,7 +276,7 @@ export default {
         class: {
           "k-text-center": this.$_is_built_in_column(col.field)
         },
-        style: restStyle
+        style: this.$_get_td_style(row,index,col)
       }
       return <k-cell {...cellProps}>{cont}</k-cell>
     },
