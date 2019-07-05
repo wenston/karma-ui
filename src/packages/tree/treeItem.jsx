@@ -81,98 +81,113 @@ export default {
       return set
     },
     selectParent(item, checked) {
-      const { keyField, childField } = this
-      //将此节点及父级相关的节点push到selectedData
-      let arr = getAllParent(
-        this.tree.sourceData,
-        item[keyField],
-        keyField,
-        childField
-      )
+      const { keyField, childField, selectedRule } = this
       let set = new Set(this.tree.checkedKeys.map(k => k + ""))
-      let checkedData = this.tree.checkedData
-      // console.log(arr)
-      let vals = []
-      arr.forEach(el => {
-        vals.push(el[keyField] + "")
-      })
 
-      if (checked) {
-        //只要有一个子级被选中，则父级就被选中
-        if (this.selectedRule === "some") {
-          vals.forEach(k => {
-            set.add(k)
-          })
-          //只有所有的子级都被选中，父级才会被选中
-        } else if (this.selectedRule === "every") {
-          //arr长度是1时代表只选择了一个根节点数据，此时不用向上找父级了
-          if (arr.length === 1) {
-            set.add(vals[0])
-          } else {
-            function everySelect(arr, set) {
-              let len = arr.length,
-                i = len - 1
-              do {
-                if (i === len - 1) {
-                  set.add(arr[i][keyField] + "")
-                } else {
-                  const childs = arr[i][childField]
-                  if (childs && childs.length) {
-                    let has = true
-                    for (let j = 0; j < childs.length; j++) {
-                      const item = childs[j]
-                      if (!set.has(item[keyField] + "")) {
-                        has = false
+      if (selectedRule === "some" || selectedRule === "every") {
+        //将此节点及父级相关的节点push到selectedData
+        let arr = getAllParent(
+          this.tree.sourceData,
+          item[keyField],
+          keyField,
+          childField
+        )
+        let checkedData = this.tree.checkedData
+        // console.log(arr)
+        let vals = []
+        arr.forEach(el => {
+          vals.push(el[keyField] + "")
+        })
+
+        if (checked) {
+          //只要有一个子级被选中，则父级就被选中
+          if (selectedRule === "some") {
+            vals.forEach(k => {
+              set.add(k)
+            })
+            //只有所有的子级都被选中，父级才会被选中
+          } else if (selectedRule === "every") {
+            //arr长度是1时代表只选择了一个根节点数据，此时不用向上找父级了
+            if (arr.length === 1) {
+              set.add(vals[0])
+            } else {
+              function everySelect(arr, set) {
+                let len = arr.length,
+                  i = len - 1
+                do {
+                  if (i === len - 1) {
+                    set.add(arr[i][keyField] + "")
+                  } else {
+                    const childs = arr[i][childField]
+                    if (childs && childs.length) {
+                      let has = true
+                      for (let j = 0; j < childs.length; j++) {
+                        const item = childs[j]
+                        if (!set.has(item[keyField] + "")) {
+                          has = false
+                          break
+                        }
+                      }
+                      if (has) {
+                        everySelect(arr.slice(0, -1), set)
+                      } else {
                         break
                       }
                     }
-                    if (has) {
-                      everySelect(arr.slice(0, -1), set)
-                    } else {
-                      break
-                    }
                   }
-                }
-                i = i - 1
-              } while (i >= 0)
+                  i = i - 1
+                } while (i >= 0)
+              }
+              everySelect(arr, set)
             }
-            everySelect(arr, set)
+          }
+        } else {
+          if (selectedRule === "some") {
+            //取消选中此项，
+            //并判断同级有没有被选中，如果所有同级都没有被选中，则父级取消选中
+            set = this.cancelChecked(arr, set)
+          } else if (selectedRule === "every") {
+            //如果有一个没有被选中，则父级取消选中
+            set = this.cancelChecked(arr, set, "every")
+          }
+        }
+        this.tree.checkedKeys = [...set]
+      } else {
+        if (checked) {
+          set.add(item[keyField])
+        } else {
+          set.delete(item[keyField])
+        }
+        this.tree.checkedKeys = [...set]
+      }
+    },
+    selectChilds(item, checked) {
+      const { keyField, childField, selectedRule } = this
+
+      let set = new Set(this.tree.checkedKeys.map(t => t + ""))
+      if (selectedRule === "some" || selectedRule === "every") {
+        function selectChildren(data, set, type = "add") {
+          data.forEach(el => {
+            set[type](el[keyField] + "")
+            if (el[childField] && el[childField].length) {
+              selectChildren(el[childField], set, type)
+            }
+          })
+        }
+        if (item[childField] && item[childField].length) {
+          if (checked) {
+            selectChildren(item[childField], set)
+          } else {
+            selectChildren(item[childField], set, "delete")
           }
         }
       } else {
-        if (this.selectedRule === "some") {
-          //取消选中此项，
-          //并判断同级有没有被选中，如果所有同级都没有被选中，则父级取消选中
-          set = this.cancelChecked(arr, set)
-        } else if (this.selectedRule === "every") {
-          //如果有一个没有被选中，则父级取消选中
-          set = this.cancelChecked(arr, set, "every")
-        }
-      }
-      this.tree.checkedKeys = [...set]
-      // this.$emit('')
-      // console.log(this.tree.checkedKeys)
-    },
-    selectChilds(item, checked) {
-      const { keyField, childField } = this
-
-      let set = new Set(this.tree.checkedKeys.map(t => t + ""))
-      function selectChildren(data, set, type = "add") {
-        data.forEach(el => {
-          set[type](el[keyField] + "")
-          if (el[childField] && el[childField].length) {
-            selectChildren(el[childField], set, type)
-          }
-        })
-      }
-      if (item[childField] && item[childField].length) {
         if (checked) {
-          selectChildren(item[childField], set)
+          set.add(item[keyField])
         } else {
-          selectChildren(item[childField], set, "delete")
+          set.delete(item[keyField])
         }
       }
-
       this.tree.checkedKeys = [...set]
     },
     leafIcon() {
@@ -202,7 +217,7 @@ export default {
     loadingIcon() {
       const p = {
         props: {
-          name: "k-icon-loading",
+          name: "k-icon-loading"
         },
         class: "k-loading__icon k-tree-icon"
       }
@@ -339,7 +354,7 @@ export default {
       this.open = v
     },
     open(v) {
-      this.$emit("update:spread", v,this.$el)
+      this.$emit("update:spread", v, this.$el)
     }
   },
   render() {

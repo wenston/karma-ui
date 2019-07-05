@@ -36,7 +36,7 @@ export default {
       return new Date
     },
     min() {
-      return new Date() - 30*3600*24*1000
+      return new Date() - 15*3600*24*1000
     }
   },
   methods: {

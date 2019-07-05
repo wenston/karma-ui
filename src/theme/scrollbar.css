@@ -2,6 +2,8 @@
   overflow: hidden;
   position: relative;
   &__y {
+    opacity: 0;
+    transition: opacity .25s;
     position: absolute;
     height: 100%;
     top: 0;
@@ -24,6 +26,8 @@
     }
   }
   &__x {
+    opacity: 0;
+    transition: opacity .25s;
     position: absolute;
     width: 100%;
     bottom: 0;
@@ -45,7 +49,12 @@
       }
     }
   }
-  
+  &:hover {
+    .k-scrollbar__y,
+    .k-scrollbar__x {
+      opacity: 1;
+    }
+  }
 }
 .k-scrollbar__content {
   /* width: 2000px; */

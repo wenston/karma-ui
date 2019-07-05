@@ -5,6 +5,8 @@
       <div>
         <k-select v-model="curCity"
           @change="onChange"
+          @focus="onFocus"
+          @blur="onBlur"
           clearable>
           <k-option v-for="(v,k) in cities"
             :value="k"
@@ -47,6 +49,12 @@ export default {
   methods: {
     onChange(obj) {
       console.log(obj)
+    },
+    onFocus(e) {
+      console.log(e)
+    },
+    onBlur(e) {
+      console.log(e)
     }
   },
   mounted() {

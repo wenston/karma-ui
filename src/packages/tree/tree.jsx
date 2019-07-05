@@ -160,7 +160,7 @@ export default {
       immediate: true,
       handler(v) {
         this.currentValue = v
-        if (v) {
+        if (v!==undefined && v!=='') {
           //如果value是从组件外部改变的，则需要展开其父级
           this.spreadParent(v)
         }

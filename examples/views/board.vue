@@ -2,7 +2,7 @@
   <div class="layout">
     <h3 class="layout__title">基本用法</h3>
     <div>
-      <div ref="el" @click="handleClick">(点我)可以动态展示一些东西的$board</div>
+      <span style="display:inline-block" ref="el" @click="handleClick">(点我)可以动态展示一些东西的$board</span>
       <div v-for="n in 18" :key="n">{{n}} </div>
       <div ref="other" @click="handleClickOther">点我展示另外的东西</div>
     </div>
