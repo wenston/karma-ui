@@ -130,9 +130,9 @@ export default {
   watch: {
     sorter(s) {
       this.sort = s
-    },
-    showBaseLine(v) {
-      console.log(v)
     }
+    // showBaseLine(v) {
+    //   console.log(v)
+    // }
   }
 }

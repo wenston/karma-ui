@@ -171,21 +171,25 @@ export default {
     //tbody渲染
     renderTBody() {
       let tbody = []
-      if(this.data.length) {
-
+      if (this.data.length) {
         this.data.forEach((row, index) => {
           tbody.push(this.renderTr(row, index))
         })
         return tbody
-      }else{
+      } else {
         const colspan = this.columns.length || 1
-        let text = typeof this.emptyText === "function"
-        ? this.emptyText()
-        : this.emptyText
-        if(text) {
-          return <tr>
-            <k-cell class="k-text-center" colspan={colspan}>{text}</k-cell>
-          </tr>
+        let text =
+          typeof this.emptyText === "function"
+            ? this.emptyText()
+            : this.emptyText
+        if (text) {
+          return (
+            <tr>
+              <k-cell class="k-text-center" colspan={colspan}>
+                {text}
+              </k-cell>
+            </tr>
+          )
         }
       }
     },
@@ -325,8 +329,7 @@ export default {
         },
         key: k,
         class: {
-          "k-table-tr-highlight":
-            curHighlightRowKey == this.currentHighlightKey,
+          "k-table-tr-highlight": curHighlightRowKey == this.currentHighlightKey
         },
         on: {
           dblclick: () => {
@@ -389,18 +392,18 @@ export default {
         }
       }
       if (this.hover) {
-        trProps.on.mouseover = (e) => {
-          this.$emit('mouseover-tr',e)
+        trProps.on.mouseover = e => {
+          this.$emit("mouseover-tr", e)
         }
-        trProps.on.mouseout = (e) => {
-          this.$emit('mouseout-tr',e)
+        trProps.on.mouseout = e => {
+          this.$emit("mouseout-tr", e)
         }
       }
       return <tr {...trProps}>{tds}</tr>
     }
   },
   render() {
-    console.log('body渲染了')
+    console.log("body渲染了")
     const { bodyWrapperClasses, tableClasses } = this
     return (
       <div

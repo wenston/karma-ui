@@ -20,6 +20,7 @@
       :highlightValue.sync="highlightValue"
       :min-content="minContent"
       :stripe="false"
+      :leftFixedNumber="3"
       @sort="onSort">
       <template slot="TotalPrice"
         slot-scope="{row}">
@@ -37,7 +38,7 @@ export default {
       minContent: true,
       value: '',
       highlightValue: '',
-      dataList: table1.slice(0,300),
+      dataList: table1.slice(0,15),
       selectedKeys: [],
       selectedRows: [],
       columns: [
@@ -83,14 +84,15 @@ export default {
                   name: "税率"
                 },
                 {
+                
                   style: (row,index,obj)=>{
                     if(row) {
-                      return {textAlign:'right'}
+                      return {width: 60,textAlign:'right'}
                     }
                     if(obj.tfoot) {
-                      return {textAlign: 'right',color: '#999'}
+                      return {width: 60,textAlign: 'right',color: '#999'}
                     }
-                    
+                    return {width:60}
                   },
                   field: "TotalPrice",
                   name: "金额",
@@ -145,7 +147,10 @@ export default {
             },
             {
               field: "DateAdded",
-              name: "制单时间"
+              name: "制单时间",
+              customRender:row=>{
+                return <div class="k-ellipsis">{row.DateAdded}</div>
+              }
             }
           ]
         },

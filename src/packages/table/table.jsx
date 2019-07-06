@@ -26,11 +26,11 @@ export default {
   },
   data() {
     return {
-      theadTop: 0,
       tfootBottom: 0,
       currentResizeTd: null,
       showBaseLine: false,
-      hoverIndex: -1
+      hoverIndex: -1,
+      fixedNum: +this.leftFixedNumber
     }
   },
   provide() {
@@ -61,6 +61,9 @@ export default {
     }
   },
   watch: {
+    leftFixedNumber(n) {
+      this.fixedNum = +n
+    },
     highlightValue: {
       immediate: true,
       handler(v) {
@@ -73,11 +76,11 @@ export default {
   methods: {
     onMouseoutTr(e) {
       const tar = e.currentTarget
-      tar.classList.remove('k-table-tr-hover')
+      tar.classList.remove("k-table-tr-hover")
     },
     onMouseoverTr(e) {
       const tar = e.currentTarget
-      tar.classList.add('k-table-tr-hover')
+      tar.classList.add("k-table-tr-hover")
     },
     handleSort(type, col) {
       const { name, field } = col
@@ -108,8 +111,7 @@ export default {
           cant += 1
         }
       })
-      if(this.$refs.thead) {
-
+      if (this.$refs.thead) {
         if (cant === 0) {
           this.$refs.thead.onCheckedAll(
             sourceDataLength > 0 && e.rows.length === sourceDataLength
@@ -145,7 +147,7 @@ export default {
       this.$emit("delete-row", e)
     },
     onTableWrapperScroll() {
-      const { thead, tfoot, mainTable } = this.$refs
+      const { thead, tfoot,tbody, mainTable } = this.$refs
       if (mainTable) {
         const tar = mainTable
         const scrollTop = tar.scrollTop
@@ -154,26 +156,111 @@ export default {
         const clientHeight = tar.clientHeight
         if (thead) {
           const theadEl = thead.$el
-          // this.theadTop = scrollTop
           theadEl.style.top = scrollTop + "px"
-          if(scrollTop>0) {
-            theadEl.classList.add('k-theadwrapper-shadow')
-          }else{
-            theadEl.classList.remove('k-theadwrapper-shadow')
+          if (scrollTop > 0) {
+            theadEl.classList.add("k-theadwrapper-shadow")
+          } else {
+            theadEl.classList.remove("k-theadwrapper-shadow")
+          }
+          if(this.leftFixedNumber) {
+
+            this.fixedLeftThead(theadEl,scrollLeft)
           }
         }
         if (tfoot) {
-          // this.tfootBottom = scrollHeight - clientHeight - scrollTop
           const tfootEl = tfoot.$el
           const bottom = scrollHeight - clientHeight - scrollTop
-          tfootEl.style.bottom = bottom + 'px'
-          if(bottom>0) {
-            tfootEl.querySelector('.k-table').classList.add('k-tfootshadow')
-          }else{
-            tfootEl.querySelector('.k-table').classList.remove('k-tfootshadow')
+          tfootEl.style.bottom = bottom + "px"
+          if (bottom > 0) {
+            tfootEl.querySelector(".k-table").classList.add("k-tfootshadow")
+          } else {
+            tfootEl.querySelector(".k-table").classList.remove("k-tfootshadow")
           }
-          
+          if(this.leftFixedNumber) {
+
+            this.fixedLeftTfoot(tfootEl,scrollLeft)
+          }
         }
+        if(tbody) {
+
+          this.fixedLeftTbody(tbody.$el,scrollLeft)
+        }
+        /* 
+        let tds = []
+
+        let trths = tar.querySelectorAll(
+          ".k-table > thead > tr,.k-table>tbody>tr,.k-table>tfoot>tr"
+        )
+        trths.forEach(el=>{
+          let childTds = [...el.querySelectorAll('td, th')].slice(0,+this.leftFixedNumber)
+          tds.push(...childTds)
+        })
+        if (scrollLeft > 0) {
+          tds.forEach(td => {
+            td.classList.add("k-table-fixed-td-body")
+            td.style.transform = `translateX(${scrollLeft}px)`
+          })
+        } else {
+          tds.forEach(td => {
+            td.classList.remove("k-table-fixed-td-body")
+            td.style.removeProperty("transform")
+          })
+        }
+        */
+      }
+    },
+    fixedLeftThead(el,scrollLeft) {
+      const n = +this.leftFixedNumber
+      let arrThs = []
+      let trs = el.querySelectorAll('.k-table>thead>tr')
+      let trLength = trs.length
+      trs.forEach(tr=>{
+        [...tr.querySelectorAll('th')].slice(0,n).forEach(th=>{
+          const colspan = th.getAttribute('colspan')
+          const rowspan = th.getAttribute('rowspan')
+          if(trLength==rowspan) {
+            arrThs.push(th)
+          }
+        })
+        
+      })
+      this.classAndPropertyChange('head',arrThs,scrollLeft)
+    },
+    fixedLeftTfoot(el,scrollLeft) {
+      const n = +this.leftFixedNumber
+      let arrThs = []
+      let trs = el.querySelectorAll('.k-table>tfoot>tr')
+      trs.forEach(tr=>{
+        [...tr.querySelectorAll('th')].slice(0,n).forEach(th=>{
+          arrThs.push(th)
+        })
+      })
+      this.classAndPropertyChange('foot',arrThs,scrollLeft)
+    },
+    fixedLeftTbody(el,scrollLeft) {
+      const n = +this.leftFixedNumber
+      let arrTds = []
+      let trs = el.querySelectorAll('.k-table>tbody>tr')
+      trs.forEach(tr=>{
+        [...tr.querySelectorAll('td')].slice(0,n).forEach(td=>{
+          arrTds.push(td)
+        })
+      })
+      this.classAndPropertyChange('body',arrTds,scrollLeft)
+    },
+    classAndPropertyChange(which,elems,scrollLeft) {
+      const klass = which === 'head'?'k-table-fixed-td-head':
+        which==='foot'?'k-table-fixed-td-foot':'k-table-fixed-td-body'
+      if(scrollLeft>0) {
+        elems.forEach(el=>{
+          el.classList.add(klass)
+          el.style.transform = `translateX(${scrollLeft}px)`
+        })
+      }else{
+        elems.forEach(el=>{
+          el.classList.remove(klass)
+          el.style.removeProperty("transform")
+        })
       }
     },
     init() {
@@ -258,12 +345,13 @@ export default {
       if (this.hasSum) {
         const colgroup = <template slot="colgroup">{this.colGroup}</template>
         return (
-          <KTableFoot {...baseProps} ref="tfoot" bottom={this.tfootBottom}>
+          <KTableFoot {...baseProps} ref="tfoot">
             {colgroup}
           </KTableFoot>
         )
       }
-    }
+    },
+    rMainTable() {}
   },
   updated() {
     this.onTableWrapperScroll()
@@ -341,8 +429,7 @@ export default {
     if (this.hasSum) {
       footProps = {
         props: {
-          ...baseProps.props,
-          bottom: this.tfootBottom
+          ...baseProps.props
         }
       }
     }

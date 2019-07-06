@@ -55,3 +55,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.k-backdrop-filter {
+  @supports (backdrop-filter: blur()) {
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+  }
+}

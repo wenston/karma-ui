@@ -176,5 +176,6 @@ export const props = {
   emptyText: {
     type: [String, Function],
     default: "暂无相关数据"
-  }
+  },
+  leftFixedNumber: [Number,String]
 }

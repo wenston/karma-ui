@@ -33,8 +33,15 @@ export default {
         {
           field: "ProName",
           name: "名称",
-          style: {
-            width: 200,padding:'2px'
+          hasWrapper:false,
+          style:(row,index)=> {
+            if(row) {
+              return {
+                width: 200,padding: '1px'
+              }
+            }
+            return {width: 200}
+            
           },
           customRender: (row,index) => {
             const p = {
@@ -85,6 +92,7 @@ export default {
         {
           field: "Color",
           name: "颜色",
+          hasWrapper: false,
           style: {
             width: 80,padding: '2px'
           },
@@ -100,6 +108,7 @@ export default {
         },
         {
           field: "ProCount",
+          hasWrapper: false,
           name: "数量",
           style: {
             width: 70,padding:'2px'
