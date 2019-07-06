@@ -103,6 +103,17 @@
           }
         }
       }
+      > tfoot {
+        > tr {
+          &:last-child {
+            > th {
+              border-bottom: none;
+              box-shadow: 0px 1px 0 0 var(--table-border-color),
+                1px 1px 0 0 var(--table-border-color);
+            }
+          }
+        }
+      }
     }
   }
   

@@ -85,7 +85,6 @@ export default {
         this.currentHighlightKey = key
       }
     },
-    bodyScroll(e) {},
 
     //父级调用
     onCheckedAll(checked) {
@@ -403,15 +402,10 @@ export default {
     }
   },
   render() {
-    console.log("body渲染了")
+    // console.log("body渲染了")
     const { bodyWrapperClasses, tableClasses } = this
     return (
-      <div
-        class={bodyWrapperClasses}
-        onScroll={() => {
-          this.bodyScroll($event)
-        }}
-      >
+      <div class={bodyWrapperClasses}>
         <table class={tableClasses}>
           {this.$slots.colgroup}
           <tbody>{this.renderTBody()}</tbody>

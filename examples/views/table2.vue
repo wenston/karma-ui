@@ -33,11 +33,10 @@ export default {
         {
           field: "ProName",
           name: "名称",
-          hasWrapper:false,
           style:(row,index)=> {
             if(row) {
               return {
-                width: 200,padding: '1px'
+                padding: '2px'
               }
             }
             return {width: 200}
@@ -108,7 +107,6 @@ export default {
         },
         {
           field: "ProCount",
-          hasWrapper: false,
           name: "数量",
           style: {
             width: 70,padding:'2px'
