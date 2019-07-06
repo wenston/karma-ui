@@ -12,8 +12,7 @@ export default {
     KRadio
   },
   props: {
-    ...props,
-    top: Number
+    ...props
   },
   data() {
     return {
@@ -26,7 +25,7 @@ export default {
       return [
         "k-theadwrapper",
         {
-          "k-theadwrapper-shadow": this.top > 0
+          // "k-theadwrapper-shadow": this.top > 0
         }
       ]
     },

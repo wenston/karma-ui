@@ -17,7 +17,6 @@ export default {
   },
   props: {
     ...props,
-    hoverIndex: Number,
     bodyScopedSlots: Object, //接收来自KTable的插槽内容$scopedSlots
     //主体表格main、左固定表格left、右固定表格right
     //根据不同表格，有选择的渲染某些数据：复选和单选
@@ -32,8 +31,7 @@ export default {
       checkedKeys: this.selectedKeys || [], //保存复选的所有key
       checkedRows: this.selectedRows || [], //保存复选的所有行数据
       currentRadioValue: "",
-      currentHighlightKey: "",
-      hoverTimeout: null
+      currentHighlightKey: ""
     }
   },
   computed: {
@@ -329,7 +327,6 @@ export default {
         class: {
           "k-table-tr-highlight":
             curHighlightRowKey == this.currentHighlightKey,
-          "k-table-tr-hover": this.hoverIndex === index
         },
         on: {
           dblclick: () => {
@@ -392,17 +389,11 @@ export default {
         }
       }
       if (this.hover) {
-        trProps.on.mouseover = () => {
-          clearTimeout(this.hoverTimeout)
-          this.hoverTimeout = setTimeout(() => {
-            this.$emit("update:hoverIndex", index)
-          },80)
+        trProps.on.mouseover = (e) => {
+          this.$emit('mouseover-tr',e)
         }
-        trProps.on.mouseout = () => {
-          clearTimeout(this.hoverTimeout)
-          this.hoverTimeout = setTimeout(() => {
-            this.$emit("update:hoverIndex", -1)
-          },20)
+        trProps.on.mouseout = (e) => {
+          this.$emit('mouseout-tr',e)
         }
       }
       return <tr {...trProps}>{tds}</tr>

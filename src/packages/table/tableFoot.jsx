@@ -20,7 +20,7 @@ export default {
         "k-table",
         "k-tfoot",
         {
-          "k-tfootshadow": this.bottom > 0,
+          // "k-tfootshadow": this.bottom > 0,
           "k-table--auto": !this.minContent
         }
       ]
@@ -69,10 +69,7 @@ export default {
   render() {
     const { tableClasses, tableWrapperClasses } = this
     const wrapperProps = {
-      class: tableWrapperClasses,
-      style: {
-        bottom: this.bottom + "px"
-      }
+      class: tableWrapperClasses
     }
     return (
       <div {...wrapperProps}>

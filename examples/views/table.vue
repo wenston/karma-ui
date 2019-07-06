@@ -16,6 +16,7 @@
       hasAction
       hasRadio
       canHighlightRow
+      resizeWidth
       :highlightValue.sync="highlightValue"
       :min-content="minContent"
       :stripe="false"
@@ -36,7 +37,7 @@ export default {
       minContent: true,
       value: '',
       highlightValue: '',
-      dataList: table1,
+      dataList: table1.slice(0,300),
       selectedKeys: [],
       selectedRows: [],
       columns: [

@@ -1,3 +1,6 @@
+//为什么表头和表尾不采取数据驱动改变top和bottom？
+//因为：减少dom重绘的次数！
+//hover变色也是这样
 import { getStyle, offset } from "karma-ui/util/dom"
 import { props } from "./_util/props"
 import mixins from "./_mixins/"
@@ -68,6 +71,14 @@ export default {
     }
   },
   methods: {
+    onMouseoutTr(e) {
+      const tar = e.currentTarget
+      tar.classList.remove('k-table-tr-hover')
+    },
+    onMouseoverTr(e) {
+      const tar = e.currentTarget
+      tar.classList.add('k-table-tr-hover')
+    },
     handleSort(type, col) {
       const { name, field } = col
       this.$emit("sort", { type, field, name })
@@ -143,11 +154,25 @@ export default {
         const clientHeight = tar.clientHeight
         if (thead) {
           const theadEl = thead.$el
-          this.theadTop = scrollTop
+          // this.theadTop = scrollTop
           theadEl.style.top = scrollTop + "px"
+          if(scrollTop>0) {
+            theadEl.classList.add('k-theadwrapper-shadow')
+          }else{
+            theadEl.classList.remove('k-theadwrapper-shadow')
+          }
         }
         if (tfoot) {
-          this.tfootBottom = scrollHeight - clientHeight - scrollTop
+          // this.tfootBottom = scrollHeight - clientHeight - scrollTop
+          const tfootEl = tfoot.$el
+          const bottom = scrollHeight - clientHeight - scrollTop
+          tfootEl.style.bottom = bottom + 'px'
+          if(bottom>0) {
+            tfootEl.querySelector('.k-table').classList.add('k-tfootshadow')
+          }else{
+            tfootEl.querySelector('.k-table').classList.remove('k-tfootshadow')
+          }
+          
         }
       }
     },
@@ -284,8 +309,7 @@ export default {
       },
       props: {
         ...baseProps.props,
-        columns: headColumns,
-        top: this.theadTop
+        columns: headColumns
       },
       on: {
         handleResizeDown: this.handleResizeDown,
@@ -306,6 +330,8 @@ export default {
         "toggle-radio-row": this.emitRadioChange,
         "toggle-highlight": this.emitHighlight,
         "select-change": this.emitSelectChange,
+        "mouseover-tr": this.onMouseoverTr,
+        "mouseout-tr": this.onMouseoutTr,
         "update:hoverIndex": i => {
           this.hoverIndex = i
         }
