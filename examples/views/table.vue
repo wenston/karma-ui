@@ -21,6 +21,7 @@
       :min-content="minContent"
       :stripe="false"
       :leftFixedNumber="3"
+      :rightFixedNumber="1"
       @sort="onSort">
       <template slot="TotalPrice"
         slot-scope="{row}">

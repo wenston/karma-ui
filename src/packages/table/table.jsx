@@ -299,26 +299,32 @@ export default {
       const mainTable = this.$refs.mainTable
       const clientWidth = mainTable.clientWidth
       const scrollWidth = mainTable.scrollWidth
-      const klass =
+      const klass_left =
         which === "head"
           ? "k-table-fixed-td-head"
           : which === "foot"
           ? "k-table-fixed-td-foot"
           : "k-table-fixed-td-body"
+      const klass_right =
+        which === "head"
+          ? "k-table-fixed-td-right-head"
+          : which === "foot"
+          ? "k-table-fixed-td-right-foot"
+          : "k-table-fixed-td-right-body"
       if (scrollLeft > 0) {
         elems.forEach(el => {
-          el.classList.add(klass)
+          el.classList.add(klass_left)
           el.style.transform = `translateX(${scrollLeft}px)`
         })
       } else {
         elems.forEach(el => {
-          el.classList.remove(klass)
+          el.classList.remove(klass_left)
           el.style.removeProperty("transform")
         })
       }
       if (clientWidth < scrollWidth && scrollLeft + clientWidth < scrollWidth) {
         elems_r.forEach(el => {
-          el.classList.add(klass)
+          el.classList.add(klass_right)
           el.style.transform = `translateX(${scrollLeft +
             clientWidth -
             scrollWidth +
@@ -326,7 +332,7 @@ export default {
         })
       } else {
         elems_r.forEach(el => {
-          el.classList.remove(klass)
+          el.classList.remove(klass_right)
           el.style.removeProperty("transform")
         })
       }
