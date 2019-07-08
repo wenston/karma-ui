@@ -19,7 +19,7 @@
       hasAction
       :highlightValue.sync="highlightValue"
       :min-content="minContent"
-      :stripe="false"
+      :stripe="true"
       :leftFixedNumber="3"
       :rightFixedNumber="1"
       @sort="onSort">

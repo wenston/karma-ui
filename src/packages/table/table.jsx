@@ -32,7 +32,16 @@ export default {
       currentResizeTd: null,
       showBaseLine: false,
       hoverIndex: -1,
-      scrollLeft: 0
+      scrollLeft: 0,
+      cellsTimeout: null,
+      cells: {
+        theadLeftThs: [],
+        theadRightThs: [],
+        tbodyLeftTds: [],
+        tbodyRightTds: [],
+        tfootLeftTds: [],
+        tfootRightTds: []
+      }
     }
   },
   provide() {
@@ -184,13 +193,28 @@ export default {
         if (tbody) {
           this.fixedLeftTbody(tbody.$el)
         }
+        //500ms获取一次dom节点，降低读取dom的频率，提高性能
+        clearTimeout(this.cellsTimeout)
+        this.cellsTimeout = setTimeout(() => {
+          for (let k in this.cells) {
+            this.cells[k] = []
+          }
+        }, 500)
       }
     },
     fixedLeftThead(el) {
-      const n = +this.leftFixedNumber
-      const n_r = +this.rightFixedNumber
+      if (this.cells.theadLeftThs.length && this.cells.theadRightThs.length) {
+        this.classAndPropertyChange(
+          "head",
+          this.cells.theadLeftThs,
+          this.cells.theadRightThs
+        )
+        return
+      }
       let arrThs = []
       let arrThs_r = []
+      const n = +this.leftFixedNumber
+      const n_r = +this.rightFixedNumber
       let trs = el.querySelectorAll(".k-table>thead>tr")
       let trLength = trs.length
       let left_kua_hang = []
@@ -254,9 +278,20 @@ export default {
             })
         }
       })
+      this.cells.theadRightThs = arrThs_r
+      this.cells.theadLeftThs = arrThs
       this.classAndPropertyChange("head", arrThs, arrThs_r)
     },
     fixedLeftTfoot(el) {
+      
+      if (this.cells.tfootLeftTds.length && this.cells.tfootRightTds.length) {
+        this.classAndPropertyChange(
+          "foot",
+          this.cells.tfootLeftTds,
+          this.cells.tfootRightTds
+        )
+        return
+      }
       const n = +this.leftFixedNumber
       const n_r = +this.rightFixedNumber
       let arrThs = []
@@ -273,9 +308,19 @@ export default {
             arrThs_r.push(th)
           })
       })
+      this.cells.tfootRightTds = arrThs_r
+      this.cells.tfootLeftTds = arrThs
       this.classAndPropertyChange("foot", arrThs, arrThs_r)
     },
     fixedLeftTbody(el) {
+      if (this.cells.tbodyLeftTds.length && this.cells.tbodyRightTds.length) {
+        this.classAndPropertyChange(
+          "body",
+          this.cells.tbodyLeftTds,
+          this.cells.tbodyRightTds
+        )
+        return
+      }
       const n = +this.leftFixedNumber
       const n_r = +this.rightFixedNumber
       let arrTds = []
@@ -292,6 +337,8 @@ export default {
             arrTds_r.push(th)
           })
       })
+      this.cells.tbodyRightTds = arrTds_r
+      this.cells.tbodyLeftTds = arrTds
       this.classAndPropertyChange("body", arrTds, arrTds_r)
     },
     classAndPropertyChange(which, elems, elems_r) {
