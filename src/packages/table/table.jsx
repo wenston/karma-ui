@@ -18,7 +18,9 @@ export default {
   },
   name: "KTable",
   props: {
-    ...props
+    ...props,
+    leftFixedNumber: [Number,String],
+    rightFixedNumber: [Number,String]
   },
   model: {
     prop: "value",
@@ -30,7 +32,7 @@ export default {
       currentResizeTd: null,
       showBaseLine: false,
       hoverIndex: -1,
-      fixedNum: +this.leftFixedNumber
+      scrollLeft: 0
     }
   },
   provide() {
@@ -147,13 +149,13 @@ export default {
       this.$emit("delete-row", e)
     },
     onTableWrapperScroll() {
-      const { thead, tfoot,tbody, mainTable } = this.$refs
+      const { thead, tfoot, tbody, mainTable } = this.$refs
       if (mainTable) {
         const tar = mainTable
         const scrollTop = tar.scrollTop
-        const scrollLeft = tar.scrollLeft
         const scrollHeight = tar.scrollHeight
         const clientHeight = tar.clientHeight
+        this.scrollLeft = tar.scrollLeft
         if (thead) {
           const theadEl = thead.$el
           theadEl.style.top = scrollTop + "px"
@@ -162,9 +164,8 @@ export default {
           } else {
             theadEl.classList.remove("k-theadwrapper-shadow")
           }
-          if(this.leftFixedNumber) {
-
-            this.fixedLeftThead(theadEl,scrollLeft)
+          if (this.leftFixedNumber) {
+            this.fixedLeftThead(theadEl)
           }
         }
         if (tfoot) {
@@ -176,88 +177,104 @@ export default {
           } else {
             tfootEl.querySelector(".k-table").classList.remove("k-tfootshadow")
           }
-          if(this.leftFixedNumber) {
-
-            this.fixedLeftTfoot(tfootEl,scrollLeft)
+          if (this.leftFixedNumber) {
+            this.fixedLeftTfoot(tfootEl)
           }
         }
-        if(tbody) {
-
-          this.fixedLeftTbody(tbody.$el,scrollLeft)
+        if (tbody) {
+          this.fixedLeftTbody(tbody.$el)
         }
-        /* 
-        let tds = []
-
-        let trths = tar.querySelectorAll(
-          ".k-table > thead > tr,.k-table>tbody>tr,.k-table>tfoot>tr"
-        )
-        trths.forEach(el=>{
-          let childTds = [...el.querySelectorAll('td, th')].slice(0,+this.leftFixedNumber)
-          tds.push(...childTds)
-        })
-        if (scrollLeft > 0) {
-          tds.forEach(td => {
-            td.classList.add("k-table-fixed-td-body")
-            td.style.transform = `translateX(${scrollLeft}px)`
-          })
-        } else {
-          tds.forEach(td => {
-            td.classList.remove("k-table-fixed-td-body")
-            td.style.removeProperty("transform")
-          })
-        }
-        */
       }
     },
-    fixedLeftThead(el,scrollLeft) {
+    fixedLeftThead(el) {
       const n = +this.leftFixedNumber
+      const n_r = +this.rightFixedNumber
       let arrThs = []
-      let trs = el.querySelectorAll('.k-table>thead>tr')
+      let arrThs_r = []
+      let trs = el.querySelectorAll(".k-table>thead>tr")
       let trLength = trs.length
-      trs.forEach(tr=>{
-        [...tr.querySelectorAll('th')].slice(0,n).forEach(th=>{
-          const colspan = th.getAttribute('colspan')
-          const rowspan = th.getAttribute('rowspan')
-          if(trLength==rowspan) {
+      trs.forEach(tr => {
+        const ths = [...tr.querySelectorAll("th")]
+        ths.slice(0, n).forEach(th => {
+          const colspan = th.getAttribute("colspan")
+          const rowspan = th.getAttribute("rowspan")
+          if (trLength == rowspan) {
             arrThs.push(th)
           }
         })
-        
+        ths.slice(-1*n_r).forEach(th=>{
+          const colspan = th.getAttribute("colspan")
+          const rowspan = th.getAttribute("rowspan")
+          if (trLength == rowspan) {
+            arrThs_r.push(th)
+          }
+        })
       })
-      this.classAndPropertyChange('head',arrThs,scrollLeft)
+      this.classAndPropertyChange("head", arrThs,arrThs_r)
     },
-    fixedLeftTfoot(el,scrollLeft) {
+    fixedLeftTfoot(el) {
       const n = +this.leftFixedNumber
+      const n_r = +this.rightFixedNumber
       let arrThs = []
-      let trs = el.querySelectorAll('.k-table>tfoot>tr')
-      trs.forEach(tr=>{
-        [...tr.querySelectorAll('th')].slice(0,n).forEach(th=>{
+      let arrThs_r = []
+      let trs = el.querySelectorAll(".k-table>tfoot>tr")
+      trs.forEach(tr => {
+        const ths = [...tr.querySelectorAll("th")]
+        ths.slice(0, n).forEach(th => {
           arrThs.push(th)
         })
-      })
-      this.classAndPropertyChange('foot',arrThs,scrollLeft)
-    },
-    fixedLeftTbody(el,scrollLeft) {
-      const n = +this.leftFixedNumber
-      let arrTds = []
-      let trs = el.querySelectorAll('.k-table>tbody>tr')
-      trs.forEach(tr=>{
-        [...tr.querySelectorAll('td')].slice(0,n).forEach(td=>{
-          arrTds.push(td)
+        ths.slice(-1*n_r).forEach(th=>{
+          arrThs_r.push(th)
         })
       })
-      this.classAndPropertyChange('body',arrTds,scrollLeft)
+      this.classAndPropertyChange("foot", arrThs,arrThs_r)
     },
-    classAndPropertyChange(which,elems,scrollLeft) {
-      const klass = which === 'head'?'k-table-fixed-td-head':
-        which==='foot'?'k-table-fixed-td-foot':'k-table-fixed-td-body'
-      if(scrollLeft>0) {
-        elems.forEach(el=>{
+    fixedLeftTbody(el) {
+      const n = +this.leftFixedNumber
+      const n_r = +this.rightFixedNumber
+      let arrTds = []
+      let arrTds_r = []
+      let trs = el.querySelectorAll(".k-table>tbody>tr")
+      trs.forEach(tr => {
+        let tds = [...tr.querySelectorAll("td")]
+        tds.slice(0, n).forEach(td => {
+          arrTds.push(td)
+        })
+        tds.slice(-1*n_r).forEach(th=>{
+          arrTds_r.push(th)
+        })
+      })
+      this.classAndPropertyChange("body", arrTds,arrTds_r)
+    },
+    classAndPropertyChange(which, elems,elems_r) {
+      const scrollLeft = this.scrollLeft
+      const mainTable = this.$refs.mainTable
+      const clientWidth = mainTable.clientWidth
+      const scrollWidth = mainTable.scrollWidth
+      const klass =
+        which === "head"
+          ? "k-table-fixed-td-head"
+          : which === "foot"
+          ? "k-table-fixed-td-foot"
+          : "k-table-fixed-td-body"
+      if (scrollLeft > 0) {
+        elems.forEach(el => {
           el.classList.add(klass)
           el.style.transform = `translateX(${scrollLeft}px)`
         })
-      }else{
-        elems.forEach(el=>{
+      } else {
+        elems.forEach(el => {
+          el.classList.remove(klass)
+          el.style.removeProperty("transform")
+        })
+      }
+      if(clientWidth<scrollWidth && scrollLeft+clientWidth<scrollWidth) {
+        elems_r.forEach(el=>{
+          el.classList.add(klass)
+          el.style.transform = `translateX(${(scrollLeft+clientWidth-scrollWidth+1)}px)`
+        })
+      }else {
+        elems_r.forEach(el => {
           el.classList.remove(klass)
           el.style.removeProperty("transform")
         })
@@ -270,16 +287,21 @@ export default {
       })
     },
     //e是事件对象，el是当前要调整宽度的单元格，index是第几个单元格
-    handleResizeDown(e, el, index) {
+    handleResizeDown(e, el, index, col) {
       this.currentResizeTd = el
       document.addEventListener("mousemove", this.handleResizeMove)
       document.addEventListener("mouseup", this.handleResizeUp)
-      const scrollLeft = this.$refs.mainTable.scrollLeft
+      const scrollLeft = this.scrollLeft
       const tdOldWidth = parseFloat(getStyle(el, "width"))
       const totalHeight = getStyle(this.$refs.mainTable, "height")
       const baseLine = this.$refs.baseLine
-      const left = offset(el, this.$el).left + tdOldWidth - scrollLeft
+      let left = offset(el, this.$el).left + tdOldWidth - scrollLeft
       baseLine.style.height = totalHeight
+      if (col.fixed) {
+        left = left + scrollLeft
+      } else if (this.leftFixedNumber && index <= this.leftFixedNumber) {
+        left += scrollLeft
+      }
       baseLine.style.left = left + 1 + "px"
       this.currentResizeTd.startX = e.clientX
       this.currentResizeTd.tdOldWidth = tdOldWidth
@@ -290,8 +312,6 @@ export default {
     handleResizeMove(e) {
       const el = this.currentResizeTd
       const dx = e.clientX - el.startX
-      // const scrollLeft = this.$refs.mainTable.scrollLeft
-      // this.$refs.baseLine.style.left = scrollLeft + el.baseLineLeft + dx + "px"
       this.$refs.baseLine.style.left = el.baseLineLeft + dx + "px"
     },
     handleResizeUp(e) {

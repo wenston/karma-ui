@@ -5,6 +5,7 @@ import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KRadio from "karma-ui/packages/radio/radio"
 import mixins from "./_mixins/"
 export default {
+  name: 'KTHead',
   mixins: [mixins],
   components: {
     KCell,
@@ -155,7 +156,7 @@ export default {
                 if (col.children && col.children.length) {
                   return
                 }
-                this.$emit("handleResizeDown", e, el, col.__index)
+                this.$emit("handleResizeDown", e, el, col.__index,col)
               },
               sort: type => {
                 this.$emit("sort", type, col)

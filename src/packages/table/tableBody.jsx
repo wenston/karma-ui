@@ -7,6 +7,8 @@ import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KRadio from "karma-ui/packages/radio/radio"
 import KIcon from "karma-ui/packages/icon/icon"
 export default {
+  
+  name: 'KTBody',
   mixins: [mixins],
   components: {
     KColGroup,
@@ -402,7 +404,7 @@ export default {
     }
   },
   render() {
-    // console.log("body渲染了")
+    console.log("body渲染了")
     const { bodyWrapperClasses, tableClasses } = this
     return (
       <div class={bodyWrapperClasses}>

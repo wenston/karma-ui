@@ -3,6 +3,7 @@ import { props } from "./_util/props"
 import KCell from "./tableCell"
 import mixins from "./_mixins/"
 export default {
+  name: 'KTFoot',
   mixins: [mixins],
   components: {
     KCell

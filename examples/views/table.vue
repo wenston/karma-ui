@@ -21,6 +21,7 @@
       :min-content="minContent"
       :stripe="false"
       :leftFixedNumber="3"
+      :rightFixedNumber="1"
       @sort="onSort">
       <template slot="TotalPrice"
         slot-scope="{row}">
@@ -165,15 +166,15 @@ export default {
         //   field: "PrintCount",
         //   name: "打印次数"
         // },
-        // {
-        //   style: { width: "70" },
-        //   field: "Action",
-        //   name: "操作",
-        //   // fixed: "right",
-        //   customRender: ({ row, index }) => {
-        //     return <a href="javascript:;">删除</a>
-        //   }
-        // }
+        {
+          style: { width: "70" },
+          field: "Action",
+          name: "操作",
+          // fixed: "right",
+          customRender: ({ row, index }) => {
+            return <a href="javascript:;">删除</a>
+          }
+        }
       ]
     }
   },
