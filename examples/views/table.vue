@@ -12,16 +12,16 @@
       :selected-rows.sync="selectedRows"
       :checkable="checkable"
       v-model="value"
-      hasIndex
-      hasAction
-      hasRadio
       canHighlightRow
       resizeWidth
+      hasIndex
+      hasCheckbox
+      hasAction
       :highlightValue.sync="highlightValue"
       :min-content="minContent"
       :stripe="false"
-      :leftFixedNumber="3"
-      :rightFixedNumber="1"
+      :leftFixedNumber="7"
+      :rightFixedNumber="5"
       @sort="onSort">
       <template slot="TotalPrice"
         slot-scope="{row}">
@@ -156,16 +156,16 @@ export default {
           ]
         },
 
-        // {
-        //   style: { width: "60" },
-        //   field: "Status",
-        //   name: "状态"
-        // },
-        // {
-        //   // style: { width: "69" },
-        //   field: "PrintCount",
-        //   name: "打印次数"
-        // },
+        {
+          style: { width: "60" },
+          field: "Status",
+          name: "状态"
+        },
+        {
+          // style: { width: "69" },
+          field: "PrintCount",
+          name: "打印次数"
+        },
         {
           style: { width: "70" },
           field: "Action",

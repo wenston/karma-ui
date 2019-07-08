@@ -19,8 +19,8 @@ export default {
   name: "KTable",
   props: {
     ...props,
-    leftFixedNumber: [Number,String],
-    rightFixedNumber: [Number,String]
+    leftFixedNumber: [Number, String],
+    rightFixedNumber: [Number, String]
   },
   model: {
     prop: "value",
@@ -164,7 +164,7 @@ export default {
           } else {
             theadEl.classList.remove("k-theadwrapper-shadow")
           }
-          if (this.leftFixedNumber) {
+          if (this.leftFixedNumber || this.rightFixedNumber) {
             this.fixedLeftThead(theadEl)
           }
         }
@@ -177,7 +177,7 @@ export default {
           } else {
             tfootEl.querySelector(".k-table").classList.remove("k-tfootshadow")
           }
-          if (this.leftFixedNumber) {
+          if (this.leftFixedNumber || this.rightFixedNumber) {
             this.fixedLeftTfoot(tfootEl)
           }
         }
@@ -193,24 +193,68 @@ export default {
       let arrThs_r = []
       let trs = el.querySelectorAll(".k-table>thead>tr")
       let trLength = trs.length
-      trs.forEach(tr => {
+      let left_kua_hang = []
+      let right_kua_hang = [] //第一行跨行数，第二行跨行数，...
+      //已经找过的所有行数
+      let left_collect_row_num = 0
+      let right_collect_row_num = 0
+      trs.forEach((tr, iTr) => {
+        left_kua_hang.push(0)
+        right_kua_hang.push(0)
         const ths = [...tr.querySelectorAll("th")]
-        ths.slice(0, n).forEach(th => {
-          const colspan = th.getAttribute("colspan")
-          const rowspan = th.getAttribute("rowspan")
-          if (trLength == rowspan) {
-            arrThs.push(th)
-          }
-        })
-        ths.slice(-1*n_r).forEach(th=>{
-          const colspan = th.getAttribute("colspan")
-          const rowspan = th.getAttribute("rowspan")
-          if (trLength == rowspan) {
-            arrThs_r.push(th)
-          }
-        })
+        if (left_collect_row_num < trLength && n) {
+          //已经找到的所有列数
+          let collect_num = left_kua_hang.reduce((pre, item) => {
+            return pre + item
+          }, 0)
+          //本行是否已经找过
+          let searched_this_row = false
+          ths.slice(0, n).forEach(th => {
+            const colspan = +th.getAttribute("colspan")
+            const rowspan = +th.getAttribute("rowspan")
+            if (collect_num < n) {
+              arrThs.push(th)
+              collect_num += colspan
+              if (!searched_this_row) {
+                searched_this_row = true
+                left_collect_row_num = iTr + 1
+              }
+              if (rowspan != 1) {
+                left_kua_hang[left_kua_hang.length - 1] =
+                  left_kua_hang[left_kua_hang.length - 1] + 1
+              }
+            }
+          })
+        }
+
+        if (right_collect_row_num < trLength && n_r) {
+          let collect_num = right_kua_hang.reduce((pre, item) => {
+            return pre + item
+          }, 0)
+          let searched_this_row = false
+          ths
+            .slice(-1 * n_r)
+            .reverse()
+            .forEach(th => {
+              const colspan = +th.getAttribute("colspan")
+              const rowspan = +th.getAttribute("rowspan")
+              if (collect_num < n_r) {
+                arrThs_r.push(th)
+                collect_num += colspan
+                if (!searched_this_row) {
+                  searched_this_row = true
+                  right_collect_row_num = iTr + 1
+                }
+
+                if (rowspan != 1) {
+                  right_kua_hang[right_kua_hang.length - 1] =
+                    right_kua_hang[right_kua_hang.length - 1] + 1
+                }
+              }
+            })
+        }
       })
-      this.classAndPropertyChange("head", arrThs,arrThs_r)
+      this.classAndPropertyChange("head", arrThs, arrThs_r)
     },
     fixedLeftTfoot(el) {
       const n = +this.leftFixedNumber
@@ -220,14 +264,16 @@ export default {
       let trs = el.querySelectorAll(".k-table>tfoot>tr")
       trs.forEach(tr => {
         const ths = [...tr.querySelectorAll("th")]
-        ths.slice(0, n).forEach(th => {
-          arrThs.push(th)
-        })
-        ths.slice(-1*n_r).forEach(th=>{
-          arrThs_r.push(th)
-        })
+        n &&
+          ths.slice(0, n).forEach(th => {
+            arrThs.push(th)
+          })
+        n_r &&
+          ths.slice(-1 * n_r).forEach(th => {
+            arrThs_r.push(th)
+          })
       })
-      this.classAndPropertyChange("foot", arrThs,arrThs_r)
+      this.classAndPropertyChange("foot", arrThs, arrThs_r)
     },
     fixedLeftTbody(el) {
       const n = +this.leftFixedNumber
@@ -237,16 +283,18 @@ export default {
       let trs = el.querySelectorAll(".k-table>tbody>tr")
       trs.forEach(tr => {
         let tds = [...tr.querySelectorAll("td")]
-        tds.slice(0, n).forEach(td => {
-          arrTds.push(td)
-        })
-        tds.slice(-1*n_r).forEach(th=>{
-          arrTds_r.push(th)
-        })
+        n &&
+          tds.slice(0, n).forEach(td => {
+            arrTds.push(td)
+          })
+        n_r &&
+          tds.slice(-1 * n_r).forEach(th => {
+            arrTds_r.push(th)
+          })
       })
-      this.classAndPropertyChange("body", arrTds,arrTds_r)
+      this.classAndPropertyChange("body", arrTds, arrTds_r)
     },
-    classAndPropertyChange(which, elems,elems_r) {
+    classAndPropertyChange(which, elems, elems_r) {
       const scrollLeft = this.scrollLeft
       const mainTable = this.$refs.mainTable
       const clientWidth = mainTable.clientWidth
@@ -268,12 +316,15 @@ export default {
           el.style.removeProperty("transform")
         })
       }
-      if(clientWidth<scrollWidth && scrollLeft+clientWidth<scrollWidth) {
-        elems_r.forEach(el=>{
+      if (clientWidth < scrollWidth && scrollLeft + clientWidth < scrollWidth) {
+        elems_r.forEach(el => {
           el.classList.add(klass)
-          el.style.transform = `translateX(${(scrollLeft+clientWidth-scrollWidth+1)}px)`
+          el.style.transform = `translateX(${scrollLeft +
+            clientWidth -
+            scrollWidth +
+            1}px)`
         })
-      }else {
+      } else {
         elems_r.forEach(el => {
           el.classList.remove(klass)
           el.style.removeProperty("transform")
