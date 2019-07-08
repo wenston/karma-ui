@@ -127,11 +127,20 @@ export default {
       )
     },
     //获取单元格的style
-    $_get_td_style(row, index, col,obj = {}) {
+    $_get_td_style(row, index, col, obj = {}) {
       const style =
-        typeof col.style === "function" ? col.style(row, index,obj) : col.style
+        typeof col.style === "function" ? col.style(row, index, obj) : col.style
       const { width, ...restStyle } = { width: "", ...style }
       return restStyle
+    },
+    //获取传入的单元格的class
+    $_get_td_class(row, index, col, obj = {}) {
+      const tp = typeof col.cellClass
+      let cls = ""
+      if (tp === "function") {
+        cls = col.cellClass(row, index, obj)
+      }
+      return Array.isArray(cls) ? cls.join(" ") : cls
     }
   }
 }

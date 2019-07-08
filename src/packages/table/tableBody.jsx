@@ -293,7 +293,8 @@ export default {
       }
       let cellProps = {
         class: {
-          "k-text-center": this.$_is_built_in_column(col.field)
+          "k-text-center": this.$_is_built_in_column(col.field),
+          [this.$_get_td_class(row,index,col,{thead:true})]:col.cellClass
         },
         style: this.$_get_td_style(row, index, col)
       }

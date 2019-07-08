@@ -3,7 +3,7 @@ import { props } from "./_util/props"
 import KCell from "./tableCell"
 import mixins from "./_mixins/"
 export default {
-  name: 'KTFoot',
+  name: "KTFoot",
   mixins: [mixins],
   components: {
     KCell
@@ -55,14 +55,18 @@ export default {
       //只自动计算一级数据，如果有二级数据，需要自己算哦
       const tds = this.columns.map((col, i) => {
         const content = i === 0 ? this.sumText : this.getSumTotal(col, i)
-        return (
-          <k-cell
-            tag="th"
-            style={this.$_get_td_style(null, null, col, { tfoot: true })}
-          >
-            {content}
-          </k-cell>
-        )
+        const p = {
+          props: {
+            tag: "th"
+          },
+          style: this.$_get_td_style(null, null, col, { tfoot: true }),
+          class: {
+            [this.$_get_td_class(null, null, col, {
+              tfoot: true
+            })]: col.cellClass
+          }
+        }
+        return <k-cell {...p}>{content}</k-cell>
       })
       return <tr>{tds}</tr>
     }

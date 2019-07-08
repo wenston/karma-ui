@@ -148,7 +148,8 @@ export default {
             class: {
               "k-text-center":
                 colspan > 1 ||
-                this.$_is_built_in_column(col.field)
+                this.$_is_built_in_column(col.field),
+              [this.$_get_td_class(null,null,col,{thead:true})]:col.cellClass
             },
             style: this.$_get_td_style(null,null,col,{thead:true}),
             on: {

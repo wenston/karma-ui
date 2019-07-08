@@ -20,8 +20,7 @@
       :highlightValue.sync="highlightValue"
       :min-content="minContent"
       :stripe="false"
-      :leftFixedNumber="7"
-      :rightFixedNumber="5"
+      :leftFixedNumber="3"
       @sort="onSort">
       <template slot="TotalPrice"
         slot-scope="{row}">
@@ -108,7 +107,18 @@ export default {
 
         {
           field: "StoreName",
-          name: "收货仓库"
+          name: "收货仓库",
+          cellClass:(row,index,obj) => {
+            if(row) {
+              return [this.css.td, this.css.td1]
+            }else{
+              if(obj.thead) {
+
+                return this.css.td1
+              }
+              return this.css.bg
+            }
+          }
         },
         {
           style: { width: "200" },
@@ -199,5 +209,14 @@ export default {
 }
 </script>
 <style lang="postcss" module="css">
+.td {
+  background-color: greenyellow;
+}
+.td1 {
+  box-shadow: inset 0 0 3px red;
+}
+.bg {
+  background-color: blue;
+}
 </style>
 
