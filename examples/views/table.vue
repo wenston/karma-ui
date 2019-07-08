@@ -39,7 +39,7 @@ export default {
       minContent: true,
       value: '',
       highlightValue: '',
-      dataList: table1.slice(0,15),
+      dataList: table1.slice(0,100),
       selectedKeys: [],
       selectedRows: [],
       columns: [
@@ -122,11 +122,30 @@ export default {
           }
         },
         {
-          style: { width: "200" },
+          cellClass: (row)=> {
+            if(row) {
+              return this.css.pd0
+            }
+          },
+          style: (row) => {
+            
+            return { width: "300" }
+          },
           field: "Detail",
           name: "商品",
           // scopedSlots: "Detail",
-          sorter: 0
+          sorter: 0,
+          customRender: row=> {
+            return (
+              <ul class={this.css.list}>
+                {
+                  row.Details.map(item=>{
+                    return <li>{item.ProName}</li>
+                  })
+                }
+              </ul>
+            )
+          }
         },
         {
           style: { width: "70" },
@@ -218,6 +237,18 @@ export default {
 }
 .bg {
   background-color: blue;
+}
+td.pd0 {
+  padding: 0 !important;
+}
+.list {
+  & li {
+    padding: 0 8px;
+    line-height: 30px;
+    &:not(:last-child) {
+      border-bottom: 1px solid #ddd;
+    }
+  }
 }
 </style>
 

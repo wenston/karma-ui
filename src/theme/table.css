@@ -28,7 +28,7 @@
 
 .k-table-fixed-td-body,
 .k-table-fixed-td-right-body  {
-  background-color: rgba(255,255,255,.95);
+  background-color: rgba(255,255,255,.98);
   /* @supports (backdrop-filter: blur()) {
     background-color: transparent;
     backdrop-filter: blur(20px);
