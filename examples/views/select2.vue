@@ -6,7 +6,8 @@
         :data="dataList"
         text-field="Name"
         style="width: 200px"
-        :layer-width="false">
+        :layer-width="false"
+        :show.sync="show">
         
       </k-select2>
     </div>
@@ -18,6 +19,7 @@ export default {
   data() {
     return {
       ids: '',
+      show: true,
       dataList: [
         {
           Name: "新天地大楼",

@@ -5,7 +5,7 @@ import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KRadio from "karma-ui/packages/radio/radio"
 import mixins from "./_mixins/"
 export default {
-  name: 'KTHead',
+  name: "KTHead",
   mixins: [mixins],
   components: {
     KCell,
@@ -145,19 +145,24 @@ export default {
               tag: "th",
               sorter: col.sorter === undefined ? false : col.sorter
             },
-            class: {
-              "k-text-center":
-                colspan > 1 ||
-                this.$_is_built_in_column(col.field),
-              [this.$_get_td_class(null,null,col,{thead:true})]:col.cellClass
-            },
-            style: this.$_get_td_style(null,null,col,{thead:true}),
+            class: [
+              {
+                "k-text-center":
+                  colspan > 1 || this.$_is_built_in_column(col.field)
+              },
+              [
+                col.cellClass
+                  ? this.$_get_td_class(null, null, col, { thead: true })
+                  : ""
+              ]
+            ],
+            style: this.$_get_td_style(null, null, col, { thead: true }),
             on: {
               handleResizeDown: (e, el) => {
                 if (col.children && col.children.length) {
                   return
                 }
-                this.$emit("handleResizeDown", e, el, col.__index,col)
+                this.$emit("handleResizeDown", e, el, col.__index, col)
               },
               sort: type => {
                 this.$emit("sort", type, col)

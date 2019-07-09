@@ -139,8 +139,12 @@ export default {
       let cls = ""
       if (tp === "function") {
         cls = col.cellClass(row, index, obj)
+      } else if( tp === 'undefined') {
+        cls = ''
+      } else if(cls === 'undefined') {
+        cls = ''
       }
-      return Array.isArray(cls) ? cls.join(" ") : cls
+      return Array.isArray(cls) ? cls.join(" ") : cls 
     }
   }
 }

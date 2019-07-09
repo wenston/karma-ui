@@ -50,6 +50,10 @@ export default {
     hasRefresh: {
       type: Boolean,
       default: true
+    },
+    show: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -65,7 +69,7 @@ export default {
       //搜索关键字
       searchText: "",
       //记录状态：下拉列表是否可见
-      visible: false,
+      visible: this.show,
       //全选
       isCheckedAll: false,
       //通过键盘上下箭头选择的当前数据行的index
@@ -153,7 +157,8 @@ export default {
           placeholder: this.searchPlaceholder,
           block: true,
           value: this.searchText,
-          simple: this.simple
+          simple: this.simple,
+          autofocus: true
           // active: this.visible
         },
         ref: "searchInput",
@@ -247,13 +252,13 @@ export default {
           }
         }
         const select2ListProp = {
-          class: 'k-select2-list',
+          class: "k-select2-list",
           directives: [
             {
-              name: 'loading',
+              name: "loading",
               value: {
                 loading: this.data.length === 0,
-                content:'数据获取中...'
+                content: "数据获取中..."
               }
             }
           ]
@@ -316,8 +321,9 @@ export default {
       this.removeUpdownEvent()
     },
     showLayer() {
-      this.layerIns.show(this.$refs.searchInput.focus)
-      this.$refs.searchInput.focus()
+      const input = this.$refs.searchInput
+      this.layerIns.show(input && input.focus)
+      input && input.focus()
       this.visible = true
       this.addUpdownEvent()
     },
@@ -478,6 +484,19 @@ export default {
     )
   },
   watch: {
+    visible(v) {
+      this.$emit("update:show", v)
+    },
+    show: {
+      immediate: true,
+      handler(v) {
+        if (v) {
+          this.showLayer()
+        } else {
+          this.hideLayer()
+        }
+      },
+    },
     value(v, ov) {
       // console.log('value:',v,ov)
       if (!this.isSame(v, ov)) {

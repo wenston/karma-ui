@@ -7,8 +7,7 @@ import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KRadio from "karma-ui/packages/radio/radio"
 import KIcon from "karma-ui/packages/icon/icon"
 export default {
-  
-  name: 'KTBody',
+  name: "KTBody",
   mixins: [mixins],
   components: {
     KColGroup,
@@ -292,12 +291,17 @@ export default {
         cont = this.addFields(row, col, index, cont)
       }
       let cellProps = {
-        class: {
-          "k-text-center": this.$_is_built_in_column(col.field),
-          [this.$_get_td_class(row,index,col,{thead:true})]:col.cellClass
-        },
+        class: [
+          { "k-text-center": this.$_is_built_in_column(col.field) },
+          [
+            col.cellClass
+              ? this.$_get_td_class(row, index, col, { thead: true })
+              : ""
+          ]
+        ],
         style: this.$_get_td_style(row, index, col)
       }
+
       return <k-cell {...cellProps}>{cont}</k-cell>
     },
 

@@ -60,11 +60,11 @@ export default {
             tag: "th"
           },
           style: this.$_get_td_style(null, null, col, { tfoot: true }),
-          class: {
-            [this.$_get_td_class(null, null, col, {
-              tfoot: true
-            })]: col.cellClass
-          }
+          class:  [
+            col.cellClass
+              ? this.$_get_td_class(null, null, col, { tfoot: true })
+              : ""
+          ]
         }
         return <k-cell {...p}>{content}</k-cell>
       })
@@ -84,11 +84,5 @@ export default {
         </table>
       </div>
     )
-  },
-  mounted() {
-    // this.$nextTick(() => {
-    //   //注意： 0必须要写成'0px'的形式，否则calc失效！
-    //   this.$emit("foot-mounted", this.hasSum ? getStyle(this.$el, "height") : '0px')
-    // })
   }
 }
