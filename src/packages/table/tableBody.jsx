@@ -409,7 +409,7 @@ export default {
     }
   },
   render() {
-    console.log("body渲染了")
+    // console.log("body渲染了")
     const { bodyWrapperClasses, tableClasses } = this
     return (
       <div class={bodyWrapperClasses}>
