@@ -37,6 +37,10 @@ export default {
     icon: {
       type: Array,
       default: () => ["k-icon-arrow-down", "k-icon-close"]
+    },
+    scrollElement: {
+      type: Element,
+      default: null
     }
   },
   data() {
@@ -147,25 +151,11 @@ export default {
           bodyClassName: "k-select__list",
           tag: "div",
           bodyTag: "ul",
-          canCloseByClickoutside: true
+          canCloseByClickoutside: true,
+          scrollElement: this.scrollElement
         })
       })
     },
-    // scrollIntoView(index) {
-    //   let i = 0
-    //   if (typeof index === "number") {
-    //     i = index
-    //   } else {
-    //     i = this.getSelectedOptionIndex()
-    //     if (i === -1) {
-    //       i = 0
-    //     }
-    //   }
-    //   this.ins.$refs.body.scrollTop = offset(
-    //     this.options[i].$el,
-    //     this.ins.$refs.body
-    //   ).top
-    // },
     scrollIntoViewIfNeed(index) {
       let i = 0
       if (typeof index === "number") {

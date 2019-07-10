@@ -37,7 +37,9 @@ export default {
       default: true
     },
     //从外部点击关闭dropdown时，除了whiteList中的元素
-    whiteList: Array
+    whiteList: Array,
+    scrollElement:Element,
+    layerParent: Element
   },
   data() {
     return {
@@ -109,13 +111,15 @@ export default {
               footerClassName,
               headerClassName,
               canCloseByClickoutside,
-              whiteList: this.whiteList
+              whiteList: this.whiteList,
+              scrollElement: this.scrollElement
             }
           )
         })
     },
     instanceAndBindEvents() {
-      this.ins = layer()
+      console.log(this.layerParent)
+      this.ins = layer(this.layerParent)
       if (this.lazy) {
         this.init()
       }

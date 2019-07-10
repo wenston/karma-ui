@@ -25,24 +25,31 @@
         </div>
       </k-auto-complete>
       <k-button @click="clear">清空</k-button>
-      <br>
-      <k-auto-complete :data="list"
-        v-model="value1">
-        <div slot="header"
-          class="list header">
-          <span class="name">商品名称</span>
-          <span class="index">库存</span>
-        </div>
-        <div slot-scope="{row,index}"
-          :key="row.Id"
-          class="list">
-          <span class="name">{{row.Name}}</span>
-          <span class="index">{{index}}</span>
-        </div>
-        <div slot="footer">
-          <k-button size="mini" @click="onFresh">刷新</k-button>
-        </div>
-      </k-auto-complete>
+    </div>
+    <div style="width: 500px;height: 300px;overflow:auto;position:relative"
+      ref="box">
+      <div style="width: 1000px;height: 1300px;">
+        <k-auto-complete :data="list"
+          v-model="value1"
+          :scroll-element="$refs.box"
+          :layerParent="$refs.box">
+          <div slot="header"
+            class="list header">
+            <span class="name">商品名称</span>
+            <span class="index">库存</span>
+          </div>
+          <div slot-scope="{row,index}"
+            :key="row.Id"
+            class="list">
+            <span class="name">{{row.Name}}</span>
+            <span class="index">{{index}}</span>
+          </div>
+          <div slot="footer">
+            <k-button size="mini"
+              @click="onFresh">刷新</k-button>
+          </div>
+        </k-auto-complete>
+      </div>
     </div>
   </div>
 </template>
@@ -585,20 +592,20 @@ export default {
   methods: {
     onFresh() {
       this.list = []
-      setTimeout(()=>{
+      setTimeout(() => {
         this.list = this.list1
-      },1500)
+      }, 1500)
     },
     clear() {
-      this.value = ''
+      this.value = ""
     },
     onFocus() {
-      setTimeout(()=>{
+      setTimeout(() => {
         // this.list = this.list1
-      },1500)
+      }, 1500)
     },
     onToggle(e) {
-      console.log('toggle',e)
+      console.log("toggle", e)
     },
     onInput(text) {
       console.log(text)

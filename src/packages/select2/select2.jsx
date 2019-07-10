@@ -54,6 +54,10 @@ export default {
     show: {
       type: Boolean,
       default: false
+    },
+    scrollElement: {
+      type: Element,
+      default: null
     }
   },
   data() {
@@ -357,7 +361,8 @@ export default {
           },
           {
             width: this.layerWidth,
-            canCloseByClickoutside: true
+            canCloseByClickoutside: true,
+            scrollElement: this.scrollElement,
           }
         )
       })

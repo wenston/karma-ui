@@ -61,7 +61,12 @@ export default {
     debounceTime: {
       type: Number,
       default: 350
-    }
+    },
+    scrollElement: {
+      type: Element,
+      default: null
+    },
+    layerParent: Element
   },
   model: {
     prop: "value",
@@ -464,7 +469,7 @@ export default {
       }
     },
     instanceAndOn() {
-      this.ins = layer()
+      this.ins = layer(this.layerParent)
 
       this.ins.$on("layer-inited", () => {
         this.$nextTick().then(() => {
@@ -574,7 +579,8 @@ export default {
               width: layerWidth,
               //高度暂时没有设置。TODO
               height: layerHeight,
-              canCloseByClickoutside: true
+              canCloseByClickoutside: true,
+              scrollElement: this.scrollElement
             }
           )
         }

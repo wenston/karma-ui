@@ -50,7 +50,9 @@ export default {
       headerClassName: "",
       //footer插槽的class
       footerClassName: "",
-      //
+      
+      //此层如果位于可滚动元素内部，则需要计算滚动的位移量
+      scrollElement: null,
       canCloseByClickoutside: false,
       whiteList: [],
       styles: {},
@@ -206,6 +208,13 @@ export default {
     calcLayerHeightAndGetPosition() {
       this.layerHeight = parseFloat(getStyle(this.$el, "height"))
       this._getElemPosition()
+    },
+    //检测外部容器的滚动，如果layer可视，且外部容器出现了滚动，则再次计算
+    //layer位置
+    handleScrollWrapper() {
+      if(this.visible) {
+        this._getElemPosition()
+      }
     }
   },
   beforeDestroy() {
@@ -223,7 +232,14 @@ export default {
     this.$nextTick(this._getElemPosition)
   },
   watch: {
-    vm: "_getElemPosition"
+    vm: "_getElemPosition",
+    scrollElement(elem) {
+      if(elem) {
+        elem.addEventListener('scroll',this.handleScrollWrapper)
+      }else{
+        elem.removeEventListener('scroll',this.handleScrollWrapper)
+      }
+    }
   },
   directives: {
     clickoutside
