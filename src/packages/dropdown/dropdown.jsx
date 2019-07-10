@@ -39,7 +39,7 @@ export default {
     //从外部点击关闭dropdown时，除了whiteList中的元素
     whiteList: Array,
     scrollElement:Element,
-    layerParent: Element
+    nearby: Boolean
   },
   data() {
     return {
@@ -112,14 +112,19 @@ export default {
               headerClassName,
               canCloseByClickoutside,
               whiteList: this.whiteList,
-              scrollElement: this.scrollElement
+              scrollElement: this.scrollElement,
+              nearby: this.nearby
             }
           )
         })
     },
     instanceAndBindEvents() {
-      console.log(this.layerParent)
-      this.ins = layer(this.layerParent)
+      if(this.nearby) {
+
+        this.ins = layer(this.$el.parentNode)
+      }else{
+        this.ins = layer()
+      }
       if (this.lazy) {
         this.init()
       }
@@ -146,7 +151,6 @@ export default {
   },
   watch: {
     visible: {
-      immediate: true,
       handler(v) {
         this.$emit("update:show", v)
         if (v) {
@@ -182,6 +186,11 @@ export default {
       this.instanceAndBindEvents()
       this.init()
     }
+    this.$nextTick(()=>{
+      if(this.visible) {
+        this.showLayer()
+      }
+    })
   },
   updated() {
     // console.log('dropdown updated !!!!')

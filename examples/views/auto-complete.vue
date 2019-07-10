@@ -26,13 +26,15 @@
       </k-auto-complete>
       <k-button @click="clear">清空</k-button>
     </div>
-    <div style="width: 500px;height: 300px;overflow:auto;position:relative"
+    <div style="width: 500px;height: 300px;overflow:auto;"
       ref="box">
       <div style="width: 1000px;height: 1300px;">
+        <span>往右下拖动</span>
         <k-auto-complete :data="list"
           v-model="value1"
           :scroll-element="$refs.box"
-          :layerParent="$refs.box">
+          style="margin-top:1222px;margin-left:800px;"
+          nearby>
           <div slot="header"
             class="list header">
             <span class="name">商品名称</span>

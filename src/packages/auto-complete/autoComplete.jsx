@@ -66,7 +66,11 @@ export default {
       type: Element,
       default: null
     },
-    layerParent: Element
+    //是否就近插入dom，即在输入框下插入layer弹层
+    nearby: {
+      type: Boolean,
+      default: false
+    }
   },
   model: {
     prop: "value",
@@ -469,8 +473,11 @@ export default {
       }
     },
     instanceAndOn() {
-      this.ins = layer(this.layerParent)
-
+      if (this.nearby) {
+        this.ins = layer(this.$el.parentNode)
+      } else {
+        this.ins = layer()
+      }
       this.ins.$on("layer-inited", () => {
         this.$nextTick().then(() => {
           this.ins.$refs.body.addEventListener(
@@ -478,6 +485,10 @@ export default {
             this.handleLayerBodyScroll
           )
         })
+      })
+
+      this.ins.$on('after-hide',()=>{
+        this.$refs.input.blur()
       })
 
       this.ins.$on("mousedown", () => {
@@ -580,7 +591,8 @@ export default {
               //高度暂时没有设置。TODO
               height: layerHeight,
               canCloseByClickoutside: true,
-              scrollElement: this.scrollElement
+              scrollElement: this.scrollElement,
+              nearby: this.nearby
             }
           )
         }

@@ -41,7 +41,8 @@ export default {
     scrollElement: {
       type: Element,
       default: null
-    }
+    },
+    nearby: Boolean
   },
   data() {
     return {
@@ -49,7 +50,7 @@ export default {
       showOptionList: false,
       showDelete: false,
       //optionWrapper实例及里边包含的option列表实例
-      ins: layer(),
+      ins: null,
       options: [], //收集本组件下属的所有option组件
       optionCompName: "",
       isMouseDownOption: false
@@ -152,7 +153,8 @@ export default {
           tag: "div",
           bodyTag: "ul",
           canCloseByClickoutside: true,
-          scrollElement: this.scrollElement
+          scrollElement: this.scrollElement,
+          nearby: this.nearby
         })
       })
     },
@@ -239,18 +241,25 @@ export default {
     this.initIns()
   },
   mounted() {
-    this.initIns()
-    this.ins.$on("layer-inited", () => {
-      this.$emit("getLayerElement", this.ins)
-    })
-    this.ins.$on("after-hide", () => {
-      this.hideList()
-    })
-    this.ins.$on("mousedown", () => {
-      this.isMouseDownOption = true
-    })
-    this.ins.$on("mouseout", () => {
-      this.isMouseDownOption = false
+    this.$nextTick(() => {
+      if (this.nearby) {
+        this.ins = layer(this.$el.parentNode)
+      } else {
+        this.ins = layer()
+      }
+      this.initIns()
+      this.ins.$on("layer-inited", () => {
+        this.$emit("getLayerElement", this.ins)
+      })
+      this.ins.$on("after-hide", () => {
+        this.hideList()
+      })
+      this.ins.$on("mousedown", () => {
+        this.isMouseDownOption = true
+      })
+      this.ins.$on("mouseout", () => {
+        this.isMouseDownOption = false
+      })
     })
   },
   created() {

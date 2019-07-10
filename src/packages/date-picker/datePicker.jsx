@@ -102,7 +102,9 @@ export default {
           ...util.getLastMonth()
         }
       ]
-    }
+    },
+    scrollElement: Element,
+    nearby: Boolean
   },
   model: {
     prop: "value",
@@ -600,7 +602,9 @@ export default {
         trigger: this.trigger,
         bodyClassName: "k-date-picker",
         title: this.renderTitle(),
-        body: this.renderBody()
+        body: this.renderBody(),
+        scrollElement: this.scrollElement,
+        nearby: this.nearby
       },
       on: {
         "update:show": v => {

@@ -13,6 +13,7 @@
         :min="min"
         range
         ref="dp2"
+        nearby
         @getLayerElement="getDatePickerElement"></k-date-picker>
       <k-button @click="start='2018-10-10'">2018-10-10</k-button>
       <k-button @click="end='2019-10-10'">2019-10-10</k-button>

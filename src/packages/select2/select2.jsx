@@ -58,7 +58,8 @@ export default {
     scrollElement: {
       type: Element,
       default: null
-    }
+    },
+    nearby: Boolean
   },
   data() {
     let arr = []
@@ -69,7 +70,7 @@ export default {
       //存储用户选择
       dataValue: arr,
       //下拉列表实例
-      layerIns: layer(),
+      layerIns: null,
       //搜索关键字
       searchText: "",
       //记录状态：下拉列表是否可见
@@ -363,6 +364,7 @@ export default {
             width: this.layerWidth,
             canCloseByClickoutside: true,
             scrollElement: this.scrollElement,
+            nearby: this.nearby
           }
         )
       })
@@ -493,7 +495,6 @@ export default {
       this.$emit("update:show", v)
     },
     show: {
-      immediate: true,
       handler(v) {
         if (v) {
           this.showLayer()
@@ -532,12 +533,23 @@ export default {
     this.initIns()
   },
   mounted() {
-    //拦截由layer组件中关闭layer的情况
-    this.layerIns.$on("after-hide", () => {
-      this.visible = false
-      this.removeUpdownEvent()
+    this.$nextTick(()=>{
+      if(this.nearby) {
+        this.layerIns = layer(this.$el.parentNode)
+      }else{
+        this.layerIns = layer()
+      }
+      //拦截由layer组件中关闭layer的情况
+      this.layerIns.$on("after-hide", () => {
+        this.visible = false
+        this.removeUpdownEvent()
+      })
+      this.initIns()
+      if(this.show) {
+        this.showLayer()
+      }
     })
-    this.initIns()
+
   },
   directives: {
     esc,

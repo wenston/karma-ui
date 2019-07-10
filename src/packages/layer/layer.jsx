@@ -1,4 +1,4 @@
-import { getStyle, setStyle } from "karma-ui/util/dom"
+import { getStyle, setStyle, offset } from "karma-ui/util/dom"
 import clickoutside from "karma-ui/util/clickoutside.js"
 // import esc from "karma-ui/util/esc.js"
 export default {
@@ -50,9 +50,11 @@ export default {
       headerClassName: "",
       //footer插槽的class
       footerClassName: "",
-      
+
       //此层如果位于可滚动元素内部，则需要计算滚动的位移量
       scrollElement: null,
+      //是否就近插入dom
+      nearby: false,
       canCloseByClickoutside: false,
       whiteList: [],
       styles: {},
@@ -107,6 +109,10 @@ export default {
       this.$nextTick().then(() => {
         this.calcLayerHeightAndGetPosition()
         this.$emit("layer-inited")
+
+        if (!this.nearby) {
+          window.addEventListener("resize", this._getElemPosition)
+        }
       })
     },
     //获取与layer相关的vm的$el的位置、尺寸信息
@@ -118,50 +124,87 @@ export default {
       if (!elem) {
         return null
       }
-      const pos = elem.getBoundingClientRect()
-      this.left = pos.left + window.pageXOffset
-      this.top = pos.top + window.pageYOffset
       if (!this.width) {
         const w = getStyle(elem, "width")
         this.layerWidth = w
       } else {
         this.layerWidth = this.width
       }
-      // if (!this.height) {
       const h = getStyle(elem, "height")
       this.vmHeight = h
       this.vmWidth = this.layerWidth
-      // } else {
-      //   this.vmHeight = this.height
-      // }
-
+      //如果就近插入dom
+      if (this.nearby) {
+        const parent = this.parent
+        if (parent) {
+          const position = getStyle(parent, "position")
+          if (
+            position !== "relative" ||
+            position !== "absolute" ||
+            position !== "fixed"
+          ) {
+            setStyle(parent, {
+              position: "relative"
+            })
+            const pos = offset(elem, parent)
+            this.left = pos.left
+            this.top = pos.top
+          }
+        }
+      } else {
+        const pos = elem.getBoundingClientRect()
+        this.left = pos.left + window.pageXOffset
+        this.top = pos.top + window.pageYOffset
+      }
       this._setSizeAndPosition()
     },
     _setSizeAndPosition() {
-      //屏幕可视区高度
-      const clientHeight = document.documentElement.clientHeight,
-        clientWidth = document.documentElement.clientWidth
-      //关联vm元素的底部距离屏幕最上边的高
-      let top = this.top + parseFloat(this.vmHeight) + this.gap,
-        left = this.left
       //layer本身的高度
       let height = this.layerHeight,
-        // width = this.layerWidth
-        width = parseFloat(getStyle(this.$el, "width"))
-
-      //5是layer距离可视区边界的大小
-      const wholeHeight = clientHeight + window.pageYOffset
-      if (top + height > wholeHeight - 5) {
-        top = wholeHeight - 5 - height
-        if (top < 0) {
-          top = 0
+        width = parseFloat(getStyle(this.$el, "width")),
+        left = 0,
+        top = 0
+      if (this.nearby) {
+        left = this.left
+        top = this.top + parseFloat(this.vmHeight) + this.gap
+        //父级元素大小
+        const parent = this.parent
+        const pHeight = parseFloat(getStyle(parent, "height"))
+        const pWidth = parseFloat(getStyle(parent, "width"))
+        if (top + height > pHeight - 5 && height < pHeight - 5) {
+          top = pHeight - 5 - height
+          if (top < 0) {
+            top = 0
+          }
         }
-      }
-      // console.log(left,width,clientWidth)
-      if (left + width > clientWidth - 5) {
-        left = clientWidth - width - 5
-        if (left < 0) {
-          left = 0
+        if (left + width > pWidth - 5) {
+          left = pWidth - width - 5
+          if (left < 0) {
+            left = 0
+          }
+        }
+      } else {
+        //屏幕可视区高度
+        const clientHeight = document.documentElement.clientHeight,
+          clientWidth = document.documentElement.clientWidth
+        //关联vm元素的底部距离屏幕最上边的高
+        top = this.top + parseFloat(this.vmHeight) + this.gap
+        left = this.left
+
+        //5是layer距离可视区边界的大小
+        const wholeHeight = clientHeight + window.pageYOffset
+        if (top + height > wholeHeight - 5) {
+          top = wholeHeight - 5 - height
+          if (top < 0) {
+            top = 0
+          }
+        }
+        // console.log(left,width,clientWidth)
+        if (left + width > clientWidth - 5) {
+          left = clientWidth - width - 5
+          if (left < 0) {
+            left = 0
+          }
         }
       }
       setStyle(this.$el, {
@@ -212,20 +255,21 @@ export default {
     //检测外部容器的滚动，如果layer可视，且外部容器出现了滚动，则再次计算
     //layer位置
     handleScrollWrapper() {
-      if(this.visible) {
+      if (this.visible) {
         this._getElemPosition()
       }
     }
   },
   beforeDestroy() {
-    window.removeEventListener("resize", this._getElemPosition)
+    if (!this.nearby) {
+      window.removeEventListener("resize", this._getElemPosition)
+    }
     this.parent.removeChild(this.$el)
   },
   destroyed() {},
   mounted() {
     this.$nextTick(() => {
       this._getElemPosition()
-      window.addEventListener("resize", this._getElemPosition)
     })
   },
   updated() {
@@ -234,10 +278,10 @@ export default {
   watch: {
     vm: "_getElemPosition",
     scrollElement(elem) {
-      if(elem) {
-        elem.addEventListener('scroll',this.handleScrollWrapper)
-      }else{
-        elem.removeEventListener('scroll',this.handleScrollWrapper)
+      if (elem) {
+        elem.addEventListener("scroll", this.handleScrollWrapper)
+      } else {
+        elem.removeEventListener("scroll", this.handleScrollWrapper)
       }
     }
   },

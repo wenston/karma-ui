@@ -7,6 +7,7 @@
         text-field="Name"
         style="width: 200px"
         :layer-width="false"
+        nearby
         :show.sync="show">
         
       </k-select2>
