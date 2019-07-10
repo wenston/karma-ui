@@ -196,10 +196,13 @@ export default {
         //500ms获取一次dom节点，降低读取dom的频率，提高性能
         clearTimeout(this.cellsTimeout)
         this.cellsTimeout = setTimeout(() => {
-          for (let k in this.cells) {
-            this.cells[k] = []
-          }
+          this.clearCells()
         }, 500)
+      }
+    },
+    clearCells() {
+      for (let k in this.cells) {
+        this.cells[k] = []
       }
     },
     fixedLeftThead(el) {
@@ -476,6 +479,7 @@ export default {
     rMainTable() {}
   },
   updated() {
+    this.clearCells()
     this.onTableWrapperScroll()
   },
   mounted() {
