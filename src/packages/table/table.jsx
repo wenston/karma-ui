@@ -190,7 +190,7 @@ export default {
             this.fixedLeftTfoot(tfootEl)
           }
         }
-        if (tbody) {
+        if (tbody && this.data.length) {
           this.fixedLeftTbody(tbody.$el)
         }
         //500ms获取一次dom节点，降低读取dom的频率，提高性能
@@ -283,7 +283,6 @@ export default {
       this.classAndPropertyChange("head", arrThs, arrThs_r)
     },
     fixedLeftTfoot(el) {
-      
       if (this.cells.tfootLeftTds.length && this.cells.tfootRightTds.length) {
         this.classAndPropertyChange(
           "foot",
@@ -374,8 +373,7 @@ export default {
           el.classList.add(klass_right)
           el.style.transform = `translateX(${scrollLeft +
             clientWidth -
-            scrollWidth +
-            1}px)`
+            scrollWidth + 1}px)`
         })
       } else {
         elems_r.forEach(el => {
