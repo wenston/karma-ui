@@ -285,7 +285,10 @@ export default {
         })
         this.filterData = arr
         if (arr.length === 0) {
-          this.ins.hide()
+          if(this.ins) {
+
+            this.ins.hide()
+          }
         } else {
           this.showList(this.scrollIntoViewIfNeed)
         }

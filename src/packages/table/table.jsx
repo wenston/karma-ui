@@ -194,6 +194,7 @@ export default {
           this.fixedLeftTbody(tbody.$el)
         }
         //500ms获取一次dom节点，降低读取dom的频率，提高性能
+        //去掉应该也没问题！
         clearTimeout(this.cellsTimeout)
         this.cellsTimeout = setTimeout(() => {
           this.clearCells()
