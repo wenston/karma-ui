@@ -105,6 +105,7 @@ export const props = {
   //支持复选的情况下，需指定一个唯一标示的key，默认是Id，可以自定义
   //自定义的情况下，可以是多个key以逗号分隔，如：'ProId,StoreId'
   //从而确保key的唯一性
+  //注意：checkboxKey不支持index作为标示！
   checkboxKey: {
     type: String,
     default: "Id"

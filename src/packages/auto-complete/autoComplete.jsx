@@ -490,10 +490,6 @@ export default {
         })
       })
 
-      this.ins.$on('after-hide',()=>{
-        this.$refs.input.blur()
-      })
-
       this.ins.$on("mousedown", () => {
         this.isMouseDownOption = true
       })

@@ -5,7 +5,7 @@
 
     <k-button @click="minContent=!minContent">宽度切换（min-content/auto）</k-button>
     </div>
-    <k-table :data="dataList"
+    <!-- <k-table :data="dataList"
       height="calc(100vh - 170px)"
       :columns="columns"
       :selected-keys.sync="selectedKeys"
@@ -27,19 +27,27 @@
         slot-scope="{row}">
         <span style="color:red;text-align:right">{{row.TotalPrice.toFixed(2)}}</span>
       </template>
-    </k-table>
+    </k-table> -->
+    <k-table height="calc(100vh - 300px)"
+    :min-content="minContent"
+      hasCheckbox
+      checkbox-key="index,Code"
+      :selectedKeys.sync="selectedKeys"
+      :selectedRows.sync="selectedRows"
+      :data="dataList"
+      :columns="initColumns()" />
   </div>
 </template>
 
 <script>
-import table1 from "./tableData"
+import table1 from "./tableData1"
 export default {
   data() {
     return {
       minContent: true,
       value: '',
       highlightValue: '',
-      dataList: table1.slice(0,100),
+      dataList: table1,
       selectedKeys: [],
       selectedRows: [],
       columns: [
@@ -217,7 +225,51 @@ export default {
         return [true,false]
       }
       return [false,true]
-    }
+    },
+    
+    initColumns() {
+      return [
+        {
+          name: "单号",
+          style: { width: 140 },
+          field: "Code"
+        },
+        {
+          name: "单据类型",
+          field: "BillTypeDesc",
+          style: { width: 120 }
+        },
+        {
+          name: "往来单位",
+          field: "CustomerName",
+          style: { width: 160 }
+        },
+        {
+          name: "经手人",
+          field: "HandlerName",
+          style: { width: 100 }
+        },
+        {
+          name: "金额",
+          field: 'TotalPrice'
+        },
+        {
+          name: "时间",
+          style: { width: 150 },
+          field: 'DateAdded'
+        },
+        {
+          name: "操作人",
+          field: "UserNameAdded",
+          style: { width: 80 }
+        },
+        {
+          name: "备注",
+          field: "Description",
+          style: { width: 220 }
+        }
+      ]
+    },
   },
   mounted() {
     setTimeout(()=>{
