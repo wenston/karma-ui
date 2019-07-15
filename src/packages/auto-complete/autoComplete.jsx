@@ -61,6 +61,15 @@ export default {
     debounceTime: {
       type: Number,
       default: 350
+    },
+    scrollElement: {
+      type: Element,
+      default: null
+    },
+    //是否就近插入dom，即在输入框下插入layer弹层
+    nearby: {
+      type: Boolean,
+      default: false
     }
   },
   model: {
@@ -106,8 +115,25 @@ export default {
       if (d && d.length) {
         this.getInputTextByKeyField()
         this.filterData = JSON.parse(JSON.stringify(d))
+        const i = this.currentHoverIndex
+
+        //如果v-model有数据，且有分页、当前数据不在第一页
+        //
+        if (
+          this.pageSize &&
+          this.pageIndex == 1 &&
+          i > this.pageSize * this.pageIndex - 1
+        ) {
+          const half = Math.ceil(this.pageSize / 2)
+          this.filterData = this.filterData.slice(i - half, i + half)
+          this.currentHoverIndex = this.currentIndex = half
+        }
+
         if (document.activeElement == this.$refs.input.getInputElement())
           this.showList()
+      } else {
+        this.filterData = []
+        if (this.pageSize) this.currentHoverIndex = this.currentIndex = 1
       }
     },
     value: {
@@ -116,9 +142,16 @@ export default {
         this.getInputTextByKeyField()
       }
     }
+    // currentHoverIndex(hoverIndex) {
+    //   console.log("hoverIndex:", hoverIndex)
+    // },
+    // currentIndex(cI) {
+    //   console.log("currentIndex:", cI)
+    // }
   },
   methods: {
     handleKeyup(e) {
+      this.$emit("keyup", e)
       const code = e.keyCode
       if (code != 40 && code != 38 && code != 13) {
         return
@@ -144,10 +177,14 @@ export default {
             "valueChange",
             this.filterData[this.currentIndex][this.keyField]
           )
-          this.$emit("toggle", {
-            row: this.filterData[this.currentIndex],
-            index: this.currentIndex
-          })
+          this.$emit(
+            "toggle",
+            {
+              row: this.filterData[this.currentIndex],
+              index: this.currentIndex
+            },
+            e
+          )
           this.hideList(this.destroyLayer)
         }
         return
@@ -161,7 +198,8 @@ export default {
     getInputTextByKeyField() {
       let text = ""
       if (
-        this.value &&
+        this.value !== undefined &&
+        this.value !== null &&
         this.value !== "" &&
         this.data &&
         this.data.length &&
@@ -215,7 +253,10 @@ export default {
     getFilterData() {
       if (this.inputText.trim() !== "") {
         //将用户输入，转化成关键字数组，以逐个匹配
-        const arrText = this.inputText.toLowerCase().split(/\s+/)
+        const arrText = this.inputText
+          .toLowerCase()
+          .split(/\s+/)
+          .filter(el => el.length > 0)
         const arrField =
           typeof this.searchField === "string"
             ? [this.searchField]
@@ -244,7 +285,10 @@ export default {
         })
         this.filterData = arr
         if (arr.length === 0) {
-          this.ins.hide()
+          if(this.ins) {
+
+            this.ins.hide()
+          }
         } else {
           this.showList(this.scrollIntoViewIfNeed)
         }
@@ -432,8 +476,11 @@ export default {
       }
     },
     instanceAndOn() {
-      this.ins = layer()
-
+      if (this.nearby) {
+        this.ins = layer(this.$el.parentNode)
+      } else {
+        this.ins = layer()
+      }
       this.ins.$on("layer-inited", () => {
         this.$nextTick().then(() => {
           this.ins.$refs.body.addEventListener(
@@ -542,7 +589,9 @@ export default {
               width: layerWidth,
               //高度暂时没有设置。TODO
               height: layerHeight,
-              canCloseByClickoutside: true
+              canCloseByClickoutside: true,
+              scrollElement: this.scrollElement,
+              nearby: this.nearby
             }
           )
         }

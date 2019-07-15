@@ -3,10 +3,10 @@
     <k-scrollbar class="home__nav"
       tag="nav"
       :track-style="{
-        backgroundColor:'rgba(255,255,255,.3)'
+        backgroundColor:'rgba(0,0,0,.1)'
       }"
       :thumb-style="{
-        backgroundColor: 'rgba(33,153,233,.5)'
+        backgroundColor: 'rgba(0,0,0,.2)'
       }">
       <ul>
         <template v-for="(v,k) in nav">

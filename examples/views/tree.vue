@@ -16,7 +16,7 @@
         @toggle="toggleTree"
         @expand="expand"
         @select="onSelect"
-        selected-rule="every"></k-tree>
+        :selected-rule="false"></k-tree>
       <k-tree class="tree"
         v-model="curValue"
         :data.sync="tree3"

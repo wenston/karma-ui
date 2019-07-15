@@ -24,8 +24,6 @@ export const props = {
     //index是指的数据行号
     default: "index,Id"
   },
-  //是否为自动宽的表格：table-layout:auto,默认否
-  tableLayoutAuto: Boolean,
   //原始数据
   data: {
     type: Array,
@@ -107,6 +105,7 @@ export const props = {
   //支持复选的情况下，需指定一个唯一标示的key，默认是Id，可以自定义
   //自定义的情况下，可以是多个key以逗号分隔，如：'ProId,StoreId'
   //从而确保key的唯一性
+  //注意：checkboxKey不支持index作为标示！
   checkboxKey: {
     type: String,
     default: "Id"
@@ -117,6 +116,7 @@ export const props = {
   checkable: Function,
   //支持sync，保存的是选择的行数据
   //selectedRows和selectedKeys里不包括不能进行选择操作的数据！
+  //两个要同时使用，否则可能会出现问题！
   selectedRows: {
     type: Array,
     default: () => []
@@ -137,18 +137,13 @@ export const props = {
     default: false
   },
   //单选时，选中的radioKey对应的值
-  currentValue: {
+  value: {
     type: [Number, String]
   },
-  //表格宽度，默认情况下：是100%，即：各个列都是等宽
-  //，且各个列的宽之和是等于表格总宽度的
-  //取值是css的width可以接收的任何属性
-  //fixed情况下，无默认宽度
-  //对应的是table的宽度是不是min-content，默认是100%
-
+  //表格宽度，true表明是固定宽，false是auto，自动横向拉伸至100%
   minContent: {
     type: Boolean,
-    default: false
+    default: true
   },
   //表格主题tbody高度，有高度的情况下，可以实现表头固定
   //NOTE: 是给表格主题外部div的高度
@@ -160,11 +155,15 @@ export const props = {
     type: String,
     default: ""
   },
-  //是否允许文本换行
-  nowrap: {
-    type: Boolean,
-    default: false
+  minHeight: {
+    type: String,
+    default: ''
   },
+  //是否允许文本换行
+  // nowrap: {
+  //   type: Boolean,
+  //   default: false
+  // },
   //tfoot 合计的文本描述
   sumText: {
     type: String,

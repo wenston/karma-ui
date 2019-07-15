@@ -13,6 +13,7 @@ export default {
   render() {
     const {$props,$listeners} = this
     const iconProps = {
+      attrs: this.$attrs,
       on: {
         ...$listeners
       },

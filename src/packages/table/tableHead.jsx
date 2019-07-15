@@ -1,21 +1,19 @@
 import { getStyle } from "karma-ui/util/dom"
 import { props } from "./_util/props"
-import KColGroup from "./colGroup"
 import KCell from "./tableCell"
 import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KRadio from "karma-ui/packages/radio/radio"
 import mixins from "./_mixins/"
 export default {
+  name: "KTHead",
   mixins: [mixins],
   components: {
-    KColGroup,
     KCell,
     KCheckbox,
     KRadio
   },
   props: {
-    ...props,
-    headColumns: Array
+    ...props
   },
   data() {
     return {
@@ -25,21 +23,20 @@ export default {
   inject: ["__index", "__checkbox", "__radio", "__action"],
   computed: {
     headWrapperClasses() {
-      return {
-        "k-table-head": true
-      }
+      return [
+        "k-theadwrapper",
+        {
+          // "k-theadwrapper-shadow": this.top > 0
+        }
+      ]
     },
     headClasses() {
-      return {
-        "k-table": true,
-        [`k-table--${this.size}`]: true,
-        "k-table--nowrap": this.nowrap,
-        "k-table--auto": this.tableLayoutAuto,
-        "k-table--min-content": this.minContent
-      }
-    },
-    hasSum() {
-      return this.c_filter_columns.some(col => "sum" in col)
+      return [
+        "k-table",
+        {
+          "k-table--auto": !this.minContent
+        }
+      ]
     }
   },
   methods: {
@@ -71,8 +68,7 @@ export default {
       return arr.length || 1
     },
     renderTableHead() {
-      // console.log(this.headColumns)
-      let columns = this.headColumns
+      let columns = this.columns
       //记录总共行数
       let maxRowLength = 0
       //记录单元格序列号
@@ -149,24 +145,27 @@ export default {
               tag: "th",
               sorter: col.sorter === undefined ? false : col.sorter
             },
-            class: {
-              "k-table-td-center":
-                colspan > 1 ||
-                col.field === this.__index ||
-                col.field === this.__action ||
-                col.field === this.__checkbox ||
-                col.field === this.__radio
-            },
+            class: [
+              {
+                "k-text-center":
+                  colspan > 1 || this.$_is_built_in_column(col.field)
+              },
+              [
+                col.cellClass
+                  ? this.$_get_td_class(null, null, col, { thead: true })
+                  : ""
+              ]
+            ],
+            style: this.$_get_td_style(null, null, col, { thead: true }),
             on: {
               handleResizeDown: (e, el) => {
                 if (col.children && col.children.length) {
-                  // console.log(col)
                   return
                 }
-                this.$emit("handleResizeDown", e, el, col.__index)
+                this.$emit("handleResizeDown", e, el, col.__index, col)
               },
               sort: type => {
-                this.$emit('sort', type,col)
+                this.$emit("sort", type, col)
               }
             }
           }
@@ -187,18 +186,11 @@ export default {
     return (
       <div class={this.headWrapperClasses}>
         <table class={this.headClasses}>
-          <k-col-group columns={this.c_filter_columns} />
+          {this.$slots.colgroup}
           <thead>{this.renderTableHead()}</thead>
         </table>
       </div>
     )
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.$emit(
-        "head-mounted",
-        this.hasSum ? getStyle(this.$el, "height") : "0px"
-      )
-    })
-  }
+  mounted() {}
 }
