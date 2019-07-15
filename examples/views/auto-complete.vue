@@ -11,7 +11,7 @@
         @focus="onFocus"
         @toggle="onToggle"
         @input="onInput"
-        pageSize="12">
+        pageSize="11">
         <div slot="header"
           class="list header">
           <span class="name">商品名称</span>
@@ -63,6 +63,11 @@ export default {
       value1: "100022",
       list: [],
       list1: [
+        {
+          Id: 0,
+          ProId: 0,
+          Name: '平台'
+        },
         {
           Id: 300038,
           ProId: 300038,
