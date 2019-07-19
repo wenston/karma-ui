@@ -72,7 +72,8 @@
 
       & .k-table > thead > tr > th,
       & .k-table > tbody > tr > td,
-      & .k-table > tfoot > tr > td {
+      & .k-table > tfoot > tr > td,
+      & .k-table > tfoot > tr > th {
         height: var(--table-$(name));
         /* line-height: calc(var(--table-$(name)) - 1px); */
         line-height: normal;
@@ -193,6 +194,7 @@
   margin-top: 1px;
   width: 100%;
   position: relative;
+  text-align: left;
   z-index: 1;
   & .k-tfoot {
     background-color: var(--table-head-bg-color);
