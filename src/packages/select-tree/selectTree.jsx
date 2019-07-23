@@ -33,7 +33,11 @@ export default {
     clearable: Boolean,
     //textField对应的值，text参数的作用是在树形数据懒加载时用的。因为懒加载
     //数据是空的，所以找不到对应的名字，故需要在组件外部事先给出来
-    text: [String, Number]
+    text: [String, Number],
+    hasActions: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
@@ -42,7 +46,8 @@ export default {
       checkedKeys: this.selectedKeys.join(","),
       list: [],
       currentVal: this.value,
-      currentText: this.text //currentVal对应的具体值
+      currentText: this.text, //currentVal对应的具体值
+      isSearching: false
     }
   },
   model: {
@@ -85,14 +90,16 @@ export default {
       let icon = null
       if (
         (this.checkedData && this.checkedData.length) ||
-        (this.clearable && this.currentVal !== "" && this.currentVal !== undefined)
+        (this.clearable &&
+          this.currentVal !== "" &&
+          this.currentVal !== undefined)
       ) {
         icon = (
           <k-icon
             class="k-select-tree-clear"
             name="k-icon-close"
             tabindex="-1"
-            onFocus={e=>{
+            onFocus={e => {
               e.stopPropagation()
             }}
             onClick={e => {
@@ -100,11 +107,11 @@ export default {
                 this.checkedKeys = ""
               } else if (
                 this.currentVal !== "" &&
-                this.currentVal !== undefined && 
+                this.currentVal !== undefined &&
                 this.clearable
               ) {
                 this.currentVal = ""
-                this.currentText = ''
+                this.currentText = ""
               }
               e.stopPropagation()
             }}
@@ -151,14 +158,20 @@ export default {
         },
         on: {
           ...this.$listeners,
+          searching: b => {
+            this.isSearching = b
+          },
           valueChange: v => {
             this.currentVal = v
-            if(!this.hasCheckbox) {
-              if(v!=='' && v !==undefined) {
-
-                this.visible = false
+            if (!this.hasCheckbox) {
+              if (v !== "" && v !== undefined) {
+                if (!this.isSearching) this.visible = false
               }
             }
+          },
+          reconfirm: () => {
+            if(!this.hasCheckbox)
+            this.visible = false
           },
           toggle: arr => {
             if (arr.length) {

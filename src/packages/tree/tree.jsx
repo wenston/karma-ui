@@ -1,9 +1,11 @@
+import KInput from "karma-ui/packages/input/input.jsx.vue"
 import KTreeList from "./treeList"
 import getAllParent from "karma-ui/util/getAllParent"
 import props from "./props"
 export default {
   name: "KTree",
   components: {
+    KInput,
     KTreeList
   },
   name: "KTree",
@@ -14,9 +16,22 @@ export default {
     }
   },
   props: {
+    ...KInput.props,
     ...props,
     //当前选择的那个节点，keyField对应的值
-    value: [String, Number]
+    value: [String, Number],
+    searchButtonText: {
+      type: String,
+      default: "搜索"
+    },
+    hasActions: {
+      type: Boolean,
+      default: false
+    },
+    searchField: {
+      type: String,
+      default: 'Name'
+    }
   },
   model: {
     prop: "value",
@@ -25,6 +40,12 @@ export default {
   data() {
     let d = this.processData()
     return {
+      //搜索数据
+      searchText: "",
+      //搜索出的匹配的数据
+      matchData: [],
+      currentMatchIndex: -1,
+      isSearching: false,
       currentValue: this.value,
       checkedKeys: JSON.parse(JSON.stringify(this.selectedKeys)),
       checkedData: JSON.parse(JSON.stringify(this.selectedData)),
@@ -33,10 +54,22 @@ export default {
   },
   computed: {
     // sourceData() {
-      
     // }
   },
   methods: {
+    openAll(open) {
+      const childField = this.childField
+      function fn(data) {
+        data.forEach(item => {
+          item.__open__ = true
+          if (item[childField] && item[childField].length) {
+            fn(item[childField])
+          }
+        })
+      }
+      fn(this.sourceData)
+      this.sourceData = JSON.parse(JSON.stringify(this.sourceData))
+    },
     //对传入组件的data数据进行加工处理
     processData() {
       const childField = this.childField
@@ -66,10 +99,9 @@ export default {
     spreadParent(v) {
       //根据当前节点找到所有父级节点，并将其__open__置为true
       const { keyField, childField, sourceData } = this
-      if(sourceData.length) {
-
+      if (sourceData.length) {
         const arr = getAllParent(sourceData, v, keyField, childField)
-  
+
         arr.slice(0, -1).forEach(item => {
           item.__open__ = true
         })
@@ -94,10 +126,55 @@ export default {
       fn(sourceData)
       this.checkedData = arr
     },
-    isSameKeys(arr1,arr2) {
-      const a1 = JSON.parse(JSON.stringify(arr1)).sort((x,y)=>x-y).join(',')
-      const a2 = JSON.parse(JSON.stringify(arr2)).sort((x,y)=>x-y).join(',')
+    isSameKeys(arr1, arr2) {
+      const a1 = JSON.parse(JSON.stringify(arr1))
+        .sort((x, y) => x - y)
+        .join(",")
+      const a2 = JSON.parse(JSON.stringify(arr2))
+        .sort((x, y) => x - y)
+        .join(",")
       return a1 === a2
+    },
+    //根据搜索内容获取keyField对应的值
+    getValueBySearchText() {
+      const { searchText, searchField, childField } = this
+      //挑出匹配的数据，放入arr数组（平铺的数据）
+      let arr = []
+      function fn(data) {
+        data.forEach(item => {
+          if (
+            item[searchField].toLowerCase().indexOf(searchText.toLowerCase()) > -1
+          ) {
+            arr.push(item)
+          }
+          if (item[childField] && item[childField].length) {
+            fn(item[childField])
+          }
+        })
+      }
+      if (searchText) {
+        fn(this.data)
+        this.matchData = arr
+      }
+    },
+    toLocationById() {
+      const { matchData, keyField } = this
+      this.currentMatchIndex += 1
+      let i = this.currentMatchIndex
+      if (matchData.length) {
+        if (i === matchData.length) {
+          i = this.currentMatchIndex = 0
+        }
+        const v = matchData[i] && matchData[i][keyField]
+        if (v) {
+          if (matchData.length === 1) {
+            this.isSearching = false
+          } else {
+            this.isSearching = true
+          }
+          this.currentValue = v
+        }
+      }
     }
   },
   render() {
@@ -116,34 +193,97 @@ export default {
         }
       }
     }
+    const inputProps = {
+      ref: "input",
+      props: {
+        ...this.$props,
+        size: "small",
+        clearable: false,
+        placeholder: "请输入关键字",
+        value: this.searchText
+      },
+      on: {
+        valueChange: v => {
+          this.searchText = v.trim()
+          this.currentMatchIndex = -1
+          this.getValueBySearchText()
+        },
+        keyup: e => {
+          if (e.keyCode == 13) {
+            this.toLocationById()
+          }
+        },
+        focus: e => {
+          this.$refs.input.onSelect()
+        }
+      }
+    }
+    if (this.hasActions) {
+      return (
+        <div class="k-tree-wrapper">
+          <div class="k-tree-actions">
+            <k-input {...inputProps}>
+              <k-icon
+                class="k-tree-search-btn"
+                name="k-icon-search"
+                onClick={e => {
+                  this.toLocationById()
+                }}
+              />
+            </k-input>
+            {/* <div>
 
+              <k-icon
+                title="展开全部"
+                class="k-tree-icon-actions"
+                name="k-icon-minus-square"
+                onClick={e=>{
+                  this.openAll(true)
+                }}
+              />
+              <k-icon
+                title="折叠全部"
+                class="k-tree-icon-actions"
+                name="k-icon-plus-square"
+                onClick={e=>{
+                  this.openAll(false)
+                }}
+              />
+            </div> */}
+          </div>
+          <k-tree-list {...p} />
+        </div>
+      )
+    }
     return <k-tree-list {...p} />
   },
   watch: {
     sourceData: {
       deep: true,
-      handler(d,oldD) {
-        if(JSON.stringify(d)!==JSON.stringify(oldD))
-        this.$emit('update:data',d)
+      handler(d, oldD) {
+        if (JSON.stringify(d) !== JSON.stringify(oldD))
+          this.$emit("update:data", d)
       }
     },
     data: {
       deep: true,
-      handler(d,oldD) {
-        if(JSON.stringify(d)===JSON.stringify(oldD)) {return}
+      handler(d, oldD) {
+        if (JSON.stringify(d) === JSON.stringify(oldD)) {
+          return
+        }
         this.sourceData = this.processData()
-        if(this.value) this.spreadParent(this.value)
+        if (this.value) this.spreadParent(this.value)
       }
     },
-    checkedKeys(k,oldKeys) {
-      if(!this.isSameKeys(k,oldKeys)) {
+    checkedKeys(k, oldKeys) {
+      if (!this.isSameKeys(k, oldKeys)) {
         this.$emit("update:selectedKeys", k)
         this.createCheckedDataByCheckedKeys(k)
       }
       //todo: 选中的树形数据
     },
-    selectedKeys(k,oldKeys) {
-      if(!this.isSameKeys(k,this.checkedKeys)) {
+    selectedKeys(k, oldKeys) {
+      if (!this.isSameKeys(k, this.checkedKeys)) {
         this.checkedKeys = k
       }
     },
@@ -154,13 +294,15 @@ export default {
       this.checkedData = d
     },
     currentValue(v) {
+      this.$emit("searching", this.isSearching)
       this.$emit("valueChange", v)
     },
     value: {
       immediate: true,
-      handler(v) {
+      handler(v, oldV) {
+        this.isSearching = false
         this.currentValue = v
-        if (v!==undefined && v!=='') {
+        if (v !== undefined && v !== "") {
           //如果value是从组件外部改变的，则需要展开其父级
           this.spreadParent(v)
         }

@@ -236,6 +236,12 @@ export default {
           click: () => {
             // 暂时用不到这种方式
             // this.$emit("toggle", item)
+            this.tree.isSearching = false
+            if(this.tree.currentValue === item[keyField]) {
+              //用在selectTree组件中，
+              //当搜索匹配后，再次点击的确认事件
+              this.tree.$emit('reconfirm')
+            }
             this.tree.currentValue = item[keyField]
           }
         }

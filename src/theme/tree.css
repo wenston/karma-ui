@@ -1,3 +1,33 @@
+.k-tree-wrapper {
+  & .k-tree-actions {
+    padding: 5px 0 5px;
+    display: flex;
+    align-items:flex-end;
+    justify-content: space-between;
+    & .k-input-section {
+      width: 130px;
+    }
+    & .k-tree-icon-actions {
+      cursor: pointer;
+      font-size: 16px;
+      margin-left: 8px;
+      color: var(--font-color-2);
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+    & .k-tree-search-btn {
+      cursor: pointer;
+      width: 14px;
+      height: 15px;
+      font-size: 14px;
+      color: var(--font-color-4);
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+  }
+}
 .k-tree {
   line-height: 2;
   font-size: 12px;
