@@ -1,3 +1,4 @@
+import { scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import KDropdown from "karma-ui/packages/dropdown/dropdown"
 import KTree from "karma-ui/packages/tree/tree"
 import KIcon from "karma-ui/packages/icon/icon"
@@ -47,7 +48,8 @@ export default {
       list: [],
       currentVal: this.value,
       currentText: this.text, //currentVal对应的具体值
-      isSearching: false
+      isSearching: false,
+      layerElem: null
     }
   },
   model: {
@@ -145,6 +147,18 @@ export default {
         </div>
       )
     },
+    scrollIntoView() {
+      //滚动到可视区内
+      this.$nextTick(() => {
+        const bodyElem = this.layerElem.querySelector(".k-select-tree-body")
+        const el = bodyElem.querySelector(
+          `[data-tree-key="${this.currentVal}"]`
+        )
+        if (el && bodyElem) {
+          scrollIntoViewIfNeed(el, bodyElem)
+        }
+      })
+    },
     body() {
       const childField = this.childField,
         keyField = this.keyField,
@@ -161,7 +175,11 @@ export default {
           searching: b => {
             this.isSearching = b
           },
+          "after-transition": () => {
+            this.scrollIntoView()
+          },
           valueChange: v => {
+            this.scrollIntoView()
             this.currentVal = v
             if (!this.hasCheckbox) {
               if (v !== "" && v !== undefined) {
@@ -170,8 +188,7 @@ export default {
             }
           },
           reconfirm: () => {
-            if(!this.hasCheckbox)
-            this.visible = false
+            if (!this.hasCheckbox) this.visible = false
           },
           toggle: arr => {
             if (arr.length) {
@@ -212,6 +229,9 @@ export default {
       on: {
         "update:show": v => {
           this.visible = v
+        },
+        getLayerElement: elem => {
+          this.layerElem = elem
         }
       }
     }

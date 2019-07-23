@@ -226,6 +226,9 @@ export default {
     renderText(item) {
       const { textField, keyField, active, hasCheckbox } = this
       const p = {
+        attrs: {
+          'data-tree-key': item[keyField]//为了查找dom
+        },
         class: [
           "k-tree-text",
           {

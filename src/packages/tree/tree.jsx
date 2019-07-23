@@ -200,7 +200,8 @@ export default {
         size: "small",
         clearable: false,
         placeholder: "请输入关键字",
-        value: this.searchText
+        value: this.searchText,
+        block: true
       },
       on: {
         valueChange: v => {
