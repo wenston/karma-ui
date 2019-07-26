@@ -19,9 +19,6 @@
       hasAction
       :highlightValue.sync="highlightValue"
       :min-content="minContent"
-      :stripe="true"
-      :leftFixedNumber="3"
-      :rightFixedNumber="1"
       @sort="onSort">
       <template slot="TotalPrice"
         slot-scope="{row}">

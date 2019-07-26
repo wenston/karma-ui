@@ -26,11 +26,11 @@ export default {
     },
     hasActions: {
       type: Boolean,
-      default: false
+      default: true
     },
     searchField: {
       type: String,
-      default: 'Name'
+      default: "Name"
     }
   },
   model: {
@@ -143,7 +143,8 @@ export default {
       function fn(data) {
         data.forEach(item => {
           if (
-            item[searchField].toLowerCase().indexOf(searchText.toLowerCase()) > -1
+            item[searchField].toLowerCase().indexOf(searchText.toLowerCase()) >
+            -1
           ) {
             arr.push(item)
           }
@@ -157,17 +158,30 @@ export default {
         this.matchData = arr
       }
     },
-    toLocationById() {
+    toLocationById(shiftKey, ctrlKey) {
       const { matchData, keyField } = this
-      this.currentMatchIndex += 1
+      const len = matchData.length
+      if(ctrlKey) {
+        if(this.currentValue && this.currentMatchIndex>-1) {
+          //选择
+          
+        }
+      }
+      if (shiftKey) {
+        this.currentMatchIndex -= 1
+      } else {
+        this.currentMatchIndex += 1
+      }
       let i = this.currentMatchIndex
-      if (matchData.length) {
-        if (i === matchData.length) {
+      if (len) {
+        if (i === len) {
           i = this.currentMatchIndex = 0
+        } else if (i < 0) {
+          i = this.currentMatchIndex = len - 1
         }
         const v = matchData[i] && matchData[i][keyField]
         if (v) {
-          if (matchData.length === 1) {
+          if (len === 1) {
             this.isSearching = false
           } else {
             this.isSearching = true
@@ -201,7 +215,8 @@ export default {
         clearable: false,
         placeholder: "请输入关键字",
         value: this.searchText,
-        block: true
+        block: true,
+        autofocus: true
       },
       on: {
         valueChange: v => {
@@ -211,7 +226,7 @@ export default {
         },
         keyup: e => {
           if (e.keyCode == 13) {
-            this.toLocationById()
+            this.toLocationById(e.shiftKey, e.ctrlKey)
           }
         },
         focus: e => {
