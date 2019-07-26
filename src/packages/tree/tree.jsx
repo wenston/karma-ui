@@ -1,6 +1,7 @@
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 import KTreeList from "./treeList"
 import getAllParent from "karma-ui/util/getAllParent"
+import { selectChilds, selectParent } from "./_util"
 import props from "./props"
 export default {
   name: "KTree",
@@ -26,7 +27,7 @@ export default {
     },
     hasActions: {
       type: Boolean,
-      default: true
+      default: false
     },
     searchField: {
       type: String,
@@ -153,18 +154,49 @@ export default {
           }
         })
       }
-      if (searchText) {
+      if (searchText !== '') {
         fn(this.data)
         this.matchData = arr
+      } else {
+        this.matchData = []
       }
     },
     toLocationById(shiftKey, ctrlKey) {
-      const { matchData, keyField } = this
+      const { matchData, keyField, childField, selectedRule } = this
       const len = matchData.length
-      if(ctrlKey) {
-        if(this.currentValue && this.currentMatchIndex>-1) {
-          //选择
-          
+      if (ctrlKey) {
+        if (this.hasCheckbox) {
+          if (
+            this.currentValue !== undefined &&
+            this.currentValue !== "" &&
+            this.currentMatchIndex > -1
+          ) {
+            const checked = !this.checkedKeys.some(k => k == this.currentValue)
+            //选择
+            this.checkedKeys = selectChilds(
+              matchData[this.currentMatchIndex],
+              this.checkedKeys,
+              checked,
+              keyField,
+              childField,
+              selectedRule
+            )
+            this.checkedKeys = selectParent(
+              this.sourceData,
+              matchData[this.currentMatchIndex],
+              this.checkedKeys,
+              checked,
+              keyField,
+              childField,
+              selectedRule
+            )
+            this.$emit("select", checked, matchData[this.currentMatchIndex])
+          }
+        } else {
+          if (this.currentValue !== undefined && this.currentValue !== "") {
+            this.$emit('reconfirm')
+            return
+          }
         }
       }
       if (shiftKey) {
