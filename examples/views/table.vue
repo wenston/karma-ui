@@ -32,7 +32,9 @@
       :selectedKeys.sync="selectedKeys"
       :selectedRows.sync="selectedRows"
       :data="dataList"
-      :columns="initColumns()" />
+      :columns="initColumns()"
+      resizeWidth
+      :right-fixed-number="2" />
   </div>
 </template>
 
