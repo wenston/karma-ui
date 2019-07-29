@@ -1,4 +1,3 @@
-import { getStyle } from "karma-ui/util/dom"
 import { props } from "./_util/props"
 import KCell from "./tableCell"
 import KCheckbox from "karma-ui/packages/checkbox/checkbox"

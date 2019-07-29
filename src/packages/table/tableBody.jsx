@@ -1,5 +1,4 @@
 import { props } from "./_util/props"
-import { debounce } from "karma-ui/util/throttle_debounce"
 import mixins from "./_mixins/"
 import KColGroup from "./colGroup"
 import KCell from "./tableCell"
