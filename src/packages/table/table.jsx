@@ -124,13 +124,18 @@ export default {
         }
       })
       if (this.$refs.thead) {
+        const rowsLength = e.rows.length
+        const keysLength = e.keys.length
         if (cant === 0) {
           this.$refs.thead.onCheckedAll(
-            sourceDataLength > 0 && e.rows.length === sourceDataLength
+            sourceDataLength > 0 &&
+              (rowsLength === sourceDataLength ||
+                keysLength === sourceDataLength)
           )
         } else {
+          const cans = sourceDataLength - cant
           this.$refs.thead.onCheckedAll(
-            sourceDataLength > 0 && e.rows.length === sourceDataLength - cant
+            sourceDataLength > 0 && (rowsLength === cans || keysLength === cans)
           )
         }
       }

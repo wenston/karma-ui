@@ -49,8 +49,12 @@ export default {
         this.currentRadioValue = v
       }
     },
-    selectedKeys(keys) {
-      this.checkedKeys = keys
+    selectedKeys: {
+      immediate: false,
+      handler(keys) {
+        this.checkedKeys = keys
+        // this.emitSelectChange()
+      },
     },
     selectedRows: {
       immediate: true,
@@ -128,21 +132,15 @@ export default {
         })
       }
       this.checkedKeys = [...set]
-      this.emitSelectChange()
+      // this.emitSelectChange()
       //NOTE: 如果出现选不中的情况，需检查传入的checkboxKey是否有问题
     },
     emitSelectChange(checked, row, index) {
-      let { fixedLeft, fixedRight } = this.hasFixedColumns,
-        // rows = JSON.parse(JSON.stringify(this.checkedRows)),
-        rows = this.checkedRows,
+      let rows = this.checkedRows,
         para = { checked, index, row, rows, keys: this.checkedKeys }
-      if (this.canCheckRow(row, index)[1]) {
-        // if (fixedLeft && this.hasCheckbox && this.who === "left") {
-        //   this.$emit("select-change", para)
-        // } else if (!fixedLeft && this.hasCheckbox && this.who === "main") {
-        //   // console.log(para)
-        //   this.$emit("select-change", para)
-        // }
+      if(!checked && !row && !index) {
+        this.$emit('select-change', para)
+      }else if (this.canCheckRow(row, index)[1]) {
         this.$emit("select-change", para)
       }
     },
