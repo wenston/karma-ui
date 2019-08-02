@@ -66,6 +66,7 @@ export default {
     },
     sorterElem() {
       const { sort: sorter } = this.$data
+      console.log(sorter)
       const up = (
         <k-icon
           name="k-icon-sort-up"

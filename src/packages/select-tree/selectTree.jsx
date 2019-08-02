@@ -38,7 +38,14 @@ export default {
     hasActions: {
       type: Boolean,
       default: true
-    }
+    },
+    lazyTree: Boolean,
+    lazyLayer: {
+      type: Boolean,
+      default: true
+    },
+    nearBy:Boolean,
+    whiteList: Array
   },
   data() {
     return {
@@ -165,10 +172,12 @@ export default {
         textField = this.textField
       let list = this.list
       let p = {
+        ref: "tree",
         props: {
           ...this.$props,
           value: this.currentVal,
-          selectedData: this.checkedData
+          selectedData: this.checkedData,
+          lazy: this.lazyTree
         },
         on: {
           ...this.$listeners,
@@ -224,7 +233,10 @@ export default {
         show: this.visible,
         title,
         body,
-        bodyClassName: "k-select-tree-body"
+        bodyClassName: "k-select-tree-body",
+        lazyLayer: this.lazyLayer,
+        nearBy:this.nearBy,
+        whiteList: this.whiteList
       },
       on: {
         "update:show": v => {
@@ -232,6 +244,7 @@ export default {
         },
         getLayerElement: elem => {
           this.layerElem = elem
+          this.$emit('getLayerElement',elem)
         }
       }
     }
@@ -249,6 +262,9 @@ export default {
     },
     visible(v) {
       this.$emit("update:show", v)
+      this.$nextTick(() => {
+        if (this.$refs.tree) this.$refs.tree.onSelect()
+      })
     },
     show(v) {
       this.visible = v

@@ -221,6 +221,12 @@ export default {
           this.currentValue = v
         }
       }
+    },
+    onSelect() {
+      this.$refs.input.onSelect()
+    },
+    focus() {
+      this.$refs.input.focus()
     }
   },
   render() {

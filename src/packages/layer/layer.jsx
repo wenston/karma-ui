@@ -4,10 +4,6 @@ import clickoutside from "karma-ui/util/clickoutside.js"
 export default {
   name: "KLayer",
   props: {
-    gap: {
-      type: Number,
-      default: 2
-    },
     hasTransition: {
       type: Boolean,
       default: true
@@ -32,6 +28,7 @@ export default {
       bodyTag: "div",
       headerTag: "div",
       footerTag: "div",
+      gap: 2,//弹层与相关元素的间距
       //位置
       left: 0,
       top: -9999,
@@ -44,6 +41,8 @@ export default {
       vmWidth: 0,
       layerHeight: 0,
       visible: false,
+      //layer外层的class
+      layerClassName: '',
       //default插槽的class
       bodyClassName: "",
       //header插槽的class
@@ -101,7 +100,7 @@ export default {
 
       this.vm = vm
       for (let k in opts) {
-        if (opts[k]) {
+        if (opts[k]!==null && opts[k]!==undefined && opts[k]!=='') {
           this.$data[k] = opts[k]
         }
       }
@@ -295,7 +294,8 @@ export default {
         tabindex: -1
       },
       class: {
-        "k-layer": true
+        "k-layer": true,
+        [this.layerClassName]: !!this.layerClassName
       },
       on: {
         ...this.$listeners,
