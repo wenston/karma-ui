@@ -135,7 +135,7 @@ export default {
         } else {
           const cans = sourceDataLength - cant
           this.$refs.thead.onCheckedAll(
-            sourceDataLength > 0 && (rowsLength === cans || keysLength === cans)
+            sourceDataLength > 0 && cans>0 && (rowsLength === cans || keysLength === cans)
           )
         }
       }
