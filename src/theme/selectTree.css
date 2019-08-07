@@ -37,6 +37,7 @@
   line-height: normal;
   padding: 10px 12px;
   background-color: white;
+  @extend .k-backdrop-filter;
   min-width: 250px;
   max-height: 40vh;
   min-height: 200px;

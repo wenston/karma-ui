@@ -4,7 +4,6 @@
     <div>
       <k-dropdown :title="title"
         :show.sync="show"
-        bodyClassName="body"
         trigger="click"
         :white-list="wh"
         nearby>
