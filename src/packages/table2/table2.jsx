@@ -75,6 +75,7 @@ export default {
         'add-row':e=>{
           // this.$emit('dataChange', this.data.splice(e.index+1,0,{}))
           this.data.splice(e.index+1,0,this.getRowData(e))
+          console.log(e)
           this.$emit('add-row',e)
         },
         'delete-row':e=>{
