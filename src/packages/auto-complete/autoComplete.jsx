@@ -379,7 +379,7 @@ export default {
         i = index
       } else {
         this.filterData.forEach((el, index) => {
-          if (el[this.keyField] == this.value) {
+          if (el[this.keyField] === this.value) {
             i = index
           }
         })
@@ -539,7 +539,7 @@ export default {
                     },
                     props: {
                       tag: "div",
-                      selected: item[this.keyField] == this.value
+                      selected: item[this.keyField] === this.value
                     },
                     on: {
                       click: e => {

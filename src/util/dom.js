@@ -24,7 +24,7 @@ export const offset = (elem, parent) => {
       cur = cur.offsetParent
     }
   } else {
-    while (cur != parent) {
+    while (cur && cur != parent) {
       left += cur.offsetLeft
       top += cur.offsetTop
       cur = cur.offsetParent

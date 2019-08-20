@@ -41,7 +41,8 @@ export default {
         tbodyRightTds: [],
         tfootLeftTds: [],
         tfootRightTds: []
-      }
+      },
+      rightTranslate: 0
     }
   },
   provide() {
@@ -123,13 +124,18 @@ export default {
         }
       })
       if (this.$refs.thead) {
+        const rowsLength = e.rows.length
+        const keysLength = e.keys.length
         if (cant === 0) {
           this.$refs.thead.onCheckedAll(
-            sourceDataLength > 0 && e.rows.length === sourceDataLength
+            sourceDataLength > 0 &&
+              (rowsLength === sourceDataLength ||
+                keysLength === sourceDataLength)
           )
         } else {
+          const cans = sourceDataLength - cant
           this.$refs.thead.onCheckedAll(
-            sourceDataLength > 0 && e.rows.length === sourceDataLength - cant
+            sourceDataLength > 0 && cans>0 && (rowsLength === cans || keysLength === cans)
           )
         }
       }
@@ -375,11 +381,11 @@ export default {
       if (clientWidth < scrollWidth && scrollLeft + clientWidth < scrollWidth) {
         elems_r.forEach(el => {
           el.classList.add(klass_right)
-          el.style.transform = `translateX(${scrollLeft +
-            clientWidth -
-            scrollWidth + 1}px)`
+          this.rightTranslate = scrollLeft + clientWidth - scrollWidth + 1
+          el.style.transform = `translateX(${this.rightTranslate}px)`
         })
       } else {
+        this.rightTranslate = 0
         elems_r.forEach(el => {
           el.classList.remove(klass_right)
           el.style.removeProperty("transform")
@@ -407,6 +413,12 @@ export default {
         left = left + scrollLeft
       } else if (this.leftFixedNumber && index <= this.leftFixedNumber) {
         left += scrollLeft
+      } else if (
+        this.rightFixedNumber &&
+        index >=
+          this.machiningColumns.bodyColumns.length - 1 - this.rightFixedNumber
+      ) {
+        left = left + this.rightTranslate
       }
       baseLine.style.left = left + 1 + "px"
       this.currentResizeTd.startX = e.clientX

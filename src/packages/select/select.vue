@@ -5,6 +5,7 @@ import KInput from "karma-ui/packages/input/input.jsx.vue"
 import esc from "karma-ui/util/esc.js"
 import { layer } from "karma-ui/packages/layer/index"
 import KIcon from "karma-ui/packages/icon/icon"
+// todo:数据异步加载，即：点击的时候再加载数据
 export default {
   name: "KSelect",
   components: {

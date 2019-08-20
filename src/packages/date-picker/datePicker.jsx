@@ -15,6 +15,7 @@ export default {
   name: "KDatePicker",
   props: {
     ...KInput.props,
+    ...KDropdown.props,
     lazy: {
       type: Boolean,
       default: true

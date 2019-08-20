@@ -33,10 +33,12 @@
   }
 }
 .k-select-tree-body {
+  position: relative;
   line-height: normal;
   padding: 10px 12px;
   background-color: white;
-  width: 250px;
+  @extend .k-backdrop-filter;
+  min-width: 250px;
   max-height: 40vh;
   min-height: 200px;
   overflow-y: auto;

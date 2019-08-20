@@ -20,26 +20,26 @@ export default (source, val, keyField, childField) => {
         break
       } else {
         if (lastObj[childField] && lastObj[childField].length) {
-          const b = findFromArr(lastObj[childField], val,keyField)
+          const b = findFromArr(lastObj[childField], val, keyField)
           if (b) {
             arr.unshift(lastObj, b)
             break
           } else {
-            findFromArr2(lastObj[childField], val,keyField,childField)
+            findFromArr2(lastObj[childField], val, keyField, childField)
           }
         }
       }
     }
   }
-  function findAllParent(arrData, val, keyField,childField) {
+  function findAllParent(arrData, val, keyField, childField) {
     //找到当前节点和他的直接父级
-    findFromArr2(arrData, val,keyField,childField)
+    findFromArr2(arrData, val, keyField, childField)
     if (arr.length > 1 && arr[0]) {
       copyArr.unshift(...arr)
       const itemV = arr[0][keyField]
       arr = []
       if (itemV) {
-        findAllParent(arrData, itemV,keyField,childField)
+        findAllParent(arrData, itemV, keyField, childField)
       }
     } else if (arr.length === 1) {
       copyArr.unshift(arr[0])

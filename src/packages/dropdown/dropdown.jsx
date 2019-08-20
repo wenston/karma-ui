@@ -28,6 +28,7 @@ export default {
     },
     //是否在不可见时销毁
     destroyWhenHide: Boolean,
+    layerClassName: String,
     bodyClassName: String,
     headerClassName: String,
     footerClassName: String,
@@ -36,9 +37,10 @@ export default {
       type: Boolean,
       default: true
     },
+    gap: [Number, String], //没有单位，默认是px
     //从外部点击关闭dropdown时，除了whiteList中的元素
     whiteList: Array,
-    scrollElement:Element,
+    scrollElement: Element,
     nearby: Boolean
   },
   data() {
@@ -85,6 +87,7 @@ export default {
           let body = this.body
           const $slots = this.$slots
           const {
+            layerClassName,
             bodyClassName,
             footerClassName,
             headerClassName,
@@ -107,22 +110,26 @@ export default {
             },
             {
               width: "auto",
+              layerClassName,
               bodyClassName,
               footerClassName,
               headerClassName,
               canCloseByClickoutside,
               whiteList: this.whiteList,
               scrollElement: this.scrollElement,
-              nearby: this.nearby
+              nearby: this.nearby,
+              gap:
+                this.gap !== undefined && this.gap !== null && this.gap !== ""
+                  ? parseFloat(this.gap)
+                  : 2
             }
           )
         })
     },
     instanceAndBindEvents() {
-      if(this.nearby) {
-
+      if (this.nearby) {
         this.ins = layer(this.$el.parentNode)
-      }else{
+      } else {
         this.ins = layer()
       }
       if (this.lazy) {
@@ -186,8 +193,8 @@ export default {
       this.instanceAndBindEvents()
       this.init()
     }
-    this.$nextTick(()=>{
-      if(this.visible) {
+    this.$nextTick(() => {
+      if (this.visible) {
         this.showLayer()
       }
     })
