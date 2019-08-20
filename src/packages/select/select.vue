@@ -1,10 +1,11 @@
 <script>
-import { offset,getStyle, scrollIntoViewIfNeed } from "karma-ui/util/dom"
+import { offset, getStyle, scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 // import clickoutside from "karma-ui/util/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
 import { layer } from "karma-ui/packages/layer/index"
 import KIcon from "karma-ui/packages/icon/icon"
+// todo:数据异步加载，即：点击的时候再加载数据
 export default {
   name: "KSelect",
   components: {
@@ -33,7 +34,16 @@ export default {
     disabled: Boolean,
     clearable: Boolean,
     simple: Boolean,
-    block: Boolean
+    block: Boolean,
+    icon: {
+      type: Array,
+      default: () => ["k-icon-arrow-down", "k-icon-close"]
+    },
+    scrollElement: {
+      type: Element,
+      default: null
+    },
+    nearby: Boolean
   },
   data() {
     return {
@@ -41,7 +51,7 @@ export default {
       showOptionList: false,
       showDelete: false,
       //optionWrapper实例及里边包含的option列表实例
-      ins: layer(),
+      ins: null,
       options: [], //收集本组件下属的所有option组件
       optionCompName: "",
       isMouseDownOption: false
@@ -79,7 +89,7 @@ export default {
         this.showDelete = false
       }
     },
-    
+
     showList() {
       if (!this.disabled) {
         this.showOptionList = true
@@ -108,23 +118,29 @@ export default {
               e.stopPropagation()
             }}
           >
-            <k-icon size="14" class="k-select__clear" name="k-icon-close" />
+            <k-icon
+              size="14"
+              class="k-select__clear"
+              name={this.icon[1] || "k-icon-close"}
+            />
           </span>
         )
       } else {
         return (
-          <span slot="append"
-            onClick={e=>{
+          <span
+            slot="append"
+            onClick={e => {
               this.$refs.input.focus()
               e.stopPropagation()
-            }}>
+            }}
+          >
             <k-icon
               size="14"
               class={{
                 "k-select__down": true,
                 "k-select__down--up": this.ifOptionList
               }}
-              name="k-icon-arrow-down"
+              name={this.icon[0] || "k-icon-arrow-down"}
             />
           </span>
         )
@@ -137,25 +153,12 @@ export default {
           bodyClassName: "k-select__list",
           tag: "div",
           bodyTag: "ul",
-          canCloseByClickoutside: true
+          canCloseByClickoutside: true,
+          scrollElement: this.scrollElement,
+          nearby: this.nearby
         })
       })
     },
-    // scrollIntoView(index) {
-    //   let i = 0
-    //   if (typeof index === "number") {
-    //     i = index
-    //   } else {
-    //     i = this.getSelectedOptionIndex()
-    //     if (i === -1) {
-    //       i = 0
-    //     }
-    //   }
-    //   this.ins.$refs.body.scrollTop = offset(
-    //     this.options[i].$el,
-    //     this.ins.$refs.body
-    //   ).top
-    // },
     scrollIntoViewIfNeed(index) {
       let i = 0
       if (typeof index === "number") {
@@ -166,7 +169,7 @@ export default {
           i = 0
         }
       }
-      scrollIntoViewIfNeed(this.options[i].$el,this.ins.$refs.body)
+      scrollIntoViewIfNeed(this.options[i].$el, this.ins.$refs.body)
     },
     getSelectedOptionIndex() {
       let i = -1
@@ -239,18 +242,25 @@ export default {
     this.initIns()
   },
   mounted() {
-    this.initIns()
-    this.ins.$on('layer-inited',()=>{
-      this.$emit('getLayerElement', this.ins)
-    })
-    this.ins.$on('after-hide',() => {
-      this.hideList()
-    })
-    this.ins.$on('mousedown',()=>{
-      this.isMouseDownOption = true
-    })
-    this.ins.$on('mouseout',()=>{
-      this.isMouseDownOption = false
+    this.$nextTick(() => {
+      if (this.nearby) {
+        this.ins = layer(this.$el.parentNode)
+      } else {
+        this.ins = layer()
+      }
+      this.initIns()
+      this.ins.$on("layer-inited", () => {
+        this.$emit("getLayerElement", this.ins)
+      })
+      this.ins.$on("after-hide", () => {
+        this.hideList()
+      })
+      this.ins.$on("mousedown", () => {
+        this.isMouseDownOption = true
+      })
+      this.ins.$on("mouseout", () => {
+        this.isMouseDownOption = false
+      })
     })
   },
   created() {
@@ -289,6 +299,11 @@ export default {
         this.ins.hide()
         this.removeUpDownEvent()
       }
+    },
+    showOptionList(v) {
+      if (!v) {
+        this.$emit("blur", this.$refs.input.$el)
+      }
     }
   },
   directives: {
@@ -319,10 +334,10 @@ export default {
       on: {
         focus: e => {
           this.showList()
+          this.$emit("focus", e)
           e.stopPropagation()
         },
-        blur: () => {
-          
+        blur: e => {
           //失去焦点的时候，如果鼠标还在列表中呈现mousedown状态，则不隐藏
           if (!this.isMouseDownOption) {
             this.hideList()

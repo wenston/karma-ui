@@ -67,9 +67,12 @@ export default {
       this.visible = true
       return this
     },
-    hide(time) {
+    hide(time,cb) {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
+        if(cb && typeof cb === 'function') {
+          cb()
+        }
         this.visible = false
       }, time)
       return this

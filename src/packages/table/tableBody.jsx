@@ -6,6 +6,7 @@ import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KRadio from "karma-ui/packages/radio/radio"
 import KIcon from "karma-ui/packages/icon/icon"
 export default {
+  name: "KTBody",
   mixins: [mixins],
   components: {
     KColGroup,
@@ -35,45 +36,25 @@ export default {
   },
   computed: {
     bodyWrapperClasses() {
-      return {
-        "k-table-body": true
-      }
+      return ["k-tbodywrapper"]
     },
     tableClasses() {
-      return {
-        "k-table": true,
-        [`k-table--${this.size}`]: true,
-        "k-table--stripe": this.stripe,
-        "k-table--auto": this.tableLayoutAuto,
-        "k-table--nowrap": this.nowrap,
-        "k-table--min-content": this.minContent
-      }
-    },
-    tableStyles() {
-      return {
-        width: this.width
-      }
-    },
-    trProps() {
-      return {
-        on: {
-          mouseover: e => {
-            console.log(e.target)
-          },
-          mouseout: () => {}
-        }
-      }
+      return ["k-table", "k-tbody", { "k-table--auto": !this.minContent }]
     }
   },
   watch: {
-    currentValue: {
+    value: {
       immediate: true,
       handler(v) {
         this.currentRadioValue = v
       }
     },
-    selectedKeys(keys) {
-      this.checkedKeys = keys
+    selectedKeys: {
+      immediate: false,
+      handler(keys) {
+        this.checkedKeys = keys
+        // this.emitSelectChange()
+      },
     },
     selectedRows: {
       immediate: true,
@@ -88,7 +69,7 @@ export default {
         this.checkedKeys = keys
         this.emitSelectChange()
       }
-    },
+    }
   },
   methods: {
     //传入row,index，或者只传index都行，或者只传key
@@ -108,12 +89,7 @@ export default {
         this.currentHighlightKey = key
       }
     },
-    setCheckedRows(x) {
-      this.checkedRows = x
-    },
-    setCheckedKeys(x) {
-      this.checkedKeys = x
-    },
+
     //父级调用
     onCheckedAll(checked) {
       //当不选择时，不可以将checkedKeys直接清空，因为可能存在跨页选择的数据
@@ -121,7 +97,7 @@ export default {
       let set = new Set(this.checkedKeys)
       if (checked) {
         this.data.forEach((row, index) => {
-          if (this.canCheck(row, index)[1]) {
+          if (this.canCheckRow(row, index)[1]) {
             const k = this.formatCheckedKey(row)
             set.add(k)
             let has = false
@@ -139,7 +115,7 @@ export default {
         })
       } else {
         this.data.forEach((row, index) => {
-          if (this.canCheck(row, index)[1]) {
+          if (this.canCheckRow(row, index)[1]) {
             const k = this.formatCheckedKey(row)
             set.delete(k)
             let j = -1
@@ -156,57 +132,17 @@ export default {
         })
       }
       this.checkedKeys = [...set]
-      this.emitSelectChange()
+      // this.emitSelectChange()
       //NOTE: 如果出现选不中的情况，需检查传入的checkboxKey是否有问题
     },
     emitSelectChange(checked, row, index) {
-      let { fixedLeft, fixedRight } = this.hasFixedColumns,
-        // rows = JSON.parse(JSON.stringify(this.checkedRows)),
-        rows = this.checkedRows,
+      let rows = this.checkedRows,
         para = { checked, index, row, rows, keys: this.checkedKeys }
-      if (this.canCheck(row, index)[1]) {
-        if (fixedLeft && this.hasCheckbox && this.who === "left") {
-          this.$emit("select-change", para)
-        } else if (!fixedLeft && this.hasCheckbox && this.who === "main") {
-          // console.log(para)
-          this.$emit("select-change", para)
-        }
+      if(!checked && !row && !index) {
+        this.$emit('select-change', para)
+      }else if (this.canCheckRow(row, index)[1]) {
+        this.$emit("select-change", para)
       }
-    },
-
-    //复选，单行
-    toggleRow(e, row, index) {
-      const k = this.formatCheckedKey(row)
-      let set = new Set(this.checkedKeys)
-      if (e.target.checked) {
-        set.add(k)
-        let has = false
-        for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-          if (k === this.formatCheckedKey(this.checkedRows[i])) {
-            has = true
-            break
-          }
-        }
-        if (!has) {
-          // this.checkedRows.push(JSON.parse(JSON.stringify(row)))
-          this.checkedRows.push(row)
-        }
-      } else {
-        set.delete(k)
-        let j = -1
-        for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-          if (k === this.formatCheckedKey(this.checkedRows[i])) {
-            j = i
-            break
-          }
-        }
-        if (j > -1) {
-          this.checkedRows.splice(j, 1)
-        }
-      }
-      this.checkedKeys = [...set]
-      // console.log(this.checkedKeys)
-      this.emitSelectChange(e.target.checked, row, index)
     },
     //格式化checkboxKey/radioKey
     formatCheckedKey(row) {
@@ -222,16 +158,42 @@ export default {
       })
       return result.join(",")
     },
-    canCheck(row = {}, index) {
-      let can = [false,true]
+    canCheckRow(row = {}, index) {
+      let can = [false, true]
       if (this.checkable && typeof this.checkable === "function") {
         can = this.checkable(row, index)
       }
       return can
     },
+    //tbody渲染
+    renderTBody() {
+      let tbody = []
+      if (this.data.length) {
+        this.data.forEach((row, index) => {
+          tbody.push(this.renderTr(row, index))
+        })
+        return tbody
+      } else {
+        const colspan = this.columns.length || 1
+        let text =
+          typeof this.emptyText === "function"
+            ? this.emptyText()
+            : this.emptyText
+        if (text) {
+          return (
+            <tr>
+              <k-cell class="k-text-center" colspan={colspan}>
+                {text}
+              </k-cell>
+            </tr>
+          )
+        }
+      }
+    },
+
     //处理序号列、操作列、多选或者单选的情况
     addFields(row, col, index, cell) {
-      let [ck,canCk] = this.canCheck(row, index)
+      let [ck, canCk] = this.canCheckRow(row, index)
       //如果有序号列
       if (this.hasIndex && col.field === this.__index) {
         cell = index + 1
@@ -269,8 +231,8 @@ export default {
           checked = true
         }
         //如果可以操作选中
-        if(canCk) {
 
+        if (canCk) {
           cell = (
             <k-checkbox
               value={this.formatCheckedKey(row)}
@@ -278,7 +240,7 @@ export default {
               style="pointer-events:none;"
             />
           )
-        }else{
+        } else {
           cell = (
             <k-checkbox
               value={this.formatCheckedKey(row)}
@@ -307,20 +269,39 @@ export default {
       }
       return cell
     },
-    //获取有嵌套的数据列field,目前只支持2级嵌套
-    getNestingField(columns) {
-      let field = ""
-      for (let i = 0, len = columns.length; i < len; i++) {
-        const f = columns[i].field || ""
-        const fields = f.trim().split(".")
-        if (fields.length > 1) {
-          field = fields[0]
-          break
+    //单元格渲染
+    renderTd(row, index, col) {
+      let cont = null
+      if (col.customRender) {
+        if (typeof col.customRender === "function") {
+          cont = col.customRender(row, index)
+        } else {
+          cont = col.customRender
         }
+      } else if (col.scopedSlots) {
+        cont = this.bodyScopedSlots[col.scopedSlots]({
+          row,
+          index
+        })
+      } else if (col.field) {
+        cont = row[col.field]
+        cont = this.addFields(row, col, index, cont)
+      }
+      let cellProps = {
+        class: [
+          { "k-text-center": this.$_is_built_in_column(col.field) },
+          [
+            col.cellClass
+              ? this.$_get_td_class(row, index, col, { thead: true })
+              : ""
+          ]
+        ],
+        style: this.$_get_td_style(row, index, col)
       }
 
-      return field
+      return <k-cell {...cellProps}>{cont}</k-cell>
     },
+
     getRowKey(row, index, keys) {
       let k = []
       let arr = []
@@ -336,10 +317,14 @@ export default {
       })
       return k.join(",")
     },
-    //渲染tr
-    renderTr(column, row, index) {
+    //渲染数据的一行
+    renderTr(row, index) {
       let k = this.getRowKey(row, index, this.loopKey)
       const curHighlightRowKey = this.getRowKey(row, index, this.highlightKey)
+      let tds = []
+      this.columns.forEach(col => {
+        tds.push(this.renderTd(row, index, col))
+      })
       let trProps = {
         attrs: {
           "data-key": k,
@@ -354,7 +339,6 @@ export default {
             this.$emit("dblclick-row", { row, index })
           },
           click: () => {
-            //处理高亮
             if (this.canHighlightRow) {
               this.currentHighlightKey = this.getRowKey(
                 row,
@@ -369,7 +353,7 @@ export default {
             }
             //可以在此处理复选单选
             const k = this.formatCheckedKey(row)
-            if (this.canCheck(row, index)[1]) {
+            if (this.canCheckRow(row, index)[1]) {
               if (this.hasCheckbox) {
                 let checked = false
                 let set = new Set(this.checkedKeys)
@@ -411,162 +395,23 @@ export default {
         }
       }
       if (this.hover) {
-        trProps.on.mouseover = () => {
-          this.$emit("trmouseover", row, index)
+        trProps.on.mouseover = e => {
+          this.$emit("mouseover-tr", e)
         }
-        trProps.on.mouseout = () => {
-          this.$emit("trmouseout", row, index)
+        trProps.on.mouseout = e => {
+          this.$emit("mouseout-tr", e)
         }
       }
-      return <tr {...trProps}>{column}</tr>
-    },
-    //渲染单元格
-    renderTableCell(row, col, index) {
-      const { width, ...restStyle } = { width: "", ...col.style }
-
-      let cell = row[col.field]
-      cell = this.addFields(row, col, index, cell)
-
-      //如果有作用域插槽
-      if (col.scopedSlots) {
-        cell = this.bodyScopedSlots[col.scopedSlots]({
-          row,
-          index
-        })
-        //如果有自定义渲染函数
-      } else if (col.customRender) {
-        cell = col.customRender(row, index)
-      }
-      return <k-cell style={restStyle}>{cell}</k-cell>
-    },
-    //合并tbody行，只依据一个嵌套数据进行合并！
-    renderMergeRow(bodyScopedSlots, columns, data) {
-      let tbody = [],
-        nestingField = this.getNestingField(columns)
-      //TODO: 如果需支持多级嵌套表格，需优化以下内容
-      data.forEach((row, index) => {
-        const rowspan = row[nestingField].length || 1
-        const tr = Array.apply(null, { length: rowspan }).map((n, i) => {
-          const column = columns.map((col, icol) => {
-            //获取此列样式
-            const { width, ...restStyle } = { width: "", ...col.style }
-            //获取此列的字段名、嵌套层级
-            const fields = (col.field ? col.field : "").trim().split(".")
-            const fieldsLength = fields.length
-
-            //--start 定义单元格内容
-            //目前只支持2级表格
-            let cellContent = null
-            const f = fields
-            if (fieldsLength === 1) {
-              cellContent = row[col.field]
-            } else {
-              cellContent = row[f[0]][i][f[1]]
-            }
-            cellContent = this.addFields(row, col, index, cellContent)
-            //如果有作用域插槽
-            if (col.scopedSlots) {
-              cellContent = this.bodyScopedSlots[col.scopedSlots]({
-                row,
-                row1: row[f[0]][i],
-                index,
-                index1: i
-              })
-              //如果有自定义渲染函数
-            } else if (col.customRender) {
-              //TODO: row1是undefined，需检查
-              cellContent = col.customRender({
-                row,
-                index,
-                row1: row[f[0][i]],
-                index1: i
-              })
-            }
-            if (rowspan > 1) {
-              if (fieldsLength === 1 && i === 0) {
-                return (
-                  <k-cell rowspan={rowspan} style={restStyle}>
-                    {cellContent}
-                  </k-cell>
-                )
-              } else if (fieldsLength === 1 && i !== 0) {
-                return null
-              }
-              return <k-cell style={restStyle}>{cellContent}</k-cell>
-            }
-            return <k-cell style={restStyle}>{cellContent}</k-cell>
-            //--end
-          })
-          return this.renderTr(column, row, index)
-        })
-        tbody.push(tr)
-      })
-      return tbody
-    },
-    //渲染表格的tbody
-    renderTableBody() {
-      const { bodyScopedSlots, data } = this
-      //过滤出可用的列（如果某些列是undeinfed null '' 0 false 非Object类型，就剔除）
-      const columns = this.c_filter_columns
-      let tbody = [],
-        //level是数据的层级，1是只有1层，2是有1层嵌套，3是有2层嵌套...
-        level = 1
-      if (columns.length !== 0) {
-        columns.forEach(col => {
-          const n = (col.field ? col.field : "").split(".").length
-          if (level < n) {
-            level = n
-          }
-        })
-      }
-      if (level > 1) {
-        //如果有合并行的情况
-        return this.renderMergeRow(bodyScopedSlots, columns, data)
-      }
-      if (data.length) {
-        data.forEach((row, index) => {
-          const column = columns.map(col => {
-            return this.renderTableCell(row, col, index)
-          })
-          tbody.push(this.renderTr(column, row, index))
-        })
-      } else {
-        let colspan = this.c_filter_columns ? this.c_filter_columns.length : 1
-        let text =
-          typeof this.emptyText === "function"
-            ? this.emptyText()
-            : this.emptyText
-        text &&
-          tbody.push(
-            <tr>
-              <k-cell class="k-table-td-center" colspan={colspan}>
-                {text}
-              </k-cell>
-            </tr>
-          )
-      }
-      return tbody
-    },
-    bodyScroll(e) {
-      this.$emit("bodyscroll", {
-        target: e.target,
-        left: e.target.scrollLeft,
-        top: e.target.scrollTop
-      })
+      return <tr {...trProps}>{tds}</tr>
     }
   },
   render() {
     const { bodyWrapperClasses, tableClasses } = this
     return (
-      <div
-        class={bodyWrapperClasses}
-        onScroll={() => {
-          this.bodyScroll($event)
-        }}
-      >
+      <div class={bodyWrapperClasses}>
         <table class={tableClasses}>
-          <k-col-group columns={this.c_filter_columns} />
-          <tbody>{this.renderTableBody()}</tbody>
+          {this.$slots.colgroup}
+          <tbody>{this.renderTBody()}</tbody>
         </table>
       </div>
     )

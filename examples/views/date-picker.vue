@@ -4,20 +4,26 @@
     <div>
       <k-button @click="toggle">toggle</k-button>
       单个日期：<k-date-picker v-model="value"
-        :show.sync="show" disabled ></k-date-picker>
+        :show.sync="show"
+        ref="date1"
+        disabled></k-date-picker>
       单个日期：<k-date-picker v-model="value1"
-        :show.sync="show" :min="value" simple block></k-date-picker>
+        ref="date2"
+        :show.sync="show1"
+        :min="value"
+        simple
+        block></k-date-picker>
       日期区间：<k-date-picker :start.sync="start"
         :end.sync="end"
         :max="max"
         :min="min"
         range
         ref="dp2"
-        :hasQuick="false"
-        disabled
+        nearby
         @getLayerElement="getDatePickerElement"></k-date-picker>
       <k-button @click="start='2018-10-10'">2018-10-10</k-button>
       <k-button @click="end='2019-10-10'">2019-10-10</k-button>
+      <k-button @click="show1=!show1">获取焦点</k-button>
     </div>
   </div>
 </template>
@@ -26,19 +32,20 @@
 export default {
   data() {
     return {
-      value: '2019-04-19',
-      value1: '',
+      value: "2019-04-19",
+      value1: "",
       show: true,
+      show1: false,
       start: new Date(),
       end: new Date()
     }
   },
   computed: {
     max() {
-      // return new Date()
+      return new Date()
     },
     min() {
-      // return '2019-04-08'
+      return new Date() - 15 * 3600 * 24 * 1000
     }
   },
   methods: {

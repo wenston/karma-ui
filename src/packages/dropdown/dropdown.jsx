@@ -14,7 +14,7 @@ export default {
       default: "div"
     },
     trigger: {
-      type: String,
+      type: [String, Boolean], //Boolean时，取值是false，表示没有事件
       default: "click"
     },
     show: {
@@ -28,6 +28,7 @@ export default {
     },
     //是否在不可见时销毁
     destroyWhenHide: Boolean,
+    layerClassName: String,
     bodyClassName: String,
     headerClassName: String,
     footerClassName: String,
@@ -36,8 +37,11 @@ export default {
       type: Boolean,
       default: true
     },
+    gap: [Number, String], //没有单位，默认是px
     //从外部点击关闭dropdown时，除了whiteList中的元素
-    whiteList: Array
+    whiteList: Array,
+    scrollElement: Element,
+    nearby: Boolean
   },
   data() {
     return {
@@ -83,6 +87,7 @@ export default {
           let body = this.body
           const $slots = this.$slots
           const {
+            layerClassName,
             bodyClassName,
             footerClassName,
             headerClassName,
@@ -105,17 +110,28 @@ export default {
             },
             {
               width: "auto",
+              layerClassName,
               bodyClassName,
               footerClassName,
               headerClassName,
               canCloseByClickoutside,
-              whiteList: this.whiteList
+              whiteList: this.whiteList,
+              scrollElement: this.scrollElement,
+              nearby: this.nearby,
+              gap:
+                this.gap !== undefined && this.gap !== null && this.gap !== ""
+                  ? parseFloat(this.gap)
+                  : 2
             }
           )
         })
     },
     instanceAndBindEvents() {
-      this.ins = layer()
+      if (this.nearby) {
+        this.ins = layer(this.$el.parentNode)
+      } else {
+        this.ins = layer()
+      }
       if (this.lazy) {
         this.init()
       }
@@ -142,7 +158,6 @@ export default {
   },
   watch: {
     visible: {
-      immediate:true,
       handler(v) {
         this.$emit("update:show", v)
         if (v) {
@@ -178,6 +193,11 @@ export default {
       this.instanceAndBindEvents()
       this.init()
     }
+    this.$nextTick(() => {
+      if (this.visible) {
+        this.showLayer()
+      }
+    })
   },
   updated() {
     // console.log('dropdown updated !!!!')
@@ -185,7 +205,7 @@ export default {
   },
   render() {
     const { trigger, visible } = this
-    const p = {
+    let p = {
       class: "k-dropdown",
       directives: [
         {
@@ -194,8 +214,10 @@ export default {
             this.hideIt(0)
           }
         }
-      ],
-      on: {
+      ]
+    }
+    if (trigger) {
+      p.on = {
         click: e => {
           if (trigger == "click") {
             this.visible = !visible
@@ -213,6 +235,7 @@ export default {
         }
       }
     }
+
     return (
       <this.tag {...p}>
         {typeof this.title === "function" ? this.title() : this.title}

@@ -4,9 +4,9 @@
     <div>
       <k-dropdown :title="title"
         :show.sync="show"
-        bodyClassName="body"
         trigger="click"
-        :white-list="wh">
+        :white-list="wh"
+        nearby>
         <h1 slot="header">这是标题了！！！</h1>
         <em slot="footer">这是底部了</em>
         <div>展示面板打开了！</div>

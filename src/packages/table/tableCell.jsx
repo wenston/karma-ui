@@ -66,6 +66,7 @@ export default {
     },
     sorterElem() {
       const { sort: sorter } = this.$data
+      console.log(sorter)
       const up = (
         <k-icon
           name="k-icon-sort-up"
@@ -100,7 +101,7 @@ export default {
         colspan: this.colspan
       },
       class: {
-        "k-table-td-relative": this.resizeWidth,
+        "k-table-td-relative": this.resizeWidth || this.hasSorter,
         "k-cursor-pointer": this.hasSorter,
         "k-no-select": this.hasSorter
       }
@@ -130,9 +131,9 @@ export default {
   watch: {
     sorter(s) {
       this.sort = s
-    },
-    showBaseLine(v) {
-      console.log(v)
     }
+    // showBaseLine(v) {
+    //   console.log(v)
+    // }
   }
 }

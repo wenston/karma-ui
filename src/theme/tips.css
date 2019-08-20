@@ -5,6 +5,10 @@
   transform: translate(-50%,-50%);
   padding: var(--tips-padding);
   background-color: var(--tips-bg-color);
+  @supports (backdrop-filter: blur()) {
+    background-color: transparent;
+    backdrop-filter: blur(5px) brightness(45%);
+  }
   box-shadow: var(--tips-box-shadow);
   z-index: var(--tips-z-index);
   border-radius: var(--tips-radius);

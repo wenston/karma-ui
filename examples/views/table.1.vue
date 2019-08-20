@@ -519,8 +519,6 @@ let table1 = [
 export default {
   data() {
     return {
-      priceSorter: true,
-      supplierSorter: true,
       table: [
         {
           name: "明明",
@@ -714,7 +712,7 @@ export default {
           field: "Detail",
           name: "商品",
           scopedSlots: "Detail",
-          sorter: true
+          sorter: 0
         },
         {
           style: { width: "70" },
@@ -967,8 +965,7 @@ export default {
         {
           style: { width: "100" },
           field: "SupplierName",
-          name: "供应商",
-          sorter: this.supplierSorter
+          name: "供应商"
         },
         tax,
         {
@@ -976,7 +973,7 @@ export default {
           field: "TotalPrice",
           name: "金额",
           scopedSlots: "TotalPrice",
-          sorter: this.priceSorter,
+          sorter: 1,
           sum: true
         },
         {
@@ -999,11 +996,6 @@ export default {
     },
     onSort({ type, field, name }) {
       console.log(type, field, name)
-      if(field=='SupplierName') {
-        this.priceSorter = true
-      }else if(field=='TotalPrice') {
-        this.supplierSorter = true
-      }
     },
     onClear() {
       // this.selectedKeys = []

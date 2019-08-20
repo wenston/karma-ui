@@ -104,9 +104,9 @@
   --button-transition: .15s ease;
 
   /* select */
-  --select-down-size: 12px;
+  --select-down-size: 14px;
   --select-down-color: color(var(--input-border-color) b(+20%));
-  --select-clear-size: 12px;
+  --select-clear-size: 14px;
   --select-clear-hover-color: color(var(--select-down-color) b(+40%));
   --select-option-z-index: 99;
   --select-option-box-shadow: var(--box-shadow);
@@ -139,7 +139,7 @@
   --tips-padding: 20px;
   --tips-bg-color: color(rgb(60, 70, 80) a(85%));
   --tips-box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
-  --tips-z-index: 9999;
+  --tips-z-index: 10000;
   --tips-radius: calc(var(--radius)*2);
   --tips-cont-color: #fff;
   --tips-cont-font-size: 14px;
@@ -187,7 +187,7 @@
 
   /*loading*/
   --loading-bg-color:color(#07192c a(70%));
-  --loading-z-index:9;
+  --loading-z-index:1000;
   --loading-radius:calc(var(--radius)*2);
   --loading-width:120px;
   --loading-height:100px;
@@ -269,5 +269,5 @@
   --table-fixed-right-shadow: -6px 0 3px -3px rgba(0,0,0,.10);
 
   /** 列宽调整的基准线 */
-  --table-base-line-color: color(var(--danger-color) a(70%));
+  --table-base-line-color: color(var(--danger-color) a(50%));
 }

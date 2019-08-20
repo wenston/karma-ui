@@ -11,7 +11,7 @@
         @focus="onFocus"
         @toggle="onToggle"
         @input="onInput"
-        pageSize="12">
+        pageSize="11">
         <div slot="header"
           class="list header">
           <span class="name">商品名称</span>
@@ -25,22 +25,33 @@
         </div>
       </k-auto-complete>
       <k-button @click="clear">清空</k-button>
-      <br>
-      <!-- <k-auto-complete :data="list"
-        v-model="value1">
-        <div slot="header"
-          class="list header">
-          <span class="name">商品名称</span>
-          <span class="index">库存</span>
-        </div>
-        <div slot-scope="{row,index}"
-          :key="row.Id"
-          class="list">
-          <span class="name">{{row.Name}}</span>
-          <span class="index">{{index}}</span>
-        </div>
-        <div slot="footer">底部 测试</div>
-      </k-auto-complete> -->
+    </div>
+    <div style="width: 500px;height: 300px;overflow:auto;"
+      ref="box">
+      <div style="width: 1000px;height: 1300px;">
+        <span>往右下拖动</span>
+        <k-auto-complete :data="list"
+          v-model="value1"
+          :scroll-element="$refs.box"
+          style="margin-top:1222px;margin-left:800px;"
+          nearby>
+          <div slot="header"
+            class="list header">
+            <span class="name">商品名称</span>
+            <span class="index">库存</span>
+          </div>
+          <div slot-scope="{row,index}"
+            :key="row.Id"
+            class="list">
+            <span class="name">{{row.Name}}</span>
+            <span class="index">{{index}}</span>
+          </div>
+          <div slot="footer">
+            <k-button size="mini"
+              @click="onFresh">刷新</k-button>
+          </div>
+        </k-auto-complete>
+      </div>
     </div>
   </div>
 </template>
@@ -48,10 +59,15 @@
 export default {
   data() {
     return {
-      value: "",
+      value: "300249",
       value1: "100022",
       list: [],
       list1: [
+        {
+          Id: 0,
+          ProId: 0,
+          Name: '平台'
+        },
         {
           Id: 300038,
           ProId: 300038,
@@ -581,16 +597,22 @@ export default {
     }
   },
   methods: {
+    onFresh() {
+      this.list = []
+      setTimeout(() => {
+        this.list = this.list1
+      }, 1500)
+    },
     clear() {
-      this.value = ''
+      this.value = ""
     },
     onFocus() {
-      setTimeout(()=>{
+      setTimeout(() => {
         // this.list = this.list1
-      },1500)
+      }, 1500)
     },
     onToggle(e) {
-      console.log('toggle',e)
+      console.log("toggle", e)
     },
     onInput(text) {
       console.log(text)

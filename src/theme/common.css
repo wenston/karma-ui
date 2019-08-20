@@ -1,3 +1,9 @@
+.k-text-center {
+  text-align: center;
+}
+.k-overflow-hidden {
+  overflow: hidden;
+}
 .k-absolute {
   position: absolute;
 }
@@ -48,4 +54,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.k-backdrop-filter {
+  @supports (backdrop-filter: blur()) {
+    background-color: rgba(255,255,255,.5) !important;
+    backdrop-filter: blur(10px);
+  }
 }

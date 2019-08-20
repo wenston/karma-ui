@@ -1,16 +1,44 @@
 .k-select-tree {
+  outline: none;
   @extend .k-select2;
   @extend .k-like-input;
   &.k-select-tree--block {
     @extend .k-block;
     position: relative;
   }
+  &.k-select-tree--simple {
+    border: none;
+    border-bottom: 1px solid var(--input-border-color);
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+    }
+    &:focus,
+    &:active {
+      &:after {
+        border-bottom-color: var(--primary-color);
+        width: 100%;
+        left: 0;
+      }
+    }
+  }
 }
 .k-select-tree-body {
+  position: relative;
   line-height: normal;
   padding: 10px 12px;
   background-color: white;
-  width: 250px;
+  @extend .k-backdrop-filter;
+  min-width: 250px;
   max-height: 40vh;
   min-height: 200px;
   overflow-y: auto;
@@ -30,6 +58,7 @@
 .k-select-tree-checked {
   padding: 5px 15px 5px 5px;
   height: 100%;
+  line-height: 1.4;
 }
 .k-select-tree-checked-one {
   padding: 0 5px;
