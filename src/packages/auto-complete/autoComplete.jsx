@@ -70,7 +70,11 @@ export default {
     nearby: {
       type: Boolean,
       default: false
-    }
+    },
+    slideDownWhenFocus: {
+      type: Boolean,
+      default: true
+    },//是否在获取焦点的时候就展示出下拉列表
   },
   model: {
     prop: "value",

@@ -1,18 +1,4 @@
 <script>
-// <template>
-//   <label class="k-radio">
-//     <input type="radio" class="k-radio__input"
-//       :name="name"
-//       :disabled="disabled"
-//       :checked="state"
-//       :value="value"
-//       @change="onChange">
-//     <span class="k-radio__icon"></span>
-//     <span class="k-radio__text">
-//       <slot></slot>
-//     </span>
-//   </label>
-// </template>
 export default {
   name: "KRadio",
   model: {

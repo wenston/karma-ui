@@ -5,7 +5,7 @@
       <div>
         你好吗？
         <k-radio v-model="b" value=1>好</k-radio>
-        <k-radio v-model="b" value=0 disabled>不好</k-radio>
+        <k-radio v-model="b" value=0>不好</k-radio>
         <div>
           
         </div>

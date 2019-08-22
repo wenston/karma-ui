@@ -38,6 +38,14 @@
         </div>
       </div>
     </div>
+    <h4>前后slot</h4>
+    <div>
+      <k-input >
+        <k-icon name="k-icon-search" />
+        <k-icon name="k-icon-question" />
+        <k-icon name="k-icon-add" />
+      </k-input>
+    </div>
   </div>
 </template>
 

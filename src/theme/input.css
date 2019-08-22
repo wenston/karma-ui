@@ -44,8 +44,7 @@
     @extend .k-block;
   }
 
-  & .k-input-prepend,
-  & .k-input-append {
+  & .k-input-prepend {
     position: absolute;
     left: 0;
     top: 0;
@@ -55,6 +54,16 @@
     & > * {
       @extend .k-center;
     }
+  }
+
+  
+  & .k-input-append {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border: 1px solid transparent;
+    overflow: hidden;
   }
 
   & .k-input-append {
