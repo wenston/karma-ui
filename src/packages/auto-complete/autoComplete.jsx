@@ -51,8 +51,8 @@ export default {
       type: Boolean,
       default: true
     },
-    destroyWhenHide:{
-      type:Boolean,
+    destroyWhenHide: {
+      type: Boolean,
       default: true
     },
     //前端分页，有值就代表有分页，没有值就没有分页
@@ -347,7 +347,6 @@ export default {
           this.ins.hide(() => {
             cb()
           })
-          this.$refs.input.blur()
         }
       }
     },
@@ -404,15 +403,14 @@ export default {
           ...this.$listeners,
           focus: e => {
             this.$refs.input.onSelect()
-            this.showAndScrollIntoView()
+            // this.showAndScrollIntoView()
             this.$emit("focus", e)
           },
-          // blur: () => {
-          // if (!this.isMouseDownOption) {
-          //   this.hideList(this.destroyLayer)
-          //   console.log(this.visible)
-          // }
-          // },
+          blur: () => {
+            // if (!this.isMouseDownOption) {
+            //   this.hideList(this.destroyLayer)
+            // }
+          },
           input: () => {
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
@@ -517,6 +515,7 @@ export default {
                     },
                     on: {
                       click: e => {
+                        this.$refs.input.focus()
                         this.currentIndex = index
                         this.$emit("valueChange", item[this.keyField])
                         this.$emit("toggle", { row: item, index })
@@ -607,6 +606,7 @@ export default {
           onClick={e => {
             if (this.visible) {
               this.hideList(this.destroyLayer)
+              this.$refs.input.focus()
             } else {
               this.showAndScrollIntoView(true)
             }
@@ -648,7 +648,6 @@ export default {
     return <k-input {...inputProps}>{this.renderIcon()}</k-input>
   },
   beforeDestroy() {
-    console.log('销毁了')
     this.destroyLayer()
   },
   mounted() {

@@ -15,7 +15,11 @@ export default {
       type: [String, Object, Boolean],
       default: "tr"
     },
-    allowUpDown: Boolean //是否允许上下箭头切换
+    allowUpDown: Boolean, //是否允许上下箭头切换
+    type: {
+      type:String,
+      default: 'focus'
+    }
   },
   data() {
     return {
@@ -50,6 +54,7 @@ export default {
     },
     listener(e) {
       let shift = e.shiftKey
+      const type = this.type
       const key = e.keyCode
       const currentInput = e.target
       if (this.keys.some(k => k == key)) {
@@ -66,7 +71,7 @@ export default {
               }
               if ("__row" in currentInput) {
                 if (inputs[row + next] && inputs[row + next][i]) {
-                  inputs[row + next][i].select()
+                  inputs[row + next][i][type]()
                 } else {
                   this.$emit("end-row", [row, i])
                 }
@@ -86,13 +91,13 @@ export default {
               }
               //如果存在左右input
               if (inputs[row][i + next]) {
-                inputs[row][i + next].select()
+                inputs[row][i + next][type]()
               } else if (inputs[row + next]) {
                 //如果存在下一行
                 const r = inputs[row + next]
                 const j = shift ? r.length - 1 : 0
                 if (r[j]) {
-                  r[j].select()
+                  r[j][type]()
                 }
               } else {
                 this.$emit("end", [row, i])
@@ -103,11 +108,13 @@ export default {
                 next = -1
               }
               if (inputs[next]) {
-                inputs[next].select()
+                inputs[next][type]()
               } else {
                 this.$emit("end", i)
               }
             }
+            e.stopPropagation()
+            e.preventDefault()
             break
         }
       }

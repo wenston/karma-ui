@@ -43,7 +43,11 @@ export default {
       type: Element,
       default: null
     },
-    nearby: Boolean
+    nearby: Boolean,
+    layerWidth: {
+      type:[Boolean,String],
+      default:false
+    }
   },
   data() {
     return {
@@ -89,7 +93,11 @@ export default {
         this.showDelete = false
       }
     },
-
+    toggleList() {
+      if (!this.disabled) {
+        this.showOptionList = !this.showOptionList
+      }
+    },
     showList() {
       if (!this.disabled) {
         this.showOptionList = true
@@ -98,12 +106,12 @@ export default {
     hideList() {
       if (!this.disabled) {
         this.showOptionList = false
-        this.$refs.input.blur()
+        // this.$refs.input.blur()
       }
     },
     _change(obj, hide) {
       this.modelValue = obj.v
-      // console.log(obj)
+      this.$refs.input.focus()
       this.$emit("modelKeyChange", obj.k)
       this.$emit("change", obj)
       hide && this.hideList()
@@ -112,6 +120,7 @@ export default {
       if (this.showDelete && this.clearable) {
         return (
           <span
+            class="k-select__icon__wrapper"
             slot="append"
             onClick={e => {
               this.clear()
@@ -128,9 +137,11 @@ export default {
       } else {
         return (
           <span
+            class="k-select__icon__wrapper"
             slot="append"
             onClick={e => {
               this.$refs.input.focus()
+              this.toggleList()
               e.stopPropagation()
             }}
           >
@@ -153,6 +164,7 @@ export default {
           bodyClassName: "k-select__list",
           tag: "div",
           bodyTag: "ul",
+          width: this.layerWidth,
           canCloseByClickoutside: true,
           scrollElement: this.scrollElement,
           nearby: this.nearby
@@ -200,6 +212,9 @@ export default {
       } else if (code == 13) {
         this.hideList()
       }
+      if (!this.options[i]) {
+        return
+      }
       this._change(
         { k: this.options[i].value, v: this.options[i].label },
         false
@@ -236,14 +251,12 @@ export default {
     }
   },
   beforeDestroy() {
-    console.log('select组件销毁了')
     this.ins.destroy()
   },
   updated() {
     this.initIns()
   },
   mounted() {
-    console.log('select组件mounted了')
     this.$nextTick(() => {
       if (this.nearby) {
         this.ins = layer(this.$el.parentNode)
@@ -301,11 +314,6 @@ export default {
         this.ins.hide()
         this.removeUpDownEvent()
       }
-    },
-    showOptionList(v) {
-      if (!v) {
-        this.$emit("blur", this.$refs.input.$el)
-      }
     }
   },
   directives: {
@@ -322,6 +330,8 @@ export default {
       ],
       ref: "input",
       class: {
+        "k-select": true,
+        "k-select-events-none": !(this.showDelete && this.clearable),
         "k-select__active": this.ifOptionList
       },
       props: {
@@ -335,7 +345,7 @@ export default {
       },
       on: {
         focus: e => {
-          this.showList()
+          // this.showList()
           this.$emit("focus", e)
           e.stopPropagation()
         },
@@ -344,10 +354,17 @@ export default {
           if (!this.isMouseDownOption) {
             this.hideList()
           }
+        },
+        keyup:e=>{
+          if(e.keyCode==40) {
+            if(!this.showOptionList) {
+              this.toggleList()
+            }
+          }
         }
       },
       nativeOn: {
-        click: this.showList,
+        click: this.toggleList,
         mouseover: this.showDeleteBtn,
         mouseout: this.hideDeleteBtn
       },

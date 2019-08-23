@@ -1,5 +1,20 @@
+.k-select {
+  cursor: pointer;
+  & .k-input {
+    cursor: pointer !important;
+  }
+  &.k-select-events-none {
+    & .k-input-append {
+
+      pointer-events: none;
+    }
+  }
+}
+.k-select__icon__wrapper {
+  cursor: pointer;
+  @extend .k-center;
+}
 .k-select__down {
-  pointer-events: none;
   width: var(--select-down-size);
   height: var(--select-down-size);
   font-size: var(--select-down-size);

@@ -3,6 +3,7 @@
     <h3 class="layout__title">table2</h3>
     <div>
       <k-table2 :data="data"
+        loopKey="__loopkey"
         :columns="columns"
         :hover="false"
         :row-data="baseRowData"
@@ -17,6 +18,7 @@
         <k-select slot="select"
           slot-scope="{row}"
           v-model="row.Id"
+          clearable
           block>
           <k-option v-for="item in list"
             :key="item.Id"
@@ -30,7 +32,9 @@
 </template>
 
 <script>
+let i = 1
 const baseRowData = () => ({
+  __loopkey: i++,
   ProName: "",
   Color: "",
   RetailPrice: "",
@@ -41,6 +45,7 @@ const baseRowData = () => ({
 export default {
   data() {
     return {
+      selectValue: "",
       baseRowData,
       data: Array.apply(null, { length: 5 }).map(t => baseRowData()),
       columns: [
@@ -50,7 +55,7 @@ export default {
           style: (row, index) => {
             if (row) {
               return {
-                padding: "2px"
+                padding: "1px"
               }
             }
             return { width: 200 }
@@ -66,14 +71,18 @@ export default {
               },
               on: {
                 valueChange: v => {
-                  row.Id = row.ProId = v
+                  row.ProId = v
                 },
                 toggle: e => {
                   if (e.row) {
-                    this.data[index] = { ...row }
-                    this.data = JSON.parse(JSON.stringify(this.data))
-                  } else {
-                    this.data.splice(index, 1, baseRowData())
+                    for(let k in row) {
+                      if(k in e.row) {
+                        row[k] = e.row[k]
+                      }
+                    }
+                    
+                  }else{
+                    
                   }
                 }
               },
@@ -82,7 +91,7 @@ export default {
                   return (
                     <div>
                       <span>{row.ProName}</span>
-                      <span>{index}</span>
+                      <span style="color:red">{index}</span>
                     </div>
                   )
                 }
@@ -90,6 +99,8 @@ export default {
             }
             {
               /**当选一个商品时，autoComple组件会被vue自动销毁，为什么？？？ */
+              /**因为table组件的参数loopKey变化了，而且，table组件
+               * 中某些组件使用了此loopKey中的某键，所以导致列表中原来的loopKey没有了，即发生了列表重新渲染*/
             }
             return <k-auto-complete {...p}></k-auto-complete>
           }
@@ -97,14 +108,14 @@ export default {
         {
           name: "商品",
           scopedSlots: "select",
-          style: {width: 200}
+          style: { width: 200 }
         },
         {
           field: "Color",
           name: "颜色",
           style: {
             width: 80,
-            padding: "2px"
+            padding: "1px"
           },
           scopedSlots: "color"
         },
@@ -121,7 +132,7 @@ export default {
           name: "数量",
           style: {
             width: 70,
-            padding: "2px"
+            padding: "1px"
           },
           customRender: (row, index) => {
             const p = {
@@ -690,10 +701,7 @@ export default {
       ]
     }
   },
-  watch: {
-    data(d) {
-      console.log(d)
-    }
+  methods: {
   }
 }
 </script>
