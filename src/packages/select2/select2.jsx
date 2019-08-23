@@ -528,7 +528,6 @@ export default {
   beforeDestroy() {
     this.layerIns.destroy()
   },
-  destroyed() {},
   updated() {
     this.initIns()
   },

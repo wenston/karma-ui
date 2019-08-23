@@ -28,7 +28,7 @@ export default {
       bodyTag: "div",
       headerTag: "div",
       footerTag: "div",
-      gap: 2,//弹层与相关元素的间距
+      gap: 2, //弹层与相关元素的间距
       //位置
       left: 0,
       top: -9999,
@@ -42,7 +42,7 @@ export default {
       layerHeight: 0,
       visible: false,
       //layer外层的class
-      layerClassName: '',
+      layerClassName: "",
       //default插槽的class
       bodyClassName: "",
       //header插槽的class
@@ -100,7 +100,7 @@ export default {
 
       this.vm = vm
       for (let k in opts) {
-        if (opts[k]!==null && opts[k]!==undefined && opts[k]!=='') {
+        if (opts[k] !== null && opts[k] !== undefined && opts[k] !== "") {
           this.$data[k] = opts[k]
         }
       }
@@ -171,7 +171,8 @@ export default {
         const pHeight = parseFloat(getStyle(parent, "height"))
         const pWidth = parseFloat(getStyle(parent, "width"))
         if (top + height > pHeight - 5 && height < pHeight - 5) {
-          top = pHeight - 5 - height
+          top = this.top - 5 - height
+          this.transitionType = 'slide-down-bottom'
           if (top < 0) {
             top = 0
           }
@@ -194,6 +195,10 @@ export default {
         const wholeHeight = clientHeight + window.pageYOffset
         if (top + height > wholeHeight - 5) {
           top = wholeHeight - 5 - height
+          if (top < this.top) {
+            top = this.top - height - 5
+            this.transitionType = "slide-down-bottom"
+          }
           if (top < 0) {
             top = 0
           }
@@ -230,6 +235,7 @@ export default {
 
     show(callback) {
       this.visible = true
+      this.$emit("after-show")
       this.afterEnter = () => {
         this.$nextTick(() => {
           // this.calcLayerHeightAndGetPosition()
@@ -295,6 +301,7 @@ export default {
       },
       class: {
         "k-layer": true,
+        "k-layer-origin-bottom": this.transitionType==='slide-down-bottom',
         [this.layerClassName]: !!this.layerClassName
       },
       on: {
@@ -319,7 +326,8 @@ export default {
           "after-leave": this._handleAfterLeave
         },
         props: {
-          name: "k-transition-slide-down"
+          // name: "k-transition-slide-down"
+          name: this.transitionName
         }
       }
       p.directives = [

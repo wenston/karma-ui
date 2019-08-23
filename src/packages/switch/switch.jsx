@@ -8,7 +8,8 @@ export default {
     size: {
       type: String,
       default: "mini"
-    }
+    },
+    disabled: Boolean
   },
   model: {
     prop: "checked",
@@ -36,21 +37,25 @@ export default {
     }
   },
   render() {
+    const on = { ...this.$listeners }
+    if (!this.disabled) {
+      on.click = () => {
+        const r = this.reverse(this.ckd)
+        this.ckd = r
+        this.$emit("checkedChange", r)
+        this.$emit("change", r)
+      }
+    }
     const p = {
       class: [
         "k-switch",
         "k-switch--" + this.size,
-        { "k-switch--on": this.ckd == 1 }
-      ],
-      on: {
-        ...this.$listeners,
-        click: e => {
-          const r = this.reverse(this.ckd)
-          this.ckd = r
-          this.$emit("checkedChange", r)
-          this.$emit('change',r)
+        { "k-switch--on": this.ckd == 1 },
+        {
+          "k-switch--disabled": this.disabled
         }
-      }
+      ],
+      on
     }
     return <div {...p} />
   },

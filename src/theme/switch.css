@@ -40,4 +40,8 @@
       }
     }
   }
+  &.k-switch--disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
 }

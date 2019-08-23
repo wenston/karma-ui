@@ -62,6 +62,10 @@
   --input-clearable-btn-color:#ccc;
   --input-clearable-btn-hover-color:color(var(--input-clearable-btn-color) b(+50%));
 
+  /* autocomplete */
+  --auto-complete-icon-color: #ccc;
+  --auto-complete-icon-hover-color: #999;
+  
   /* button */
   /* button padding*/
   --button-huge: 0 30px;

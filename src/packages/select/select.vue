@@ -37,7 +37,7 @@ export default {
     block: Boolean,
     icon: {
       type: Array,
-      default: () => ["k-icon-arrow-down", "k-icon-close"]
+      default: () => ["k-icon-sort-down", "k-icon-close"]
     },
     scrollElement: {
       type: Element,
@@ -119,7 +119,7 @@ export default {
             }}
           >
             <k-icon
-              size="14"
+              size="12"
               class="k-select__clear"
               name={this.icon[1] || "k-icon-close"}
             />
@@ -135,12 +135,12 @@ export default {
             }}
           >
             <k-icon
-              size="14"
+              size="12"
               class={{
                 "k-select__down": true,
                 "k-select__down--up": this.ifOptionList
               }}
-              name={this.icon[0] || "k-icon-arrow-down"}
+              name={this.icon[0] || "k-icon-sort-down"}
             />
           </span>
         )
@@ -236,12 +236,14 @@ export default {
     }
   },
   beforeDestroy() {
+    console.log('select组件销毁了')
     this.ins.destroy()
   },
   updated() {
     this.initIns()
   },
   mounted() {
+    console.log('select组件mounted了')
     this.$nextTick(() => {
       if (this.nearby) {
         this.ins = layer(this.$el.parentNode)

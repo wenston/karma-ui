@@ -8,7 +8,7 @@
   display: inline-block;
   @extend .k-center;
   &.k-select__down--up {
-    transform: rotate(180deg);
+    transform: rotateX(180deg);
   }
 }
 .k-select__clear {

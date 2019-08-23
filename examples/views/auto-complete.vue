@@ -53,6 +53,32 @@
         </k-auto-complete>
       </div>
     </div>
+    <h3 class="layout__title">自动完成</h3>
+    <div style="margin-top:250px;">
+      <k-auto-complete :data="list"
+        v-model="value2"
+        key-field="ProId"
+        value-field="Name"
+        layer-width="250px"
+        placeholder="商品名称"
+        @focus="onFocus"
+        @toggle="onToggle"
+        @input="onInput"
+        pageSize="11">
+        <div slot="header"
+          class="list header">
+          <span class="name">商品名称</span>
+          <span class="index">库存</span>
+        </div>
+        <div slot-scope="{row,index}"
+          :key="row.Id"
+          class="list">
+          <span class="name">{{row.Name}}</span>
+          <span class="index">{{index}}</span>
+        </div>
+      </k-auto-complete>
+      <k-button @click="clear">清空</k-button>
+    </div>
   </div>
 </template>
 <script>
@@ -61,6 +87,7 @@ export default {
     return {
       value: "300249",
       value1: "100022",
+      value2: '',
       list: [],
       list1: [
         {

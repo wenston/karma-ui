@@ -8,11 +8,22 @@
         :row-data="baseRowData"
         max-height="calc(100vh - 120px)">
         <template slot="color"
-          slot-scope="{row}">
+          slot-scope="{row,index}">
           <k-input block
+            :ref='`input_color_${index}`'
             no-style
             v-model="row.Color"></k-input>
         </template>
+        <k-select slot="select"
+          slot-scope="{row}"
+          v-model="row.Id"
+          block>
+          <k-option v-for="item in list"
+            :key="item.Id"
+            :value="item.Id"
+            :label="item.ProName"
+            :selected="item.Id==row.Id">{{item.ProName}}</k-option>
+        </k-select>
       </k-table2>
     </div>
   </div>
@@ -56,17 +67,11 @@ export default {
               on: {
                 valueChange: v => {
                   row.Id = row.ProId = v
-                  console.log(v)
                 },
                 toggle: e => {
                   if (e.row) {
-                    e.row.ProCount = 1
-                    // this.data.splice(index,1,e.row)
-                    // this.data[i]
-                    console.log(this.data[index])
-                    for (let k in row) {
-                      this.data[index][k] = e.row[k]
-                    }
+                    this.data[index] = { ...row }
+                    this.data = JSON.parse(JSON.stringify(this.data))
                   } else {
                     this.data.splice(index, 1, baseRowData())
                   }
@@ -90,9 +95,13 @@ export default {
           }
         },
         {
+          name: "商品",
+          scopedSlots: "select",
+          style: {width: 200}
+        },
+        {
           field: "Color",
           name: "颜色",
-          hasWrapper: false,
           style: {
             width: 80,
             padding: "2px"

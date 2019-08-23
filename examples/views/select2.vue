@@ -7,7 +7,7 @@
         text-field="Name"
         style="width: 200px"
         :layer-width="false"
-        nearby
+        :nearby="false"
         :show.sync="show">
         
       </k-select2>
@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       ids: '',
-      show: true,
+      show: false,
       dataList: [
         {
           Name: "新天地大楼",

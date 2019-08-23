@@ -58,11 +58,11 @@
 }
 .k-transition-slide-down-bottom-enter-active {
   transition: transform var(--transition);
-  transform-origin:bottom;
+  transform-origin:center bottom;
 }
 .k-transition-slide-down-bottom-leave-active {
   transition: var(--transition);
-  transform-origin:bottom;
+  transform-origin:center bottom;
 }
 .k-transition-slide-down-enter,
 .k-transition-slide-down-bottom-enter {

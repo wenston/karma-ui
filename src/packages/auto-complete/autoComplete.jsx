@@ -2,6 +2,7 @@ import { getStyle, scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import { debounce } from "karma-ui/util/throttle_debounce"
 import { layer } from "karma-ui/packages/layer/index"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
+import KIcon from "karma-ui/packages/icon/icon.jsx"
 import KOption from "karma-ui/packages/option/option"
 import esc from "karma-ui/util/esc.js"
 import loading from "karma-ui/directives/loading/index"
@@ -9,14 +10,11 @@ export default {
   name: "KAutoComplete",
   components: {
     KInput,
-    KOption
+    KOption,
+    KIcon
   },
   props: {
     ...KInput.props,
-    clearable: {
-      type: Boolean,
-      default: true
-    },
     data: {
       type: Array,
       default: () => []
@@ -53,6 +51,10 @@ export default {
       type: Boolean,
       default: true
     },
+    destroyWhenHide:{
+      type:Boolean,
+      default: true
+    },
     //前端分页，有值就代表有分页，没有值就没有分页
     pageSize: {
       type: [Number, String],
@@ -70,11 +72,7 @@ export default {
     nearby: {
       type: Boolean,
       default: false
-    },
-    slideDownWhenFocus: {
-      type: Boolean,
-      default: true
-    },//是否在获取焦点的时候就展示出下拉列表
+    }
   },
   model: {
     prop: "value",
@@ -100,7 +98,8 @@ export default {
       //控制延迟加载的转圈图形显示
       loading: false,
       pageIndex: 1,
-      timer: null
+      timer: null,
+      visible: false //是否展示出了下拉列表
     }
   },
   computed: {
@@ -146,57 +145,64 @@ export default {
         this.getInputTextByKeyField()
       }
     }
-    // currentHoverIndex(hoverIndex) {
-    //   console.log("hoverIndex:", hoverIndex)
-    // },
-    // currentIndex(cI) {
-    //   console.log("currentIndex:", cI)
-    // }
   },
   methods: {
     handleKeyup(e) {
-      this.$emit("keyup", e)
       const code = e.keyCode
       if (code != 40 && code != 38 && code != 13) {
         return
       }
-      let i = this.currentHoverIndex
-      const len = this.filterData.length
-      if (code == 40) {
-        //下
-        i += 1
-        if (i >= len) {
-          i = 0
+      if (this.visible) {
+        this.$emit("keyup", e)
+
+        let i = this.currentHoverIndex
+        let len = this.filterData.length
+        if (this.pageSize) {
+          const l = this.pageSize * this.pageIndex
+          if (l < len) {
+            len = l
+          }
         }
-      } else if (code == 38) {
-        i -= 1
-        if (i < 0) {
-          i = len - 1
+        if (code == 40) {
+          //下
+          i += 1
+          if (i >= len) {
+            i = 0
+          }
+        } else if (code == 38) {
+          i -= 1
+          if (i < 0) {
+            i = len - 1
+          }
+        } else if (code == 13) {
+          if (this.filterData.length) {
+            this.currentIndex =
+              this.currentHoverIndex == -1 ? 0 : this.currentHoverIndex
+            this.$emit(
+              "valueChange",
+              this.filterData[this.currentIndex][this.keyField]
+            )
+            this.$emit(
+              "toggle",
+              {
+                row: this.filterData[this.currentIndex],
+                index: this.currentIndex
+              },
+              e
+            )
+            this.hideList(this.destroyLayer)
+          }
+          return
         }
-      } else if (code == 13) {
-        if (this.filterData.length) {
-          this.currentIndex =
-            this.currentHoverIndex == -1 ? 0 : this.currentHoverIndex
-          this.$emit(
-            "valueChange",
-            this.filterData[this.currentIndex][this.keyField]
-          )
-          this.$emit(
-            "toggle",
-            {
-              row: this.filterData[this.currentIndex],
-              index: this.currentIndex
-            },
-            e
-          )
-          this.hideList(this.destroyLayer)
+        this.currentHoverIndex = i
+        // console.log(i)
+        this.scrollIntoViewIfNeed(i)
+        this.$forceUpdate()
+      } else {
+        if (code == 40) {
+          this.showAndScrollIntoView(true)
         }
-        return
       }
-      this.currentHoverIndex = i
-      // console.log(i)
-      this.scrollIntoViewIfNeed(i)
-      this.$forceUpdate()
     },
     //
     getInputTextByKeyField() {
@@ -289,8 +295,7 @@ export default {
         })
         this.filterData = arr
         if (arr.length === 0) {
-          if(this.ins) {
-
+          if (this.ins) {
             this.ins.hide()
           }
         } else {
@@ -328,13 +333,6 @@ export default {
         this.ins &&
           this.ins.show(() => {
             fn()
-            // 优化事件绑定时机：由layer抛出事件告诉父组件
-            // layer已经初始化完毕，之后进行事件绑定
-            // 而不是在layer展示出来后绑定
-            // this.ins.$refs.body.addEventListener(
-            //   "scroll",
-            //   this.handleLayerBodyScroll
-            // )
           })
       })
     },
@@ -346,44 +344,20 @@ export default {
             "scroll",
             this.handleLayerBodyScroll
           )
-          this.ins.hide(cb)
-          this.$refs.input.blur()
-          this.$nextTick(() => {
-            //如果没有选择，或者输入框没有东西，则重置成第一页
-            // if(!this.value && !this.inputText) {
-            //   this.pageIndex = 1
-            //   // console.log('没有value吗？')
-            // }
+          this.ins.hide(() => {
+            cb()
           })
+          this.$refs.input.blur()
         }
       }
     },
-    // scrollIntoView(index) {
-    //   let i = 0
-    //   if (typeof index === "number") {
-    //     i = index
-    //   } else {
-    //     this.filterData.forEach((el, index) => {
-    //       if (el[this.keyField] == this.value) {
-    //         i = index
-    //       }
-    //     })
-    //   }
-    //   this.getAllOptionsComponent()
-    //   if (this.options.length) {
-    //     this.ins.$refs.body.scrollTop = offset(
-    //       this.options[i].$el,
-    //       this.ins.$refs.body
-    //     ).top
-    //   }
-    // },
     scrollIntoViewIfNeed(index) {
       let i = 0
       if (typeof index === "number") {
         i = index
       } else {
         this.filterData.forEach((el, index) => {
-          if (el[this.keyField] === this.value) {
+          if (el[this.keyField] == this.value) {
             i = index
           }
         })
@@ -430,34 +404,21 @@ export default {
           ...this.$listeners,
           focus: e => {
             this.$refs.input.onSelect()
-            //如果还没有实例化，则先实例化
-            if (!this.ins) {
-              this.instanceAndOn()
-              this.init()
-            }
-            //如果没有筛选出来的数据，就不显示列表
-            if (this.filterData.length !== 0) {
-              this.showList(() => {
-                this.scrollIntoViewIfNeed()
-                this.currentHoverIndex = this.currentIndex
-                this.$forceUpdate()
-              })
-              //如果数据源本身就没有，此时可能是正在延迟加载数据中
-            } else if (this.data.length === 0) {
-              this.showList()
-            }
+            this.showAndScrollIntoView()
             this.$emit("focus", e)
           },
-          blur: () => {
-            if (!this.isMouseDownOption) {
-              this.hideList(this.destroyLayer)
-            }
-          },
+          // blur: () => {
+          // if (!this.isMouseDownOption) {
+          //   this.hideList(this.destroyLayer)
+          //   console.log(this.visible)
+          // }
+          // },
           input: () => {
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
               this.$emit("input", this.inputText)
             }, this.debounceTime)
+            this.showAndScrollIntoView()
           },
           keyup: e => {
             this.handleKeyup(e)
@@ -492,6 +453,15 @@ export default {
             this.handleLayerBodyScroll
           )
         })
+      })
+      this.ins.$on("after-show", () => {
+        this.visible = true
+        this.$refs.input.focus()
+        this.$emit("after-show")
+      })
+      this.ins.$on("after-hide", () => {
+        this.visible = false
+        this.$emit("after-hide")
       })
 
       this.ins.$on("mousedown", () => {
@@ -602,10 +572,69 @@ export default {
       })
     },
     destroyLayer() {
-      if (this.lazy) {
+      if (this.destroyWhenHide) {
         if (this.ins) {
           this.ins.destroy()
           this.ins = null
+        }
+      }
+    },
+    renderIcon() {
+      const inputText = this.inputText.trim()
+      if (inputText !== "") {
+        return (
+          <span
+            class="k-auto-complete-icon-wrapper"
+            onClick={e => {
+              this.pageIndex = 1
+              this.inputText = ""
+              this.currentHoverIndex = this.currentIndex = -1
+              if (this.visible) {
+                this.$refs.input.focus()
+              }
+              this.$emit("valueChange", "")
+              this.$emit("toggle", { row: undefined, index: undefined })
+              this.getFilterData()
+            }}
+          >
+            <k-icon class="k-auto-complete-icon" name="k-icon-close" />
+          </span>
+        )
+      }
+      return (
+        <span
+          class="k-auto-complete-icon-wrapper"
+          onClick={e => {
+            if (this.visible) {
+              this.hideList(this.destroyLayer)
+            } else {
+              this.showAndScrollIntoView(true)
+            }
+          }}
+        >
+          <k-icon
+            class="k-auto-complete-icon"
+            name="k-icon-sort-down"
+            transform={this.visible && "rotateX(180deg)"}
+          />
+        </span>
+      )
+    },
+    showAndScrollIntoView(force) {
+      const inputText = this.inputText.trim()
+      if (inputText !== "" || force) {
+        //如果还没有实例化，则先实例化
+        if (!this.ins) {
+          this.instanceAndOn()
+          this.init()
+        }
+        //如果没有筛选出来的数据，就不显示列表
+        if (force || this.filterData.length !== 0) {
+          this.showList(() => {
+            this.scrollIntoViewIfNeed()
+            this.currentHoverIndex = this.currentIndex
+            this.$forceUpdate()
+          })
         }
       }
     }
@@ -616,15 +645,11 @@ export default {
   },
   render() {
     const inputProps = this.inputProps()
-    return <k-input {...inputProps} />
+    return <k-input {...inputProps}>{this.renderIcon()}</k-input>
   },
   beforeDestroy() {
+    console.log('销毁了')
     this.destroyLayer()
-  },
-  destroyed() {
-    // console.log('k-auto-complete被销毁了！当前页：',this.pageIndex)
-    if (this.ins) {
-    }
   },
   mounted() {
     if (!this.lazy) {
