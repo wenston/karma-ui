@@ -14,7 +14,7 @@ module.exports = {
   output: {
     filename: "[name].js",
     chunkFilename: "[id].js",
-    path: resolve("../ZOL_PSI/PSI_2.1/src/components/karma-ui/lib"),
+    path: resolve("../3.0/src/components/karma-ui/lib"),
     library: "karma-ui",
     // libraryTarget: 'commonjs2',
     libraryTarget: "umd",

@@ -1,5 +1,10 @@
 <template>
-  <transition name="k-t-fade">
+  <transition name="k-t-fade"
+    @before-enter="beforeEnter"
+    @enter="enter"
+    @after-enter="afterEnter"
+    @leave="leave"
+    @after-leave="afterLeave">
     <div ref="popup"
       tabindex="-1"
       :class="[
@@ -7,9 +12,9 @@
         layout.indexOf('mask')>-1?'k-popup--mask':'k-popup--transparent'
       ]"
       v-show="show">
-      <div v-show="show"
-        class="k-popup__wrapper">
+      <div class="k-popup__wrapper">
         <div class="k-popup__container"
+          ref="container"
           v-dnd="{handlerClass:'k-popup__header__title'}">
           <k-icon class="k-popup__close"
             name="k-icon-close"
@@ -29,10 +34,13 @@
           <div class="k-popup__body"
             v-if="layout.indexOf('body')>-1">
             <div class="k-popup__content">
-              <slot name="body">
-              </slot>
-              <slot>
-              </slot>
+              <div class="k-popup__content__main">
+
+                <slot name="body">
+                </slot>
+                <slot>
+                </slot>
+              </div>
             </div>
           </div>
           <div class="k-popup__footer"
@@ -100,6 +108,41 @@ export default {
     }
   },
   methods: {
+    beforeEnter() {
+      const container = this.$refs.container
+      container.classList.add("k-popup-container--before-enter")
+    },
+    enter() {
+      this.$nextTick(() => {
+        const container = this.$refs.container
+        container.classList.add("k-popup-container--enter")
+        if (!this.allowBodyScroll) {
+          document.body.classList.add("k-overflow-hidden")
+        }
+        this.$nextTick().then(() => {
+          this.$refs.popup.focus()
+        })
+      })
+    },
+    afterEnter() {
+      const container = this.$refs.container
+      container.classList.remove("k-popup-container--before-enter")
+      container.classList.remove("k-popup-container--enter")
+    },
+    leave() {
+      const container = this.$refs.container
+      container.classList.add("k-popup-container--before-enter")
+    },
+    afterLeave() {
+      const container = this.$refs.container
+      container.classList.remove("k-popup-container--before-enter")
+      if (!this.allowBodyScroll) {
+        document.body.classList.remove("k-overflow-hidden")
+      }
+      if (this.$refs.popup) {
+        this.$refs.popup.blur()
+      }
+    },
     onOk() {
       this.$emit("after-ok")
     },
@@ -121,25 +164,6 @@ export default {
   },
   directives: {
     dnd
-  },
-  watch: {
-    show(v) {
-      if (v) {
-        if (!this.allowBodyScroll) {
-          document.body.classList.add("k-overflow-hidden")
-        }
-        this.$nextTick().then(() => {
-          this.$refs.popup.focus()
-        })
-      } else {
-        if (!this.allowBodyScroll) {
-          document.body.classList.remove("k-overflow-hidden")
-        }
-        if (this.$refs.popup) {
-          this.$refs.popup.blur()
-        }
-      }
-    }
   }
 }
 </script>

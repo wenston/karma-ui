@@ -11,10 +11,6 @@
   z-index: 2;
   box-shadow: 0px 1px 0 0 var(--table-border-color),
     1px 1px 0 0 var(--table-border-color);
-  @supports (backdrop-filter: blur()) {
-    background-color: transparent;
-    backdrop-filter: blur(20px);
-  }
   &:after {
     content: "";
     position: absolute;
@@ -29,10 +25,6 @@
 .k-table-fixed-td-body,
 .k-table-fixed-td-right-body {
   background-color: rgba(255, 255, 255, 0.95);
-  @supports (backdrop-filter: blur()) {
-    background-color: transparent;
-    backdrop-filter: blur(20px);
-  }
   box-shadow: 0px 1px 0 0 var(--table-border-color),
     1px 1px 0 0 var(--table-border-color);
   position: relative;

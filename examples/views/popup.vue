@@ -7,10 +7,11 @@
     <div style="height: 1000px;"></div>
     <k-popup :show.sync="show">
 
-      <div style="width:500px;max-height:60vh;overflow:auto;">
+      <div style="width:500px;">
         <div style="height: 1000px">
 
           <k-auto-complete :data="dataList"
+            layer-width="250px"
             nearby />
         </div>
       </div>
