@@ -1,5 +1,5 @@
 <template>
-  <div class="k-scrollbar__y"
+  <div :class='["k-scrollbar__y",{"k-scrollbar--active":isMousedown}]'
     v-show="show"
     @click.stop.prevent>
     <div class="k-scrollbar__ytrack"
@@ -28,6 +28,7 @@
         lastTop: 0,
         start: 0,
         dragging: false,
+        isMousedown: false,
       }
     },
     computed: {
@@ -67,6 +68,7 @@
         this.$emit('dragging', this.top, this.height, false)
       },
       onDown(e) {
+        this.isMousedown = true
         this.dragging = true
         this.start = e.clientY
         this.lastTop = this.top
@@ -93,6 +95,7 @@
       },
       onUp(e) {
         this.dragging = false
+        this.isMousedown = false
         document.removeEventListener('mousemove', this.onMove)
         document.removeEventListener('mouseup', this.onUp)
       },

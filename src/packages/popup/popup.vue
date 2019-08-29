@@ -113,15 +113,15 @@ export default {
       container.classList.add("k-popup-container--before-enter")
     },
     enter() {
-      this.$nextTick(() => {
+      setTimeout(() => {
         const container = this.$refs.container
         container.classList.add("k-popup-container--enter")
-        if (!this.allowBodyScroll) {
-          document.body.classList.add("k-overflow-hidden")
-        }
-        this.$nextTick().then(() => {
-          this.$refs.popup.focus()
-        })
+      })
+      if (!this.allowBodyScroll) {
+        document.body.classList.add("k-overflow-hidden")
+      }
+      this.$nextTick().then(() => {
+        this.$refs.popup.focus()
       })
     },
     afterEnter() {
@@ -142,6 +142,7 @@ export default {
       if (this.$refs.popup) {
         this.$refs.popup.blur()
       }
+      this.$emit('after-leave')
     },
     onOk() {
       this.$emit("after-ok")

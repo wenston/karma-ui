@@ -69,6 +69,7 @@ export default {
     focusAndScrollIntoView() {
       this.$el.scrollIntoView({ behavior: "smooth" })
       this.$refs.input.focus()
+      this.toggleList()
     },
     clear() {
       this._change({})

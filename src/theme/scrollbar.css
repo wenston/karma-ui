@@ -53,7 +53,12 @@
     .k-scrollbar__y,
     .k-scrollbar__x {
       opacity: 1;
+      
     }
+  }
+  .k-scrollbar__x.k-scrollbar--active,
+  .k-scrollbar__y.k-scrollbar--active {
+    opacity: 1;
   }
 }
 .k-scrollbar__content {

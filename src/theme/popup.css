@@ -31,8 +31,7 @@
   overflow: hidden;
   background-color: var(--popup-container-bg-color);
   box-shadow: var(--popup-box-shadow);
-  transition-property: opacity,transform;
-  transition-duration: .25s,.25s;
+  transition: opacity,transform .25s,.25s;
 }
 
 .k-popup__close {
