@@ -31,7 +31,7 @@
   overflow: hidden;
   background-color: var(--popup-container-bg-color);
   box-shadow: var(--popup-box-shadow);
-  transition: opacity,transform .25s,.25s;
+  transition: transform .25s,opacity .25s;
 }
 
 .k-popup__close {
@@ -78,7 +78,7 @@
   overflow-x: hidden;
   display: table-cell;
   background-color: var(--popup-content-bg-color);
-  transition: var(--transition);
+  /* transition: var(--transition); */
   & .k-popup__content__main {
     padding: var(--popup-content-padding);
     min-height: var(--popup-content-min-height);
