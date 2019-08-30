@@ -63,7 +63,7 @@ export default {
         //收集keys
         let keys = []
         this.checkedRows.forEach(r => {
-          const k = this.formatCheckedKey(r)
+          const k = this.$_format_checked_key(r)
           keys.push(k)
         })
         this.checkedKeys = keys
@@ -98,11 +98,11 @@ export default {
       if (checked) {
         this.data.forEach((row, index) => {
           if (this.canCheckRow(row, index)[1]) {
-            const k = this.formatCheckedKey(row)
+            const k = this.$_format_checked_key(row)
             set.add(k)
             let has = false
             for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-              if (k === this.formatCheckedKey(this.checkedRows[i])) {
+              if (k === this.$_format_checked_key(this.checkedRows[i])) {
                 has = true
                 break
               }
@@ -116,11 +116,11 @@ export default {
       } else {
         this.data.forEach((row, index) => {
           if (this.canCheckRow(row, index)[1]) {
-            const k = this.formatCheckedKey(row)
+            const k = this.$_format_checked_key(row)
             set.delete(k)
             let j = -1
             for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-              if (k === this.formatCheckedKey(this.checkedRows[i])) {
+              if (k === this.$_format_checked_key(this.checkedRows[i])) {
                 j = i
                 break
               }
@@ -145,7 +145,7 @@ export default {
       }
     },
     //格式化checkboxKey/radioKey
-    formatCheckedKey(row) {
+    $_format_checked_key(row) {
       let keys = []
       let result = []
       if (this.checkboxKey && this.hasCheckbox) {
@@ -225,7 +225,7 @@ export default {
       //如果有复选框
       if (this.hasCheckbox && col.field === this.__checkbox) {
         let checked = false
-        const k = this.formatCheckedKey(row)
+        const k = this.$_format_checked_key(row)
         let set = new Set(this.checkedKeys)
         if (set.has(k)) {
           checked = true
@@ -235,7 +235,7 @@ export default {
         if (canCk) {
           cell = (
             <k-checkbox
-              value={this.formatCheckedKey(row)}
+              value={this.$_format_checked_key(row)}
               checked={checked}
               style="pointer-events:none;"
             />
@@ -243,7 +243,7 @@ export default {
         } else {
           cell = (
             <k-checkbox
-              value={this.formatCheckedKey(row)}
+              value={this.$_format_checked_key(row)}
               checked={ck}
               disabled={!canCk}
               style="pointer-events:none;"
@@ -255,7 +255,7 @@ export default {
         const radioProps = {
           props: {
             modelValue: this.currentRadioValue,
-            value: this.formatCheckedKey(row),
+            value: this.$_format_checked_key(row),
             disabled: !canCk
           },
           on: {
@@ -352,7 +352,7 @@ export default {
               })
             }
             //可以在此处理复选单选
-            const k = this.formatCheckedKey(row)
+            const k = this.$_format_checked_key(row)
             if (this.canCheckRow(row, index)[1]) {
               if (this.hasCheckbox) {
                 let checked = false
@@ -361,7 +361,7 @@ export default {
                   set.delete(k)
                   let j = -1
                   for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-                    if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                    if (k === this.$_format_checked_key(this.checkedRows[i])) {
                       j = i
                       break
                     }
@@ -374,7 +374,7 @@ export default {
                   checked = true
                   let has = false
                   for (let i = 0, len = this.checkedRows.length; i < len; i++) {
-                    if (k === this.formatCheckedKey(this.checkedRows[i])) {
+                    if (k === this.$_format_checked_key(this.checkedRows[i])) {
                       has = true
                       break
                     }

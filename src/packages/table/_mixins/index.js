@@ -145,6 +145,21 @@ export default {
         cls = ''
       }
       return Array.isArray(cls) ? cls.join(" ") : cls 
-    }
+    },
+    
+    //格式化checkboxKey/radioKey
+    $_format_checked_key(row) {
+      let keys = []
+      let result = []
+      if (this.checkboxKey && this.hasCheckbox) {
+        keys = this.checkboxKey.trim().split(",")
+      } else if (this.radioKey && this.hasRadio) {
+        keys = this.radioKey.trim().split(",")
+      }
+      keys.forEach(key => {
+        result.push(row[key])
+      })
+      return result.join(",")
+    },
   }
 }
