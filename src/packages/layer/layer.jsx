@@ -202,6 +202,8 @@ export default {
           if (top < 0) {
             top = 0
           }
+        }else{
+          this.transitionType = 'slide-down'
         }
         // console.log(left,width,clientWidth)
         if (left + width > clientWidth - 5) {
