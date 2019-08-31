@@ -197,6 +197,13 @@ export default new VueRouter({
           component(res) {
             import("../views/selectTree.vue").then(comp => res(comp))
           }
+        },
+        {
+          path: "/drawer",
+          name: "drawer",
+          component(res) {
+            import("../views/drawer.vue").then(comp => res(comp))
+          }
         }
       ]
     }

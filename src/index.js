@@ -31,6 +31,7 @@ import KAutoComplete from 'karma-ui/packages/auto-complete/index.js'
 import KTree from 'karma-ui/packages/tree/index.js'
 import KDropdown from 'karma-ui/packages/dropdown/index.js'
 import KSelectTree from 'karma-ui/packages/select-tree/index.js'
+import KDrawer from 'karma-ui/packages/drawer/index.js'
 //指令
 import Dnd from 'karma-ui/directives/dnd/index.js'
 import Pin from 'karma-ui/directives/pin/index.js'
@@ -69,7 +70,8 @@ let obj = {
   KAutoComplete,
   KTree,
   KDropdown,
-  KSelectTree
+  KSelectTree,
+  KDrawer
 }
 
 export default {

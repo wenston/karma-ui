@@ -277,4 +277,6 @@
 
   /** 列宽调整的基准线 */
   --table-base-line-color: color(var(--danger-color) a(50%));
+
+  
 }

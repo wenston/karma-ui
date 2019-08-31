@@ -143,6 +143,10 @@ export default {
           {
             name: "selectTree",
             title: "selectTree 下拉树形选择器"
+          },
+          {
+            name: "drawer",
+            title: "drawer 抽屉式弹出层"
           }
         ],
         directives: [
