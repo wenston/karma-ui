@@ -6,6 +6,12 @@ ul.k-pagi {
   align-items: center;
   justify-content: flex-end;
   transition: var(--transition);
+  &.k-pagi-center {
+    justify-content: center;
+  }
+  &.k-pagi-left {
+    justify-content: flex-start;
+  }
   > li {
     display: flex;
     align-items: center;
@@ -40,6 +46,10 @@ ul.k-pagi {
         background-color: var(--pagi-hover-background-color);
         color: white !important;
       }
+      &.k-pagi-mini {
+        min-width: 26px;
+        height: 24px;
+      }
     }
     &.k-pagi-prev,
     &.k-pagi-next {
@@ -50,8 +60,7 @@ ul.k-pagi {
       user-select: none;
     }
     &.k-pagi-disabled {
-      cursor: no-drop;
-      pointer-events: none;
+      cursor: not-allowed;
     }
   }
   li.k-pagi-sizes {

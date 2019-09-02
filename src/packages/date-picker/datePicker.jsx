@@ -348,7 +348,7 @@ export default {
                 </span>
               )}
 
-              <span class="k-d-p-r-p">至</span>
+              <span class="k-d-p-r-p">-</span>
               {this.end ? (
                 <span class="k-date-picker-range-item">
                   {util.formatDate(this.end)}

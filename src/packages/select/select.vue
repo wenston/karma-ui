@@ -44,8 +44,8 @@ export default {
     },
     nearby: Boolean,
     layerWidth: {
-      type:[Boolean,String],
-      default:false
+      type: [Boolean, String],
+      default: false
     }
   },
   data() {
@@ -72,7 +72,7 @@ export default {
       this.toggleList()
     },
     clear() {
-      this._change({})
+      this._change({}, false, true)
       this.showDelete = false
     },
     showDeleteBtn() {
@@ -109,9 +109,9 @@ export default {
         // this.$refs.input.blur()
       }
     },
-    _change(obj, hide) {
+    _change(obj, hide, isFocus) {
       this.modelValue = obj.v
-      this.$refs.input.focus()
+      isFocus && this.$refs.input.focus()
       this.$emit("modelKeyChange", obj.k)
       this.$emit("change", obj)
       hide && this.hideList()
@@ -204,7 +204,9 @@ export default {
           i = this.options.length - 1
         }
       } else if (code == 40) {
-        //下
+        if (!this.showOptionList) {
+          return
+        }
         i += 1
         if (i >= this.options.length) {
           i = 0
@@ -217,7 +219,8 @@ export default {
       }
       this._change(
         { k: this.options[i].value, v: this.options[i].label },
-        false
+        false,
+        true
       )
       this.scrollIntoViewIfNeed(i)
 
@@ -279,9 +282,9 @@ export default {
     })
   },
   created() {
-    this.$on("getKeyValueFromOption", (k, v, hide) => {
+    this.$on("getKeyValueFromOption", (k, v, hide, isFocus) => {
       // console.log(k,v)
-      this._change({ k, v }, hide)
+      this._change({ k, v }, hide, isFocus)
     })
     this.$on("getOptionComponentName", name => {
       this.optionCompName = name
@@ -359,6 +362,7 @@ export default {
           if(e.keyCode==40) {
             if(!this.showOptionList) {
               this.toggleList()
+              e.stopPropagation()
             }
           }
         }

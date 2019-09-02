@@ -9,6 +9,7 @@
         :page-sizes=[8,16,32]
         @page-change="pageChange"
         @size-change="sizeChange"
+        align="left"
         ></k-pagination>
     </div>
   </div>

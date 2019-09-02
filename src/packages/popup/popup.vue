@@ -142,7 +142,7 @@ export default {
       if (this.$refs.popup) {
         this.$refs.popup.blur()
       }
-      this.$emit('after-leave')
+      this.$emit("after-leave")
     },
     onOk() {
       this.$emit("after-ok")
