@@ -36,7 +36,7 @@ export default {
     block: Boolean,
     icon: {
       type: Array,
-      default: () => ["k-icon-sort-down", "k-icon-close"]
+      default: () => ["k-icon-arrow-down", "k-icon-close"]
     },
     scrollElement: {
       type: Element,
@@ -151,7 +151,7 @@ export default {
                 "k-select__down": true,
                 "k-select__down--up": this.ifOptionList
               }}
-              name={this.icon[0] || "k-icon-sort-down"}
+              name={this.icon[0] || "k-icon-arrow-down"}
             />
           </span>
         )

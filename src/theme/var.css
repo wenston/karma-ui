@@ -21,7 +21,7 @@
   --small: 28px;
   --mini: 24px;
   /*边框颜色，form表单相关控件的边框、分页器按钮边框*/
-  --border-color: #dae1eb;
+  --border-color: #e1e1e1;
 
   /*过渡*/
   --transition: .25s ease-out;
@@ -241,7 +241,7 @@
 
   /* table */
   --table-wrapper-bg-color: var(--default-color);
-  --table-border-color: #e3e8ee;
+  --table-border-color: #e1e1e1;
   --table-border: 1px solid var(--table-border-color);
 
   /* 表头 */

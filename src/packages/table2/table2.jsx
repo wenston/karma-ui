@@ -66,6 +66,7 @@ export default {
   },
   render() {
     const tableProps = {
+      class: 'k-tableouter-2',
       ref: "table",
       props: {
         ...this.$props

@@ -213,7 +213,7 @@ export default {
             <k-icon
               title="删除行"
               class="k-table-icon-action"
-              name="k-icon-delete"
+              name="k-icon-close-circle"
               onClick={e => {
                 e.stopPropagation()
                 this.$emit("delete-row", { row, index })

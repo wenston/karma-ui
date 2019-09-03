@@ -41,9 +41,16 @@ export default {
         "update:show": v => {
           this.show = v
         },
-        "after-leave": this.afterCancel,
-        // "after-cancel": this.afterCancel,
-        "after-ok": this.afterOk
+        "after-leave": e=>{
+          if(e) {
+            this.afterOk()
+          }else{
+            this.afterCancel()
+          }
+        },
+        "after-ok": () => {
+          this.show = false
+        }
       }
     }
     return (

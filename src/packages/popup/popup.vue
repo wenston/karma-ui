@@ -107,8 +107,14 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      isOk: false
+    }
+  },
   methods: {
     beforeEnter() {
+      this.isOk = false
       const container = this.$refs.container
       container.classList.add("k-popup-container--before-enter")
     },
@@ -142,12 +148,14 @@ export default {
       if (this.$refs.popup) {
         this.$refs.popup.blur()
       }
-      this.$emit("after-leave")
+      this.$emit("after-leave",this.isOk)
     },
     onOk() {
+      this.isOk = true
       this.$emit("after-ok")
     },
     onCancel() {
+      this.isOk = false
       this.$emit("update:show", false)
       this.$emit("after-cancel")
     },

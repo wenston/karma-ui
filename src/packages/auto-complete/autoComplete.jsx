@@ -614,7 +614,7 @@ export default {
         >
           <k-icon
             class="k-auto-complete-icon"
-            name="k-icon-sort-down"
+            name="k-icon-arrow-down"
             transform={this.visible && "rotateX(180deg)"}
           />
         </span>
