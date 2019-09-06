@@ -72,6 +72,13 @@ export default {
     nearby: {
       type: Boolean,
       default: false
+    },
+    //如果是延迟获取数据，则从外部绑定数据后，名字出不来，所以给个与keyField对应的text
+    //注意：text仅仅是在没有数据的时候，也可以在输入框展示出绑定的数据
+    //仅此而已
+    text: {
+      type: [String,Number],
+      default: ''
     }
   },
   model: {
@@ -85,7 +92,7 @@ export default {
       //提交数据用的，可能是id或者proid等等
       // val: this.value,
       //展示在输入框的那个文本
-      inputText: "",
+      inputText: this.text,
       optionCompName: "",
       isMouseDownOption: false,
       //选中的那个数据的index
@@ -144,6 +151,9 @@ export default {
       handler(v) {
         this.getInputTextByKeyField()
       }
+    },
+    text(t) {
+      this.inputText = t
     }
   },
   methods: {
@@ -223,6 +233,10 @@ export default {
             this.currentHoverIndex = i
             break
           }
+        }
+      } else {
+        if(this.text) {
+          text = this.text
         }
       }
       this.inputText = text
@@ -596,7 +610,7 @@ export default {
               this.getFilterData()
             }}
           >
-            <k-icon class="k-auto-complete-icon" name="k-icon-close" />
+            <k-icon class="k-auto-complete-icon" name="k-icon-close-circle" />
           </span>
         )
       }
@@ -645,7 +659,7 @@ export default {
   },
   render() {
     const inputProps = this.inputProps()
-    return <k-input {...inputProps}>{this.renderIcon()}</k-input>
+    return <k-input {...inputProps}>{this.renderIcon()}{this.$slots.append}</k-input>
   },
   beforeDestroy() {
     this.destroyLayer()

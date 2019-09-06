@@ -6,7 +6,7 @@
         :data="dataList"
         :show.sync="show"
         hasCheckbox
-        selected-rule="every"
+        selected-rule="some"
         :selected-data.sync="checkedData"
         :selected-keys.sync="checkedKeys"></k-select-tree>
       <k-select-tree style="line-height:normal;display:inline-block;"

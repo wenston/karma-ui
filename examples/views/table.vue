@@ -4,8 +4,8 @@
     <k-table :data="table"
       min-content
       :columns="columns"
-      has-checkbox
-      checkbox-key="name"
+      has-radio
+      radio-key="name"
       has-index
       index-text="序"
       nowrap

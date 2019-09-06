@@ -55,6 +55,7 @@
 .k-popup__header {
   padding: var(--popup-header-padding);
   display: table-row;
+  border-bottom: 1px solid var(--popup-header-border-color);
   background: linear-gradient(
     130deg,
     var(--popup-header-bg-color-1),
@@ -91,6 +92,9 @@
 .k-popup__footer {
   display: table-row;
 }
+.k-popup__footer {
+  background-color: var(--popup-header-bg-color-1);
+}
 
 .k-popup__footer__con {
   display: table-cell;
@@ -99,6 +103,11 @@
   &.k-popup__footer__con--line {
 
     border-top: var(--popup-footer-border-top);
+  }
+  & .k-popup__footer__between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 

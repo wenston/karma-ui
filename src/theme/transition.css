@@ -18,7 +18,7 @@
 .k-t-fade {
   &-enter,
   &-leave-to {
-    opacity: 0;
+    opacity: 0.1;
   }
   &-enter-to,
   &-leave {

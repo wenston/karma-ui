@@ -37,7 +37,7 @@
       width: 16px;
       height: 16px;
       display: inline-block;
-      vertical-align: 2px;
+      line-height: 1;
     }
     &.k-tree-item--dotted,
     &:not(:last-child) {
@@ -47,9 +47,9 @@
           content: "";
           width: 0;
           border-left: 1px dotted color(var(--border-color) b(40%));
-          left: 5.5px;
+          left: 6.5px;
           pointer-events: none;
-          top: 1.6em;
+          top: 1.3em;
           /* bottom: 0; */
           height: calc(100% - 1em);
         }

@@ -2,11 +2,13 @@ import KDate from "./date"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 import KDropdown from "karma-ui/packages/dropdown/dropdown"
 import KButton from "karma-ui/packages/button/button"
+import KIcon from "karma-ui/packages/icon/icon"
 import util from "./util/date"
 import mixins from "./util/mixins"
 export default {
   mixins: [mixins],
   components: {
+    KIcon,
     KDate,
     KInput,
     KDropdown,
@@ -328,7 +330,7 @@ export default {
               }
             }
           },
-          style: { width: this.block ? "100%" : "180px", ...this.styles }
+          style: { width: this.block ? "100%" : "200px", ...this.styles }
         }
         if(!this.disabled) {
           rangeP.attrs = {
@@ -348,7 +350,7 @@ export default {
                 </span>
               )}
 
-              <span class="k-d-p-r-p">-</span>
+              <span class="k-d-p-r-p">~</span>
               {this.end ? (
                 <span class="k-date-picker-range-item">
                   {util.formatDate(this.end)}
@@ -360,7 +362,7 @@ export default {
               )}
               {((this.start || this.end)&&!this.disabled) ? (
                 <k-icon
-                  name="k-icon-close"
+                  name="k-icon-close-circle"
                   class="k-date-picker-icon-close"
                   onClick={e => {
                     this.clearDate()

@@ -9,7 +9,7 @@
         :layer-width="false"
         :nearby="false"
         :show.sync="show">
-        
+        <div></div>
       </k-select2>
     </div>
   </div>

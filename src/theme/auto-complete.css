@@ -42,21 +42,22 @@
   overflow: hidden;
 }
 .k-auto-complete-icon-wrapper {
-  position: absolute;
+  /* position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
-  left: 0;
+  left: 0; */
+  display: inline-block;
   cursor: pointer;
   & .k-auto-complete-icon {
     color: var(--auto-complete-icon-color);
     cursor: pointer;
     font-size: 12px;
     width: 12px;
-    height: 14px;
+    height: 100%;
     display: inline-block;
     transition: transform var(--transition);
-    @extend .k-center;
+    /* @extend .k-center; */
   }
   &:hover {
     & .k-auto-complete-icon {

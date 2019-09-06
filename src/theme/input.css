@@ -38,6 +38,16 @@
       background-color: var(--disabled-color);
       cursor: not-allowed;
     }
+
+    &.k-input--left {
+      text-align: left;
+    }
+    &.k-input--right {
+      text-align: right;
+    }
+    &.k-input--center {
+      text-align: center;
+    }
   }
 
   &.k-input-block {
@@ -96,6 +106,7 @@
       & .k-input-prepend,
       & .k-input-append {
         min-width: var(--input-$(name));
+        line-height: var(--input-$(name));
       }
 
       & .k-input-prepend {

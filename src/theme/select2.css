@@ -11,6 +11,10 @@
     border-top: none;
     border-left: none;
     border-right: none;
+    &:focus {
+
+      box-shadow: none;
+    }
   }
 
   .k-input-append {
@@ -19,6 +23,9 @@
   .k-select2-check-all {
     width: 16px;
     height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 .k-select2-list {
@@ -64,11 +71,14 @@
   margin: 2px;
   white-space: nowrap;
   display: inline-block;
+  line-height: 1;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
   .k-select2-checked-name {
-    background-color: var(--border-color);
+    background-color: #fcfcfc;
     height: 18px;
     line-height: 18px;
-    padding: 0 3px;
+    padding: 0 2px;
     display: inline-block;
     vertical-align: middle;
     color: var(--font-color-2);
@@ -77,16 +87,15 @@
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
-    background-color: var(--border-color);
+    background-color: #fcfcfc;
     width: 15px;
     height: 18px;
     line-height: 18px;
-    border-left: 1px solid color(white a(50%));
     text-align: center;
-    color: var(--font-color-3);
-    font-size: 14px;
+    color: var(--font-color-4);
+    font-size: 12px;
     &:hover {
-      color: var(--font-color-1);
+      color: var(--font-color-3);
     }
   }
 }
@@ -96,4 +105,11 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  border-top: 1px solid var(--border-color);
+}
+.k-select2-append {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  right: 1px;
 }

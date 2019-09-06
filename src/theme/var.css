@@ -3,7 +3,7 @@
   --default-color: #fcfcfc;
   --primary-color: #3685fe;
   --primary-gradient-color: #5549ff;
-  --danger-color: #de3400;
+  --danger-color: #FF762E;
   --warning-color: #ffac2c;
   --success-color: #40ab56;
   --disabled-color: #e9e9e9;
@@ -96,7 +96,7 @@
   --button-huge-font-size: 18px;
   --button-large-font-size: 16px;
   --button-big-font-size: 14px;
-  --button-medium-font-size: 14px;
+  --button-medium-font-size: 12px;
   --button-small-font-size: 12px;
   --button-mini-font-size: 12px;
   /*默认按钮*/
@@ -143,14 +143,14 @@
   --input-number-btn-hover-color: var(--primary-color);
 
   /* tips */
-  --tips-padding: 20px;
-  --tips-bg-color: color(rgb(60, 70, 80) a(85%));
-  --tips-box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+  --tips-padding: 10px 15px;
+  --tips-bg-color: color(rgb(255, 255, 255) a(95%));
+  --tips-box-shadow: 0 0 0 1px rgba(0,0,0,.05),0 5px 8px rgba(0, 0, 0, .1);
   --tips-z-index: 10000;
-  --tips-radius: calc(var(--radius)*2);
-  --tips-cont-color: #fff;
+  --tips-radius: calc(var(--radius));
+  --tips-cont-color: #666;
   --tips-cont-font-size: 14px;
-  --tips-cont-text-align: center;
+  --tips-cont-text-align: left;
 
   /*checkbox*/
   --checkbox-gutter: 20px;
@@ -171,24 +171,24 @@
   /*popup*/
   --popup-z-index: 999;
   --popup-radius: var(--radius);
-  --popup-mask-bg-color: color(rgb(70,70,70) a(60%));
+  --popup-mask-bg-color: color(rgb(70,70,70) a(40%));
   --popup-container-width: 300px;
   --popup-container-bg-color: var(--bg-color);
   --popup-box-shadow: 0px 8px 10px -9px rgba(0, 0, 0, .25),
     0 2px 10px 0 rgba(0,0,0,.15);
-  --popup-header-bg-color-1: #e0e0e0;
-  --popup-header-bg-color-2: #e0e0e0;
+  --popup-header-bg-color-1: #fafafa;
+  --popup-header-bg-color-2: #fafafa;
+  --popup-header-border-color: #f0f0f0;
   --popup-header-padding: 0 15px;
   --popup-header-height: 36px;
-  --popup-header-border-color: color(var(--popup-header-bg-color) b(10%));
   --popup-header-title-font-size:14px;
   --popup-header-title-color:var(--font-color-2);
   --popup-content-min-height: 70px;
   --popup-content-padding: 15px;
   --popup-content-bg-color: var(--bg-color);
-  --popup-footer-padding: 12px 15px 10px;
+  --popup-footer-padding: 8px 15px 8px;
   --popup-footer-text-align: right;
-  --popup-footer-border-top: 1px solid #e0e0e0;
+  --popup-footer-border-top: 1px solid #f0f0f0;
   --popup-close-btn-color: var(--font-color-2);
   --popup-close-btn-hover-color: var(--font-color-1);
 

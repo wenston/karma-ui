@@ -1,6 +1,8 @@
 <script>
 import { validate } from "karma-ui/mixins/validate.js"
+import KIcon from "karma-ui/packages/icon/icon"
 export default {
+  components: { KIcon },
   mixins: [validate],
   name: "KInput",
   inheritAttrs: false,
@@ -52,7 +54,11 @@ export default {
     inputStyles: Object,
     simple: Boolean, //简易型。只有下边框
     noStyle: Boolean,
-    capsule: Boolean,//胶囊形状的输入框
+    capsule: Boolean, //胶囊形状的输入框
+    align: {
+      type: String,
+      default: "left"
+    }
   },
   computed: {
     isInput() {
@@ -81,8 +87,9 @@ export default {
       }
       if (this.clearable && (this.value + "").trim() !== "") {
         append = (
-          <i
-            class="k-input-clearable k-icon-close iconfont"
+          <k-icon
+            name="k-icon-close-circle"
+            class="k-input-clearable"
             onClick={this.toClear}
           />
         )
@@ -104,13 +111,14 @@ export default {
         {append}
         <this.tag
           {...{ directives }}
-          {...{ attrs: {...this.$props,tabindex:1} }}
+          {...{ attrs: { ...this.$props, tabindex: 1 } }}
           domPropsValue={this.value}
           domPropsDisabled={this.disabled}
           class={{
             [this.isInput ? "k-input" : "k-textarea"]: true,
             "k-input-disabled": this.disabled,
-            "k-input-active": this.active
+            "k-input-active": this.active,
+            ["k-input--" + this.align]: true
           }}
           style={this.inputStyles}
           onInput={() => this.handlerEvent($event)}
@@ -181,11 +189,10 @@ export default {
     toClear(e) {
       e.stopPropagation()
       this.$emit("valueChange", "")
-      this.$emit('clear')
+      this.$emit("clear")
     },
     focus() {
-      if(this.$refs.input)
-      this.$refs.input.focus()
+      if (this.$refs.input) this.$refs.input.focus()
     },
     blur() {
       this.$refs.input.blur()
@@ -210,7 +217,7 @@ export default {
     autofocus: {
       immediate: true,
       handler(f) {
-        if(f) {
+        if (f) {
           this.focus()
         }
       }

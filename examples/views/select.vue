@@ -8,7 +8,7 @@
           @focus="onFocus"
           @blur="onBlur"
           clearable>
-          <k-option v-for="(v,k) in cities"
+          <k-option v-for="(v,k) in cits"
             :value="k"
             :key="k"
             :label="v"
@@ -36,8 +36,9 @@
 export default {
   data() {
     return {
-      curCity1: 3,
-      curCity:4,
+      curCity1: '',
+      curCity:'',
+      cits: {},
       cities: {
         1:'北京',
         2:'上海',
@@ -51,16 +52,19 @@ export default {
       console.log(obj)
     },
     onFocus(e) {
-      console.log(e)
+      setTimeout(()=>{
+
+        this.cits = {...this.cities}
+      },1000)
     },
     onBlur(e) {
       console.log(e)
     }
   },
   mounted() {
-    setTimeout(()=>{
-      this.curCity = 1
-    },1000)
+    // setTimeout(()=>{
+    //   this.curCity = 1
+    // },1000)
   }
 }
 </script>

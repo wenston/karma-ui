@@ -196,32 +196,58 @@ export default {
       let [ck, canCk] = this.canCheckRow(row, index)
       //如果有序号列
       if (this.hasIndex && col.field === this.__index) {
-        cell = index + 1
+        cell = [<div class="k-table-td--index">{index + 1}</div>]
+        if (this.hasAction) {
+          cell.push(
+            <div class="k-table-td--actions">
+              <k-icon
+                title="新增行"
+                class="k-table-icon-action"
+                name="k-icon-add"
+                onClick={e => {
+                  e.stopPropagation()
+                  this.$emit("add-row", { row, index })
+                }}
+              />
+              <k-icon
+                title="删除行"
+                class="k-table-icon-action"
+                name="k-icon-close-circle"
+                onClick={e => {
+                  e.stopPropagation()
+                  this.$emit("delete-row", { row, index })
+                }}
+              />
+            </div>
+          )
+        }else{
+          cell.push(<div class="k-table-td--actions k-table-td--index">{index+1}</div>)
+        }
       }
-      if (this.hasAction && col.field === this.__action) {
-        cell = (
-          <div>
-            <k-icon
-              title="新增行"
-              class="k-table-icon-action"
-              name="k-icon-add"
-              onClick={e => {
-                e.stopPropagation()
-                this.$emit("add-row", { row, index })
-              }}
-            />
-            <k-icon
-              title="删除行"
-              class="k-table-icon-action"
-              name="k-icon-close-circle"
-              onClick={e => {
-                e.stopPropagation()
-                this.$emit("delete-row", { row, index })
-              }}
-            />
-          </div>
-        )
-      }
+      // if (this.hasAction && col.field === this.__action) {
+      //   cell = (
+      //     <div>
+      //       <k-icon
+      //         title="新增行"
+      //         class="k-table-icon-action"
+      //         name="k-icon-add"
+      //         onClick={e => {
+      //           e.stopPropagation()
+      //           this.$emit("add-row", { row, index })
+      //         }}
+      //       />
+      //       <k-icon
+      //         title="删除行"
+      //         class="k-table-icon-action"
+      //         name="k-icon-close-circle"
+      //         onClick={e => {
+      //           e.stopPropagation()
+      //           this.$emit("delete-row", { row, index })
+      //         }}
+      //       />
+      //     </div>
+      //   )
+      // }
       //如果有复选框
       if (this.hasCheckbox && col.field === this.__checkbox) {
         let checked = false
@@ -254,12 +280,12 @@ export default {
       } else if (this.hasRadio && col.field === this.__radio) {
         const radioProps = {
           props: {
-            modelValue: this.currentRadioValue,
+            vvv: this.currentRadioValue,
             value: this.$_format_checked_key(row),
             disabled: !canCk
           },
           on: {
-            modelValueChange: value => {
+            vvvChange: value => {
               this.currentRadioValue = value
               this.$emit("toggle-radio-row", { value, row, index })
             }

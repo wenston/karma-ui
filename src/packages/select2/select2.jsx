@@ -293,7 +293,8 @@ export default {
           return (
             <div class="k-select2-checked-item">
               <span class="k-select2-checked-name">{item[textField]}</span>
-              <span
+              <k-icon
+                name="k-icon-close-circle"
                 class="k-select2-checked-del"
                 onClick={e => {
                   const k = item[keyField] + ""
@@ -302,9 +303,7 @@ export default {
                   this.emitValue()
                   e.stopPropagation()
                 }}
-              >
-                &times;
-              </span>
+              ></k-icon>
             </div>
           )
         })
@@ -487,6 +486,16 @@ export default {
       <div {...p}>
         {this.rBox()}
         {this.rCheckedList()}
+        {this.$slots.append ? (
+          <div
+            class="k-select2-append"
+            onClick={e => {
+              e.stopPropagation()
+            }}
+          >
+            {this.$slots.append}
+          </div>
+        ) : null}
       </div>
     )
   },
@@ -501,7 +510,7 @@ export default {
         } else {
           this.hideLayer()
         }
-      },
+      }
     },
     value(v, ov) {
       // console.log('value:',v,ov)
@@ -532,10 +541,10 @@ export default {
     this.initIns()
   },
   mounted() {
-    this.$nextTick(()=>{
-      if(this.nearby) {
+    this.$nextTick(() => {
+      if (this.nearby) {
         this.layerIns = layer(this.$el.parentNode)
-      }else{
+      } else {
         this.layerIns = layer()
       }
       //拦截由layer组件中关闭layer的情况
@@ -544,11 +553,10 @@ export default {
         this.removeUpdownEvent()
       })
       this.initIns()
-      if(this.show) {
+      if (this.show) {
         this.showLayer()
       }
     })
-
   },
   directives: {
     esc,

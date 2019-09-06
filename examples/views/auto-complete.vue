@@ -8,6 +8,7 @@
         value-field="Name"
         layer-width="250px"
         placeholder="商品名称"
+        text="xxxx"
         @focus="onFocus"
         @toggle="onToggle"
         @input="onInput"
@@ -87,13 +88,13 @@ export default {
     return {
       value: "300249",
       value1: "100022",
-      value2: '',
+      value2: "",
       list: [],
       list1: [
         {
           Id: 0,
           ProId: 0,
-          Name: '平台'
+          Name: "平台"
         },
         {
           Id: 300038,

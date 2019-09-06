@@ -47,9 +47,7 @@ export default {
       //如果存在固定右侧列的情况，则index和checkbox或者radio不需要固定
       let obj = {
         style: {
-          width: cellWidth,
-          // backgroundColor: "#fafafa",
-          textAlign: "center"
+          width: cellWidth
         }
       }
       if (fixedLeft) {
@@ -64,10 +62,10 @@ export default {
         headColumns = [{ ...obj, field: "@_radio" }, ...headColumns]
       }
       //处理有操作按钮的情况
-      if (this.hasAction) {
-        bodyColumns = [{ ...obj, field: "@_action" }, ...bodyColumns]
-        headColumns = [{ ...obj, field: "@_action" }, ...headColumns]
-      }
+      // if (this.hasAction) {
+      //   bodyColumns = [{ ...obj, field: "@_action" }, ...bodyColumns]
+      //   headColumns = [{ ...obj, field: "@_action" }, ...headColumns]
+      // }
       //处理有序号的情况
       if (this.hasIndex) {
         bodyColumns = [{ ...obj, field: "@_index" }, ...bodyColumns]
@@ -121,7 +119,6 @@ export default {
     $_is_built_in_column(field) {
       return (
         field === this.__index ||
-        field === this.__action ||
         field === this.__checkbox ||
         field === this.__radio
       )

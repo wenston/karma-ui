@@ -96,8 +96,14 @@ export default {
       type: String,
       default: "total,prev,pager,next,sizes,jumper"
     },
-    size: String, //目前支持默认、mini
-    align: String,
+    size: {
+      type:String,
+      default:''
+    }, //目前支持默认、mini
+    align: {
+      type:String,
+      default:''
+    },
     disabled: Boolean
   },
   data() {

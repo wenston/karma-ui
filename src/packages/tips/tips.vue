@@ -1,9 +1,7 @@
 <script>
 const baseStyle = {
   "min-width": "180px",
-  "min-height": "120px",
-  "max-width": "300px",
-  "max-height": "200px"
+  "max-width": "300px"
 }
 const baseContent = "操作完成"
 import { merge } from "karma-ui/util/object.js"
@@ -19,25 +17,31 @@ export default {
   },
   render() {
     const p = {
-      class: 'k-tips',
+      ref: "tip",
+      class: "k-tips",
       style: this.styles,
-      directives: [{
-        name: 'show',
-        value: this.visible
-      }]
+      directives: [
+        {
+          name: "show",
+          value: this.visible
+        }
+      ],
+      on: {}
     }
     let tip = (
-      <div {...p}>
-        <div class="k-tips__tag">
-          <i
-            class={{
-              "k-tips__icon": true,
-              ["k-tips__icon--" + this.type]: true
-            }}
-          />
+      <transition name="k-t-fade">
+        <div {...p}>
+          <div class="k-tips__tag">
+            <i
+              class={{
+                "k-tips__icon": true,
+                ["k-tips__icon--" + this.type]: true
+              }}
+            />
+          </div>
+          <div class="k-tips__cont">{this.content}</div>
         </div>
-        <div class="k-tips__cont">{this.content}</div>
-      </div>
+      </transition>
     )
     return tip
   },
@@ -67,10 +71,10 @@ export default {
       this.visible = true
       return this
     },
-    hide(time,cb) {
+    hide(time, cb) {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        if(cb && typeof cb === 'function') {
+        if (cb && typeof cb === "function") {
           cb()
         }
         this.visible = false

@@ -21,6 +21,7 @@
   color: var(--select-down-color);
   transition: var(--transition);
   display: inline-block;
+  line-height: normal;
   @extend .k-center;
   &.k-select__down--up {
     transform: rotateX(180deg);

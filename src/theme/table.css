@@ -22,6 +22,12 @@
   }
 }
 
+
+.k-table-fixed-td-foot,
+.k-table-fixed-td-right-foot {
+  background-color: white;
+}
+
 .k-table-fixed-td-body,
 .k-table-fixed-td-right-body {
   background-color: rgba(255, 255, 255, 0.95);
@@ -140,6 +146,10 @@
     > tbody {
       > tr {
         > td {
+          & .k-table-td--actions {
+            display: none;
+          }
+          
           transition: background-color var(--transition);
         }
         &.k-table-tr-hover {
@@ -151,6 +161,16 @@
         &.k-table-tr-highlight {
           > td {
             background-color: var(--table-tr-highlight-color);
+          }
+        }
+        &:hover {
+          > td {
+            & .k-table-td--index {
+              display: none;
+            }
+            & .k-table-td--actions {
+              display: block;
+            }
           }
         }
       }
@@ -207,6 +227,9 @@
     padding: 2px 0.6em;
     white-space: nowrap;
     @extend .k-ellipsis;
+    & .k-checkbox {
+      margin-top: 3px;
+    }
   }
 
   > tbody,
@@ -271,7 +294,7 @@
 .k-table-icon-action {
   color: var(--font-color-3);
   cursor: pointer;
-  font-size: 13px;
+  font-size: 15px;
   &:hover {
     color: var(--font-color-1);
   }

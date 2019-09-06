@@ -121,9 +121,9 @@ export default {
           if (this.hasIndex && this.indexText && col.field === this.__index) {
             content = this.indexText
           }
-          if (this.hasAction && col.field === this.__action) {
-            content = "操作"
-          }
+          // if (this.hasAction && col.field === this.__action) {
+          //   content = "操作"
+          // }
           if (this.hasCheckbox && col.field === this.__checkbox) {
             content = (
               <k-checkbox
@@ -146,8 +146,9 @@ export default {
             },
             class: [
               {
-                "k-text-center":
-                  colspan > 1 || this.$_is_built_in_column(col.field)
+                "k-text-center": true
+                // "k-text-center":
+                //   colspan > 1 || this.$_is_built_in_column(col.field)
               },
               [
                 col.cellClass

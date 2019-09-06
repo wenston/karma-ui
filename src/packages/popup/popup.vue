@@ -34,7 +34,8 @@
           <div class="k-popup__body"
             v-if="layout.indexOf('body')>-1">
             <div class="k-popup__content">
-              <div class="k-popup__content__main">
+              <div class="k-popup__content__main"
+                :style="bodyStyle">
 
                 <slot name="body">
                 </slot>
@@ -46,13 +47,21 @@
           <div class="k-popup__footer"
             v-if="layout.indexOf('footer')>-1">
             <div :class="['k-popup__footer__con',{'k-popup__footer__con--line':hasBottomLine}]">
-              <slot name="footer">
-                <k-button @click="onCancel"
-                  :size="buttonSize">{{cancelText}}</k-button>
-                <k-button type="primary"
-                  @click="onOk"
-                  :size="buttonSize">{{okText}}</k-button>
-              </slot>
+              <div class="k-popup__footer__between">
+                <div>
+                  <slot name="footer-prepend"></slot>
+                </div>
+                <div>
+                  <slot name="footer">
+                    <k-button @click="onCancel"
+                      :size="buttonSize">{{cancelText}}</k-button>
+                    <k-button type="primary"
+                      @click="onOk"
+                      :size="buttonSize">{{okText}}</k-button>
+                  </slot>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -105,6 +114,10 @@ export default {
     allowBodyScroll: {
       type: Boolean,
       default: false
+    },
+    bodyStyle: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
@@ -148,7 +161,7 @@ export default {
       if (this.$refs.popup) {
         this.$refs.popup.blur()
       }
-      this.$emit("after-leave",this.isOk)
+      this.$emit("after-leave", this.isOk)
     },
     onOk() {
       this.isOk = true

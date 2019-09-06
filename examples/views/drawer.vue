@@ -3,7 +3,7 @@
     <h3 class="layout__title">基本用法</h3>
     <div style="height: 2000px">
       <k-button @click="toShow">弹出</k-button>
-      <k-drawer :show.sync="show" direction="right" >
+      <k-drawer :show.sync="show" direction="right" :has-mask="false" >
         <div :class="css.cont"></div>
       </k-drawer>
     </div>
@@ -32,7 +32,7 @@ export default {
 .cont {
   width: 30vw;
   height: 1000px;
-  background-color: white;
+  background-color: #ccc;
   overflow-y: auto;
 }
 </style>
