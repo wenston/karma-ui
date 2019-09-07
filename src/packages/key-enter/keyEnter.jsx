@@ -120,7 +120,9 @@ export default {
       }
     },
     bindListener(type = "add") {
+
       const ev = type + "EventListener"
+      //绑定或者解除键盘事件
       this.inputs.forEach((input, idx) => {
         if (Array.isArray(input)) {
           input.forEach((i, j) => {
