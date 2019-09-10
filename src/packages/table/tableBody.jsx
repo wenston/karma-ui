@@ -325,6 +325,19 @@ export default {
       this.columns.forEach(col => {
         tds.push(this.renderTd(row, index, col))
       })
+      let trClass = ''
+      if(typeof this.trClass === 'string') {
+        trClass = this.trClass
+      }else if(Array.isArray(this.trClass)) {
+        trClass = this.trClass.join(' ')
+      }else if(typeof this.trClass === 'function') {
+        const c  = this.trClass(row,index)
+        if(typeof c === 'string') {
+          trClass = c
+        }else if(Array.isArray(c)) {
+          trClass = c.join(' ')
+        }
+      }
       let trProps = {
         attrs: {
           "data-key": k,
@@ -332,6 +345,7 @@ export default {
         },
         key: k,
         class: {
+          [trClass]: true,
           "k-table-tr-highlight": curHighlightRowKey == this.currentHighlightKey
         },
         on: {
@@ -391,6 +405,7 @@ export default {
                 this.$emit("toggle-radio-row", { value: k, row, index })
               }
             }
+            this.$emit('click-row',{row,index})
           }
         }
       }
