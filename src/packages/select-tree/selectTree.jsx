@@ -80,11 +80,31 @@ export default {
           ),
           textField = this.textField,
           keyField = this.keyField,
-          checkedData = this.checkedData
+          childField = this.childField,
+          checkedData = this.checkedData,
+          checkedKeys = this.checkedKeys && this.checkedKeys.split(',')
         if (checkedData && checkedData.length) {
           list = checkedData.map((item, i) => {
             return item[textField] + (i === checkedData.length - 1 ? "" : "，")
           })
+        }else{
+          if(checkedKeys && checkedKeys.length) {
+            let arr = []
+            let fn = data => {
+              if (data && data.length) {
+                data.forEach(item => {
+                  if (checkedKeys.some(k => k == item[keyField])) {
+                    arr.push(item)
+                  }
+                  fn(item[childField])
+                })
+              }
+            }
+            fn(this.data)
+            list = arr.map((item, i) => {
+              return item[textField] + (i === arr.length - 1 ? "" : "，")
+            })
+          }
         }
         return (
           <ScrollBar speed={10} class="k-select-tree-checked-list">
@@ -251,6 +271,9 @@ export default {
     return <KDropdown {...p} />
   },
   watch: {
+    data() {
+      this.$forceUpdate()
+    },
     text(t) {
       this.currentText = t
     },
@@ -271,6 +294,7 @@ export default {
     },
     selectedData(d) {
       this.checkedData = d
+      this.$forceUpdate()
     },
     checkedData(d) {
       this.$emit("update:selectedData", d)
@@ -287,6 +311,7 @@ export default {
     selectedKeys(v, oldv) {
       if (!this.isSameKeys(v, oldv)) {
         this.checkedKeys = v.join(",")
+        this.$forceUpdate()
       }
     }
   },
