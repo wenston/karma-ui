@@ -20,7 +20,7 @@
     &:focus,
     &:active {
       border-color: var(--primary-color);
-      box-shadow: var(--input-focus-active-shadow);
+      /* box-shadow: var(--input-focus-active-shadow); */
     }
     &.k-input-active {
       border-color: var(--primary-color);
@@ -107,6 +107,7 @@
       & .k-input-append {
         min-width: var(--input-$(name));
         line-height: var(--input-$(name));
+        /* line-height:normal; */
       }
 
       & .k-input-prepend {
@@ -179,11 +180,11 @@
     &:after {
       content: "";
       position: absolute;
-      bottom: -1px;
+      bottom: 0px;
       left: 50%;
       width: 0;
       height: 0;
-      border-bottom: 2px solid transparent;
+      border-bottom: 1px solid transparent;
       transition: var(--transition);
     }
     &:focus-within {

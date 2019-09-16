@@ -23,18 +23,19 @@
     display: inline-block;
     vertical-align: -2px;
     transition: .25s ease-out;
+    cursor: pointer;
     &:before {
       content: "";
       position: absolute;
       left: 2px;
-      top: 2px;
-      width: 7px;
-      height: 4px;
+      top: 2.5px;
+      width: 6px;
+      height: 3px;
       border: 2px solid #fff;
       border-width: 0 0 2px 2px;
       visibility: hidden;
-      transform: rotate(-58deg) scale(0,0);
-      transition: var(--transition);
+      transform: rotate(-50deg) scale(0,0);
+      transition: 0.2s;
     }
   }
   &:hover {
@@ -51,7 +52,7 @@
         background: var(--checkbox-checked-bg-color);
         &:before {
           visibility: visible;
-          transform: rotate(-58deg) scale(.8,.8);
+          transform: rotate(-50deg);
         }
       }
       & ~ .k-checkbox__text {

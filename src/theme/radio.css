@@ -11,16 +11,17 @@
     transition: var(--transition);
     position: relative;
     vertical-align: middle;
+    cursor: pointer;
     &:after {
       content: "";
       @extend .k-center;
       background-color: transparent;
-      width: 4px;
-      height: 4px;
+      width: 8px;
+      height: 8px;
       border-radius: 100%;
       opacity: 0;
       transform: scale(0, 0);
-      transition: var(--transition);
+      transition: .15s;
     }
     &:hover {
       border-color: var(--radio-hover-border-color);
@@ -35,11 +36,9 @@
     .k-radio__icon {
       border-radius: 100%;
       border: 1px solid var(--primary-color);
-      background-color:var(--primary-color);
+      background-color:white;
       &:after {
-        width: 4px;
-        height: 4px;
-        background-color: white;
+        background-color: var(--primary-color);
         transform: scale(1, 1);
         opacity: 1;
       }

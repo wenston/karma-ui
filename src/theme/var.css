@@ -2,10 +2,10 @@
   /*base color*/
   --default-color: #fcfcfc;
   --primary-color: #3685fe;
-  --primary-gradient-color: #5549ff;
+  --primary-gradient-color: #8790ff;
   --danger-color: #FF762E;
   --warning-color: #ffac2c;
-  --success-color: #40ab56;
+  --success-color: #5BB82D;
   --disabled-color: #e9e9e9;
   --bg-color: #fff;
   /*文本颜色*/
@@ -117,10 +117,11 @@
   --select-option-max-height: 28vh;
   --select-option-bg-color: var(--bg-color);
   /* option */
-  --option-height: 25px;
-  --option-padding: 0 6px;
+  --option-height: 28px;
+  --option-padding: 0 .5em;
   --option-hover-color: var(--primary-color);
-  --option-hover-bg-color: color(var(--primary-color) tint(80%));
+  /* --option-hover-bg-color: color(var(--primary-color) tint(80%)); */
+  --option-hover-bg-color: #fafafa;
   --option-selected-color: #fff;
   --option-selected-bg-color: var(--primary-color);
   --option-selected-bg-gradient-color: var(--primary-gradient-color);
