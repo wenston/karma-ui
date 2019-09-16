@@ -2,25 +2,25 @@
   <div class="layout">
     <h3 class="layout__title">日期选择器</h3>
     <div>
-      <k-button @click="toggle">toggle</k-button>
+      <!-- <k-button @click="toggle">toggle</k-button>
       单个日期：<k-date-picker v-model="value"
         :show.sync="show"
         ref="date1"
-        disabled></k-date-picker>
+        disabled></k-date-picker> -->
       单个日期：<k-date-picker v-model="value1"
         ref="date2"
         :show.sync="show1"
         :min="value"
         simple
         block></k-date-picker>
-      日期区间：<k-date-picker :start.sync="start"
+      <!-- 日期区间：<k-date-picker :start.sync="start"
         :end.sync="end"
         :max="max"
         :min="min"
         range
         ref="dp2"
         nearby
-        @getLayerElement="getDatePickerElement"></k-date-picker>
+        @getLayerElement="getDatePickerElement"></k-date-picker> -->
       <k-button @click="start='2018-10-10'">2018-10-10</k-button>
       <k-button @click="end='2019-10-10'">2019-10-10</k-button>
       <k-button @click="show1=!show1">获取焦点</k-button>

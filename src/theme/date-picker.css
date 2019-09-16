@@ -53,10 +53,10 @@
 }
 .k-date-picker {
   background-color: white;
-  @supports (backdrop-filter: blur()) {
+  /* @supports (backdrop-filter: blur()) {
     background-color: rgba(255,255,255,.7);
     backdrop-filter: blur(10px);
-  }
+  } */
   display: flex;
   @extend .k-no-select;
   .k-date-picker-title {
