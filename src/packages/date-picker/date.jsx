@@ -175,7 +175,10 @@ export default {
       //今天是多少号
       const selectDay = this.showingDay
       //获取某月第一天的对应星期几
-      const w = firstDate.getDay()
+      let w = firstDate.getDay()
+      if(w==0) {
+        w=7
+      }
       //获取上个月
       const lastMonth = util.addMonths(month, -1)
       //判断上个月的年份
