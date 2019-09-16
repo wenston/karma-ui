@@ -3,7 +3,7 @@
     <h3 class="layout__title">table2</h3>
     <div>
       <k-table2 :data="data"
-        loopKey="__loopkey"
+        ref="table2"
         :columns="columns"
         :hover="false"
         :row-data="baseRowData"
@@ -34,7 +34,6 @@
 <script>
 let i = 1
 const baseRowData = () => ({
-  __loopkey: i++,
   ProName: "",
   Color: "",
   RetailPrice: "",
@@ -47,7 +46,7 @@ export default {
     return {
       selectValue: "",
       baseRowData,
-      data: Array.apply(null, { length: 5 }).map(t => baseRowData()),
+      data: Array.apply(null, { length: 8 }).map(t => baseRowData()),
       columns: [
         {
           field: "ProName",
@@ -72,6 +71,7 @@ export default {
               on: {
                 valueChange: v => {
                   row.ProId = v
+                  this.$refs.table2.next(2)
                 },
                 toggle: e => {
                   if (e.row) {

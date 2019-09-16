@@ -1,8 +1,13 @@
-//当键入enter的时候，跳到下一个可见的input
-//当shift+enter的时候，跳到上一个可见的input
+//当键入enter或者右箭头的时候，跳到下一个可见的input
+//当shift+enter左箭头的时候，跳到上一个可见的input
+//当调用了此组件的next方法后，next方法为最后执行的有效方法，也就是
+//说：下一个聚焦的是next方法调用后获取到的input
+import { isVisible } from "karma-ui/util/dom"
 export default {
   name: "KKeyEnter",
   props: {
+    //手动模式，即禁用自动聚焦到下一个input,而是改为手动调用next方法
+    manual: Boolean,
     trigger: {
       type: String,
       default: "keyup"
@@ -17,42 +22,94 @@ export default {
     },
     allowUpDown: Boolean, //是否允许上下箭头切换
     type: {
-      type:String,
-      default: 'focus'
+      type: String,
+      default: "select"
     }
   },
   data() {
     return {
       inputs: [],
-      keys: [37, 38, 39, 40, 13]
+      keys: [37, 38, 39, 40, 13],
+      currentRow: -1,
+      currentIndex: -1
     }
   },
   methods: {
-    //收集所有的input，并重新绑定事件
+    //供外部调用，以防收集不全的情况出现！
+    //因为在页面刷新时，如果某组件较大，有时会出现收集不全的情况。
+    init() {
+      this.collectAllInput()
+    },
+    //供外部调用，调用后自动聚焦到下一个input
+    next(n = 1) {
+      const r = this.currentRow
+      const i = this.currentIndex
+      let nexti = i + n
+      let inputs = this.inputs
+      let ipt = null
+      if (typeof r === "number" && r > -1) {
+        inputs = this.inputs[r]
+      }
+      if (nexti > inputs.length - 1) {
+        if (this.inputs[r + 1]) {
+          inputs = this.inputs[r + 1]
+        }
+        nexti = 0
+      }
+      if (nexti < 0) {
+        if (this.inputs[r - 1]) {
+          inputs = this.inputs[r - 1]
+        }
+        nexti = inputs.length - 1
+      }
+      ipt = inputs[nexti]
+      if (ipt) {
+        this.$nextTick(() => {
+          ipt.select && ipt.select()
+        })
+        return ipt
+      }
+      return null
+    },
+    //收集所有的未隐藏的input，并重新绑定事件
     collectAllInput() {
       this.$nextTick(() => {
         const $el = this.$el
+        let elems = []
         this.bindListener("remove")
         if (this.rowElement) {
           const rows = $el.querySelectorAll(this.rowElement)
           if (rows && rows.length) {
             let arr = []
             Array.prototype.slice.apply(rows).forEach(row => {
-              const inputs = row.querySelectorAll("input")
+              let inputs = row.querySelectorAll("input")
+
               if (inputs && inputs.length) {
-                arr.push([...inputs])
+                inputs = [...inputs].filter(ipt => {
+                  return isVisible(ipt, row)
+                })
+                if(inputs.length) {
+
+                  arr.push(inputs)
+                }
               }
             })
-            this.inputs = arr
+            elems = arr
           }
         } else {
-          this.inputs = [...$el.querySelectorAll("input")]
+          elems = [...$el.querySelectorAll("input")].filter(el => {
+            ipt => {
+              return isVisible(ipt, $el)
+            }
+          })
         }
+        this.inputs = elems
+        // console.log(elems)
         // console.log(this.inputs)
         this.bindListener()
       })
     },
-    listener(e) {
+    kbListener(e) {
       let shift = e.shiftKey
       const type = this.type
       const key = e.keyCode
@@ -119,8 +176,13 @@ export default {
         }
       }
     },
+    handleFocus(e) {
+      const tar = e.target
+      const { __index: i, __row: r } = tar
+      this.currentIndex = i
+      this.currentRow = r
+    },
     bindListener(type = "add") {
-
       const ev = type + "EventListener"
       //绑定或者解除键盘事件
       this.inputs.forEach((input, idx) => {
@@ -133,7 +195,12 @@ export default {
               delete i.__row
               delete i.__index
             }
-            i[ev](this.trigger, this.listener)
+            //绑定或解绑键盘事件
+            if (!this.manual) {
+              i[ev](this.trigger, this.kbListener)
+            }
+            //绑定或解绑focus事件
+            i[ev]("focus", this.handleFocus)
           })
         } else {
           if (type === "add") {
@@ -141,7 +208,12 @@ export default {
           } else {
             delete input.__index
           }
-          input[ev](this.trigger, this.listener)
+          //绑定或解绑键盘事件
+          if (!this.manual) {
+            input[ev](this.trigger, this.kbListener)
+          }
+          //绑定或解绑focus事件
+          input[ev]("focus", this.handleFocus)
         }
       })
     }
@@ -157,6 +229,7 @@ export default {
     this.collectAllInput()
   },
   updated() {
+    // console.log('keyenter updated')
     this.collectAllInput()
   }
 }

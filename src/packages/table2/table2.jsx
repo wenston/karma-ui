@@ -13,6 +13,10 @@ export default {
   },
   props: {
     ...KTable.props,
+    loopKey:{
+      type: String,
+      default: '__karma__loop__key__'
+    },
     stripe: {
       type: Boolean,
       default: false
@@ -53,10 +57,26 @@ export default {
   },
   data() {
     return {
-      
+      rowkey: 10000
+    }
+  },
+  computed: {
+    //对this.data进行加工，添加循环所需要的key,
+    //默认以__karma__loop__key__作为键
+    processData() {
+      if (this.data && this.data.length) {
+        this.data.forEach(d => {
+          if (!(this.loopKey in d))
+            d[this.loopKey] = this.createLoopKey()
+        })
+        return this.data
+      }
     }
   },
   methods: {
+    createLoopKey() {
+      return "" + this.rowkey--
+    },
     setHighlightRow(e) {
       this.$refs.table.setHighlightRow(e)
     },
@@ -64,24 +84,46 @@ export default {
       let d =
         typeof this.rowData === "function" ? this.rowData(e) : this.rowData
       return JSON.parse(JSON.stringify(d))
+    },
+    //外部调用
+    init() {
+      if(this.$refs.kke) {
+        this.$refs.kke.init()
+      }
+    },
+    //外部调用
+    next(n) {
+      if (this.$refs.kke) {
+        return this.$refs.kke.next(n)
+      }
+      return null
+    },
+    unshiftRow() {
+      this.data.unshift(this.getRowData())
+    },
+    pushRow(row) {
+      this.data.splice(row + 1, 0, this.getRowData())
     }
   },
   render() {
     const tableProps = {
-      class: 'k-tableouter-2',
+      class: "k-tableouter-2",
       ref: "table",
       props: {
-        ...this.$props
+        ...this.$props,
+        data: this.processData
       },
       scopedSlots: {
         ...this.$scopedSlots
       },
       on: {
         ...this.$listeners,
+        // "click-row": ({row,index})=> {
+        //   this.data.splice(index, 1, this.getRowData({row,index}))
+        //   this.$emit("add-row", {row,index})
+        // },
         "add-row": e => {
-          // this.$emit('dataChange', this.data.splice(e.index+1,0,{}))
           this.data.splice(e.index + 1, 0, this.getRowData(e))
-          // console.log(e)
           this.$emit("add-row", e)
         },
         "delete-row": e => {
@@ -107,12 +149,13 @@ export default {
     }
     return (
       <k-key-enter
+        ref="kke"
         onEnd={e => {
           const [row, i] = e
           if (row === 0 && i === 0) {
-            this.data.unshift(this.getRowData())
+            this.unshiftRow()
           } else {
-            this.data.splice(row + 1, 0, this.getRowData())
+            this.pushRow(row)
           }
         }}
         onEnd-row={e => {
@@ -120,12 +163,15 @@ export default {
           if (row === 0) {
             this.data.unshift(this.getRowData())
           } else {
-            this.data.splice(row + 1, 0, this.getRowData())
+            this.pushRow(row)
           }
         }}
       >
         <k-table {...tableProps} />
       </k-key-enter>
     )
+  },
+  updated() {
+    // console.log('table2 updated')
   }
 }

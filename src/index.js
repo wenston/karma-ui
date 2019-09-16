@@ -32,6 +32,7 @@ import KTree from 'karma-ui/packages/tree/index.js'
 import KDropdown from 'karma-ui/packages/dropdown/index.js'
 import KSelectTree from 'karma-ui/packages/select-tree/index.js'
 import KDrawer from 'karma-ui/packages/drawer/index.js'
+import KKeyEnter from 'karma-ui/packages/key-enter/index.js'
 //指令
 import Dnd from 'karma-ui/directives/dnd/index.js'
 import Pin from 'karma-ui/directives/pin/index.js'
@@ -71,7 +72,8 @@ let obj = {
   KTree,
   KDropdown,
   KSelectTree,
-  KDrawer
+  KDrawer,
+  KKeyEnter
 }
 
 export default {

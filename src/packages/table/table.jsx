@@ -186,6 +186,9 @@ export default {
     emitDblclickRow(e) {
       this.$emit("dblclick-row", e)
     },
+    emitClickRow(e) {
+      this.$emit('click-row',e)
+    },
     emitAddRow(e) {
       this.$emit("add-row", e)
     },
@@ -582,6 +585,7 @@ export default {
       on: {
         "add-row": this.emitAddRow,
         "delete-row": this.emitDeleteRow,
+        "click-row": this.emitClickRow,
         "dblclick-row": this.emitDblclickRow,
         "toggle-radio-row": this.emitRadioChange,
         "toggle-highlight": this.emitHighlight,

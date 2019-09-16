@@ -12,6 +12,34 @@ export const getStyle = (elem, prop) => {
   return window.getComputedStyle(elem, null)[prop]
 }
 
+export const isVisible = (elem, p_elem = document.body) => {
+  let isvisible = true
+  function isHide(elem) {
+    return (
+      getStyle(elem, "display").toLowerCase() === "none" ||
+      getStyle(elem, "visibility").toLowerCase() === "hidden"
+    )
+  }
+  function fn(elem) {
+    if (isHide(elem)) {
+      isvisible = false
+      return
+    } else {
+      const p = elem.parentNode
+      if (p === p_elem) {
+        if (isHide(p)) {
+          isvisible = false
+        }
+        return
+      } else {
+        fn(p)
+      }
+    }
+  }
+  fn(elem)
+  return isvisible
+}
+
 //注意，offset包含了元素内部的滚动高度！
 export const offset = (elem, parent) => {
   let left = elem.offsetLeft,

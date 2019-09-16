@@ -417,6 +417,7 @@ export default {
                 this.$emit("toggle-radio-row", { value: k, row, index })
               }
             }
+            this.$emit('click-row',{row,index})
           }
         }
       }
