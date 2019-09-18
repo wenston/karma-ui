@@ -27,6 +27,7 @@
 }
 .k-date-picker-range {
   position: relative;
+  cursor: pointer;
   @extend .k-like-input;
   &.k-date-picker-range-disabled {
     background-color: var(--disabled-color);

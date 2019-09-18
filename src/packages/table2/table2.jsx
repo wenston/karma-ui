@@ -88,7 +88,13 @@ export default {
     //外部调用
     init() {
       if(this.$refs.kke) {
-        this.$refs.kke.init()
+        return this.$refs.kke.init()
+      }
+    },
+    //外部调用
+    focus(row,index) {
+      if(this.$refs.kke) {
+        return this.$refs.kke.focus(row,index)
       }
     },
     //外部调用
@@ -96,7 +102,6 @@ export default {
       if (this.$refs.kke) {
         return this.$refs.kke.next(n)
       }
-      return null
     },
     unshiftRow() {
       this.data.unshift(this.getRowData())

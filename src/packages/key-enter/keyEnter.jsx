@@ -38,9 +38,25 @@ export default {
     //供外部调用，以防收集不全的情况出现！
     //因为在页面刷新时，如果某组件较大，有时会出现收集不全的情况。
     init() {
-      this.collectAllInput()
+      return this.collectAllInput()
     },
-    //供外部调用，调用后自动聚焦到下一个input
+    //外部调用，根据row，index定位到指定的input
+    focus(row, index) {
+      if (arguments.length == 2) {
+        let inputs = this.inputs[row]
+        if (inputs[index]) {
+          inputs[index][this.type] && inputs[index][this.type]()
+          return inputs[index]
+        }
+      } else if (arguments.length == 1) {
+        let ipt = this.inputs[row]
+        if (ipt) {
+          ipt[this.type] && ipt[this.type]()
+          return ipt
+        }
+      }
+    },
+    //供外部调用，调用后自动聚焦到下n个input
     next(n = 1) {
       const r = this.currentRow
       const i = this.currentIndex
@@ -65,7 +81,7 @@ export default {
       ipt = inputs[nexti]
       if (ipt) {
         this.$nextTick(() => {
-          ipt.select && ipt.select()
+          ipt[this.type] && ipt[this.type]()
         })
         return ipt
       }
@@ -73,41 +89,39 @@ export default {
     },
     //收集所有的未隐藏的input，并重新绑定事件
     collectAllInput() {
-      this.$nextTick(() => {
-        const $el = this.$el
-        let elems = []
-        this.bindListener("remove")
-        if (this.rowElement) {
-          const rows = $el.querySelectorAll(this.rowElement)
-          if (rows && rows.length) {
-            let arr = []
-            Array.prototype.slice.apply(rows).forEach(row => {
-              let inputs = row.querySelectorAll("input")
+      const $el = this.$el
+      let elems = []
+      this.bindListener("remove")
+      if (this.rowElement) {
+        const rows = $el.querySelectorAll(this.rowElement)
+        if (rows && rows.length) {
+          let arr = []
+          Array.prototype.slice.apply(rows).forEach(row => {
+            let inputs = row.querySelectorAll("input")
 
-              if (inputs && inputs.length) {
-                inputs = [...inputs].filter(ipt => {
-                  return isVisible(ipt, row)
-                })
-                if(inputs.length) {
-
-                  arr.push(inputs)
-                }
+            if (inputs && inputs.length) {
+              inputs = [...inputs].filter(ipt => {
+                return isVisible(ipt, row)
+              })
+              if (inputs.length) {
+                arr.push(inputs)
               }
-            })
-            elems = arr
-          }
-        } else {
-          elems = [...$el.querySelectorAll("input")].filter(el => {
-            ipt => {
-              return isVisible(ipt, $el)
             }
           })
+          elems = arr
         }
-        this.inputs = elems
-        // console.log(elems)
-        // console.log(this.inputs)
-        this.bindListener()
-      })
+      } else {
+        elems = [...$el.querySelectorAll("input")].filter(el => {
+          ipt => {
+            return isVisible(ipt, $el)
+          }
+        })
+      }
+      this.inputs = elems
+      // console.log(elems)
+      // console.log(this.inputs)
+      this.bindListener()
+      return elems
     },
     kbListener(e) {
       let shift = e.shiftKey
@@ -226,10 +240,14 @@ export default {
     return this.$slots.default
   },
   mounted() {
-    this.collectAllInput()
+    this.$nextTick(() => {
+      this.collectAllInput()
+    })
   },
   updated() {
     // console.log('keyenter updated')
-    this.collectAllInput()
+    this.$nextTick(() => {
+      this.collectAllInput()
+    })
   }
 }

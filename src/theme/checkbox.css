@@ -27,10 +27,10 @@
     &:before {
       content: "";
       position: absolute;
-      left: 2px;
-      top: 2.5px;
-      width: 6px;
-      height: 3px;
+      left: 1px;
+      top: 1.5px;
+      width: 9px;
+      height: 4px;
       border: 2px solid #fff;
       border-width: 0 0 2px 2px;
       visibility: hidden;
@@ -52,7 +52,7 @@
         background: var(--checkbox-checked-bg-color);
         &:before {
           visibility: visible;
-          transform: rotate(-50deg);
+          transform: rotate(-50deg) scale(0.75,0.75);
         }
       }
       & ~ .k-checkbox__text {
