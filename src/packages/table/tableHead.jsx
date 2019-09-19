@@ -136,6 +136,7 @@ export default {
           }
           const colspan = this.getColspan(col)
           const rowspan = this.getRowspan(col, maxRowLength)
+          // console.log(col.sorter)
           const cellProps = {
             props: {
               colspan,

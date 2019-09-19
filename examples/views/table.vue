@@ -948,6 +948,8 @@ export default {
       return [false, true]
     },
     fnColumns() {
+      const supplierSorter = this.supplierSorter
+      const priceSorter = this.priceSorter
       const tax =
         this.random > 0.5
           ? {
@@ -968,7 +970,7 @@ export default {
           style: { width: "100" },
           field: "SupplierName",
           name: "供应商",
-          sorter: this.supplierSorter
+          sorter: supplierSorter
         },
         tax,
         {
@@ -976,7 +978,7 @@ export default {
           field: "TotalPrice",
           name: "金额",
           scopedSlots: "TotalPrice",
-          sorter: this.priceSorter,
+          sorter: priceSorter,
           sum: true
         },
         {
