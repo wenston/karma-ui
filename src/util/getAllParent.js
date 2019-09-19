@@ -57,6 +57,9 @@ export default (source, val, keyField, childField) => {
     })
     return arr
   }
+  console.time('getAllParent')
   findAllParent(source, val, keyField, childField)
-  return uniq(copyArr, keyField)
+  let u = uniq(copyArr, keyField)
+  console.timeEnd('getAllParent')
+  return u
 }
