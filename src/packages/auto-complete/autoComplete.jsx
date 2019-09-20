@@ -74,7 +74,7 @@ export default {
       default: false
     },
     //如果是延迟获取数据，则从外部绑定数据后，名字出不来，所以给个与keyField对应的text
-    //注意：text仅仅是在没有数据的时候，也可以在输入框展示出绑定的数据
+    //注意：text仅仅是在没有数据的时候在输入框展示出绑定的数据
     //仅此而已
     text: {
       type: [String,Number],

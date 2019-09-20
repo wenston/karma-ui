@@ -2,7 +2,7 @@
   /*base color*/
   --default-color: #fcfcfc;
   --primary-color: #3685fe;
-  --primary-gradient-color: #8790ff;
+  --primary-gradient-color: #3685fe;
   --danger-color: #FF762E;
   --warning-color: #ffac2c;
   --success-color: #5BB82D;
@@ -119,12 +119,12 @@
   /* option */
   --option-height: 28px;
   --option-padding: 0 .5em;
-  --option-hover-color: var(--primary-color);
+  --option-hover-color: var(--font-color-2);
   /* --option-hover-bg-color: color(var(--primary-color) tint(80%)); */
   --option-hover-bg-color: #fafafa;
-  --option-selected-color: #fff;
-  --option-selected-bg-color: var(--primary-color);
-  --option-selected-bg-gradient-color: var(--primary-gradient-color);
+  --option-selected-color: var(--primary-color);
+  --option-selected-bg-color: color(var(--primary-color) tint(85%));
+  --option-selected-bg-gradient-color: color(var(--primary-gradient-color) tint(85%));
 
   /* select2 */
   --select2-width: var(--input-width);
