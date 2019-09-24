@@ -1,6 +1,6 @@
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 import { layer } from "karma-ui/packages/layer/index"
-import clickoutside from "karma-ui/util/clickoutside"
+import clickoutside from "karma-ui/directives/clickoutside/clickoutside.js"
 import esc from "karma-ui/util/esc"
 import KIcon from "karma-ui/packages/icon/icon"
 import KOption from "karma-ui/packages/option/option"

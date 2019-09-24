@@ -1,5 +1,5 @@
 import { getStyle, setStyle, offset } from "karma-ui/util/dom"
-import clickoutside from "karma-ui/util/clickoutside.js"
+import clickoutside from "karma-ui/directives/clickoutside/clickoutside.js"
 // import esc from "karma-ui/util/esc.js"
 export default {
   name: "KLayer",

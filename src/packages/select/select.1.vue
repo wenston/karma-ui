@@ -1,7 +1,7 @@
 <script>
 import { offset,getStyle, scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
-// import clickoutside from "karma-ui/util/clickoutside.js"
+// import clickoutside from "karma-ui/directives/clickoutside/clickoutside.js"
 import esc from "karma-ui/util/esc.js"
 import { layer } from "karma-ui/packages/layer/index"
 import KIcon from "karma-ui/packages/icon/icon"
