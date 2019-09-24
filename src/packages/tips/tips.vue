@@ -18,7 +18,7 @@ export default {
       type: "success", //'error','warning'
       timer: null,
       manual: true, //是否可以手动关闭
-      callback: () => {},//传入的关闭后的回调
+      callback: () => {} //传入的关闭后的回调
     }
   },
   render() {
@@ -38,7 +38,11 @@ export default {
       <transition name="k-t-fade">
         <div {...p}>
           {this.manual && (
-            <k-icon name="k-icon-close-circle" class="k-tips__close" onClick={this.manualHide} />
+            <k-icon
+              name="k-icon-close"
+              class="k-tips__close"
+              onClick={this.manualHide}
+            />
           )}
           <div class="k-tips__tag">
             <i
@@ -80,7 +84,7 @@ export default {
       return this
     },
     setCallback(fn) {
-      if(fn) {
+      if (fn) {
         this.callback = fn
       }
       return this
@@ -91,7 +95,7 @@ export default {
       return this
     },
     manualHide() {
-      this.hide(0,this.callback)
+      this.hide(0, this.callback)
     },
     hide(time, cb) {
       clearTimeout(this.timer)

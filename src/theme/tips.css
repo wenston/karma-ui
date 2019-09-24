@@ -20,12 +20,13 @@
 
   .k-tips__close {
     position: absolute;
-    top: -18px;
-    right: -8px;
-    font-size: 18px;
-    color: var(--font-color-4);
+    top: 4px;
+    right: 6px;
+    font-size: 16px;
+    color: #ddd;
     cursor: pointer;
     transition: var(--transition);
+    line-height: 1;
     &:hover {
       color:var(--font-color-2);
     }

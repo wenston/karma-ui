@@ -1,0 +1,177 @@
+{
+  "id": "1364409",
+  "name": "karma-ui-plus",
+  "font_family": "iconfont",
+  "css_prefix_text": "k-icon-",
+  "description": "plus分支专属",
+  "glyphs": [
+    {
+      "icon_id": "925415",
+      "name": "close",
+      "font_class": "close-circle-line",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "1196748",
+      "name": "add-2",
+      "font_class": "plus-square",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "1444831",
+      "name": "leaf",
+      "font_class": "leaf",
+      "unicode": "e7d0",
+      "unicode_decimal": 59344
+    },
+    {
+      "icon_id": "1704295",
+      "name": "arrows_square_minus",
+      "font_class": "minus-square",
+      "unicode": "e6bc",
+      "unicode_decimal": 59068
+    },
+    {
+      "icon_id": "1727517",
+      "name": "303正确、完成",
+      "font_class": "success",
+      "unicode": "e8e5",
+      "unicode_decimal": 59621
+    },
+    {
+      "icon_id": "1727523",
+      "name": "304错误、关闭、取消",
+      "font_class": "close",
+      "unicode": "e8e7",
+      "unicode_decimal": 59623
+    },
+    {
+      "icon_id": "1727541",
+      "name": "308上一页、后退、返回",
+      "font_class": "arrow-left",
+      "unicode": "e8ef",
+      "unicode_decimal": 59631
+    },
+    {
+      "icon_id": "1727542",
+      "name": "309下一页、前进、查看更多",
+      "font_class": "arrow-right",
+      "unicode": "e8f1",
+      "unicode_decimal": 59633
+    },
+    {
+      "icon_id": "1727545",
+      "name": "310向下、展开",
+      "font_class": "arrow-down",
+      "unicode": "e8f2",
+      "unicode_decimal": 59634
+    },
+    {
+      "icon_id": "1727551",
+      "name": "311向上、收起",
+      "font_class": "arrow-up",
+      "unicode": "e8f5",
+      "unicode_decimal": 59637
+    },
+    {
+      "icon_id": "1727568",
+      "name": "331刷新",
+      "font_class": "refresh",
+      "unicode": "e8fb",
+      "unicode_decimal": 59643
+    },
+    {
+      "icon_id": "1727571",
+      "name": "333加载loading-B",
+      "font_class": "loading",
+      "unicode": "e8fd",
+      "unicode_decimal": 59645
+    },
+    {
+      "icon_id": "2675116",
+      "name": "搜索",
+      "font_class": "search",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "4936511",
+      "name": "warning-circle-fill",
+      "font_class": "tip",
+      "unicode": "e848",
+      "unicode_decimal": 59464
+    },
+    {
+      "icon_id": "6151393",
+      "name": "angle-double-left",
+      "font_class": "double-left",
+      "unicode": "e84b",
+      "unicode_decimal": 59467
+    },
+    {
+      "icon_id": "6598339",
+      "name": "caret-down",
+      "font_class": "sort-down",
+      "unicode": "e8ec",
+      "unicode_decimal": 59628
+    },
+    {
+      "icon_id": "6598341",
+      "name": "caret-up",
+      "font_class": "sort-up",
+      "unicode": "e8ed",
+      "unicode_decimal": 59629
+    },
+    {
+      "icon_id": "7008933",
+      "name": "feedback_fill",
+      "font_class": "question",
+      "unicode": "e6fa",
+      "unicode_decimal": 59130
+    },
+    {
+      "icon_id": "7674892",
+      "name": "删除",
+      "font_class": "delete",
+      "unicode": "e716",
+      "unicode_decimal": 59158
+    },
+    {
+      "icon_id": "7766719",
+      "name": "icon_calendar",
+      "font_class": "calendar",
+      "unicode": "eb91",
+      "unicode_decimal": 60305
+    },
+    {
+      "icon_id": "7766785",
+      "name": "icon_scan",
+      "font_class": "scan",
+      "unicode": "eb9d",
+      "unicode_decimal": 60317
+    },
+    {
+      "icon_id": "8475779",
+      "name": "angle-double-right",
+      "font_class": "double-right",
+      "unicode": "eb9e",
+      "unicode_decimal": 60318
+    },
+    {
+      "icon_id": "10514899",
+      "name": "增加的副本",
+      "font_class": "add",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "10514904",
+      "name": "删除",
+      "font_class": "close-circle",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    }
+  ]
+}
