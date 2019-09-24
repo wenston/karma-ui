@@ -6,8 +6,8 @@
   padding: var(--tips-padding);
   background-color: var(--tips-bg-color);
   @supports (backdrop-filter: blur()) {
-    background-color: rgba(255,255,255,.6);
-    backdrop-filter: blur(5px);
+    background-color: rgba(255,255,255,.8);
+    backdrop-filter: blur(10px);
   }
   box-shadow: var(--tips-box-shadow);
   z-index: var(--tips-z-index);
@@ -18,6 +18,18 @@
   /* flex-direction: column; 
   justify-content: center;*/
 
+  .k-tips__close {
+    position: absolute;
+    top: -18px;
+    right: -8px;
+    font-size: 18px;
+    color: var(--font-color-4);
+    cursor: pointer;
+    transition: var(--transition);
+    &:hover {
+      color:var(--font-color-2);
+    }
+  }
   .k-tips__tag {
     text-align: center;
     margin-right: 10px;
@@ -55,7 +67,7 @@
       &:after,
       &:before {
         content: '';
-        height: 4px;
+        height: 2px;
         width: 10px;
         background-color: var(--danger-color);
         border-radius: 4px;

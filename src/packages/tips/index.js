@@ -15,14 +15,18 @@ tipsComponent.install = (Vue, opts) => {
       document.body.appendChild(instance.$el)
     }
     let opts = {
+      manual: true,
       content: '', //显示内容，可以写这里，也可以用setContent方法
       style: {}, //样式设置，也可以用setStyle方法
-      type: 'success' //成功success,错误error,警告warning
+      type: 'success', //成功success,错误error,警告warning
+      callback: () => {}
     }
     opts = merge({}, opts, settings)
     instance.setContent(opts.content)
       .setStyle(opts.style)
       .setType(opts.type)
+      .setManual(opts.manual)
+      .setCallback(opts.callback)
       .show()
 
     return instance

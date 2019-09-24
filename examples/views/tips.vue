@@ -24,14 +24,14 @@ export default {
     onSuccess() {
       this.tip = this.$tips({
         content:'操作成功啦！',
-
-      }).show().hide(2222000)
+        manual: false
+      }).hide(2222000)
     },
     onWarning() {
       this.tip = this.$tips({
         content:'警告！警告！入侵警告！！',
         type: 'warning'
-      }).show().hide(2222000)
+      }).hide(2222000)
     },
     onError() {
       this.tip = this.$tips({
