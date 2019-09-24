@@ -208,6 +208,10 @@
       border-radius: 0;
       height: 100%;
       /* background-color: transparent; */
+
+      &:focus {
+        box-shadow: 0 0 0 1px var(--primary-color);
+      }
     }
   }
 }

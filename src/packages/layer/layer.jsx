@@ -1,5 +1,5 @@
 import { getStyle, setStyle, offset } from "karma-ui/util/dom"
-import clickoutside from "karma-ui/util/clickoutside.js"
+import clickoutside from "karma-ui/directives/clickoutside/clickoutside.js"
 // import esc from "karma-ui/util/esc.js"
 export default {
   name: "KLayer",
@@ -58,7 +58,9 @@ export default {
       whiteList: [],
       styles: {},
       afterEnter: () => {},
-      afterLeave: () => {}
+      afterLeave: () => {},
+      //对齐方式
+      alignment: "left"
     }
   },
   computed: {
@@ -125,13 +127,18 @@ export default {
       }
       if (!this.width) {
         const w = getStyle(elem, "width")
+        // const w = parseFloat(getStyle(this.$el, "width"))
         this.layerWidth = w
       } else {
-        this.layerWidth = this.width
+        if (this.width === "auto") {
+          this.layerWidth = parseFloat(getStyle(this.$el, "width"))
+        } else {
+          this.layerWidth = this.width
+        }
       }
       const h = getStyle(elem, "height")
-      this.vmHeight = h
-      this.vmWidth = this.layerWidth
+      this.vmHeight = parseFloat(h)
+      this.vmWidth = parseFloat(getStyle(elem, "width"))
       //如果就近插入dom
       if (this.nearby) {
         const parent = this.parent
@@ -156,6 +163,7 @@ export default {
         this.top = pos.top + window.pageYOffset
       }
       this._setSizeAndPosition()
+      // console.log(this.layerWidth)
     },
     _setSizeAndPosition() {
       //layer本身的高度
@@ -165,14 +173,14 @@ export default {
         top = 0
       if (this.nearby) {
         left = this.left
-        top = this.top + parseFloat(this.vmHeight) + this.gap
+        top = this.top + this.vmHeight + this.gap
         //父级元素大小
         const parent = this.parent
         const pHeight = parseFloat(getStyle(parent, "height"))
         const pWidth = parseFloat(getStyle(parent, "width"))
         if (top + height > pHeight - 5 && height < pHeight - 5) {
           top = this.top - 5 - height
-          this.transitionType = 'slide-down-bottom'
+          this.transitionType = "slide-down-bottom"
           if (top < 0) {
             top = 0
           }
@@ -188,8 +196,16 @@ export default {
         const clientHeight = document.documentElement.clientHeight,
           clientWidth = document.documentElement.clientWidth
         //关联vm元素的底部距离屏幕最上边的高
-        top = this.top + parseFloat(this.vmHeight) + this.gap
+        top = this.top + this.vmHeight + this.gap
+        const alignment = this.alignment.trim().toLowerCase()
+        //如果是左对齐
         left = this.left
+        //如果是右对齐
+        if (alignment === "right") {
+          left = left - (this.layerWidth - this.vmWidth)
+        } else if (alignment === "center") {
+          left = left - (this.layerWidth - this.vmWidth) / 2
+        }
 
         //5是layer距离可视区边界的大小
         const wholeHeight = clientHeight + window.pageYOffset
@@ -202,8 +218,8 @@ export default {
           if (top < 0) {
             top = 0
           }
-        }else{
-          this.transitionType = 'slide-down'
+        } else {
+          this.transitionType = "slide-down"
         }
         // console.log(left,width,clientWidth)
         if (left + width > clientWidth - 5) {
@@ -303,7 +319,7 @@ export default {
       },
       class: {
         "k-layer": true,
-        "k-layer-origin-bottom": this.transitionType==='slide-down-bottom',
+        "k-layer-origin-bottom": this.transitionType === "slide-down-bottom",
         [this.layerClassName]: !!this.layerClassName
       },
       on: {

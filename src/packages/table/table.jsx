@@ -123,7 +123,7 @@ export default {
       sourceData.forEach((row, index) => {
         if (this.canCheckRow(row, index)[1]) {
           checkedKeys.push(this.$_format_checked_key(row))
-        }else{
+        } else {
           cant += 1
         }
       })
@@ -131,10 +131,12 @@ export default {
         const rowsLength = e.rows.length
         const keysLength = e.keys.length
 
-        const arrAllInAnotherArr = (arr,anotherArr) => {
-          let i = 0,len = arr.length,b = true
-          while(i<len) {
-            if(!anotherArr.some(n=>n===arr[i])) {
+        const arrAllInAnotherArr = (arr, anotherArr) => {
+          let i = 0,
+            len = arr.length,
+            b = true
+          while (i < len) {
+            if (!anotherArr.some(n => n === arr[i])) {
               b = false
               break
             }
@@ -142,16 +144,14 @@ export default {
           }
           return b
         }
-        const isAllIn = arrAllInAnotherArr(checkedKeys,e.keys)
+        const isAllIn = arrAllInAnotherArr(checkedKeys, e.keys)
 
-        if(cant === 0) {
-          this.$refs.thead.onCheckedAll(
-            sourceDataLength>0 && isAllIn
-          )
-        }else{
+        if (cant === 0) {
+          this.$refs.thead.onCheckedAll(sourceDataLength > 0 && isAllIn)
+        } else {
           const cans = sourceDataLength - cant
           this.$refs.thead.onCheckedAll(
-            sourceDataLength>0 && cans>0&&isAllIn
+            sourceDataLength > 0 && cans > 0 && isAllIn
           )
         }
 
@@ -187,7 +187,7 @@ export default {
       this.$emit("dblclick-row", e)
     },
     emitClickRow(e) {
-      this.$emit('click-row',e)
+      this.$emit("click-row", e)
     },
     emitAddRow(e) {
       this.$emit("add-row", e)
@@ -521,7 +521,12 @@ export default {
         )
       }
     },
-    rMainTable() {}
+    rMainTable() {},
+    scrollTo(obj) {
+      if (this.$refs.mainTable) {
+        this.$refs.mainTable.scrollTo(obj)
+      }
+    }
   },
   updated() {
     this.clearCells()

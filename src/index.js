@@ -36,6 +36,7 @@ import KKeyEnter from 'karma-ui/packages/key-enter/index.js'
 //指令
 import Dnd from 'karma-ui/directives/dnd/index.js'
 import Pin from 'karma-ui/directives/pin/index.js'
+import Clickoutside from 'karma-ui/directives/clickoutside/index.js'
 import Viewable from 'karma-ui/directives/viewable/index.js'
 
 let obj = {
@@ -57,6 +58,7 @@ let obj = {
   Loading,
   Dnd,
   Pin,
+  Clickoutside,
   KCarousel,
   KCarouselItem,
   Viewable,

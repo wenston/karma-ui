@@ -109,5 +109,6 @@
     color: var(--tips-cont-color);
     font-size: var(--tips-cont-font-size);
     text-align: var(--tips-cont-text-align);
+    word-break: break-all;
   }
 }

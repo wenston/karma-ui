@@ -6,7 +6,7 @@
   right: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 999;
+  z-index: 995;
   display: flex;
   &.k-drawer-no-mask {
     left: auto;
@@ -19,7 +19,6 @@
     bottom: 0;
     width: 100%;
     max-height: 80%;
-    overflow-x: hidden;
     background-color: white;
     animation: trbottom 0.3s ease-out;
   }
@@ -33,7 +32,6 @@
     right: 0;
     height: 100%;
     background-color: white;
-    overflow-x: hidden;
     animation: trright 0.3s ease-out;
   }
   .k-drawer-rightr {
@@ -46,7 +44,6 @@
     left: 0;
     height: 100%;
     background-color: white;
-    overflow-x: hidden;
     animation: trleft 0.3s ease-out;
   }
   .k-drawer-leftr {
@@ -79,19 +76,25 @@
   .k-drawer-close {
     width: 20px;
     height: 20px;
+    line-height: 20px;
+    cursor: pointer;
+    border-radius: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #d6d3d6;
+    color: var(--font-color-4);
     text-align: center;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
     background-color: white;
     overflow: hidden;
     user-select: none;
-    font-size: 20px;
-    z-index: 1000;
+    font-size: 14px;
+    z-index: 996;
+    &:hover {
+      color: var(--font-color-1);
+    }
   }
 }
 

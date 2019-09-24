@@ -41,7 +41,12 @@ export default {
     //从外部点击关闭dropdown时，除了whiteList中的元素
     whiteList: Array,
     scrollElement: Element,
-    nearby: Boolean
+    nearby: Boolean,
+    //下拉框与title的对齐方式
+    alignment: {
+      type: String,
+      default: 'left'
+    }
   },
   data() {
     return {
@@ -118,6 +123,7 @@ export default {
               whiteList: this.whiteList,
               scrollElement: this.scrollElement,
               nearby: this.nearby,
+              alignment: this.alignment,
               gap:
                 this.gap !== undefined && this.gap !== null && this.gap !== ""
                   ? parseFloat(this.gap)

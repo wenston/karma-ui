@@ -16,9 +16,10 @@
       @click="close">
       <div ref="cont"
         @click.stop>
-        <span class="k-drawer-close"
+        <k-icon class="k-drawer-close"
+          name="k-icon-close"
           @click.stop="close"
-          v-if="hasCloseBtn">&times;</span>
+          v-if="hasCloseBtn"></k-icon>
         <slot></slot>
       </div>
     </div>

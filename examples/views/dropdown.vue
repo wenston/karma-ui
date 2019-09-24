@@ -6,6 +6,7 @@
         :show.sync="show"
         trigger="click"
         :white-list="wh"
+        alignment="right"
         >
         <h1 slot="header">这是标题了！！！</h1>
         <em slot="footer">这是底部了</em>
@@ -14,6 +15,10 @@
         <k-date-picker :start.sync="start" :end.sync="end" @getLayerElement="getDatePickerElement"
           range />
       </k-dropdown>
+
+    </div>
+    <div>
+      <iframe style="width: 1000px;height: 500px"></iframe>
     </div>
   </div>
 </template>
