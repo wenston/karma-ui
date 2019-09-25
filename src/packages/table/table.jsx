@@ -19,8 +19,14 @@ export default {
   name: "KTable",
   props: {
     ...props,
-    leftFixedNumber: [Number, String],
-    rightFixedNumber: [Number, String]
+    leftFixedNumber: {
+      type: [Number, String],
+      default: 0
+    },
+    rightFixedNumber: {
+      type: [Number, String],
+      default: 0
+    }
   },
   model: {
     prop: "value",
@@ -441,9 +447,9 @@ export default {
       const baseLine = this.$refs.baseLine
       let left = offset(el, this.$el).left + tdOldWidth - scrollLeft
       baseLine.style.height = totalHeight
-      if (col.fixed) {
+      if (col.fixed) {//目前没有实现这种方式
         left = left + scrollLeft
-      } else if (this.leftFixedNumber && index <= this.leftFixedNumber) {
+      } else if (this.leftFixedNumber && index < this.leftFixedNumber) {
         left += scrollLeft
       } else if (
         this.rightFixedNumber &&

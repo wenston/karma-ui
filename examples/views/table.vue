@@ -26,9 +26,11 @@
       nowrap
       hover
       resize-width
+      height="200px"
       :stripe="false"
       :selectedRows.sync="selectedRows"
       :checkable="checkable"
+      :leftFixedNumber="2"
       @sort="onSort">
       <template slot="xxx"
         slot-scope="{row}">
