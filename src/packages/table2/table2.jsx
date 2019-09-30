@@ -108,6 +108,11 @@ export default {
     },
     pushRow(row) {
       this.data.splice(row + 1, 0, this.getRowData())
+    },
+    scrollTo(obj) {
+      if(this.$refs.table) {
+        this.$refs.table.scrollTo(obj)
+      }
     }
   },
   render() {
