@@ -6,6 +6,7 @@ ul.k-pagi {
   align-items: center;
   justify-content: flex-end;
   transition: var(--transition);
+  user-select: none;
   &.k-pagi-center {
     justify-content: center;
   }

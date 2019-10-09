@@ -3,10 +3,10 @@
     <h3 class="layout__title">基本用法</h3>
     <div>
       <k-pagination
-        :total="652"
+        :total="18"
         :current-page.sync="pageIndex"
         :page-size.sync="pageSize"
-        :page-sizes=[8,16,32]
+        :page-sizes=[15,20,30]
         @page-change="pageChange"
         @size-change="sizeChange"
         align="left"
@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       pageIndex: 1,
-      pageSize: 16,
+      pageSize: 15,
     }
   },
   methods: {
