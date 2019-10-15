@@ -226,7 +226,7 @@
 
   tr th,
   tr td {
-    padding: 2px 0.6em;
+    padding: 1px 0.6em;
     white-space: nowrap;
     @extend .k-ellipsis;
     & .k-checkbox {

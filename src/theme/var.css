@@ -1,6 +1,6 @@
 :root {
   /*base color*/
-  --default-color: #fcfcfc;
+  --default-color: #fafafa;
   --primary-color: #3685fe;
   --primary-gradient-color: #3685fe;
   --danger-color: #FF762E;
@@ -242,7 +242,7 @@
 
   /* table */
   --table-wrapper-bg-color: var(--default-color);
-  --table-border-color: #e1e1e1;
+  --table-border-color: #eaeaea;
   --table-border: 1px solid var(--table-border-color);
 
   /* 表头 */
@@ -270,7 +270,7 @@
 
   /* 斑马线和滑入变色 */
   --table-stripe-bg-color: var(--default-color);
-  --table-hover-bg-color: #fff3e2;
+  --table-hover-bg-color: #E6F0FA;
 
   /* 固定列时，左右移动时的固定列阴影 */
   --table-fixed-left-shadow: 6px 0 3px -3px rgba(0,0,0,.10);

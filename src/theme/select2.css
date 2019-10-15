@@ -3,6 +3,9 @@
   line-height: normal;
   position: relative;
   width: var(--select2-width);
+  .k-input {
+    cursor: pointer;
+  }
 }
 .k-select2-searchinput {
   .k-input {
@@ -66,6 +69,7 @@
 }
 .k-select2-checked-box {
   padding: 1px 2px;
+  cursor: pointer;
 }
 .k-select2-checked-item {
   margin: 2px;
@@ -75,7 +79,7 @@
   border: 1px solid var(--border-color);
   border-radius: 2px;
   .k-select2-checked-name {
-    background-color: #fcfcfc;
+    background-color: #fafafa;
     height: 18px;
     line-height: 18px;
     padding: 0 2px;
@@ -87,7 +91,7 @@
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
-    background-color: #fcfcfc;
+    background-color: #fafafa;
     width: 15px;
     height: 18px;
     line-height: 18px;
