@@ -478,7 +478,14 @@ export default {
       class: ["k-select2", { "k-block": this.block }],
       on: {
         click: e => {
-          this.$refs.boxInput.focus()
+          // this.$refs.boxInput.focus()
+          // if (this.visible) {
+          //   this.hideLayer()
+          // } else {
+          //   this.showLayer()
+          //   console.log('关闭了')
+          // }
+          // e.stopPropagation()
         }
       }
     }

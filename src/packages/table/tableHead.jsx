@@ -147,9 +147,8 @@ export default {
             },
             class: [
               {
-                "k-text-center": true
-                // "k-text-center":
-                //   colspan > 1 || this.$_is_built_in_column(col.field)
+                "k-text-center":
+                  colspan > 1 || this.$_is_built_in_column(col.field)
               },
               [
                 col.cellClass

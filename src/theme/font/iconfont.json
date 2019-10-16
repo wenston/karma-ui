@@ -172,6 +172,13 @@
       "font_class": "close-circle",
       "unicode": "e637",
       "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "11318197",
+      "name": "caret-down",
+      "font_class": "arrow-right-solid",
+      "unicode": "eb9f",
+      "unicode_decimal": 60319
     }
   ]
 }

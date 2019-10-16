@@ -11,7 +11,7 @@ export default {
     },
     timingFunction: {
       type: String,
-      default: "ease"
+      default: "ease-out"
     }
   },
   data() {
@@ -153,6 +153,7 @@ export default {
     const children = this.$slots.default
     return (
       <transition
+        duration={{enter:this.duration,leave:this.duration}}
         enterClass=""
         enterToClass=""
         enterActiveClass=""
