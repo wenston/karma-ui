@@ -147,6 +147,7 @@ export default {
       const container = this.$refs.container
       container.classList.remove("k-popup-container--before-enter")
       container.classList.remove("k-popup-container--enter")
+      this.$emit('after-enter')
     },
     leave() {
       const container = this.$refs.container

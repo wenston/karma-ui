@@ -20,6 +20,7 @@
       <h3 class="layout__title">基本用法(数据较多)</h3>
     <div>
       <k-select-tree 
+      block
         :data="data2"
         hasCheckbox
         selected-rule="every"

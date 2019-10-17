@@ -46,7 +46,8 @@ export default {
     alignment: {
       type: String,
       default: 'left'
-    }
+    },
+    block: Boolean
   },
   data() {
     return {
@@ -212,7 +213,9 @@ export default {
   render() {
     const { trigger, visible } = this
     let p = {
-      class: "k-dropdown",
+      class: ["k-dropdown",{
+        "k-dropdown--block": this.block
+      }],
       directives: [
         {
           name: "esc",

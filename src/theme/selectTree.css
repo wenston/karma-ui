@@ -2,6 +2,7 @@
   outline: none;
   @extend .k-select2;
   @extend .k-like-input;
+  @extend .k-cursor-pointer;
   &.k-select-tree--block {
     @extend .k-block;
     position: relative;

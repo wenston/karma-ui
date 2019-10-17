@@ -230,6 +230,7 @@ export default {
     const body = this.body()
     const p = {
       props: {
+        block: this.block,
         show: this.visible,
         title,
         body,
