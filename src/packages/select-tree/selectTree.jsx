@@ -106,7 +106,7 @@ export default {
         icon = (
           <k-icon
             class="k-select-tree-clear"
-            name="k-icon-close"
+            name="k-icon-close-circle"
             tabindex="-1"
             onFocus={e => {
               e.stopPropagation()
@@ -126,6 +126,12 @@ export default {
             }}
           />
         )
+      } else {
+        icon = (
+          <k-icon name="k-icon-arrow-down" 
+            class="k-select-tree-clear"
+            transform={this.visible&&"rotateX(180deg)"} />
+        )
       }
       const p = {
         attrs: {
@@ -139,11 +145,10 @@ export default {
           }
         ],
         on: {
-          focus: e => {
-            this.visible = true
-          },
-          click: e => {
-            e.stopPropagation()
+          keyup:e=>{
+            if(e.keyCode==13 || e.keyCode==40) {
+              this.visible = true
+            }
           }
         }
       }

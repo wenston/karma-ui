@@ -254,8 +254,10 @@ export default {
     }
     return (
       <div {...itemProps}>
-        {this.renderIconWrapper()}
-        {this.renderText(this.item)}
+        <div class="k-tree-item-k">
+          {this.renderIconWrapper()}
+          {this.renderText(this.item)}
+        </div>
         <k-transition
           onAfter-transition={() => {
             this.tree.$emit("after-transition")

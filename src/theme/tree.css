@@ -2,9 +2,9 @@
   & .k-tree-actions {
     padding: 5px 0 5px;
     display: flex;
-    align-items:flex-end;
+    align-items: flex-end;
     justify-content: space-between;
-    
+
     & .k-tree-icon-actions {
       cursor: pointer;
       font-size: 16px;
@@ -27,21 +27,26 @@
   }
 }
 .k-tree {
-  line-height: 2;
   font-size: 12px;
   @extend .k-no-select;
-  & > .k-tree-item {
+  & .k-tree-item {
     position: relative;
     white-space: nowrap;
-    & > .k-tree-icon-wrapper {
+    & .k-tree-item-k {
+      display: flex;
+      align-items: center;
+      height: 24px;
+    }
+    & .k-tree-icon-wrapper {
       width: 16px;
       height: 16px;
-      display: inline-block;
-      line-height: 1;
+      flex: none;
+      display: flex;
+      align-items: center;
     }
     &.k-tree-item--dotted,
     &:not(:last-child) {
-      & > .k-tree-icon-wrapper {
+      & .k-tree-icon-wrapper {
         &:after {
           position: absolute;
           content: "";
@@ -49,14 +54,15 @@
           border-left: 1px dotted color(var(--border-color) b(40%));
           left: 6.5px;
           pointer-events: none;
-          top: 1.3em;
+          top: 1.5em;
           /* bottom: 0; */
           height: calc(100% - 1em);
         }
       }
     }
+
     & .k-tree-item {
-      & > .k-tree-icon-wrapper {
+      & .k-tree-icon-wrapper {
         /* width: 16px;
         height: 16px;
         display: inline-block; */
@@ -67,7 +73,16 @@
           height: 0;
           border-top: 1px dotted color(var(--border-color) b(40%));
           left: -0.85em;
-          top: 1em;
+          top: 10px;
+        }
+      }
+      &:last-child {
+        &:not(.k-tree-item--dotted) {
+          & .k-tree-icon-wrapper {
+            &:after {
+              border-left: none;
+            }
+          }
         }
       }
     }
@@ -81,11 +96,13 @@
     }
     & .k-tree-text {
       cursor: pointer;
-      display: inline-block;
-      padding: 2px 3px;
+      flex: 1;
       margin-left: 2px;
       border-radius: 2px;
-      line-height: 1.4;
+      padding: 0 3px;
+      display: flex;
+      align-self: stretch;
+      align-items: center;
       &:hover {
         color: var(--primary-color);
       }
@@ -100,17 +117,23 @@
   }
   &.k-tree--big {
     font-size: 14px;
-    line-height: 28px;
-    & > .k-tree-item {
+    & .k-tree-item {
+      .k-tree-item-k {
+        height: 28px;
+      }
       &:not(:last-child) {
-        & > .k-tree-icon-wrapper {
+        & .k-tree-icon-wrapper {
+          &:before {
+            top: 14px;
+          }
           &:after {
             left: 6.5px;
+            top: 1.6em;
           }
         }
       }
       & .k-tree-icon {
-        font-size: 16px;
+        font-size: 15px;
       }
       /* & .k-checkbox {
         cursor: pointer;
