@@ -30,6 +30,7 @@ export default {
       default: "请选择"
     },
     styles: Object,
+    noStyle: Boolean,
     disabled: Boolean,
     clearable: Boolean,
     simple: Boolean,
@@ -344,7 +345,8 @@ export default {
         value: this.modelValue,
         disabled: this.disabled,
         simple: this.simple,
-        block: this.block
+        block: this.block,
+        noStyle: this.noStyle
       },
       on: {
         focus: e => {

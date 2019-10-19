@@ -2,8 +2,9 @@
   <div class="layout">
     <h3 class="layout__title">下拉单选</h3>
     <div>
-      <div>
+      <div style="height:50px;">
         <k-select v-model="curCity"
+          noStyle
           @change="onChange"
           @focus="onFocus"
           @blur="onBlur"

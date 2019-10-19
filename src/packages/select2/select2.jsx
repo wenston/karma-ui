@@ -39,6 +39,7 @@ export default {
     },
     block: Boolean,
     simple: Boolean,
+    noStyle: Boolean,
     layerWidth: {
       type: [String, Boolean],
       default: "auto"
@@ -475,17 +476,14 @@ export default {
           value: this.hideLayer
         }
       ],
-      class: ["k-select2", { "k-block": this.block }],
+      class: [
+        "k-select2",
+        { "k-block": this.block, "k-select2--nostyle": this.noStyle }
+      ],
       on: {
         click: e => {
-          // this.$refs.boxInput.focus()
-          // if (this.visible) {
-          //   this.hideLayer()
-          // } else {
-          //   this.showLayer()
-          //   console.log('关闭了')
-          // }
-          // e.stopPropagation()
+          this.$refs.boxInput.focus()
+          e.stopPropagation()
         }
       }
     }

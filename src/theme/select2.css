@@ -3,6 +3,12 @@
   line-height: normal;
   position: relative;
   width: var(--select2-width);
+  &.k-select2--nostyle {
+    height: 100%;
+    width: 100%;
+    display: block;
+    background-color: transparent;
+  }
   .k-input {
     cursor: pointer;
   }
