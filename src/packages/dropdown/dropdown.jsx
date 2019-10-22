@@ -45,9 +45,10 @@ export default {
     //下拉框与title的对齐方式
     alignment: {
       type: String,
-      default: 'left'
+      default: "left"
     },
-    block: Boolean
+    block: Boolean,
+    noStyle: Boolean
   },
   data() {
     return {
@@ -174,15 +175,6 @@ export default {
         }
       }
     },
-    // visible(v) {
-    //   this.$emit("update:show", v)
-    //   if (v) {
-    //     console.log('v',v)
-    //     this.showLayer()
-    //   } else {
-    //     this.hideLayer()
-    //   }
-    // },
     show(v) {
       this.visible = v
     },
@@ -213,9 +205,13 @@ export default {
   render() {
     const { trigger, visible } = this
     let p = {
-      class: ["k-dropdown",{
-        "k-dropdown--block": this.block
-      }],
+      class: [
+        "k-dropdown",
+        {
+          "k-dropdown--block": this.block,
+          "k-dropdown--nostyle": this.noStyle
+        }
+      ],
       directives: [
         {
           name: "esc",

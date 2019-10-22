@@ -1,3 +1,4 @@
+//todo:有时会选重？待检查修改
 //当键入enter或者右箭头的时候，跳到下一个可见的input
 //当shift+enter左箭头的时候，跳到上一个可见的input
 //当调用了此组件的next方法后，next方法为最后执行的有效方法，也就是
@@ -161,7 +162,7 @@ export default {
                 next = -1
               }
               //如果存在左右input
-              if (inputs[row][i + next]) {
+              if (inputs[row] && inputs[row][i + next]) {
                 inputs[row][i + next][type]()
               } else if (inputs[row + next]) {
                 //如果存在下一行

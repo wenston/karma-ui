@@ -77,8 +77,8 @@ export default {
     //注意：text仅仅是在没有数据的时候在输入框展示出绑定的数据
     //仅此而已
     text: {
-      type: [String,Number],
-      default: ''
+      type: [String, Number],
+      default: ""
     }
   },
   model: {
@@ -235,7 +235,7 @@ export default {
           }
         }
       } else {
-        if(this.text) {
+        if (this.text) {
           text = this.text
         }
       }
@@ -659,7 +659,12 @@ export default {
   },
   render() {
     const inputProps = this.inputProps()
-    return <k-input {...inputProps}>{this.renderIcon()}{this.$slots.append}</k-input>
+    return (
+      <k-input {...inputProps}>
+        {this.renderIcon()}
+        {this.$slots.append}
+      </k-input>
+    )
   },
   beforeDestroy() {
     this.destroyLayer()

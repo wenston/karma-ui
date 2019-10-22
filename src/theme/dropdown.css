@@ -4,4 +4,8 @@
   &.k-dropdown--block {
     display: block;
   }
+  &.k-dropdown--nostyle {
+    display: block;
+    height: 100%;
+  }
 }

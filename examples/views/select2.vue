@@ -9,7 +9,9 @@
         :layer-width="false"
         :nearby="false"
         :show.sync="show">
-        <div></div>
+        <div slot-scope="{row}">
+          <em>{{row.Contact}}</em>
+        </div>
       </k-select2>
     </div>
   </div>

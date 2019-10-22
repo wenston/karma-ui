@@ -27,6 +27,7 @@ export default {
       type: Boolean,
       default: false
     },
+    noStyle: Boolean,
     simple: {
       type: Boolean,
       default: false
@@ -141,7 +142,8 @@ export default {
           "k-select-tree",
           {
             ["k-select-tree--block"]: this.block,
-            ["k-select-tree--simple"]: this.simple
+            ["k-select-tree--simple"]: this.simple,
+            ["k-select-tree--nostyle"]: this.noStyle
           }
         ],
         on: {
@@ -182,7 +184,8 @@ export default {
           ...this.$props,
           value: this.currentVal,
           selectedData: this.checkedData,
-          lazy: this.lazyTree
+          lazy: this.lazyTree,
+          noStyle: false
         },
         on: {
           ...this.$listeners,
@@ -236,6 +239,7 @@ export default {
     const p = {
       props: {
         block: this.block,
+        noStyle: this.noStyle,
         show: this.visible,
         title,
         body,

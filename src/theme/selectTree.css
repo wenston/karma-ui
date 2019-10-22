@@ -32,6 +32,19 @@
       }
     }
   }
+  &.k-select-tree--nostyle {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    border-radius: 0;
+    &:focus {
+      box-shadow: 0 0 0 1px var(--primary-color);
+      background-color: white;
+    }
+  }
 }
 .k-select-tree-body {
   position: relative;
@@ -73,7 +86,10 @@
   cursor: pointer;
   z-index: 2;
   position: absolute;
-  top: 6px;
+  top: 0;
+  bottom: 0;
+  height: 14px;
+  margin: auto;
   right: 6px;
   font-size: 13px;
   transition: var(--transition);

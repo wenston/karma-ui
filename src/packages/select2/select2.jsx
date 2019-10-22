@@ -144,12 +144,12 @@ export default {
           placeholder: this.dataValue.length ? "" : this.placeholder,
           block: true,
           simple: this.simple
-        },
-        on: {
-          focus: e => {
-            this.showLayer()
-          }
         }
+        // on: {
+        //   focus: e => {
+        //     this.showLayer()
+        //   }
+        // }
       }
       return <k-input {...p} />
     },
@@ -245,6 +245,12 @@ export default {
             return (
               <div class={itemClass}>
                 <k-checkbox {...p} />
+                {this.$scopedSlots.default
+                  ? this.$scopedSlots.default({
+                      row: item,
+                      index
+                    })
+                  : null}
               </div>
             )
           })
@@ -482,7 +488,12 @@ export default {
       ],
       on: {
         click: e => {
-          this.$refs.boxInput.focus()
+          // this.$refs.boxInput.focus()
+          if (this.visible) {
+            this.hideLayer()
+          } else {
+            this.showLayer()
+          }
           e.stopPropagation()
         }
       }
