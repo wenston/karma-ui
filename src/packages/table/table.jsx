@@ -160,23 +160,10 @@ export default {
             sourceDataLength > 0 && cans > 0 && isAllIn
           )
         }
-
-        // if (cant === 0) {
-        //   this.$refs.thead.onCheckedAll(
-        //     sourceDataLength > 0 &&
-        //       (rowsLength === sourceDataLength ||
-        //         keysLength === sourceDataLength)
-        //   )
-        // } else {
-        //   const cans = sourceDataLength - cant
-        //   this.$refs.thead.onCheckedAll(
-        //     sourceDataLength > 0 && cans>0 && (rowsLength === cans || keysLength === cans)
-        //   )
-        // }
       }
       this.$emit("update:selectedRows", e.rows)
       this.$emit("update:selectedKeys", e.keys)
-      this.$emit("select-change", /*JSON.parse(JSON.stringify(e))*/ e)
+      this.$emit("select-change", e)
     },
     emitHighlight(e) {
       this.setHighlightRow(e)

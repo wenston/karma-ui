@@ -61,6 +61,7 @@
       :columns="columns3"
       :selectedKeys.sync="selectedKeys3"
       :selectedRows.sync="selectedRows3"
+      @select-change="onSlcChange"
       hasCheckbox
       checkboxKey="ProductId" />
     <h3 class="layout__title">根据数据自动合并行</h3>
@@ -994,8 +995,11 @@ export default {
       this.random = Math.random()
       console.log(this.random)
     },
+    onSlcChange(checked,row,index) {
+      console.log(checked,row,index)
+    },
     onSelectChange(e) {
-      // console.log(e);
+      console.log(e);
     },
     onDel(row, row1, index) {
       console.log(row, row1, index)

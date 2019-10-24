@@ -321,6 +321,7 @@ export default {
       if (this.range) {
         let rangeP = {
           class: ["k-date-picker-range",{
+            'k-date-picker-range-simple': this.simple,
             'k-date-picker-range-disabled': this.disabled
           }],
 
@@ -608,7 +609,8 @@ export default {
         title: this.renderTitle(),
         body: this.renderBody(),
         scrollElement: this.scrollElement,
-        nearby: this.nearby
+        nearby: this.nearby,
+        block: this.block
       },
       on: {
         "update:show": v => {

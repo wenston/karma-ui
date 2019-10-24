@@ -599,15 +599,17 @@ export default {
           <span
             class="k-auto-complete-icon-wrapper"
             onClick={e => {
-              this.pageIndex = 1
-              this.inputText = ""
-              this.currentHoverIndex = this.currentIndex = -1
-              if (this.visible) {
-                this.$refs.input.focus()
+              if (!this.disabled) {
+                this.pageIndex = 1
+                this.inputText = ""
+                this.currentHoverIndex = this.currentIndex = -1
+                if (this.visible) {
+                  this.$refs.input.focus()
+                }
+                this.$emit("valueChange", "")
+                this.$emit("toggle", { row: undefined, index: undefined })
+                this.getFilterData()
               }
-              this.$emit("valueChange", "")
-              this.$emit("toggle", { row: undefined, index: undefined })
-              this.getFilterData()
             }}
           >
             <k-icon class="k-auto-complete-icon" name="k-icon-close-circle" />
@@ -618,11 +620,13 @@ export default {
         <span
           class="k-auto-complete-icon-wrapper"
           onClick={e => {
-            if (this.visible) {
-              this.hideList(this.destroyLayer)
-              this.$refs.input.focus()
-            } else {
-              this.showAndScrollIntoView(true)
+            if (!this.disabled) {
+              if (this.visible) {
+                this.hideList(this.destroyLayer)
+                this.$refs.input.focus()
+              } else {
+                this.showAndScrollIntoView(true)
+              }
             }
           }}
         >

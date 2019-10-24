@@ -13,9 +13,9 @@ export default {
   },
   props: {
     ...KTable.props,
-    loopKey:{
+    loopKey: {
       type: String,
-      default: '__karma__loop__key__'
+      default: "__karma__loop__key__"
     },
     stripe: {
       type: Boolean,
@@ -66,8 +66,7 @@ export default {
     processData() {
       if (this.data && this.data.length) {
         this.data.forEach(d => {
-          if (!(this.loopKey in d))
-            d[this.loopKey] = this.createLoopKey()
+          if (!(this.loopKey in d)) d[this.loopKey] = this.createLoopKey()
         })
         return this.data
       }
@@ -87,14 +86,14 @@ export default {
     },
     //外部调用
     init() {
-      if(this.$refs.kke) {
+      if (this.$refs.kke) {
         return this.$refs.kke.init()
       }
     },
     //外部调用
-    focus(row,index) {
-      if(this.$refs.kke) {
-        return this.$refs.kke.focus(row,index)
+    focus(row, index) {
+      if (this.$refs.kke) {
+        return this.$refs.kke.focus(row, index)
       }
     },
     //外部调用
@@ -110,7 +109,7 @@ export default {
       this.data.splice(row + 1, 0, this.getRowData())
     },
     scrollTo(obj) {
-      if(this.$refs.table) {
+      if (this.$refs.table) {
         this.$refs.table.scrollTo(obj)
       }
     }
@@ -161,19 +160,23 @@ export default {
       <k-key-enter
         ref="kke"
         onEnd={e => {
-          const [row, i] = e
-          if (row === 0 && i === 0) {
-            this.unshiftRow()
-          } else {
-            this.pushRow(row)
+          if (this.hasAction && this.actions.some(a => a == "add")) {
+            const [row, i] = e
+            if (row === 0 && i === 0) {
+              this.unshiftRow()
+            } else {
+              this.pushRow(row)
+            }
           }
         }}
         onEnd-row={e => {
-          const [row, i] = e
-          if (row === 0) {
-            this.data.unshift(this.getRowData())
-          } else {
-            this.pushRow(row)
+          if (this.hasAction && this.actions.some(a => a == "add")) {
+            const [row, i] = e
+            if (row === 0) {
+              this.data.unshift(this.getRowData())
+            } else {
+              this.pushRow(row)
+            }
           }
         }}
       >

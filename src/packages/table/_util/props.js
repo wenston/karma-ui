@@ -92,6 +92,10 @@ export const props = {
     type: Boolean,
     default: false
   },
+  actions: {
+    type: Array,
+    default: ()=>['add','delete']
+  },
   //是否有表头
   hasThead: {
     type: Boolean,

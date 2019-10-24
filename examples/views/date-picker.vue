@@ -7,12 +7,16 @@
         :show.sync="show"
         ref="date1"
         disabled></k-date-picker>
+    </div>
+    <div>
       单个日期：<k-date-picker v-model="value1"
         ref="date2"
         :show.sync="show1"
         :min="value"
         simple
         block></k-date-picker>
+    </div>
+    <div>
       日期区间：<k-date-picker :start.sync="start"
         :end.sync="end"
         :max="max"
@@ -20,7 +24,11 @@
         range
         ref="dp2"
         nearby
+        simple
+        block
         @getLayerElement="getDatePickerElement"></k-date-picker>
+    </div>
+    <div>
       <k-button @click="start='2018-10-10'">2018-10-10</k-button>
       <k-button @click="end='2019-10-10'">2019-10-10</k-button>
       <k-button @click="show1=!show1">获取焦点</k-button>

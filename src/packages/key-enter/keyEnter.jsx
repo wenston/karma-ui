@@ -46,13 +46,21 @@ export default {
       if (arguments.length == 2) {
         let inputs = this.inputs[row]
         if (inputs[index]) {
-          inputs[index][this.type] && inputs[index][this.type]()
+          if(inputs[index][this.type]) {
+            inputs[index][this.type]()
+          }else{
+            inputs[index].focus()
+          }
           return inputs[index]
         }
       } else if (arguments.length == 1) {
         let ipt = this.inputs[row]
         if (ipt) {
-          ipt[this.type] && ipt[this.type]()
+          if(ipt[this.type]) {
+            ipt[this.type]()
+          }else{
+            ipt.focus()
+          }
           return ipt
         }
       }
@@ -82,7 +90,11 @@ export default {
       ipt = inputs[nexti]
       if (ipt) {
         this.$nextTick(() => {
-          ipt[this.type] && ipt[this.type]()
+          if(ipt[this.type]) {
+            ipt[this.type]()
+          }else{
+            ipt.focus()
+          }
         })
         return ipt
       }
@@ -98,7 +110,7 @@ export default {
         if (rows && rows.length) {
           let arr = []
           Array.prototype.slice.apply(rows).forEach(row => {
-            let inputs = row.querySelectorAll("input")
+            let inputs = row.querySelectorAll("input,*[tabindex='1']")
 
             if (inputs && inputs.length) {
               inputs = [...inputs].filter(ipt => {
@@ -112,7 +124,7 @@ export default {
           elems = arr
         }
       } else {
-        elems = [...$el.querySelectorAll("input")].filter(el => {
+        elems = [...$el.querySelectorAll("input,*[tabindex='1']")].filter(el => {
           ipt => {
             return isVisible(ipt, $el)
           }
@@ -143,7 +155,12 @@ export default {
               }
               if ("__row" in currentInput) {
                 if (inputs[row + next] && inputs[row + next][i]) {
-                  inputs[row + next][i][type]()
+                  if(inputs[row + next][i][type]) {
+                    inputs[row + next][i][type]()
+                  }else{
+                    inputs[row + next][i]['focus']()
+                  }
+                  
                 } else {
                   this.$emit("end-row", [row, i])
                 }
@@ -163,13 +180,23 @@ export default {
               }
               //如果存在左右input
               if (inputs[row] && inputs[row][i + next]) {
-                inputs[row][i + next][type]()
+                if(inputs[row][i + next][type]) {
+                  inputs[row][i + next][type]()
+                }else{
+                  inputs[row][i + next]['focus']()
+                }
+                
               } else if (inputs[row + next]) {
                 //如果存在下一行
                 const r = inputs[row + next]
                 const j = shift ? r.length - 1 : 0
                 if (r[j]) {
-                  r[j][type]()
+                  if(r[j][type]) {
+                    r[j][type]()
+                  }else{
+                    r[j]['focus']()
+                  }
+                  
                 }
               } else {
                 this.$emit("end", [row, i])
@@ -180,7 +207,11 @@ export default {
                 next = -1
               }
               if (inputs[next]) {
-                inputs[next][type]()
+                if(inputs[next][type]) {
+                  inputs[next][type]()
+                }else{
+                  inputs[next]['focus']()
+                }
               } else {
                 this.$emit("end", i)
               }

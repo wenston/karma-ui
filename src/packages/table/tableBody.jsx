@@ -54,7 +54,7 @@ export default {
       handler(keys) {
         this.checkedKeys = keys
         // this.emitSelectChange()
-      },
+      }
     },
     selectedRows: {
       immediate: true,
@@ -90,7 +90,7 @@ export default {
       }
     },
 
-    //父级调用
+    //父级调用。只在主动点击全选时调用
     onCheckedAll(checked) {
       //当不选择时，不可以将checkedKeys直接清空，因为可能存在跨页选择的数据
       //checkedRows同上
@@ -132,15 +132,23 @@ export default {
         })
       }
       this.checkedKeys = [...set]
+      this.$emit('select-change',{
+        checked: undefined,
+        index: undefined,
+        row: undefined,
+        keys: this.checkedKeys,
+        rows: this.checkedRows
+      })
       // this.emitSelectChange()
       //NOTE: 如果出现选不中的情况，需检查传入的checkboxKey是否有问题
     },
     emitSelectChange(checked, row, index) {
       let rows = this.checkedRows,
         para = { checked, index, row, rows, keys: this.checkedKeys }
-      if(!checked && !row && !index) {
-        this.$emit('select-change', para)
-      }else if (this.canCheckRow(row, index)[1]) {
+      if (!checked && !row && !index) {
+        // 以下可用在全选，返回的checked/row/index都是undefined,
+        // this.$emit("select-change", para)
+      } else if (this.canCheckRow(row, index)[1]) {
         this.$emit("select-change", para)
       }
     },
@@ -198,30 +206,38 @@ export default {
       if (this.hasIndex && col.field === this.__index) {
         cell = [<div class="k-table-td--index">{index + 1}</div>]
         if (this.hasAction) {
+          const add = (
+            <k-icon
+              title="新增行"
+              class="k-table-icon-action"
+              name="k-icon-add"
+              onClick={e => {
+                e.stopPropagation()
+                this.$emit("add-row", { row, index })
+              }}
+            />
+          )
+          const del = (
+            <k-icon
+              title="删除行"
+              class="k-table-icon-action"
+              name="k-icon-close-circle"
+              onClick={e => {
+                e.stopPropagation()
+                this.$emit("delete-row", { row, index })
+              }}
+            />
+          )
           cell.push(
             <div class="k-table-td--actions">
-              <k-icon
-                title="新增行"
-                class="k-table-icon-action"
-                name="k-icon-add"
-                onClick={e => {
-                  e.stopPropagation()
-                  this.$emit("add-row", { row, index })
-                }}
-              />
-              <k-icon
-                title="删除行"
-                class="k-table-icon-action"
-                name="k-icon-close-circle"
-                onClick={e => {
-                  e.stopPropagation()
-                  this.$emit("delete-row", { row, index })
-                }}
-              />
+              {this.actions.indexOf("add")>-1 ? add : null}
+              {this.actions.indexOf("delete")>-1 ? del : null}
             </div>
           )
-        }else{
-          cell.push(<div class="k-table-td--actions k-table-td--index">{index+1}</div>)
+        } else {
+          cell.push(
+            <div class="k-table-td--actions k-table-td--index">{index + 1}</div>
+          )
         }
       }
       // if (this.hasAction && col.field === this.__action) {
@@ -417,7 +433,7 @@ export default {
                 this.$emit("toggle-radio-row", { value: k, row, index })
               }
             }
-            this.$emit('click-row',{row,index})
+            this.$emit("click-row", { row, index })
           }
         }
       }

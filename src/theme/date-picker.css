@@ -29,6 +29,13 @@
   position: relative;
   cursor: pointer;
   @extend .k-like-input;
+  &.k-date-picker-range-simple {
+    border-top:none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    background-color: transparent
+  }
   &.k-date-picker-range-disabled {
     background-color: var(--disabled-color);
     cursor: not-allowed;
