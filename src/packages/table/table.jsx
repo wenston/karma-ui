@@ -113,54 +113,7 @@ export default {
       const { tbody } = this.$refs
       tbody && tbody.onCheckedAll(b)
     },
-    canCheckRow(row = {}, index) {
-      let can = [false, true]
-      if (this.checkable && typeof this.checkable === "function") {
-        can = this.checkable(row, index)
-      }
-      return can
-    },
     emitSelectChange(e) {
-      //{checked,rows,row,index}
-      const sourceData = this.$props.data
-      const sourceDataLength = sourceData.length
-      let cant = 0
-      let checkedKeys = []
-      sourceData.forEach((row, index) => {
-        if (this.canCheckRow(row, index)[1]) {
-          checkedKeys.push(this.$_format_checked_key(row))
-        } else {
-          cant += 1
-        }
-      })
-      if (this.$refs.thead) {
-        const rowsLength = e.rows.length
-        const keysLength = e.keys.length
-
-        const arrAllInAnotherArr = (arr, anotherArr) => {
-          let i = 0,
-            len = arr.length,
-            b = true
-          while (i < len) {
-            if (!anotherArr.some(n => n === arr[i])) {
-              b = false
-              break
-            }
-            i++
-          }
-          return b
-        }
-        const isAllIn = arrAllInAnotherArr(checkedKeys, e.keys)
-
-        if (cant === 0) {
-          this.$refs.thead.onCheckedAll(sourceDataLength > 0 && isAllIn)
-        } else {
-          const cans = sourceDataLength - cant
-          this.$refs.thead.onCheckedAll(
-            sourceDataLength > 0 && cans > 0 && isAllIn
-          )
-        }
-      }
       this.$emit("update:selectedRows", e.rows)
       this.$emit("update:selectedKeys", e.keys)
       this.$emit("select-change", e)

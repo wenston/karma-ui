@@ -38,7 +38,53 @@ export default {
       ]
     }
   },
+  watch: {
+    selectedKeys: {
+      immediate: false,
+      handler(keys) {
+        const sourceData = this.$props.data
+        const sourceDataLength = sourceData.length
+        let cant = 0
+        let checkedKeys = []
+        sourceData.forEach((row, index) => {
+          if (this.canCheckRow(row, index)[1]) {
+            checkedKeys.push(this.$_format_checked_key(row))
+          } else {
+            cant += 1
+          }
+        })
+        const arrAllInAnotherArr = (arr, anotherArr) => {
+          let i = 0,
+            len = arr.length,
+            b = true
+          while (i < len) {
+            if (!anotherArr.some(n => n === arr[i])) {
+              b = false
+              break
+            }
+            i++
+          }
+          return b
+        }
+        const isAllIn = arrAllInAnotherArr(checkedKeys, keys)
+
+        if (cant === 0) {
+          this.onCheckedAll(sourceDataLength > 0 && isAllIn)
+        } else {
+          const cans = sourceDataLength - cant
+          this.onCheckedAll(sourceDataLength > 0 && cans > 0 && isAllIn)
+        }
+      }
+    }
+  },
   methods: {
+    canCheckRow(row = {}, index) {
+      let can = [false, true]
+      if (this.checkable && typeof this.checkable === "function") {
+        can = this.checkable(row, index)
+      }
+      return can
+    },
     //父组件调用，改变复选框状态
     onCheckedAll(b) {
       this.isCheckedAll = b

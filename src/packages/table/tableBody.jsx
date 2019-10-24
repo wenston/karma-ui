@@ -67,7 +67,17 @@ export default {
           keys.push(k)
         })
         this.checkedKeys = keys
-        this.emitSelectChange()
+        // if (rows.length === 0) {
+        //   this.$emit("select-change", {
+        //     checked: undefined,
+        //     index: undefined,
+        //     row: undefined,
+        //     keys: this.checkedKeys,
+        //     rows: this.checkedRows
+        //   })
+        // } else {
+          // this.emitSelectChange()
+        // }
       }
     }
   },
@@ -132,14 +142,14 @@ export default {
         })
       }
       this.checkedKeys = [...set]
-      this.$emit('select-change',{
-        checked: undefined,
-        index: undefined,
-        row: undefined,
-        keys: this.checkedKeys,
-        rows: this.checkedRows
-      })
-      // this.emitSelectChange()
+      // this.$emit("select-change", {
+      //   checked: undefined,
+      //   index: undefined,
+      //   row: undefined,
+      //   keys: this.checkedKeys,
+      //   rows: this.checkedRows
+      // })
+      this.emitSelectChange()
       //NOTE: 如果出现选不中的情况，需检查传入的checkboxKey是否有问题
     },
     emitSelectChange(checked, row, index) {
@@ -147,7 +157,7 @@ export default {
         para = { checked, index, row, rows, keys: this.checkedKeys }
       if (!checked && !row && !index) {
         // 以下可用在全选，返回的checked/row/index都是undefined,
-        // this.$emit("select-change", para)
+        this.$emit("select-change", para)
       } else if (this.canCheckRow(row, index)[1]) {
         this.$emit("select-change", para)
       }
@@ -230,8 +240,8 @@ export default {
           )
           cell.push(
             <div class="k-table-td--actions">
-              {this.actions.indexOf("add")>-1 ? add : null}
-              {this.actions.indexOf("delete")>-1 ? del : null}
+              {this.actions.indexOf("add") > -1 ? add : null}
+              {this.actions.indexOf("delete") > -1 ? del : null}
             </div>
           )
         } else {

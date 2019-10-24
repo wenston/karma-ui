@@ -294,7 +294,7 @@ export default {
           width: this.block ? "" : "98px",
           ...this.styles
         },
-        class: 'k-cursor-pointer',
+        class: 'k-date-picker-cursor-pointer',
         props: {
           // ...this.$props,
           placeholder:this.placeholder,

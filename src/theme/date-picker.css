@@ -193,3 +193,11 @@
     border-left: 1px solid #f1f1f1;
   }
 }
+.k-date-picker-cursor-pointer {
+  &.k-input-section {
+    cursor: pointer;
+  }
+  & .k-input {
+    cursor: pointer;
+  }
+}
