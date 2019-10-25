@@ -86,6 +86,8 @@ export const props = {
     type: Boolean,
     default: false
   },
+  pageIndex: [String,Number],
+  pageSize: [String,Number],
   //是否有操作按钮
   //默认只有添加和删除操作
   hasAction: {

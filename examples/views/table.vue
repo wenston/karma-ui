@@ -7,6 +7,8 @@
       has-radio
       radio-key="name"
       has-index
+      pageSize="20"
+      pageIndex="3"
       index-text="序"
       nowrap
       resize-width

@@ -518,6 +518,9 @@ export default {
   watch: {
     visible(v) {
       this.$emit("update:show", v)
+      if(!v) {
+        this.$emit('toggle',this.dataValue)
+      }
     },
     show: {
       handler(v) {

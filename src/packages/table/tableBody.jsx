@@ -76,7 +76,7 @@ export default {
         //     rows: this.checkedRows
         //   })
         // } else {
-          // this.emitSelectChange()
+        // this.emitSelectChange()
         // }
       }
     }
@@ -214,7 +214,11 @@ export default {
       let [ck, canCk] = this.canCheckRow(row, index)
       //如果有序号列
       if (this.hasIndex && col.field === this.__index) {
-        cell = [<div class="k-table-td--index">{index + 1}</div>]
+        let idx = index + 1
+        if (this.pageSize && this.pageIndex) {
+          idx = this.pageSize * (this.pageIndex - 1) + idx
+        }
+        cell = [<div class="k-table-td--index">{idx}</div>]
         if (this.hasAction) {
           const add = (
             <k-icon
@@ -246,7 +250,7 @@ export default {
           )
         } else {
           cell.push(
-            <div class="k-table-td--actions k-table-td--index">{index + 1}</div>
+            <div class="k-table-td--actions k-table-td--index">{idx}</div>
           )
         }
       }
