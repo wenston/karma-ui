@@ -79,7 +79,8 @@ export default {
       //全选
       isCheckedAll: false,
       //通过键盘上下箭头选择的当前数据行的index
-      currentIndex: -1
+      currentIndex: -1,
+      disabledArr: []
     }
   },
   model: {
@@ -124,6 +125,9 @@ export default {
     }
   },
   methods: {
+    setDisabled(arr) {
+      this.disabledArr = arr
+    },
     toArray(v) {
       let arr = []
       if (Array.isArray(v)) {
@@ -185,9 +189,17 @@ export default {
             if (b) {
               let set = new Set(this.dataValue)
               const filterData = this.filterData
-              filterData.forEach(el => {
-                set.add(el[this.keyField] + "")
-              })
+              if (this.disabledArr.length) {
+                filterData.forEach(el => {
+                  if (this.disabledArr.indexOf(el[this.keyField]) < 0) {
+                    set.add(el[this.keyField] + "")
+                  }
+                })
+              } else {
+                filterData.forEach(el => {
+                  set.add(el[this.keyField] + "")
+                })
+              }
               this.dataValue = [...set]
             } else {
               this.dataValue = []
@@ -221,7 +233,8 @@ export default {
               props: {
                 text: item[this.textField],
                 value: item[this.keyField],
-                checked: this.dataValue.some(id => id == item[this.keyField])
+                checked: this.dataValue.some(id => id == item[this.keyField]),
+                disabled: this.disabledArr.some(id => id == item[this.keyField])
               },
               on: {
                 checkedChange: checked => {
@@ -518,8 +531,8 @@ export default {
   watch: {
     visible(v) {
       this.$emit("update:show", v)
-      if(!v) {
-        this.$emit('toggle',this.dataValue)
+      if (!v) {
+        this.$emit("toggle", this.dataValue)
       }
     },
     show: {
