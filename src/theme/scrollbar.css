@@ -8,6 +8,7 @@
     height: 100%;
     top: 0;
     right: 0;
+    z-index: 7;
     &track {
       width: 8px;
       background-color: rgba(0,0,0,.08);
@@ -37,6 +38,8 @@
       width: 100%;
       background-color: rgba(0,0,0,.08);
       height: 8px;
+      position: relative;
+      z-index: 8;
     }
     &thumb {
       position: absolute;
@@ -55,7 +58,6 @@
     .k-scrollbar__y,
     .k-scrollbar__x {
       opacity: 1;
-      
     }
   }
   .k-scrollbar__x.k-scrollbar--active,
@@ -67,5 +69,5 @@
   /* width: 2000px; */
 }
 .k-scrollbar-transition {
-  transition: .25s;
+  transition: height .25s,top .25s,margin .25s;
 }

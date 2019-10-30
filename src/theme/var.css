@@ -1,8 +1,8 @@
 :root {
   /*base color*/
   --default-color: #fafafa;
-  --primary-color: #3685fe;
-  --primary-gradient-color: #3685fe;
+  --primary-color: #3366ff;
+  --primary-gradient-color: #3366ff;
   --danger-color: #FF762E;
   --warning-color: #ffac2c;
   --success-color: #5BB82D;

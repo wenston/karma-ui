@@ -9,7 +9,7 @@
     </div>
     <k-scrollbar class="scrollbar-wrapper">
       <div>
-        <p v-for="n in total" :key="n">{{n }} - asgasf</p>
+        <p style="position:relative;background-color:#ccc;margin: 10px 0;" v-for="n in total" :key="n">{{n }} - asgasf</p>
       </div>
     </k-scrollbar>
     <div>

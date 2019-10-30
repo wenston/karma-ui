@@ -352,7 +352,7 @@ export default {
                 </span>
               )}
 
-              <span class="k-d-p-r-p">~</span>
+              <span class="k-d-p-r-p">至</span>
               {this.end ? (
                 <span class="k-date-picker-range-item">
                   {util.formatDate(this.end)}
@@ -382,7 +382,7 @@ export default {
         <k-input {...p}>
           {this.value && !this.disabled ? (
             <k-icon
-              name="k-icon-close"
+              name="k-icon-close-circle"
               class="k-date-picker-icon-close"
               onClick={e => {
                 this.clearDate()

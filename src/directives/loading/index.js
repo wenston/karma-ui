@@ -11,12 +11,12 @@ const timeout = t => {
 }
 const instance = "@@instance"
 let settings = {
-  content: "Loading...",
+  content: "",
   position: "absolute",
   isFullScreen: true,
-  color: "#3685fe",
+  color: "#3366ff",
   backgroundColor: "rgba(255,255,255,.4)",
-  iconColor: "#3685fe",
+  iconColor: "#3366ff",
   timeout: -1,//-1代表没有超时自动关闭的功能
   afterTimeout: () => {}
 }

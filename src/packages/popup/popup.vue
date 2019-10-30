@@ -147,7 +147,7 @@ export default {
       const container = this.$refs.container
       container.classList.remove("k-popup-container--before-enter")
       container.classList.remove("k-popup-container--enter")
-      this.$emit('after-enter')
+      this.$emit("after-enter")
     },
     leave() {
       const container = this.$refs.container
@@ -155,7 +155,9 @@ export default {
     },
     afterLeave() {
       const container = this.$refs.container
-      container.classList.remove("k-popup-container--before-enter")
+      if (container) {
+        container.classList.remove("k-popup-container--before-enter")
+      }
       if (!this.allowBodyScroll) {
         document.body.classList.remove("k-overflow-hidden")
       }
