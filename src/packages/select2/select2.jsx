@@ -31,7 +31,10 @@ export default {
     //描述，data中的字段名
     textField: String,
     placeholder: String,
-    searchPlaceholder: String,
+    searchPlaceholder: {
+      type:String,
+      default:'请输入关键字'
+    },
     //模糊匹配需要搜索的字段
     searchField: {
       type: [String, Array],

@@ -45,7 +45,7 @@ export default {
       type: Boolean,
       default: true
     },
-    nearBy:Boolean,
+    nearBy: Boolean,
     whiteList: Array
   },
   data() {
@@ -75,10 +75,11 @@ export default {
       return a1 === a2
     },
     checkedList() {
+      const placeholder = (
+        <span class="k-select-tree-placeholder">{this.placeholder}</span>
+      )
       if (this.hasCheckbox) {
-        let list = (
-            <span class="k-select-tree-placeholder">{this.placeholder}</span>
-          ),
+        let list = placeholder,
           textField = this.textField,
           keyField = this.keyField,
           checkedData = this.checkedData
@@ -93,7 +94,11 @@ export default {
           </ScrollBar>
         )
       } else {
-        return <div class="k-select-tree-checked-one">{this.currentText}</div>
+        return (
+          <div class="k-select-tree-checked-one">
+            {this.currentText || placeholder}
+          </div>
+        )
       }
     },
     title() {
@@ -129,9 +134,11 @@ export default {
         )
       } else {
         icon = (
-          <k-icon name="k-icon-arrow-down" 
+          <k-icon
+            name="k-icon-arrow-down"
             class="k-select-tree-clear"
-            transform={this.visible&&"rotateX(180deg)"} />
+            transform={this.visible && "rotateX(180deg)"}
+          />
         )
       }
       const p = {
@@ -147,8 +154,8 @@ export default {
           }
         ],
         on: {
-          keyup:e=>{
-            if(e.keyCode==13 || e.keyCode==40) {
+          keyup: e => {
+            if (e.keyCode == 13 || e.keyCode == 40) {
               this.visible = true
             }
           }
@@ -245,7 +252,7 @@ export default {
         body,
         bodyClassName: "k-select-tree-body",
         lazyLayer: this.lazyLayer,
-        nearBy:this.nearBy,
+        nearBy: this.nearBy,
         whiteList: this.whiteList
       },
       on: {
@@ -254,7 +261,7 @@ export default {
         },
         getLayerElement: elem => {
           this.layerElem = elem
-          this.$emit('getLayerElement',elem)
+          this.$emit("getLayerElement", elem)
         }
       }
     }

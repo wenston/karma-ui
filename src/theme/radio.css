@@ -47,5 +47,8 @@
   &.k-radio--disabled {
     cursor: not-allowed;
     opacity: .65;
+    .k-radio__icon {
+      cursor: not-allowed;
+    }
   }
 }

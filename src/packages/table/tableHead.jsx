@@ -58,7 +58,7 @@ export default {
             len = arr.length,
             b = true
           while (i < len) {
-            if (!anotherArr.some(n => n === arr[i])) {
+            if (!anotherArr.some(n => n == arr[i])) {
               b = false
               break
             }

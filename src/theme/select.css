@@ -1,7 +1,7 @@
 .k-select {
   cursor: pointer;
   & .k-input {
-    cursor: pointer !important;
+    cursor: pointer;
   }
   &.k-select-events-none {
     & .k-input-append {

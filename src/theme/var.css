@@ -1,8 +1,8 @@
 :root {
   /*base color*/
   --default-color: #fafafa;
-  --primary-color: #3366ff;
-  --primary-gradient-color: #3366ff;
+  --primary-color: #2D62FF;
+  --primary-gradient-color: #2D62FF;
   --danger-color: #FF762E;
   --warning-color: #ffac2c;
   --success-color: #5BB82D;
@@ -28,7 +28,7 @@
   /*box-shadow*/
   --box-shadow: 0 2px 5px rgba(60, 70, 80, 0.15);
   /*圆角弧度*/
-  --radius: 2px;
+  --radius: 4px;
   /* input */
   --input-border-color: var(--border-color);
   --input-width: 180px;
@@ -121,7 +121,7 @@
   --option-padding: 0 .5em;
   --option-hover-color: var(--font-color-2);
   /* --option-hover-bg-color: color(var(--primary-color) tint(80%)); */
-  --option-hover-bg-color: #fafafa;
+  --option-hover-bg-color: #eee;
   --option-selected-color: var(--primary-color);
   --option-selected-bg-color: color(var(--primary-color) tint(85%));
   --option-selected-bg-gradient-color: color(var(--primary-gradient-color) tint(85%));
@@ -270,7 +270,7 @@
 
   /* 斑马线和滑入变色 */
   --table-stripe-bg-color: var(--default-color);
-  --table-hover-bg-color: #E6F0FA;
+  --table-hover-bg-color: #FFF5E6;
 
   /* 固定列时，左右移动时的固定列阴影 */
   --table-fixed-left-shadow: 6px 0 3px -3px rgba(0,0,0,.10);

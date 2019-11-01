@@ -14,7 +14,6 @@
         v-model="val"
         :text="text1"
         :show.sync="show1"
-        noStyle
         clearable></k-select-tree>
     </div>
     <h3 class="layout__title">基本用法(数据较多)</h3>
