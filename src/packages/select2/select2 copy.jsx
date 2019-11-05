@@ -32,8 +32,8 @@ export default {
     textField: String,
     placeholder: String,
     searchPlaceholder: {
-      type: String,
-      default: "请输入关键字"
+      type:String,
+      default:'请输入关键字'
     },
     //模糊匹配需要搜索的字段
     searchField: {
@@ -47,6 +47,14 @@ export default {
       type: [String, Boolean],
       default: "auto"
     },
+    hasClose: {
+      type: Boolean,
+      default: true
+    },
+    hasRefresh: {
+      type: Boolean,
+      default: true
+    },
     show: {
       type: Boolean,
       default: false
@@ -55,8 +63,7 @@ export default {
       type: Element,
       default: null
     },
-    nearby: Boolean,
-    footer: [Function,Array,Object,String,Number]
+    nearby: Boolean
   },
   data() {
     let arr = []
@@ -176,9 +183,43 @@ export default {
           input: e => {}
         }
       }
+      const checkProps = {
+        props: {
+          checked: this.isCheckedAll
+        },
+        on: {
+          checkedChange: b => {
+            if (b) {
+              let set = new Set(this.dataValue)
+              const filterData = this.filterData
+              if (this.disabledArr.length) {
+                filterData.forEach(el => {
+                  if (this.disabledArr.indexOf(el[this.keyField]) < 0) {
+                    set.add(el[this.keyField] + "")
+                  }
+                })
+              } else {
+                filterData.forEach(el => {
+                  set.add(el[this.keyField] + "")
+                })
+              }
+              this.dataValue = [...set]
+            } else {
+              this.dataValue = []
+            }
+
+            this.emitValue()
+            // this.$forceUpdate()
+          }
+        }
+      }
       return (
         <div>
-          <k-input {...p}></k-input>
+          <k-input {...p}>
+            <span class="k-select2-check-all" slot="prepend">
+              <k-checkbox {...checkProps} />
+            </span>
+          </k-input>
         </div>
       )
     },
@@ -296,43 +337,8 @@ export default {
         )
       }
     },
-    rCheckedAll() {
-      const checkProps = {
-        props: {
-          checked: this.isCheckedAll,
-          text: '全选'
-        },
-        on: {
-          checkedChange: b => {
-            if (b) {
-              let set = new Set(this.dataValue)
-              const filterData = this.filterData
-              if (this.disabledArr.length) {
-                filterData.forEach(el => {
-                  if (this.disabledArr.indexOf(el[this.keyField]) < 0) {
-                    set.add(el[this.keyField] + "")
-                  }
-                })
-              } else {
-                filterData.forEach(el => {
-                  set.add(el[this.keyField] + "")
-                })
-              }
-              this.dataValue = [...set]
-            } else {
-              this.dataValue = []
-            }
-
-            this.emitValue()
-            // this.$forceUpdate()
-          }
-        }
-      }
-      return (
-        <span class="k-select2-check-all">
-          <k-checkbox {...checkProps} />
-        </span>
-      )
+    refresh() {
+      this.$emit("refresh")
     },
     hideLayer() {
       this.visible = false
@@ -351,9 +357,24 @@ export default {
     //实例化option列表
     initIns() {
       this.$nextTick(() => {
-        const footer = <div class="k-select2-footer">{this.rCheckedAll()}
-          {this.$slots.footer||this.footer}
-        </div>
+        // this.layerIns.init(this, [this.rSearchInput(), this.rList()])
+        const close = this.hasClose ? (
+          <k-button size="mini" onClick={this.hideLayer}>
+            关闭
+          </k-button>
+        ) : null
+        const refresh = this.hasRefresh ? (
+          <k-button size="mini" type="primary" onClick={this.refresh}>
+            刷新
+          </k-button>
+        ) : null
+        const footer =
+          close || refresh ? (
+            <div class="k-select2-footer">
+              {close}
+              {refresh}
+            </div>
+          ) : null
         this.layerIns.init(
           this,
           {

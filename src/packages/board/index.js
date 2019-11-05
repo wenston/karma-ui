@@ -12,7 +12,8 @@ export default {
         destroyWhenHide = true,
         parent = document.body,
         afterHide = () => {},
-        bodyClassName
+        bodyClassName,
+        alignment = 'left'
       }
     ) => {
       if (!elem[boardIns]) {
@@ -31,6 +32,7 @@ export default {
           canCloseByClickoutside: true,
           width: "auto",
           bodyClassName,
+          alignment,
           afterLeave: () => {
             afterHide()
             if (destroyWhenHide) {

@@ -110,9 +110,10 @@
 }
 
 .k-select2-footer {
-  padding: 5px 5px;
+  padding: 6px;
+  line-height: normal;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   border-top: 1px solid var(--border-color);
 }

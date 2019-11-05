@@ -12,6 +12,9 @@
         <div slot-scope="{row}">
           <em>{{row.Contact}}</em>
         </div>
+        <div slot="footer">
+          <k-button size="mini">刷新</k-button>
+        </div>
       </k-select2>
     </div>
   </div>

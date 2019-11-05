@@ -19,7 +19,7 @@
 }
 .k-like-input {
   border-radius: var(--radius);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--input-border-color);
   height: 28px;
   width: 200px;
   line-height: normal;

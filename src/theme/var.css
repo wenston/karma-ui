@@ -3,8 +3,8 @@
   --default-color: #fafafa;
   --primary-color: #2D62FF;
   --primary-gradient-color: #2D62FF;
-  --danger-color: #FF762E;
-  --warning-color: #ffac2c;
+  --danger-color: #F32525;
+  --warning-color: #FF762E;
   --success-color: #5BB82D;
   --disabled-color: #e9e9e9;
   --bg-color: #fff;
@@ -21,16 +21,17 @@
   --small: 28px;
   --mini: 24px;
   /*边框颜色，form表单相关控件的边框、分页器按钮边框*/
-  --border-color: #e1e1e1;
+  --border-color: #f4f4f4;
 
   /*过渡*/
   --transition: .25s ease-out;
   /*box-shadow*/
   --box-shadow: 0 2px 5px rgba(60, 70, 80, 0.15);
   /*圆角弧度*/
-  --radius: 4px;
+  --radius: 2px;
+  --layer-radius:var(--radius);
   /* input */
-  --input-border-color: var(--border-color);
+  --input-border-color: #e1e1e1;
   --input-width: 180px;
   --input-placeholder-color: #bbb;
   --input-padding: 0 0.5em;
@@ -227,12 +228,16 @@
   --to-top-icon-size:12px;
 
   /*pagination*/
-  --pagi-default-border-color: var(--border-color);
-  --pagi-hover-border-color: var(--primary-color);
-  --pagi-hover-background-color: var(--primary-color);
+  --pagi-default-border-color: #e1e1e1;
+  --pagi-hover-border-color: var(--font-color-4);
+  --pagi-hover-background-color: white;
   --pagi-text-color: var(--font-color-2);
   --pagi-prev-next-icon-size: 18px;
   --pagi-bg-color: white;
+
+  --pagi-current-border-color: var(--primary-color);
+  --pagi-current-text-color: var(--primary-color);
+  --pagi-current-background-color: white;
 
   /*date-picker*/
   --dp-icon-font-size: 14px;
@@ -242,7 +247,7 @@
 
   /* table */
   --table-wrapper-bg-color: var(--default-color);
-  --table-border-color: #eaeaea;
+  --table-border-color: #efefef;
   --table-border: 1px solid var(--table-border-color);
 
   /* 表头 */

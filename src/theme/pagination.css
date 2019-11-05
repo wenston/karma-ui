@@ -19,7 +19,7 @@ ul.k-pagi {
     margin: 0 3px;
   }
   li.k-pagi-total {
-    color: #333;
+    color: var(--font-color-1);
     font-size: 12px;
     margin: 0 8px;
   }
@@ -40,12 +40,18 @@ ul.k-pagi {
       line-height: normal;
       &:hover:not(.k-pagi-dot) {
         border-color: var(--pagi-hover-border-color);
-        color: var(--pagi-hover-border-color);
-      }
-      &.k-current-page {
-        border-color: var(--pagi-hover-border-color);
         background-color: var(--pagi-hover-background-color);
-        color: white !important;
+      }
+
+      &.k-current-page {
+        border-color: var(--pagi-current-border-color);
+        background-color: var(--pagi-current-background-color);
+        color: var(--pagi-current-text-color);
+        &:hover {
+          border-color: var(--pagi-current-border-color);
+          background-color: var(--pagi-current-background-color);
+          color: var(--pagi-current-text-color);
+        }
       }
       &.k-pagi-mini {
         min-width: 26px;
@@ -75,17 +81,17 @@ ul.k-pagi {
     font-size: 12px;
     .k-input-section {
       width: 50px;
-      margin:0 5px;
+      margin: 0 5px;
     }
   }
   &.k-pagi-disabled-all {
     pointer-events: none;
-    opacity: .60;
+    opacity: 0.6;
   }
-  $orders: 0,1,2,3,4,5,6,7;
+  $orders: 0, 1, 2, 3, 4, 5, 6, 7;
   @each $order in $orders {
     li.k-pagi-order-$order {
-      order:$order;
+      order: $order;
     }
   }
 }

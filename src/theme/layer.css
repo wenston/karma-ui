@@ -4,7 +4,7 @@
   transform-origin: 0 0;
   will-change: transform;
   z-index: 9999;
-  border-radius:2px;
+  border-radius:var(--layer-radius);
   border: 1px solid var(--border-color);
   box-shadow: 0 3px 5px 0px rgba(0,0,0,.1);
   /* overflow: hidden; */
@@ -22,8 +22,8 @@
     /* border-top: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
     border-right: 1px solid var(--border-color); */
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
+    border-top-left-radius:var(--layer-radius);
+    border-top-right-radius: var(--layer-radius);
     background-color: white;
     /* @extend .k-backdrop-filter; */
     position: relative;
@@ -38,22 +38,22 @@
     border-top: none;
     /* margin-top:-1px; */
     /* box-shadow: 0 1px 5px 0 rgba(0,0,0,.1); */
-    max-height: 25vh;
+    max-height: 33vh;
   }
   & .k-layer-has-footer {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom: none;
     /* box-shadow: 0 1px 5px 0 rgba(0,0,0,.1); */
-    max-height: 25vh;
+    max-height: 33vh;
   }
   & .k-layer-footer {
     /* border-bottom: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
     border-right: 1px solid var(--border-color); */
 
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: var(--layer-radius);
+    border-bottom-right-radius: var(--layer-radius);
     background-color: white;
     /* @extend .k-backdrop-filter; */
     position: relative;
