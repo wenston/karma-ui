@@ -1012,11 +1012,11 @@ export default {
     },
     onSort({ type, field, name }) {
       console.log(type, field, name)
-      if(field=='SupplierName') {
-        this.priceSorter = true
-      }else if(field=='TotalPrice') {
-        this.supplierSorter = true
-      }
+      // if(field=='SupplierName') {
+      //   this.priceSorter = true
+      // }else if(field=='TotalPrice') {
+      //   this.supplierSorter = true
+      // }
     },
     onClear() {
       this.selectedKeys = []

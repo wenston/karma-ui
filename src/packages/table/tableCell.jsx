@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     hasSorter() {
-      const { sort: sorter } = this.$data
+      const { sorter } = this
       return sorter === true || sorter === 1 || sorter === 0
     },
     sortText() {
@@ -65,7 +65,7 @@ export default {
       }
     },
     sorterElem() {
-      const { sort: sorter } = this.$data
+      const { sorter } = this
       // console.log(sorter)
       const up = (
         <k-icon
@@ -132,8 +132,5 @@ export default {
     sorter(s) {
       this.sort = s
     }
-    // showBaseLine(v) {
-    //   console.log(v)
-    // }
   }
 }

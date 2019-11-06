@@ -16,7 +16,9 @@ export default {
   },
   data() {
     return {
-      isCheckedAll: false
+      isCheckedAll: false,
+      currentSorterField: "", //当前排序中的字段
+      currentSort: true,//当前排序，0,1，true
     }
   },
   inject: ["__index", "__checkbox", "__radio", "__action"],
@@ -36,6 +38,16 @@ export default {
           "k-table--auto": !this.minContent
         }
       ]
+    },
+    //摘出所有需要排序的列，所以，columns中，必须要有field
+    fieldsWithSorter() {
+      const columns = this.columns
+      if (columns && columns.length) {
+        return columns.map(col => {
+          if ("sorter" in col) return col.field
+        })
+      }
+      return []
     }
   },
   watch: {
@@ -189,7 +201,17 @@ export default {
               rowspan,
               resizeWidth: this.resizeWidth,
               tag: "th",
-              sorter: col.sorter === undefined ? false : col.sorter
+              sorter: (()=>{
+                let b = true
+                if(this.currentSorterField == col.field) {
+                  b= this.currentSort
+                }else{
+                  b= 'sorter' in col
+                }
+                // console.log(b)
+                return b
+                // col.sorter === undefined ? false : col.sorter
+              })()
             },
             class: [
               {
@@ -211,6 +233,10 @@ export default {
                 this.$emit("handleResizeDown", e, el, col.__index, col)
               },
               sort: type => {
+                // console.log(type, col)
+                // console.log(type)
+                this.currentSort = type
+                this.currentSorterField = col.field
                 this.$emit("sort", type, col)
               }
             }
