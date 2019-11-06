@@ -102,8 +102,8 @@
       & .k-input-prepend,
       & .k-input-append {
         min-width: var(--input-$(name));
-        line-height: var(--input-$(name));
-        /* line-height:normal; */
+        /* line-height: var(--input-$(name)); */
+        line-height:normal;
       }
 
       & .k-input-prepend {

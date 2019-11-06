@@ -46,7 +46,11 @@ export default {
       default: true
     },
     nearBy: Boolean,
-    whiteList: Array
+    whiteList: Array,
+    layerWidth: {
+      type: String,
+      default: 'auto'
+    }
   },
   data() {
     return {
@@ -253,7 +257,8 @@ export default {
         bodyClassName: "k-select-tree-body",
         lazyLayer: this.lazyLayer,
         nearBy: this.nearBy,
-        whiteList: this.whiteList
+        whiteList: this.whiteList,
+        layerWidth: this.layerWidth
       },
       on: {
         "update:show": v => {
@@ -265,7 +270,12 @@ export default {
         }
       }
     }
-    return <KDropdown {...p} />
+    return (
+      <KDropdown {...p}>
+        {this.$slots.header}
+        {this.$slots.footer}
+      </KDropdown>
+    )
   },
   watch: {
     text(t) {

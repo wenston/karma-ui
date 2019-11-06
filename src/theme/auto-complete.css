@@ -47,14 +47,18 @@
   height: 100%;
   top: 0;
   left: 0; */
-  display: inline-block;
+  display: inline-flex;
   cursor: pointer;
+  min-width: 25px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
   & .k-auto-complete-icon {
     color: var(--auto-complete-icon-color);
     cursor: pointer;
     font-size: 12px;
     width: 12px;
-    height: 100%;
+    /* height: 100%; */
     display: inline-block;
     transition: transform var(--transition);
     /* @extend .k-center; */

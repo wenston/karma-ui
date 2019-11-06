@@ -48,7 +48,11 @@ export default {
       default: "left"
     },
     block: Boolean,
-    noStyle: Boolean
+    noStyle: Boolean,
+    layerWidth: {
+      type: String,
+      default: 'auto'
+    }
   },
   data() {
     return {
@@ -116,7 +120,7 @@ export default {
               footer: $slots.footer
             },
             {
-              width: "auto",
+              width: this.layerWidth,
               layerClassName,
               bodyClassName,
               footerClassName,

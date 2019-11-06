@@ -8,7 +8,6 @@
         value-field="Name"
         layer-width="250px"
         placeholder="商品名称"
-        text="xxxx"
         @focus="onFocus"
         @toggle="onToggle"
         @input="onInput"
@@ -647,12 +646,7 @@ export default {
     }
   },
   mounted() {
-    // setTimeout(() => {
-    //   this.value = "300034"
-    // }, 1800)
-    setTimeout(() => {
-      this.list = this.list1
-    }, 1500)
+    this.list = this.list1
   },
   watch: {
     value(v) {
