@@ -185,6 +185,7 @@ export const props = {
     type: Boolean,
     default: false
   },
+  trClass: [Array,String,Object],
   emptyText: {
     type: [String, Function],
     default: "暂无相关数据"

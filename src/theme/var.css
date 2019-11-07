@@ -1,8 +1,8 @@
 :root {
   /*base color*/
   --default-color: #fafafa;
-  --primary-color: #2D62FF;
-  --primary-gradient-color: #2D62FF;
+  --primary-color: #2E61FB;
+  --primary-gradient-color: #2E61FB;
   --danger-color: #F32525;
   --warning-color: #FF762E;
   --success-color: #5BB82D;
@@ -32,6 +32,7 @@
   --layer-radius:var(--radius);
   /* input */
   --input-border-color: #e1e1e1;
+  --input-focus-border-color:#96B0FF;
   --input-width: 180px;
   --input-placeholder-color: #bbb;
   --input-padding: 0 0.5em;
@@ -145,7 +146,7 @@
   --input-number-btn-hover-color: var(--primary-color);
 
   /* tips */
-  --tips-padding: 15px;
+  --tips-padding: 30px 20px;
   --tips-bg-color: color(rgb(255, 255, 255) a(95%));
   --tips-box-shadow: 0 0 0 1px rgba(0,0,0,.05),0 5px 8px rgba(0, 0, 0, .1);
   --tips-z-index: 10000;
@@ -271,7 +272,7 @@
   --table-mini: var(--mini);
   --table-mini-font-size: 12px;
   --table-mini-padding: 3px;
-  --table-tr-highlight-color: #DDE6FE;
+  --table-tr-highlight-color: #EEF2FF;
 
   /* 斑马线和滑入变色 */
   --table-stripe-bg-color: var(--default-color);

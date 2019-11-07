@@ -381,6 +381,17 @@ export default {
       this.columns.forEach(col => {
         tds.push(this.renderTd(row, index, col))
       })
+      let trClass = {}
+
+      if(Array.isArray(this.trClass)) {
+        this.trClass.forEach(c=>{
+          trClass[c] = true
+        })
+      }else if(typeof this.trClass === 'string') {
+        trClass[this.trClass] = true
+      }else{
+        trClass = this.trClass
+      }
       let trProps = {
         attrs: {
           "data-key": k,
@@ -388,7 +399,8 @@ export default {
         },
         key: k,
         class: {
-          "k-table-tr-highlight": curHighlightRowKey == this.currentHighlightKey
+          "k-table-tr-highlight": curHighlightRowKey == this.currentHighlightKey,
+          ...trClass
         },
         on: {
           dblclick: () => {

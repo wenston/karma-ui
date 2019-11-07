@@ -19,11 +19,11 @@
 
     &:focus,
     &:active {
-      border-color: var(--primary-color);
+      border-color: var(--input-focus-border-color);
       /* box-shadow: var(--input-focus-active-shadow); */
     }
     &.k-input-active {
-      border-color: var(--primary-color);
+      border-color: var(--input-focus-border-color);
     }
 
     &::placeholder {
@@ -146,7 +146,7 @@
     }
     & .k-input,
     & .k-textarea {
-      border-color: var(--primary-color);
+      border-color: var(--input-focus-border-color);
     }
   }
 
@@ -161,7 +161,7 @@
       border-radius: 0;
       background-color: transparent;
       &.k-input-active {
-        border-bottom-color: var(--primary-color);
+        border-bottom-color: var(--input-focus-border-color);
       }
       &.k-input-disabled {
         background-color: transparent;
@@ -169,7 +169,7 @@
       }
       &:focus,
       &:active {
-        border-bottom-color: var(--primary-color);
+        border-bottom-color: var(--input-focus-border-color);
         box-shadow: none;
       }
     }
@@ -185,7 +185,7 @@
     }
     &:focus-within {
       &:after {
-        border-bottom-color: var(--primary-color);
+        border-bottom-color: var(--input-focus-border-color);
         width: 100%;
         left: 0;
       }
@@ -206,7 +206,7 @@
       background-color: transparent;
 
       &:focus {
-        box-shadow: 0 0 0 1px var(--primary-color);
+        box-shadow: 0 0 0 1px var(--input-focus-border-color);
         background-color: white;
       }
     }

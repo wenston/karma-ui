@@ -16,10 +16,13 @@
     }
     & .k-tree-search-btn {
       cursor: pointer;
-      width: 14px;
-      height: 15px;
       font-size: 14px;
       color: var(--font-color-4);
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       &:hover {
         color: var(--primary-color);
       }

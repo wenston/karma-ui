@@ -1,7 +1,7 @@
 <script>
 const baseStyle = {
   "min-width": "180px",
-  "max-width": "300px"
+  "max-width": "250px"
 }
 const baseContent = "操作完成"
 import KIcon from "karma-ui/packages/icon/icon.jsx"
@@ -9,6 +9,33 @@ import { merge } from "karma-ui/util/object.js"
 export default {
   components: {
     KIcon
+  },
+  props: {
+    icon: {
+      type: Object,
+      default: () => ({
+        success: {},
+        error: {},
+        warning: {}
+      })
+    }
+  },
+  computed: {
+    success: () => ({
+      name: "k-icon-success",
+      size: "50px",
+      color: "#2E61FB"
+    }),
+    error: () => ({
+      name: "k-icon-close-circle",
+      size: "50px",
+      color: "#F32525"
+    }),
+    warning: () => ({
+      name: "k-icon-tip",
+      size: "50px",
+      color: "#FF6D21"
+    })
   },
   data() {
     return {
@@ -34,6 +61,11 @@ export default {
       ],
       on: {}
     }
+    let obj = {}
+    obj.success = { ...this.success, ...this.icon.success }
+    obj.error = { ...this.error, ...this.icon.error }
+    obj.warning = { ...this.warning, ...this.icon.warning }
+
     let tip = (
       <transition name="k-t-fade">
         <div {...p}>
@@ -45,11 +77,12 @@ export default {
             />
           )}
           <div class="k-tips__tag">
-            <i
-              class={{
-                "k-tips__icon": true,
-                ["k-tips__icon--" + this.type]: true
-              }}
+            <span class="k-tips__shadow"></span>
+            <k-icon
+              class="k-tips__icon"
+              size={obj[this.type].size}
+              name={obj[this.type].name}
+              color={obj[this.type].color}
             />
           </div>
           <div class="k-tips__cont">{this.content}</div>

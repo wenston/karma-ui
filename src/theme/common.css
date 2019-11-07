@@ -27,11 +27,11 @@
   transition: var(--transition);
   vertical-align: middle;
   &:hover {
-    border-color:var(--primary-color);
+    border-color:var(--input-focus-border-color);
   }
   &:focus {
     outline: none;
-    border-color:var(--primary-color);
+    border-color:var(--input-focus-border-color);
   }
 }
 .k-like-input-placeholder {
