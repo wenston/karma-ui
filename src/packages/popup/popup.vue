@@ -18,7 +18,7 @@
           v-dnd="{handlerClass:'k-popup__header__title'}">
           <k-icon class="k-popup__close"
             name="k-icon-close"
-            size="16"
+            size="14"
             v-if="layout.indexOf('close')>-1"
             @click.stop="onCancel"
             title="关闭"

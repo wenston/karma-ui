@@ -31,7 +31,7 @@ export default {
     },
     leafIcon() {
       const icon = this.icon[2]
-      return <k-icon class="k-tree-icon-leaf" name={icon} />
+      if (icon) return <k-icon class="k-tree-icon-leaf" name={icon} />
     },
     foldIcon() {
       const icon = this.icon[0]

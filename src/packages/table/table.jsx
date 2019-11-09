@@ -1,7 +1,7 @@
 //为什么表头和表尾不采取数据驱动改变top和bottom？
 //因为：减少dom重绘的次数！
 //hover变色也是这样
-import { getStyle, offset } from "karma-ui/util/dom"
+import { getStyle, offset, scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import { props } from "./_util/props"
 import mixins from "./_mixins/"
 import KTableHead from "./tableHead"
@@ -387,7 +387,8 @@ export default {
       const baseLine = this.$refs.baseLine
       let left = offset(el, this.$el).left + tdOldWidth - scrollLeft
       baseLine.style.height = totalHeight
-      if (col.fixed) {//目前没有实现这种方式
+      if (col.fixed) {
+        //目前没有实现这种方式
         left = left + scrollLeft
       } else if (this.leftFixedNumber && index < this.leftFixedNumber) {
         left += scrollLeft
@@ -467,10 +468,14 @@ export default {
         )
       }
     },
-    rMainTable() {},
     scrollTo(obj) {
       if (this.$refs.mainTable) {
         this.$refs.mainTable.scrollTo(obj)
+      }
+    },
+    scrollIntoViewIfNeed(elem,offset = 0) {
+      if (this.$refs.mainTable && elem) {
+        scrollIntoViewIfNeed(elem, this.$refs.mainTable, offset)
       }
     }
   },

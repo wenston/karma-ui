@@ -112,6 +112,10 @@ export default {
       if (this.$refs.table) {
         this.$refs.table.scrollTo(obj)
       }
+    },
+    scrollIntoViewIfNeed(elem) {
+      if(this.$refs.table)
+      this.$refs.table.scrollIntoViewIfNeed(elem,40)
     }
   },
   render() {
@@ -173,7 +177,7 @@ export default {
           if (this.hasAction && this.actions.some(a => a == "add")) {
             const [row, i] = e
             if (row === 0) {
-              this.data.unshift(this.getRowData())
+              this.unshiftRow()
             } else {
               this.pushRow(row)
             }

@@ -51,6 +51,7 @@ export default {
           }else{
             inputs[index].focus()
           }
+          this.scrollIntoView(inputs[index])
           return inputs[index]
         }
       } else if (arguments.length == 1) {
@@ -61,6 +62,7 @@ export default {
           }else{
             ipt.focus()
           }
+          this.scrollIntoView(ipt)
           return ipt
         }
       }
@@ -96,9 +98,16 @@ export default {
             ipt.focus()
           }
         })
+        this.scrollIntoView(ipt)
         return ipt
       }
       return null
+    },
+    scrollIntoView(elem) {
+      elem && elem.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end'
+      })
     },
     //收集所有的未隐藏的input，并重新绑定事件
     collectAllInput() {
@@ -160,6 +169,7 @@ export default {
                   }else{
                     inputs[row + next][i]['focus']()
                   }
+                  this.scrollIntoView(inputs[row + next][i])
                   
                 } else {
                   this.$emit("end-row", [row, i])
@@ -185,6 +195,7 @@ export default {
                 }else{
                   inputs[row][i + next]['focus']()
                 }
+                this.scrollIntoView(inputs[row[i+next]])
                 
               } else if (inputs[row + next]) {
                 //如果存在下一行
@@ -196,7 +207,7 @@ export default {
                   }else{
                     r[j]['focus']()
                   }
-                  
+                  this.scrollIntoView(r[j])
                 }
               } else {
                 this.$emit("end", [row, i])
@@ -212,6 +223,7 @@ export default {
                 }else{
                   inputs[next]['focus']()
                 }
+                this.scrollIntoView(inputs[next])
               } else {
                 this.$emit("end", i)
               }

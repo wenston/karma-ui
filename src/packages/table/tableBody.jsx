@@ -95,7 +95,7 @@ export default {
             this.highlightKey
           )
         }
-      } else if (key) {
+      } else {
         this.currentHighlightKey = key
       }
     },
