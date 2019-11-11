@@ -473,6 +473,12 @@ export default {
         this.$refs.mainTable.scrollTo(obj)
       }
     },
+    scrollBy(obj) {
+      if (this.$refs.mainTable) {
+        this.$refs.mainTable.scrollBy(obj)
+      }
+    },
+
     scrollIntoViewIfNeed(elem,offset = 0) {
       if (this.$refs.mainTable && elem) {
         scrollIntoViewIfNeed(elem, this.$refs.mainTable, offset)

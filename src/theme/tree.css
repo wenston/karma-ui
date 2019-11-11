@@ -110,7 +110,7 @@
         color: var(--primary-color);
       }
       &.k-tree-text--active {
-        background-color: color(var(--primary-color) a(20%));
+        background-color: color(var(--primary-color) a(12%));
         color: var(--primary-color);
       }
     }

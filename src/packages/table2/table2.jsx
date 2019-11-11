@@ -114,8 +114,7 @@ export default {
       }
     },
     scrollIntoViewIfNeed(elem) {
-      if(this.$refs.table)
-      this.$refs.table.scrollIntoViewIfNeed(elem,40)
+      if (this.$refs.table) this.$refs.table.scrollIntoViewIfNeed(elem, 40)
     }
   },
   render() {

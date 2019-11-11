@@ -214,6 +214,24 @@ export default {
         }
       }
     },
+    matchValueByInputText() {
+      const inputText = this.inputText.trim()
+      const keyField = this.keyField
+      const valueField = this.valueField
+      let v = ""
+      let i = 0
+      const l = this.data.length
+      while (i < l) {
+        if (this.data[i][valueField] === inputText) {
+          v = this.data[i][keyField]
+          break
+        }
+        i++
+      }
+      if (v !== "") {
+        this.$emit("valueChange", v)
+      }
+    },
     //
     getInputTextByKeyField() {
       let text = ""
@@ -428,6 +446,8 @@ export default {
           input: () => {
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
+              //让直接输入的文本，也可以匹配到对应的keyField的值
+              this.matchValueByInputText()
               this.$emit("input", this.inputText)
             }, this.debounceTime)
             this.showAndScrollIntoView()
