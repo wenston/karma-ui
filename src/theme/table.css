@@ -22,7 +22,6 @@
   }
 }
 
-
 .k-table-fixed-td-foot,
 .k-table-fixed-td-right-foot {
   /* border: 1px solid var(--table-border-color); */
@@ -78,6 +77,11 @@
         /* line-height: calc(var(--table-$(name)) - 1px); */
         line-height: normal;
         /* @extend .k-ellipsis; */
+      }
+      & .k-table > thead > tr > th {
+        &.k-table-th-dragging {
+          opacity: .4;
+        }
       }
     }
   }
@@ -151,7 +155,7 @@
           & .k-table-td--actions {
             display: none;
           }
-          
+
           transition: background-color var(--transition);
         }
         &.k-table-tr-hover {
@@ -308,5 +312,33 @@
   }
 }
 .k-table-pointer-events-none {
+  pointer-events: none;
+}
+.k-table-drag-elem {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  cursor: move;
+  z-index: 11;
+}
+.k-table-drop-elem {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 0;
+  height: 0;
+  border-radius: 0;
+  background-color: transparent;
+  border-width: 4px ;
+  border-style: solid;
+  border-color: transparent var(--table-base-line-color)
+    var(--table-base-line-color) transparent;
+  transform: rotate(45deg);
+  z-index: 12;
   pointer-events: none;
 }

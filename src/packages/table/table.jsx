@@ -104,6 +104,9 @@ export default {
       const { name, field } = col
       this.$emit("sort", { type, field, name })
     },
+    handleDrop(obj) {
+      this.$emit('drag-drop',obj)
+    },
     setHighlightRow(e) {
       if (this.$refs.tbody) {
         this.$refs.tbody.setHighlightRow(e)
@@ -337,14 +340,14 @@ export default {
         which === "head"
           ? "k-table-fixed-td-head"
           : which === "foot"
-          ? "k-table-fixed-td-foot"
-          : "k-table-fixed-td-body"
+            ? "k-table-fixed-td-foot"
+            : "k-table-fixed-td-body"
       const klass_right =
         which === "head"
           ? "k-table-fixed-td-right-head"
           : which === "foot"
-          ? "k-table-fixed-td-right-foot"
-          : "k-table-fixed-td-right-body"
+            ? "k-table-fixed-td-right-foot"
+            : "k-table-fixed-td-right-body"
       if (scrollLeft > 0) {
         elems.forEach(el => {
           el.classList.add(klass_left)
@@ -395,7 +398,7 @@ export default {
       } else if (
         this.rightFixedNumber &&
         index >=
-          this.machiningColumns.bodyColumns.length - 1 - this.rightFixedNumber
+        this.machiningColumns.bodyColumns.length - 1 - this.rightFixedNumber
       ) {
         left = left + this.rightTranslate
       }
@@ -479,7 +482,7 @@ export default {
       }
     },
 
-    scrollIntoViewIfNeed(elem,offset = 0) {
+    scrollIntoViewIfNeed(elem, offset = 0) {
       if (this.$refs.mainTable && elem) {
         scrollIntoViewIfNeed(elem, this.$refs.mainTable, offset)
       }
@@ -497,9 +500,7 @@ export default {
   },
   render() {
     const { bodyColumns, headColumns } = this.machiningColumns
-    //对columns进行初步处理，剔除null/undefined/false/''等无效的列
-
-    // 2. 整理出来colgroup
+    // 整理出来colgroup
     const colgroup = <template slot="colgroup">{this.colGroup}</template>
     const tableWrapperProps = {
       ref: "mainTable",
@@ -535,7 +536,8 @@ export default {
       on: {
         handleResizeDown: this.handleResizeDown,
         togglechecked: this.toggleCheckedAll,
-        sort: this.handleSort
+        sort: this.handleSort,
+        drop: this.handleDrop
       }
     }
     let bodyProps = {

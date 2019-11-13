@@ -189,5 +189,7 @@ export const props = {
   emptyText: {
     type: [String, Function],
     default: "暂无相关数据"
-  }
+  },
+  //是否支持列拖拽排序
+  draggable: Boolean
 }

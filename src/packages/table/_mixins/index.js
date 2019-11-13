@@ -1,65 +1,65 @@
-import { isObject } from "karma-ui/util/object.js"
+import { isObject } from "karma-ui/util/object.js";
 export default {
   computed: {
     //第一步，提取有效数据
     c_filter_columns() {
-      let columns = this.columns
+      let columns = this.columns;
       if (typeof columns === "function") {
-        columns = columns()
+        columns = columns();
       }
-      let arr = []
+      let arr = [];
       columns.forEach(col => {
         if (!!col && isObject(col)) {
-          arr.push(col)
+          arr.push(col);
         } else if (typeof col === "function") {
-          const c = { ...col() }
-          if (!!c && isObject(c)) arr.push(c)
+          const c = { ...col() };
+          if (!!c && isObject(c)) arr.push(c);
         }
-      })
-      return arr
+      });
+      return arr;
     },
     //第二步，加工thead、tbody需要的数据
     headAndBodyColumns() {
-      let columns = this.c_filter_columns
+      let columns = this.c_filter_columns;
       let bodyColumns = [],
         fn = arr => {
           arr.forEach(col => {
             if (col.children && col.children.length) {
-              fn(col.children)
+              fn(col.children);
             } else {
               // bodyColumns.push({...col})
-              bodyColumns.push(col)
+              bodyColumns.push(col);
             }
-          })
-        }
-      fn(columns)
+          });
+        };
+      fn(columns);
 
-      return { bodyColumns, headColumns: columns }
+      return { bodyColumns, headColumns: columns };
     },
     //第三步，预置一些列，如：index，checkbox，radio，action
     //形成最终的thead和tbody需要的列数据
     machiningColumns() {
       // let columns = this.columns
-      let { bodyColumns, headColumns } = this.headAndBodyColumns
-      const cellWidth = this.cellWidth
-      const { fixedLeft } = this.hasFixedColumns
+      let { bodyColumns, headColumns } = this.headAndBodyColumns;
+      const cellWidth = this.cellWidth;
+      const { fixedLeft } = this.hasFixedColumns;
       //如果存在固定左侧列的情况，则index和checkbox或者radio列，默认也要固定
       //如果存在固定右侧列的情况，则index和checkbox或者radio不需要固定
       let obj = {
         style: {
           width: cellWidth
         }
-      }
+      };
       if (fixedLeft) {
-        obj.fixed = "left"
+        obj.fixed = "left";
       }
       //处理复选或者单选
       if (this.hasCheckbox) {
-        bodyColumns = [{ ...obj, field: "@_checkbox" }, ...bodyColumns]
-        headColumns = [{ ...obj, field: "@_checkbox" }, ...headColumns]
+        bodyColumns = [{ ...obj, field: "@_checkbox" }, ...bodyColumns];
+        headColumns = [{ ...obj, field: "@_checkbox" }, ...headColumns];
       } else if (this.hasRadio) {
-        bodyColumns = [{ ...obj, field: "@_radio" }, ...bodyColumns]
-        headColumns = [{ ...obj, field: "@_radio" }, ...headColumns]
+        bodyColumns = [{ ...obj, field: "@_radio" }, ...bodyColumns];
+        headColumns = [{ ...obj, field: "@_radio" }, ...headColumns];
       }
       //处理有操作按钮的情况
       // if (this.hasAction) {
@@ -68,36 +68,36 @@ export default {
       // }
       //处理有序号的情况
       if (this.hasIndex) {
-        bodyColumns = [{ ...obj, field: "@_index" }, ...bodyColumns]
-        headColumns = [{ ...obj, field: "@_index" }, ...headColumns]
+        bodyColumns = [{ ...obj, field: "@_index" }, ...bodyColumns];
+        headColumns = [{ ...obj, field: "@_index" }, ...headColumns];
       }
-      return { bodyColumns, headColumns }
+      return { bodyColumns, headColumns };
     },
     //是否存在固定列（左，右）
     hasFixedColumns() {
       let fixedLeft = 0,
         fixedRight = 0,
-        columns = this.c_filter_columns
+        columns = this.c_filter_columns;
       columns.forEach(col => {
-        const f = col.fixed
+        const f = col.fixed;
         if (f === "left") {
-          fixedLeft += 1
+          fixedLeft += 1;
         } else if (f === "right") {
-          fixedRight += 1
+          fixedRight += 1;
         }
-      })
+      });
       if (fixedLeft > 0) {
         if (this.hasCheckbox || this.hasRadio) {
-          fixedLeft += 1
+          fixedLeft += 1;
         }
         if (this.hasIndex) {
-          fixedLeft += 1
+          fixedLeft += 1;
         }
       }
       return {
         fixedLeft,
         fixedRight
-      }
+      };
     },
     cellWidth() {
       const size = {
@@ -107,11 +107,11 @@ export default {
         big: "50",
         large: "55",
         huge: "60"
-      }
-      return size[this.size]
+      };
+      return size[this.size];
     },
     hasSum() {
-      return this.machiningColumns.bodyColumns.some(col => "sum" in col)
+      return this.machiningColumns.bodyColumns.some(col => "sum" in col);
     }
   },
   methods: {
@@ -120,43 +120,46 @@ export default {
       return (
         field === this.__index ||
         field === this.__checkbox ||
-        field === this.__radio
-      )
+        field === this.__radio ||
+        field === this.__action
+      );
     },
     //获取单元格的style
     $_get_td_style(row, index, col, obj = {}) {
       const style =
-        typeof col.style === "function" ? col.style(row, index, obj) : col.style
-      const { width, ...restStyle } = { width: "", ...style }
-      return restStyle
+        typeof col.style === "function"
+          ? col.style(row, index, obj)
+          : col.style;
+      const { width, ...restStyle } = { width: "", ...style };
+      return restStyle;
     },
     //获取传入的单元格的class
     $_get_td_class(row, index, col, obj = {}) {
-      const tp = typeof col.cellClass
-      let cls = ""
+      const tp = typeof col.cellClass;
+      let cls = "";
       if (tp === "function") {
-        cls = col.cellClass(row, index, obj)
-      } else if( tp === 'undefined') {
-        cls = ''
-      } else if(cls === 'undefined') {
-        cls = ''
+        cls = col.cellClass(row, index, obj);
+      } else if (tp === "undefined") {
+        cls = "";
+      } else if (cls === "undefined") {
+        cls = "";
       }
-      return Array.isArray(cls) ? cls.join(" ") : cls 
+      return Array.isArray(cls) ? cls.join(" ") : cls;
     },
-    
+
     //格式化checkboxKey/radioKey
     $_format_checked_key(row) {
-      let keys = []
-      let result = []
+      let keys = [];
+      let result = [];
       if (this.checkboxKey && this.hasCheckbox) {
-        keys = this.checkboxKey.trim().split(",")
+        keys = this.checkboxKey.trim().split(",");
       } else if (this.radioKey && this.hasRadio) {
-        keys = this.radioKey.trim().split(",")
+        keys = this.radioKey.trim().split(",");
       }
       keys.forEach(key => {
-        result.push(row[key])
-      })
-      return result.join(",")
-    },
+        result.push(row[key]);
+      });
+      return result.join(",");
+    }
   }
-}
+};

@@ -303,8 +303,8 @@ export default {
           typeof this.searchField === "string"
             ? [this.searchField]
             : Array.isArray(this.searchField)
-            ? this.searchField
-            : []
+              ? this.searchField
+              : []
         if (arrField.length === 0) {
           console.warn(`${this.$options.name}是否没有传入searchField参数？`)
         }
@@ -344,7 +344,7 @@ export default {
         }
       }
     },
-    handleLayerBodyScroll: debounce(100, function() {
+    handleLayerBodyScroll: debounce(100, function () {
       const body = this.ins.$refs.body
       let bodyHeight = parseFloat(getStyle(body, "height"))
       let scrollTop = body.scrollTop
@@ -360,7 +360,7 @@ export default {
         }
       }
     }),
-    showList(fn = () => {}) {
+    showList(fn = () => { }) {
       this.$nextTick().then(() => {
         this.ins &&
           this.ins.show(() => {
@@ -368,7 +368,7 @@ export default {
           })
       })
     },
-    hideList(cb = () => {}) {
+    hideList(cb = () => { }) {
       if (!this.disabled) {
         if (this.ins) {
           //remove事件
