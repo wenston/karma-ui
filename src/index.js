@@ -37,7 +37,7 @@ import KKeyEnter from 'karma-ui/packages/key-enter/index.js'
 import Dnd from 'karma-ui/directives/dnd/index.js'
 import Pin from 'karma-ui/directives/pin/index.js'
 import Clickoutside from 'karma-ui/directives/clickoutside/index.js'
-import Viewable from 'karma-ui/directives/viewable/index.js'
+// import Viewable from 'karma-ui/directives/viewable/index.js'
 
 let obj = {
   KButton,
@@ -61,7 +61,7 @@ let obj = {
   Clickoutside,
   KCarousel,
   KCarouselItem,
-  Viewable,
+  // Viewable,
   KPagination,
   KDatePicker,
   KScrollbar,
