@@ -200,7 +200,7 @@ export default {
         if (text) {
           return (
             <tr>
-              <k-cell class="k-text-center" colspan={colspan}>
+              <k-cell class="k-text-center k-table-empty" colspan={colspan}>
                 {text}
               </k-cell>
             </tr>

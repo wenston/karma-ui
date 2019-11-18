@@ -2,7 +2,6 @@
   @extend .k-absolute;
   transition: transform var(--transition);
   transform-origin: 0 0;
-  will-change: transform;
   z-index: 9999;
   border-radius:var(--layer-radius);
   border: 1px solid var(--border-color);

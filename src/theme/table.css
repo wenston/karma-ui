@@ -323,7 +323,6 @@
   display: flex;
   align-items: center;
   padding: 0 8px;
-  cursor: move;
   z-index: 11;
 }
 .k-table-drop-elem {

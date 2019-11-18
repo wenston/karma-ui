@@ -332,7 +332,7 @@ export default {
               }
             }
           },
-          style: { width: this.block ? "100%" : "200px", ...this.styles }
+          style: { width: this.block ? "100%" : "180px", ...this.styles }
         }
         if(!this.disabled) {
           rangeP.attrs = {
@@ -389,7 +389,7 @@ export default {
               }}
             />
           ) : (
-            <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
+            <k-icon name="k-icon-calendar" class="k-date-picker-icon k-center" />
           )}
         </k-input>
       )
