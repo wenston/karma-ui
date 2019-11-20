@@ -1,11 +1,11 @@
 :root {
   /*base color*/
   --default-color: #fafafa;
-  --primary-color: #2E61FB;
-  --primary-gradient-color: #2E61FB;
-  --danger-color: #F32525;
-  --warning-color: #FF762E;
-  --success-color: #5BB82D;
+  --primary-color: #409eff;
+  --primary-gradient-color: #409eff;
+  --danger-color: #F56C6C;
+  --warning-color: #E6A23C;
+  --success-color: #67C23A;
   --disabled-color: #e9e9e9;
   --bg-color: #fff;
   /*文本颜色*/
@@ -32,9 +32,9 @@
   --layer-radius:var(--radius);
   /* input */
   --input-border-color: #e1e1e1;
-  --input-focus-border-color:#96B0FF;
+  --input-focus-border-color:#7bbcff;
   --input-width: 180px;
-  --input-placeholder-color: #bbb;
+  --input-placeholder-color: #bfbfbf;
   --input-padding: 0 0.5em;
   --input-radius: var(--radius);
   --input-color: var(--font-color-2);
@@ -252,7 +252,8 @@
   --table-border: 1px solid var(--table-border-color);
 
   /* 表头 */
-  --table-head-bg-color: #f4f4f4;
+  --table-head-bg-color: #E7EBF4;
+  --table-head-bottom-border: 1px solid #DEE1E6;
   /* 尺寸 */
   --table-huge: var(--huge);
   --table-huge-font-size: 14px;

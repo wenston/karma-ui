@@ -2,19 +2,21 @@
   <label class="k-checkbox">
     <input type="checkbox"
       class="k-checkbox__input"
-      v-if="type==='arr'"
+      v-if="type==='arr' && !noInput"
       v-model="arr"
       :value="value"
       :disabled="disabled"
       @change="_change">
-    <input type="checkbox"
-      class="k-checkbox__input"
-      v-else
-      :checked="checked"
-      :value="value"
-      :disabled="disabled"
-      @change="_change">
-    <span class="k-checkbox__icon"></span>
+    <template v-else>
+      <input type="checkbox"
+        class="k-checkbox__input"
+        v-if="!noInput"
+        :checked="checked"
+        :value="value"
+        :disabled="disabled"
+        @change="_change"></template>
+    <span class="k-checkbox__icon"
+      :class="icon"></span>
     <span v-if="text!==''"
       class="k-checkbox__text">{{text}}</span>
   </label>
@@ -74,11 +76,21 @@ export default {
     type: {
       type: String,
       default: ""
-    }
+    },
+    noInput: Boolean
   },
   data() {
     return {
       arr: this.dataArr
+    }
+  },
+  computed: {
+    icon() {
+      return {
+        'k-checkbox__icon--checked':this.checked,
+        'k-checkbox__icon--disabled':this.disabled,
+        'k-checkbox__icon--2':this.disabled && this.checked,
+      }
     }
   },
   methods: {

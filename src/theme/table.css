@@ -158,6 +158,11 @@
 
           transition: background-color var(--transition);
         }
+        &.k-table-tr-checked {
+          > td {
+            
+          }
+        }
         &.k-table-tr-hover {
           > td {
             background-color: var(--table-hover-bg-color);
@@ -191,6 +196,7 @@
   z-index: 11;
   background-color: var(--table-head-bg-color);
   box-shadow: inset 0 -1px 0 var(--table-border-color);
+  border-bottom: var(--table-head-bottom-border);
   text-align: left;
   &.k-theadwrapper-shadow {
     box-shadow: inset 0 -1px 0 var(--table-border-color),
