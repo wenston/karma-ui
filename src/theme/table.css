@@ -196,11 +196,18 @@
   z-index: 11;
   background-color: var(--table-head-bg-color);
   box-shadow: inset 0 -1px 0 var(--table-border-color);
-  border-bottom: var(--table-head-bottom-border);
   text-align: left;
   &.k-theadwrapper-shadow {
     box-shadow: inset 0 -1px 0 var(--table-border-color),
       0 1px 3px rgba(0, 0, 0, 0.09);
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: var(--table-head-bottom-border-color);
+    bottom: 0px;
   }
 }
 

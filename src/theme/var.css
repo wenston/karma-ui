@@ -253,7 +253,7 @@
 
   /* 表头 */
   --table-head-bg-color: #E7EBF4;
-  --table-head-bottom-border: 1px solid #DEE1E6;
+  --table-head-bottom-border-color: #DEE1E6;
   /* 尺寸 */
   --table-huge: var(--huge);
   --table-huge-font-size: 14px;
@@ -276,7 +276,7 @@
   --table-tr-highlight-color: #EEF2FF;
 
   /* 斑马线和滑入变色 */
-  --table-stripe-bg-color: var(--default-color);
+  --table-stripe-bg-color: #FBFCFD;
   --table-hover-bg-color: #FFF5E6;
 
   /* 固定列时，左右移动时的固定列阴影 */

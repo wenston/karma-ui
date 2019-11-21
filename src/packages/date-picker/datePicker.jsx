@@ -383,7 +383,7 @@ export default {
           {this.value && !this.disabled ? (
             <k-icon
               name="k-icon-close-circle"
-              class="k-date-picker-icon-close"
+              class="k-date-picker-icon-close k-center"
               onClick={e => {
                 this.clearDate()
               }}

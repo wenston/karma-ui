@@ -220,9 +220,11 @@ export default {
           },
           toggle: arr => {
             if (arr.length) {
-              const item = arr[arr.length - 1]
+              const item = arr[arr.length - 1] 
+              if(item)
               this.currentText = item[textField]
             }
+            //TODO:有时返回的arr为[undefined]
             this.$emit("toggle", arr)
           },
           "update:selectedData": d => {
@@ -255,7 +257,7 @@ export default {
         title,
         body,
         bodyClassName: "k-select-tree-body",
-        lazyLayer: this.lazyLayer,
+        lazy: this.lazyLayer,
         nearBy: this.nearBy,
         whiteList: this.whiteList,
         layerWidth: this.layerWidth
