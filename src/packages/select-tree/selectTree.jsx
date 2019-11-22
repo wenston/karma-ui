@@ -15,6 +15,10 @@ export default {
   //根据hasCheckbox判断是否是多选
   props: {
     ...KTree.props,
+    size: {//是title框的高度大小
+      type: String,
+      default: 'medium'
+    },
     show: {
       type: Boolean,
       default: false
@@ -151,6 +155,7 @@ export default {
         },
         class: [
           "k-select-tree",
+          [`k-select-tree--${this.size}`],
           {
             ["k-select-tree--block"]: this.block,
             ["k-select-tree--simple"]: this.simple,
@@ -220,9 +225,12 @@ export default {
           },
           toggle: arr => {
             if (arr.length) {
-              const item = arr[arr.length - 1] 
-              if(item)
-              this.currentText = item[textField]
+              const item = arr[arr.length - 1]
+              if (item)
+                this.currentText = item[textField]
+              else {
+                this.currentText = ''
+              }
             }
             //TODO:有时返回的arr为[undefined]
             this.$emit("toggle", arr)
@@ -238,7 +246,6 @@ export default {
             name: "loading",
             value: {
               loading: this.data.length === 0,
-              content: "数据获取中..."
             }
           }
         ]
@@ -273,9 +280,9 @@ export default {
       }
     }
     return (
-      <KDropdown {...p}>
-        {this.$slots.header}
-        {this.$slots.footer}
+      <KDropdown {...p} >
+        <template slot="header">{this.$slots.header}</template>
+        <template slot="footer">{this.$slots.footer}</template>
       </KDropdown>
     )
   },

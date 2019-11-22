@@ -244,8 +244,7 @@ export default {
             {
               name: "loading",
               value: {
-                loading: this.data.length === 0,
-                content: "数据获取中..."
+                loading: this.data.length === 0
               }
             }
           ]

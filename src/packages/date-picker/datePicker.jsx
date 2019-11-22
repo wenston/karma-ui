@@ -320,7 +320,7 @@ export default {
       }
       if (this.range) {
         let rangeP = {
-          class: ["k-date-picker-range",{
+          class: ["k-date-picker-range",[`k-date-picker-range--${this.size}`],{
             'k-date-picker-range-simple': this.simple,
             'k-date-picker-range-disabled': this.disabled
           }],

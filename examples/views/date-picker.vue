@@ -24,8 +24,8 @@
         range
         ref="dp2"
         nearby
-        simple
-        block
+        
+        
         @getLayerElement="getDatePickerElement"></k-date-picker>
     </div>
     <div>

@@ -14,9 +14,9 @@ let settings = {
   content: "",
   position: "absolute",
   isFullScreen: true,
-  color: "#3366ff",
+  color: "#409eff",
   backgroundColor: "rgba(255,255,255,.4)",
-  iconColor: "#3366ff",
+  iconColor: "#409eff",
   timeout: -1,//-1代表没有超时自动关闭的功能
   afterTimeout: () => {}
 }

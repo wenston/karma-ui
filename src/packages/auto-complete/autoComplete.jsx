@@ -524,8 +524,7 @@ export default {
               {
                 name: "loading",
                 value: {
-                  loading: this.loading,
-                  content: "数据获取中..."
+                  loading: this.loading
                 }
               }
             ],

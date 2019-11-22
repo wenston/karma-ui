@@ -3,6 +3,11 @@
   @extend .k-select2;
   @extend .k-like-input;
   @extend .k-cursor-pointer;
+  @each $name in (huge, large, big, medium, small, mini) {
+    &.k-select-tree--$(name) {
+      height: var(--$(name));
+    }
+  }
   &.k-select-tree--block {
     @extend .k-block;
     position: relative;

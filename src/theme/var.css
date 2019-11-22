@@ -72,8 +72,8 @@
   /* button padding*/
   --button-huge: 0 30px;
   --button-large: 0 24px;
-  --button-big: 0 20px;
-  --button-medium: 0 14px;
+  --button-big: 0 18px;
+  --button-medium: 0 12px;
   --button-small: 0 8px;
   --button-mini: 0 8px;
   /*button height*/
@@ -123,7 +123,7 @@
   --option-padding: 0 .5em;
   --option-hover-color: var(--font-color-2);
   /* --option-hover-bg-color: color(var(--primary-color) tint(80%)); */
-  --option-hover-bg-color: #eee;
+  --option-hover-bg-color: #e5eaf0;
   --option-selected-color: var(--primary-color);
   --option-selected-bg-color: color(var(--primary-color) tint(85%));
   --option-selected-bg-gradient-color: color(var(--primary-gradient-color) tint(85%));

@@ -5,11 +5,12 @@
       <k-select-tree style="line-height:normal;display:inline-block;"
         :data="dataList"
         :show.sync="show"
-        size="big"
         hasCheckbox
         selected-rule="some"
         :selected-data.sync="checkedData"
-        :selected-keys.sync="checkedKeys"></k-select-tree>
+        :selected-keys.sync="checkedKeys">
+        <k-button slot="footer">footer</k-button>
+      </k-select-tree>
       <k-select-tree :data="data1"
         v-model="val"
         :text="text1"

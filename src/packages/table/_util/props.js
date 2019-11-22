@@ -190,6 +190,14 @@ export const props = {
     type: [String, Function],
     default: "暂无相关数据"
   },
+  loadingText: {
+    type: [String,Function],
+    default: ''
+  },
+  defaultText: {
+    type: [String,Function],
+    default: ''
+  },
   //是否支持列拖拽排序
   draggable: Boolean
 }

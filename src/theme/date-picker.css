@@ -40,6 +40,11 @@
     background-color: var(--disabled-color);
     cursor: not-allowed;
   }
+  @each $name in (huge, large, big, medium, small, mini) {
+    &.k-date-picker-range--$(name) {
+      height: var(--$(name));
+    }
+  }
 }
 .k-date-picker-range-placeholder {
   font-size: 12px;

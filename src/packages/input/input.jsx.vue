@@ -48,7 +48,7 @@ export default {
     block: Boolean,
     size: {
       type: String,
-      default: "small"
+      default: "medium"
     },
     styles: Object,
     inputStyles: Object,
