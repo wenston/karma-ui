@@ -52,7 +52,8 @@ export default {
     layerWidth: {
       type: String,
       default: 'auto'
-    }
+    },
+    layerMinWidthEqual: Boolean
   },
   data() {
     return {
@@ -121,6 +122,7 @@ export default {
             },
             {
               width: this.layerWidth,
+              layerMinWidthEqual: this.layerMinWidthEqual,
               layerClassName,
               bodyClassName,
               footerClassName,

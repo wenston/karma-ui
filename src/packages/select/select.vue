@@ -47,7 +47,8 @@ export default {
     layerWidth: {
       type: [Boolean, String],
       default: false
-    }
+    },
+    layerMinWidthEqual: Boolean
   },
   data() {
     return {
@@ -166,6 +167,7 @@ export default {
           tag: "div",
           bodyTag: "ul",
           width: this.layerWidth,
+          layerMinWidthEqual: this.layerMinWidthEqual,
           canCloseByClickoutside: true,
           scrollElement: this.scrollElement,
           nearby: this.nearby

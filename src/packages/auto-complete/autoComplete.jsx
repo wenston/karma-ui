@@ -79,6 +79,10 @@ export default {
     text: {
       type: [String, Number],
       default: ""
+    },
+    layerMinWidthEqual:{
+      type: Boolean,
+      default: false
     }
   },
   model: {
@@ -592,6 +596,7 @@ export default {
               footerTag: "div",
               //弹框宽。如果不指定宽，则宽度和输入框一致
               width: layerWidth,
+              layerMinWidthEqual: this.layerMinWidthEqual,
               //高度暂时没有设置。TODO
               height: layerHeight,
               canCloseByClickoutside: true,

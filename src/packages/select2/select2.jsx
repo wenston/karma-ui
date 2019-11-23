@@ -47,6 +47,7 @@ export default {
       type: [String, Boolean],
       default: "auto"
     },
+    layerMinWidthEqual: Boolean,
     show: {
       type: Boolean,
       default: false
@@ -362,6 +363,7 @@ export default {
           },
           {
             width: this.layerWidth,
+            layerMinWidthEqual: this.layerMinWidthEqual,
             canCloseByClickoutside: true,
             scrollElement: this.scrollElement,
             nearby: this.nearby

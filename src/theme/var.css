@@ -174,7 +174,7 @@
   /*popup*/
   --popup-z-index: 999;
   --popup-radius: var(--radius);
-  --popup-mask-bg-color: color(rgb(70,70,70) a(40%));
+  --popup-mask-bg-color: color(rgb(70,80,90) a(35%));
   --popup-container-width: 300px;
   --popup-container-bg-color: var(--bg-color);
   --popup-box-shadow: 0px 8px 10px -9px rgba(0, 0, 0, .25),

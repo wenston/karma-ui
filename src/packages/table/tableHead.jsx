@@ -207,7 +207,7 @@ export default {
               tag: "th",
               sorter: (() => {
                 let b = true;
-                if (this.currentSorterField == col.field) {
+                if (col.field && this.currentSorterField == col.field) {
                   b = this.currentSort
                 } else {
                   b = "sorter" in col
@@ -243,7 +243,7 @@ export default {
                 this.currentSorterField = col.field;
                 this.$emit("sort", type, col);
               },
-              drop: ({type,from,to})=> {
+              drop: ({ type, from, to }) => {
                 const obj = {
                   type,
                   from: {
@@ -255,7 +255,7 @@ export default {
                     ...arr.slice(presets)[to]
                   }
                 }
-                this.$emit('drop',obj)
+                this.$emit('drop', obj)
               }
             }
           };

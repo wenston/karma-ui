@@ -9,8 +9,8 @@
   margin: auto;
   max-height: 60%;
   @supports (backdrop-filter: blur()) {
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(15px);
   }
   box-shadow: var(--tips-box-shadow);
   z-index: var(--tips-z-index);

@@ -74,7 +74,7 @@
   overflow: hidden;
 }
 .k-select-tree-checked {
-  padding: 5px 15px 5px 5px;
+  padding: 6px 15px 5px 5px;
   height: 100%;
   line-height: 1.4;
 }
@@ -92,10 +92,10 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  height: 14px;
+  height: 12px;
   margin: auto;
   right: 6px;
-  font-size: 13px;
+  font-size: 12px;
   transition: var(--transition);
   &:hover {
     color: var(--font-color-2);

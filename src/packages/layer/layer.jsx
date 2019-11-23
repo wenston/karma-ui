@@ -57,10 +57,12 @@ export default {
       canCloseByClickoutside: false,
       whiteList: [],
       styles: {},
-      afterEnter: () => {},
-      afterLeave: () => {},
+      afterEnter: () => { },
+      afterLeave: () => { },
       //对齐方式
-      alignment: "left"
+      alignment: "left",
+      //定义layer最小宽度是否和vm元素等宽
+      layerMinWidthEqual: false
     }
   },
   computed: {
@@ -122,18 +124,22 @@ export default {
         return
       }
       const elem = this.vm.$el
+      let w = getStyle(elem, "width")
       if (!elem) {
         return null
       }
       if (!this.width) {
-        const w = getStyle(elem, "width")
-        // const w = parseFloat(getStyle(this.$el, "width"))
         this.layerWidth = w
       } else {
         if (this.width === "auto") {
-          this.layerWidth = parseFloat(getStyle(this.$el, "width"))
+          this.layerWidth = getStyle(this.$el, "width")
         } else {
           this.layerWidth = this.width
+        }
+      }
+      if (this.layerMinWidthEqual) {
+        if (parseFloat(this.layerWidth) - parseFloat(w) < 0) {
+          this.layerWidth = w
         }
       }
       const h = getStyle(elem, "height")
@@ -289,7 +295,7 @@ export default {
     }
     this.parent.removeChild(this.$el)
   },
-  destroyed() {},
+  destroyed() { },
   mounted() {
     this.$nextTick(() => {
       this._getElemPosition()

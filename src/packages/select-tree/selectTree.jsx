@@ -54,7 +54,8 @@ export default {
     layerWidth: {
       type: String,
       default: 'auto'
-    }
+    },
+    layerMinWidthEqual: Boolean
   },
   data() {
     return {
@@ -267,7 +268,8 @@ export default {
         lazy: this.lazyLayer,
         nearBy: this.nearBy,
         whiteList: this.whiteList,
-        layerWidth: this.layerWidth
+        layerWidth: this.layerWidth,
+        layerMinWidthEqual: this.layerMinWidthEqual
       },
       on: {
         "update:show": v => {

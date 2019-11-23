@@ -24,17 +24,17 @@ export default {
     success: () => ({
       name: "k-icon-success",
       size: "50px",
-      color: "#2E61FB"
+      color: "#409eff"
     }),
     error: () => ({
       name: "k-icon-close-circle",
       size: "50px",
-      color: "#F32525"
+      color: "#F56C6C"
     }),
     warning: () => ({
       name: "k-icon-tip",
       size: "50px",
-      color: "#FF6D21"
+      color: "#E6A23C"
     })
   },
   data() {

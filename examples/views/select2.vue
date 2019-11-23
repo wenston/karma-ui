@@ -5,8 +5,8 @@
       <k-select2 v-model="ids"
         :data="dataList"
         text-field="Name"
-        style="width: 200px"
-        :layer-width="false"
+        style="width: 100px"
+        layer-width="auto"
         :nearby="false"
         :show.sync="show">
         <div slot-scope="{row}">

@@ -57,8 +57,8 @@
   }
   .k-select2-checkbox {
     display: block;
-    height: 25px;
-    line-height: 25px;
+    height: 28px;
+    line-height: 28px;
     cursor: pointer;
     @extend .k-ellipsis;
   }
