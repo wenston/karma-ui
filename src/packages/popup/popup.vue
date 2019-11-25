@@ -11,7 +11,7 @@
         'k-popup',
         layout.indexOf('mask')>-1?'k-popup--mask':'k-popup--transparent'
       ]"
-      v-show="show">
+      v-if="show">
       <div class="k-popup__wrapper">
         <div class="k-popup__container"
           ref="container"
@@ -81,6 +81,10 @@ export default {
     KIcon
   },
   props: {
+    bind: {
+      type: String,
+      default: 'v-if'
+    },
     title: {
       type: String,
       default: "确认"
