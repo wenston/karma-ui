@@ -1,74 +1,3 @@
-<template>
-  <transition name="k-t-fade"
-    @before-enter="beforeEnter"
-    @enter="enter"
-    @after-enter="afterEnter"
-    @leave="leave"
-    @after-leave="afterLeave">
-    <div ref="popup"
-      tabindex="-1"
-      :class="[
-        'k-popup',
-        layout.indexOf('mask')>-1?'k-popup--mask':'k-popup--transparent'
-      ]"
-      v-if="show">
-      <div class="k-popup__wrapper">
-        <div class="k-popup__container"
-          ref="container"
-          v-dnd="{handlerClass:'k-popup__header__title'}">
-          <k-icon class="k-popup__close"
-            name="k-icon-close"
-            size="14"
-            v-if="layout.indexOf('close')>-1"
-            @click.stop="onCancel"
-            title="关闭"
-            weight></k-icon>
-          <slot name="header">
-            <div class="k-popup__header"
-              v-show="layout.indexOf('header')>-1">
-              <div class="k-popup__header__title">
-                <b>{{title}}</b>
-              </div>
-            </div>
-          </slot>
-          <div class="k-popup__body"
-            v-if="layout.indexOf('body')>-1">
-            <div class="k-popup__content">
-              <div class="k-popup__content__main"
-                :style="bodyStyle">
-
-                <slot name="body">
-                </slot>
-                <slot>
-                </slot>
-              </div>
-            </div>
-          </div>
-          <div class="k-popup__footer"
-            v-if="layout.indexOf('footer')>-1">
-            <div :class="['k-popup__footer__con',{'k-popup__footer__con--line':hasBottomLine}]">
-              <div class="k-popup__footer__between">
-                <div>
-                  <slot name="footer-prepend"></slot>
-                </div>
-                <div>
-                  <slot name="footer">
-                    <k-button @click="onCancel"
-                      :size="buttonSize">{{cancelText}}</k-button>
-                    <k-button type="primary"
-                      @click="onOk"
-                      :size="buttonSize">{{okText}}</k-button>
-                  </slot>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </transition>
-</template>
 <script>
 // 有关弹框宽度，可以对插入的body宽度进行设置。
 import KButton from "karma-ui/packages/button/button"
@@ -83,7 +12,7 @@ export default {
   props: {
     bind: {
       type: String,
-      default: 'v-if'
+      default: "v-if"
     },
     title: {
       type: String,
@@ -183,7 +112,147 @@ export default {
       if (e.keyCode == 27) {
         this.show && this.onCancel()
       }
+    },
+    r_close_icon(has) {
+      return has ? (
+        <k-icon
+          class="k-popup__close"
+          name="k-icon-close"
+          size="14"
+          title="关闭"
+          weight
+          onClick={e => {
+            this.onCancel(e)
+            e.stopPropagation()
+          }}
+        />
+      ) : null
+    },
+    r_header(has) {
+      if (has) {
+        return (
+          <slot name="header">
+            <div class="k-popup__header">
+              <div class="k-popup__header__title">
+                <b>{this.title}</b>
+              </div>
+            </div>
+          </slot>
+        )
+      }
+    },
+    r_body(has) {
+      if (has) {
+        return (
+          <div class="k-popup__body">
+            <div class="k-popup__content">
+              <div class="k-popup__content__main" style={this.bodyStyle}>
+                {this.$slots.body}
+                {this.$slots.default}
+              </div>
+            </div>
+          </div>
+        )
+      }
+    },
+    r_footer(has) {
+      if (has) {
+        return (
+          <div class="k-popup__footer">
+            <div
+              class={[
+                "k-popup__footer__con",
+                { "k-popup__footer__con--line": this.hasBottomLine }
+              ]}
+            >
+              <div class="k-popup__footer__between">
+                <div>{this.$slots["footer-prepend"]}</div>
+                <div>
+                  {this.$slots.footer || [
+                    <k-button onClick={this.onCancel} size={this.buttonSize}>
+                      {this.cancelText}
+                    </k-button>,
+                    <k-button
+                      type="primary"
+                      onClick={this.onOk}
+                      size={this.buttonSize}
+                    >
+                      {this.okText}
+                    </k-button>
+                  ]}
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
+    },
+    r_wrapper() {
+      const { layout } = this
+      const container_p = {
+        class: "k-popup__container",
+        ref: "container",
+        directives: [
+          {
+            name: "dnd",
+            value: {
+              handlerClass: "k-popup__header__title"
+            }
+          }
+        ]
+      }
+      return (
+        <div class="k-popup__wrapper">
+          <div {...container_p}>
+            {this.r_close_icon(layout.indexOf("close") > -1)}
+            {this.r_header(layout.indexOf("header") > -1)}
+            {this.r_body(layout.indexOf("body") > -1)}
+            {this.r_footer(layout.indexOf("footer") > -1)}
+          </div>
+        </div>
+      )
+    },
+    r_popup() {
+      const p = {
+        ref: "popup",
+        attrs: {
+          tabindex: -1
+        },
+        class: [
+          "k-popup",
+          this.layout.indexOf("mask") > -1
+            ? "k-popup--mask"
+            : "k-popup--transparent"
+        ]
+      }
+      if (this.bind === "v-show") {
+        p.directives = [
+          {
+            name: "show",
+            value: this.show
+          }
+        ]
+        return <div {...p}>{this.r_wrapper()}</div>
+      } else if (this.bind === "v-if") {
+        if (this.show) {
+          return <div {...p}>{this.r_wrapper()}</div>
+        }
+      }
     }
+  },
+  render() {
+    return (
+      <transition
+        name="k-t-fade"
+        onBefore-enter={this.beforeEnter}
+        onEnter={this.enter}
+        onAfter-enter={this.afterEnter}
+        onLeave={this.leave}
+        onAfter-leave={this.afterLeave}
+      >
+        {this.r_popup()}
+      </transition>
+    )
   },
   mounted() {
     document.addEventListener("keyup", this.esc)

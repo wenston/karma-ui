@@ -5,7 +5,9 @@
       <k-button @click="onShow">弹出popup框</k-button>
     </div>
     <div style="height: 1000px;"></div>
-    <k-popup bind="v-show" :show.sync="show" :bodyStyle="{height:'100px'}">
+    <k-popup bind="v-if"
+      :show.sync="show"
+      :bodyStyle="{height:'100px'}">
 
       <div style="width:500px;">
         <div style="height: 1000px">
