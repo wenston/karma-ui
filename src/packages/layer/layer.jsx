@@ -132,6 +132,7 @@ export default {
         this.layerWidth = w
       } else {
         if (this.width === "auto") {
+          setStyle(this.$el,{width:'auto'})
           //以下parseFloat不可去掉，否则宽度会算错！为什么！
           this.layerWidth = parseFloat(getStyle(this.$el, "width"))
         } else {

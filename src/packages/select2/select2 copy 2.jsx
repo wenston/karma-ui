@@ -43,10 +43,6 @@ export default {
     block: Boolean,
     simple: Boolean,
     noStyle: Boolean,
-    lazy: {
-      type: Boolean,
-      default: true
-    },
     layerWidth: {
       type: [String, Boolean],
       default: "auto"
@@ -61,7 +57,7 @@ export default {
       default: null
     },
     nearby: Boolean,
-    footer: [Function, Array, Object, String, Number]
+    footer: [Function,Array,Object,String,Number]
   },
   data() {
     let arr = []
@@ -98,8 +94,8 @@ export default {
           typeof this.searchField === "string"
             ? [this.searchField]
             : Array.isArray(this.searchField)
-              ? this.searchField
-              : []
+            ? this.searchField
+            : []
         if (arrField.length === 0) {
           console.warn(`${this.$options.name}是否没有传入searchField参数？`)
         }
@@ -178,7 +174,7 @@ export default {
             this.currentIndex = -1
             this.searchText = v
           },
-          input: e => { }
+          input: e => {}
         }
       }
       return (
@@ -227,9 +223,9 @@ export default {
                 <k-checkbox {...p} />
                 {this.$scopedSlots.default
                   ? this.$scopedSlots.default({
-                    row: item,
-                    index
-                  })
+                      row: item,
+                      index
+                    })
                   : null}
               </div>
             )
@@ -342,32 +338,21 @@ export default {
       this.visible = false
       if (this.layerIns) {
         this.layerIns.hide()
-        this.removeUpdownEvent()
       }
+      this.removeUpdownEvent()
     },
     showLayer() {
       const input = this.$refs.searchInput
-      const showAndFocusAndBind = () => {
-        this.layerIns.show(input && input.focus)
-        input && input.focus()
-        this.visible = true
-        this.addUpdownEvent()
-      }
-      if(!this.layerIns) {
-        this.initIns(showAndFocusAndBind)
-      }else{
-        showAndFocusAndBind()
-      }
-      
+      this.layerIns.show(input && input.focus)
+      input && input.focus()
+      this.visible = true
+      this.addUpdownEvent()
     },
     //实例化option列表
-    initIns(callback) {
+    initIns() {
       this.$nextTick(() => {
-        if (!this.layerIns) {
-          this.createLayer()
-        }
         const footer = <div class="k-select2-footer">{this.rCheckedAll()}
-          {this.$slots.footer || this.footer}
+          {this.$slots.footer||this.footer}
         </div>
         this.layerIns.init(
           this,
@@ -384,9 +369,6 @@ export default {
             nearby: this.nearby
           }
         )
-        if (callback) {
-          callback()
-        }
       })
     },
     isSame(v, ov) {
@@ -486,18 +468,6 @@ export default {
         }
         this.$forceUpdate()
       })
-    },
-    createLayer() {
-      if (this.nearby) {
-        this.layerIns = layer(this.$el.parentNode)
-      } else {
-        this.layerIns = layer()
-      }
-      //拦截由layer组件中关闭layer的情况
-      this.layerIns.$on("after-hide", () => {
-        this.visible = false
-        this.removeUpdownEvent()
-      })
     }
   },
   render() {
@@ -580,23 +550,28 @@ export default {
     }
   },
   beforeDestroy() {
-    if(this.layerIns)
     this.layerIns.destroy()
   },
   updated() {
-    if(this.layerIns)
     this.initIns()
   },
   mounted() {
-    // this.$nextTick(() => {
-    if (!this.lazy) {
-      this.initIns(() => {
-        if (this.show) {
-          this.showLayer()
-        }
+    this.$nextTick(() => {
+      if (this.nearby) {
+        this.layerIns = layer(this.$el.parentNode)
+      } else {
+        this.layerIns = layer()
+      }
+      //拦截由layer组件中关闭layer的情况
+      this.layerIns.$on("after-hide", () => {
+        this.visible = false
+        this.removeUpdownEvent()
       })
-    }
-    // })
+      this.initIns()
+      if (this.show) {
+        this.showLayer()
+      }
+    })
   },
   directives: {
     esc,
