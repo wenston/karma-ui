@@ -189,10 +189,13 @@ export default {
     },
     r_wrapper() {
       const { layout } = this
+      const hasHeader = layout.indexOf("header") > -1
       const container_p = {
         class: "k-popup__container",
-        ref: "container",
-        directives: [
+        ref: "container"
+      }
+      if (hasHeader) {
+        container_p.directives = [
           {
             name: "dnd",
             value: {
@@ -205,7 +208,7 @@ export default {
         <div class="k-popup__wrapper">
           <div {...container_p}>
             {this.r_close_icon(layout.indexOf("close") > -1)}
-            {this.r_header(layout.indexOf("header") > -1)}
+            {this.r_header(hasHeader)}
             {this.r_body(layout.indexOf("body") > -1)}
             {this.r_footer(layout.indexOf("footer") > -1)}
           </div>

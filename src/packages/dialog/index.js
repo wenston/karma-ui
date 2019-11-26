@@ -6,7 +6,7 @@ export default {
     // let instance = new KPopupConstructor().$mount()
     // document.body.appendChild(instance.$el)
 
-    Vue.dialog = Vue.prototype.$dialog = function({
+    Vue.dialog = Vue.prototype.$dialog = function ({
       title,
       content, //接受字符串或者一个返回jsx的函数
       ok,
@@ -43,21 +43,27 @@ export default {
         ok && ok()
         instance.$off(["after-cancel", "after-ok"])
         Vue.nextTick(() => {
-          instance.$el && document.body.removeChild(instance.$el)
+          if (instance.$el && document.body.contains(instance.$el)) {
+            document.body.removeChild(instance.$el)
+          }
         })
       })
       instance.$on("after-cancel", () => {
         cancel && cancel()
         instance.$off(["after-cancel", "after-ok"])
         Vue.nextTick(() => {
-          instance.$el && document.body.removeChild(instance.$el)
+          if (instance.$el && document.body.contains(instance.$el)) {
+            document.body.removeChild(instance.$el)
+          }
         })
       })
       instance.hide = () => {
         instance.$props.show = false
         instance.$off(["after-cancel", "after-ok"])
         Vue.nextTick(() => {
-          instance.$el && document.body.removeChild(instance.$el)
+          if (instance.$el && document.body.contains(instance.$el)) {
+            document.body.removeChild(instance.$el)
+          }
         })
       }
       document.body.appendChild(instance.$el)

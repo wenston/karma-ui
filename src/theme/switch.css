@@ -19,9 +19,12 @@
         transition: var(--transition);
         content: "";
         position: absolute;
-        width: calc(var(--$(name)) / 1.6 + 2px);
+        /* width: calc(var(--$(name)) / 1.6 + 2px);
         height: calc(var(--$(name)) / 1.6 + 2px);
-        top: -3px;
+        top: -3px; */
+        width:calc(var(--$(name)) / 1.6 - 4px); 
+        height:calc(var(--$(name)) / 1.6 - 4px); 
+        top: 0px;
         border-radius: 100%;
         left: 0px;
         background-color: var(--default-color);
