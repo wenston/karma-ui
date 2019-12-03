@@ -29,7 +29,10 @@ export default {
       default: "Id"
     },
     //描述，data中的字段名
-    textField: String,
+    textField: {
+      type:String,
+      default: 'Name'
+    },
     placeholder: String,
     searchPlaceholder: {
       type: String,
@@ -301,6 +304,9 @@ export default {
       }
     },
     rCheckedAll() {
+      if(this.dataValue.length && this.dataValue.length === this.data.length) {
+        this.isCheckedAll = true
+      }
       const checkProps = {
         props: {
           checked: this.isCheckedAll,

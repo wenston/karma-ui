@@ -131,13 +131,13 @@ export default {
     r_header(has) {
       if (has) {
         return (
-          <slot name="header">
+          this.$slots.header || (
             <div class="k-popup__header">
               <div class="k-popup__header__title">
                 <b>{this.title}</b>
               </div>
             </div>
-          </slot>
+          )
         )
       }
     },
@@ -157,8 +157,11 @@ export default {
     },
     r_footer(has) {
       if (has) {
+        const p = {
+          class: 'k-popup__footer'
+        }
         return (
-          <div class="k-popup__footer">
+          <div {...p}>
             <div
               class={[
                 "k-popup__footer__con",

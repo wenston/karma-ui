@@ -57,6 +57,7 @@
     height: 100%;
     border: 1px solid transparent;
     overflow: hidden;
+    z-index: 1;
     & > * {
       @extend .k-center;
     }
@@ -70,6 +71,7 @@
     border: 1px solid transparent;
     overflow: hidden;
     text-align: center;
+    z-index: 1;
   }
 
   & .k-input-append {

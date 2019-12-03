@@ -80,7 +80,7 @@ export default {
       type: [String, Number],
       default: ""
     },
-    layerMinWidthEqual:{
+    layerMinWidthEqual: {
       type: Boolean,
       default: false
     }
@@ -278,6 +278,20 @@ export default {
     getInputValue() {
       return this.inputText;
     },
+    //外部调用
+    clear() {
+      if (!this.disabled) {
+        this.pageIndex = 1;
+        this.inputText = "";
+        this.currentHoverIndex = this.currentIndex = -1;
+        if (this.visible) {
+          this.$refs.input.focus();
+        }
+        this.$emit("valueChange", "");
+        this.$emit("toggle", { row: undefined, index: undefined });
+        this.getFilterData();
+      }
+    },
     //根据inputText获取keyField对应的值
     getValueByInputText() {
       let v = "";
@@ -306,8 +320,8 @@ export default {
           typeof this.searchField === "string"
             ? [this.searchField]
             : Array.isArray(this.searchField)
-            ? this.searchField
-            : [];
+              ? this.searchField
+              : [];
         if (arrField.length === 0) {
           console.warn(`${this.$options.name}是否没有传入searchField参数？`);
         }
@@ -347,7 +361,7 @@ export default {
         }
       }
     },
-    handleLayerBodyScroll: debounce(100, function() {
+    handleLayerBodyScroll: debounce(100, function () {
       const body = this.ins.$refs.body;
       let bodyHeight = parseFloat(getStyle(body, "height"));
       let scrollTop = body.scrollTop;
@@ -363,7 +377,7 @@ export default {
         }
       }
     }),
-    showList(fn = () => {}) {
+    showList(fn = () => { }) {
       this.$nextTick().then(() => {
         this.ins &&
           this.ins.show(() => {
@@ -371,7 +385,7 @@ export default {
           });
       });
     },
-    hideList(cb = () => {}) {
+    hideList(cb = () => { }) {
       if (!this.disabled) {
         if (this.ins) {
           //remove事件
@@ -622,17 +636,7 @@ export default {
           <span
             class="k-auto-complete-icon-wrapper"
             onClick={e => {
-              if (!this.disabled) {
-                this.pageIndex = 1;
-                this.inputText = "";
-                this.currentHoverIndex = this.currentIndex = -1;
-                if (this.visible) {
-                  this.$refs.input.focus();
-                }
-                this.$emit("valueChange", "");
-                this.$emit("toggle", { row: undefined, index: undefined });
-                this.getFilterData();
-              }
+              this.clear()
             }}
           >
             <k-icon class="k-auto-complete-icon" name="k-icon-close-circle" />

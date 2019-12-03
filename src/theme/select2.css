@@ -75,6 +75,8 @@
 .k-select2-checked-box {
   padding: 1px 2px;
   cursor: pointer;
+  width: fit-content;
+  padding-right: 32px;
 }
 .k-select2-checked-item {
   margin: 2px;
