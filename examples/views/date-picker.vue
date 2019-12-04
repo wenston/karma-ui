@@ -19,8 +19,6 @@
     <div>
       日期区间：<k-date-picker :start.sync="start"
         :end.sync="end"
-        :max="max"
-        :min="min"
         range
         ref="dp2"
         nearby
@@ -69,10 +67,10 @@ export default {
       // console.log(v)
     },
     start(d) {
-      console.log(d)
+      // console.log(d)
     },
     end(d) {
-      console.log(d)
+      // console.log(d)
     }
   }
 }
