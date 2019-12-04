@@ -135,7 +135,7 @@ export default {
     toArray(v) {
       let arr = []
       if (Array.isArray(v)) {
-        arr = JSON.parse(JSON.stringify(v))
+        arr = v.map(id=>id+'')
       } else if (typeof v === "string") {
         arr = v.split(/\s*,\s*/)
       } else if (typeof v === "number") {
@@ -197,13 +197,14 @@ export default {
         let list = []
         if (Array.isArray(filterData)) {
           list = filterData.map((item, index) => {
+            const checked = this.dataValue.some(id => id == item[this.keyField])
             const p = {
               ref: "filterDataList" + item[this.keyField],
               class: "k-select2-checkbox",
               props: {
                 text: item[this.textField],
                 value: item[this.keyField],
-                checked: this.dataValue.some(id => id == item[this.keyField]),
+                checked,
                 disabled: this.disabledArr.some(id => id == item[this.keyField])
               },
               on: {
@@ -223,7 +224,8 @@ export default {
             }
             const itemClass = {
               "k-select2-list-item": true,
-              "k-select2-list-item-hover": this.currentIndex === index
+              "k-select2-list-item-hover": this.currentIndex === index,
+              "k-select2-list-item-checked": checked
             }
             return (
               <div class={itemClass}>
@@ -283,7 +285,7 @@ export default {
             <div class="k-select2-checked-item">
               <span class="k-select2-checked-name">{item[textField]}</span>
               <k-icon
-                name="k-icon-close-circle"
+                name="k-icon-close"
                 class="k-select2-checked-del"
                 onClick={e => {
                   const k = item[keyField] + ""
@@ -297,7 +299,7 @@ export default {
           )
         })
         return (
-          <ScrollBar speed={10} class="k-select2-checked-list">
+          <ScrollBar speed={10} containerStyle={{cursor:'pointer'}} class="k-select2-checked-list">
             <div class="k-select2-checked-box">{list}</div>
           </ScrollBar>
         )
@@ -567,7 +569,7 @@ export default {
       // console.log('value:',v,ov)
       if (!this.isSame(v, ov)) {
         if (Array.isArray(v)) {
-          this.dataValue = JSON.parse(JSON.stringify(v))
+          this.dataValue = v.map(id=>id+'')
         } else if (typeof v === "string") {
           this.dataValue = v.split(/\s*,\s*/)
         } else if (typeof v === "number") {

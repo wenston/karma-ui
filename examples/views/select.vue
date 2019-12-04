@@ -4,7 +4,7 @@
     <div>
       <div style="height:50px;">
         <k-select v-model="curCity"
-          noStyle
+          
           @change="onChange"
           @focus="onFocus"
           @blur="onBlur"

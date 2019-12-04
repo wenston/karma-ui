@@ -6,6 +6,7 @@
   cursor: pointer;
   text-align: left;
   color: var(--font-color-2);
+  border-radius: var(--option-radius);
   @extend .k-ellipsis;
   &:hover,
   &.k-option--hover {

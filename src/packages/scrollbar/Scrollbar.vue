@@ -60,6 +60,10 @@ export default {
       type: Object,
       default: () => ({})
     },
+    containerStyle: {
+      type: Object,
+      default: ()=>({})
+    },
     allowBodyScroll: {
       type: Boolean,
       default: false
@@ -115,6 +119,7 @@ export default {
           }}
           ref="content"
           style={{
+            ...this.containerStyle,
             marginTop: this.top * -1 + "px",
             marginLeft: this.left * -1 + "px"
           }}

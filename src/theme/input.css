@@ -18,12 +18,10 @@
     transition: var(--transition);
 
     &:focus,
-    &:active {
-      border-color: var(--input-focus-border-color);
-      /* box-shadow: var(--input-focus-active-shadow); */
-    }
+    &:active,
     &.k-input-active {
       border-color: var(--input-focus-border-color);
+      box-shadow: var(--input-focus-active-shadow);
     }
 
     &::placeholder {
@@ -190,6 +188,7 @@
         border-bottom-color: var(--input-focus-border-color);
         width: 100%;
         left: 0;
+        box-shadow: var(--input-focus-active-shadow);
       }
     }
   }

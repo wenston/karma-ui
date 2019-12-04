@@ -39,6 +39,7 @@
       border-radius: 100%;
       border: 1px solid var(--primary-color);
       background-color:white;
+      box-shadow: var(--radio-focus-active-shadow);
       &:after {
         background-color: var(--primary-color);
         transform: scale(1, 1);

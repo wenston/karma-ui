@@ -21,7 +21,7 @@
   --small: 28px;
   --mini: 24px;
   /*边框颜色，form表单相关控件的边框、分页器按钮边框*/
-  --border-color: #f4f4f4;
+  --border-color: #e1e1e1;
 
   /*过渡*/
   --transition: .25s ease-out;
@@ -32,10 +32,10 @@
   --layer-radius:var(--radius);
   /* input */
   --input-border-color: #e1e1e1;
-  --input-focus-border-color:#7bbcff;
+  --input-focus-border-color:#9FCEFF;
   --input-width: 180px;
-  --input-placeholder-color: #bfbfbf;
-  --input-padding: 0 0.5em;
+  --input-placeholder-color: #bbb;
+  --input-padding: 0 .82em;
   --input-radius: var(--radius);
   --input-color: var(--font-color-2);
 
@@ -58,7 +58,7 @@
   --input-medium-font-size: 12px;
   --input-small-font-size: 12px;
   --input-mini-font-size: 12px;
-  --input-focus-active-shadow: 0 0 0 2px color(var(--primary-color) a(30%));
+  --input-focus-active-shadow: 0 0 4px color(var(--primary-color) a(25%));
 
   /* input clearable 颜色*/
   --input-clearable-btn-color:#ccc;
@@ -119,14 +119,15 @@
   --select-option-max-height: 28vh;
   --select-option-bg-color: var(--bg-color);
   /* option */
-  --option-height: 28px;
+  --option-height: 30px;
   --option-padding: 0 .5em;
+  --option-radius: var(--radius);
   --option-hover-color: var(--font-color-2);
   /* --option-hover-bg-color: color(var(--primary-color) tint(80%)); */
-  --option-hover-bg-color: #e5eaf0;
-  --option-selected-color: var(--primary-color);
-  --option-selected-bg-color: color(var(--primary-color) tint(85%));
-  --option-selected-bg-gradient-color: color(var(--primary-gradient-color) tint(85%));
+  --option-hover-bg-color: #F6F9FA;
+  --option-selected-color: var(--font-color-2);
+  --option-selected-bg-color: color(var(--primary-color) tint(90%));
+  --option-selected-bg-gradient-color: color(var(--primary-gradient-color) tint(90%));
 
   /* select2 */
   --select2-width: var(--input-width);
@@ -137,6 +138,7 @@
   --radio-icon-text-gutter: 5px;
   --radio-gutter: 20px;
   --radio-border-color: color(var(--input-border-color) shade(10%));
+  --radio-focus-active-shadow: 0 0 4px color(var(--primary-color) a(25%));
   --radio-hover-border-color: var(--primary-color);
 
   /*input-number*/
@@ -158,11 +160,12 @@
   /*checkbox*/
   --checkbox-gutter: 20px;
   --checkbox-line-height: normal;
-  --checkbox-border-color:#b5bcc5;
+  --checkbox-border-color:color(var(--input-border-color) shade(10%));;
   --checkbox-bg-color: #fff;
   --checkbox-radius: 2px;
   --checkbox-hover-border-color: var(--primary-color);
   --checkbox-checked-border-color: var(--primary-color);
+  --checkbox-focus-active-shadow: 0 0 4px color(var(--primary-color) a(25%));
   --checkbox-checked-bg-color: var(--primary-color);
   --checkbox-disabled-border-color: color(var(--disabled-color) b(+5%));
   --checkbox-disabled-bg-color: var(--disabled-color);

@@ -45,8 +45,8 @@ $types: primary, warning, danger, success;
       &:not([disabled]) {
         &:hover,
         &:focus {
-          border-color: color(var(--$(type)-color) s(+12%) l(+12%));
-          background-color: color(var(--$(type)-color) s(+12%) l(+12%));
+          border-color: color(var(--$(type)-color) s(-9%) l(-9%));
+          background-color: color(var(--$(type)-color) s(-9%) l(-9%));
         }
 
         /* &:active {

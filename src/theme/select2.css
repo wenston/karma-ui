@@ -22,7 +22,7 @@
     border-right: none;
     &:focus {
 
-      box-shadow: none;
+      /* box-shadow: none; */
     }
   }
 
@@ -50,6 +50,11 @@
   transition: var(--transition);
   cursor: pointer;
   text-align: left;
+  border-radius: var(--option-radius);
+  &.k-select2-list-item-checked {
+    color:var(--option-selected-color);
+    background-color:var(--option-selected-bg-color)
+  }
   &:hover,
   &.k-select2-list-item-hover {
     color: var(--option-hover-color);
@@ -87,9 +92,9 @@
   border-radius: 2px;
   .k-select2-checked-name {
     background-color: #fafafa;
-    height: 18px;
-    line-height: 18px;
-    padding: 0 2px;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 2px 0 4px;
     display: inline-block;
     vertical-align: middle;
     color: var(--font-color-2);
@@ -99,20 +104,20 @@
     vertical-align: middle;
     cursor: pointer;
     background-color: #fafafa;
-    width: 15px;
-    height: 18px;
-    line-height: 18px;
+    width: 17px;
+    height: 20px;
+    line-height: 20px;
     text-align: center;
-    color: var(--font-color-4);
+    color: var(--font-color-3);
     font-size: 12px;
     &:hover {
-      color: var(--font-color-3);
+      color: var(--font-color-2);
     }
   }
 }
 
 .k-select2-footer {
-  padding: 6px;
+  padding: 6px 10px;
   line-height: normal;
   display: flex;
   justify-content: space-between;

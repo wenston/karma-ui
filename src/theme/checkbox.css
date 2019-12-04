@@ -41,6 +41,7 @@
     &.k-checkbox__icon--checked {
       border-color: var(--checkbox-checked-border-color);
         background: var(--checkbox-checked-bg-color);
+        box-shadow: var(--checkbox-focus-active-shadow);
         &:before {
           visibility: visible;
           transform: rotate(-50deg) scale(0.75,0.75);
