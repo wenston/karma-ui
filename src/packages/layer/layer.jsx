@@ -175,6 +175,7 @@ export default {
     },
     _setSizeAndPosition() {
       //layer本身的高度
+      // console.log(this.layerHeight)
       let height = this.layerHeight,
         width = parseFloat(getStyle(this.$el, "width")),
         left = 0,
@@ -192,6 +193,8 @@ export default {
           if (top < 0) {
             top = 0
           }
+        }else{
+          this.transitionType = 'slide-down'
         }
         if (left + width > pWidth - 5) {
           left = pWidth - width - 5
@@ -281,6 +284,7 @@ export default {
     },
     calcLayerHeightAndGetPosition() {
       this.layerHeight = parseFloat(getStyle(this.$el, "height"))
+      // console.log(this.layerHeight)
       this._getElemPosition()
     },
     //检测外部容器的滚动，如果layer可视，且外部容器出现了滚动，则再次计算
@@ -300,11 +304,13 @@ export default {
   destroyed() { },
   mounted() {
     this.$nextTick(() => {
-      this._getElemPosition()
+      this.calcLayerHeightAndGetPosition()
+      // this._getElemPosition()
     })
   },
   updated() {
-    this.$nextTick(this._getElemPosition)
+    // this.$nextTick(this._getElemPosition)
+    this.$nextTick(this.calcLayerHeightAndGetPosition)
   },
   watch: {
     vm: "_getElemPosition",

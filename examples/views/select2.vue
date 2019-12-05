@@ -8,7 +8,7 @@
         style="width: 300px"
         layer-width="auto"
         layerMinWidthEqual
-        :nearby="false"
+        :nearby="true"
         :show.sync="show">
         <div slot-scope="{row}">
           <em>{{row.Contact}}</em>

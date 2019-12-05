@@ -39,6 +39,7 @@
       <k-select v-model="modelPageSize"
         :size="size||'small'">
         <k-option v-for="s in pageSizes"
+          :size="size||'small'"
           :key="s"
           :label="`${s}条/页`"
           :value="s"

@@ -222,7 +222,7 @@ export default {
       }
     },
     _renderQuick() {
-      if(this.hasQuick) {
+      if (this.hasQuick) {
         let listQuick = [],
           listQuickRange = []
         if (this.quick && this.quick.length) {
@@ -236,7 +236,7 @@ export default {
                   "k-date-picker-quick-item": true,
                   "k-date-picker-quick-disabled": !isIn,
                   "k-d-p-q-active": this.range
-                    ? this.isSameDate(d,d)
+                    ? this.isSameDate(d, d)
                     : this.isSameDate(d)
                 }}
                 onClick={e => {
@@ -297,11 +297,11 @@ export default {
         class: 'k-date-picker-cursor-pointer',
         props: {
           // ...this.$props,
-          placeholder:this.placeholder,
+          placeholder: this.placeholder,
           disabled: this.disabled,
           block: this.block,
           simple: this.simple,
-          size:this.size,
+          size: this.size,
           styles: this.styles,
           inputStyles: this.inputStyles,
           noStyle: this.noStyle,
@@ -320,7 +320,7 @@ export default {
       }
       if (this.range) {
         let rangeP = {
-          class: ["k-date-picker-range",[`k-date-picker-range--${this.size}`],{
+          class: ["k-date-picker-range", [`k-date-picker-range--${this.size}`], {
             'k-date-picker-range-simple': this.simple,
             'k-date-picker-range-disabled': this.disabled
           }],
@@ -334,7 +334,7 @@ export default {
           },
           style: { width: this.block ? "100%" : "180px", ...this.styles }
         }
-        if(!this.disabled) {
+        if (!this.disabled) {
           rangeP.attrs = {
             tabindex: 1
           }
@@ -347,10 +347,10 @@ export default {
                   {util.formatDate(this.start)}
                 </span>
               ) : (
-                <span class="k-date-picker-range-item k-d-p-r-p">
-                  {this.startPlaceholder}
-                </span>
-              )}
+                  <span class="k-date-picker-range-item k-d-p-r-p">
+                    {this.startPlaceholder}
+                  </span>
+                )}
 
               <span class="k-d-p-r-p">至</span>
               {this.end ? (
@@ -358,11 +358,11 @@ export default {
                   {util.formatDate(this.end)}
                 </span>
               ) : (
-                <span class="k-date-picker-range-item k-d-p-r-p">
-                  {this.endPlaceholder}
-                </span>
-              )}
-              {((this.start || this.end)&&!this.disabled) ? (
+                  <span class="k-date-picker-range-item k-d-p-r-p">
+                    {this.endPlaceholder}
+                  </span>
+                )}
+              {((this.start || this.end) && !this.disabled) ? (
                 <k-icon
                   name="k-icon-close-circle"
                   class="k-date-picker-icon-close"
@@ -372,8 +372,8 @@ export default {
                   }}
                 />
               ) : (
-                <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
-              )}
+                  <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
+                )}
             </div>
           </div>
         )
@@ -389,8 +389,8 @@ export default {
               }}
             />
           ) : (
-            <k-icon name="k-icon-calendar" class="k-date-picker-icon k-center" />
-          )}
+              <k-icon name="k-icon-calendar" class="k-date-picker-icon k-center" />
+            )}
         </k-input>
       )
     },
@@ -424,7 +424,7 @@ export default {
               type="primary"
               disabled={disabled}
               onClick={e => {
-                if(disabled) {return}
+                if (disabled) { return }
                 this.currentDate = this.showingDate
                 this.visible = false
               }}
@@ -451,6 +451,10 @@ export default {
           this.endDate = ""
         }
       }
+      if (new Date(this.startDate) - new Date(this.endDate) > 0) {
+        this.endDate = this.startDate
+        this.startDate = d
+      }
     },
     getPrevNextMonth(d, n) {
       const sd = new Date(d)
@@ -468,7 +472,7 @@ export default {
       return `${next_y}-${next_m}-01`
     },
     renderBody() {
-      if(this.readonly || this.disabled) {return}
+      if (this.readonly || this.disabled) { return }
       const startProps = {
         props: {
           value: this.initStartDate,
@@ -616,12 +620,12 @@ export default {
         "update:show": v => {
           this.visible = v
         },
-        "getLayerElement":el=>{
-          this.$emit('getLayerElement',el)
+        "getLayerElement": el => {
+          this.$emit('getLayerElement', el)
         }
       }
     }
-    if(this.disabled) {
+    if (this.disabled) {
       return this.renderTitle()
     }
     return <k-dropdown {...p} />
@@ -630,15 +634,15 @@ export default {
     visible(v) {
       if (v) {
         this.initStartAndEnd()
-        this.$nextTick(()=>{
+        this.$nextTick(() => {
           this.$emit('after-show')
         })
-      }else{
-        this.$nextTick(()=>{
+      } else {
+        this.$nextTick(() => {
           this.$emit('after-hide')
         })
       }
-      this.$emit('update:show',v)
+      this.$emit('update:show', v)
     },
     show(v) {
       this.visible = v

@@ -32,6 +32,7 @@
   &:focus {
     outline: none;
     border-color:var(--input-focus-border-color);
+    box-shadow: var(--input-focus-active-shadow);
   }
 }
 .k-like-input-placeholder {

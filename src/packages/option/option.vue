@@ -3,6 +3,10 @@ export default {
   name: "KOption",
   inject: ["layerComponent"],
   props: {
+    size: {
+      type: String,
+      default: 'medium'
+    },
     tag: {
       type: String,
       default: "li"
@@ -43,6 +47,7 @@ export default {
       },
       class: {
         "k-option": true,
+        [`k-option--${this.size}`]: true,
         "k-option--selected": selected
       },
       on: {

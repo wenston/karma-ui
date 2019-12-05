@@ -16,7 +16,10 @@ export default {
     event: "modelKeyChange"
   },
   props: {
-    size: String,
+    size: {
+      type:String,
+      default: 'medium'
+    },
     value: {
       type: [Number, String, Boolean],
       default: void 0
