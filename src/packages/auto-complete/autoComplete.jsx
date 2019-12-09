@@ -630,6 +630,7 @@ export default {
       }
     },
     renderIcon() {
+      if (this.disabled) { return null }
       const inputText = this.inputText.trim();
       if (inputText !== "") {
         return (

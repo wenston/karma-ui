@@ -25,6 +25,7 @@
     &.k-option--$(name) {
       height: var(--$(name));
       line-height: var(--$(name));
+      font-size: var(--option-$(name)-font-size);
     }
   }
 }

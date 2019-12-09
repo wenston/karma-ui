@@ -147,6 +147,10 @@ export default {
           {
             name: "drawer",
             title: "drawer 抽屉式弹出层"
+          },
+          {
+            name: 'group',
+            title: 'group 控件组'
           }
         ],
         directives: [

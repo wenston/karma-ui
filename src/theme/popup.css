@@ -78,7 +78,7 @@
 .k-popup__content {
   overflow-y: auto;
   overflow-x: hidden;
-  display: table-cell;
+  /* display: table-cell; */
   background-color: var(--popup-content-bg-color);
   /* transition: var(--transition); */
   & .k-popup__content__main {

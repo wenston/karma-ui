@@ -204,6 +204,13 @@ export default new VueRouter({
           component(res) {
             import("../views/drawer.vue").then(comp => res(comp))
           }
+        },
+        {
+          path: '/group',
+          name: 'group',
+          component(res) {
+            import("../views/group.vue").then(comp => res(comp))
+          }
         }
       ]
     }

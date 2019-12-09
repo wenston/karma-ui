@@ -103,7 +103,7 @@
   --button-mini-font-size: 12px;
   /*默认按钮*/
   --button-default-bg-color: white;
-  --button-default-border-color: #ccc;
+  --button-default-border-color: var(--border-color);
   /*button active 内阴影*/
   --button-active-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .1);
   /*button 过渡*/
@@ -123,6 +123,12 @@
   --option-padding: 0 .5em;
   --option-radius: var(--radius);
   --option-hover-color: var(--font-color-2);
+  --option-huge-font-size: 16px;
+  --option-large-font-size: 14px;
+  --option-big-font-size: 14px;
+  --option-medium-font-size: 12px;
+  --option-small-font-size: 12px;
+  --option-mini-font-size: 12px;
   /* --option-hover-bg-color: color(var(--primary-color) tint(80%)); */
   --option-hover-bg-color: #F6F9FA;
   --option-selected-color: var(--font-color-2);
