@@ -51,6 +51,11 @@ export default {
     bodyStyle: {
       type: Object,
       default: () => ({})
+    },
+    disabledOk:Boolean,
+    okType: {
+      type:String,
+      default: 'primary'
     }
   },
   data() {
@@ -100,6 +105,7 @@ export default {
       this.$emit("after-leave", this.isOk)
     },
     onOk() {
+      if(this.disabledOk) {return}
       this.isOk = true
       this.$emit("after-ok")
     },
@@ -176,7 +182,8 @@ export default {
                       {this.cancelText}
                     </k-button>,
                     <k-button
-                      type="primary"
+                      disabled={this.disabledOk}
+                      type={this.okType}
                       onClick={this.onOk}
                       size={this.buttonSize}
                     >
