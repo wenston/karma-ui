@@ -257,11 +257,12 @@
 
   /* table */
   --table-wrapper-bg-color: var(--default-color);
-  --table-border-color: #efefef;
+  --table-border-color: #eff1f7;
   --table-border: 1px solid var(--table-border-color);
 
   /* 表头 */
   --table-head-bg-color: #E7EBF4;
+  --table-head-border-color: #DEE1E6;
   --table-head-bottom-border-color: #DEE1E6;
   /* 尺寸 */
   --table-huge: var(--huge);

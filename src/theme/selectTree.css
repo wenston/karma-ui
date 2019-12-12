@@ -79,11 +79,12 @@
   line-height: 1.4;
 }
 .k-select-tree-checked-one {
-  padding: 0 5px;
+  padding: var(--input-padding);
   height: 100%;
   font-size: 12px;
   display: flex;
   align-items: center;
+  color: var(--font-color-2);
 }
 .k-select-tree-clear {
   color: var(--font-color-4);
@@ -94,7 +95,7 @@
   bottom: 0;
   height: 12px;
   margin: auto;
-  right: 6px;
+  right: 8px;
   font-size: 12px;
   transition: var(--transition);
   &:hover {
