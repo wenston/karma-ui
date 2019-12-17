@@ -111,7 +111,7 @@ export default {
       return size[this.size];
     },
     hasSum() {
-      return this.machiningColumns.bodyColumns.some(col => "sum" in col);
+      return this.machiningColumns.bodyColumns.some(col => "sum" in col && col.sum !== null && col.sum !== undefined && col.sum !== false);
     }
   },
   methods: {

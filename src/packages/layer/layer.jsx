@@ -61,6 +61,8 @@ export default {
       afterLeave: () => { },
       //对齐方式
       alignment: "left",
+      //偏移量，横向偏移
+      offset: 0,
       //定义layer最小宽度是否和vm元素等宽
       layerMinWidthEqual: false
     }
@@ -178,10 +180,10 @@ export default {
       // console.log(this.layerHeight)
       let height = this.layerHeight,
         width = parseFloat(getStyle(this.$el, "width")),
-        left = 0,
+        left = this.left + (parseFloat(this.offset) || 0),
         top = 0
       if (this.nearby) {
-        left = this.left
+        // left = this.left 
         top = this.top + this.vmHeight + this.gap
         //父级元素大小
         const parent = this.parent
@@ -210,7 +212,7 @@ export default {
         top = this.top + this.vmHeight + this.gap
         const alignment = this.alignment.trim().toLowerCase()
         //如果是左对齐
-        left = this.left
+        // left = this.left
         //如果是右对齐
         if (alignment === "right") {
           left = left - (this.layerWidth - this.vmWidth)
@@ -234,7 +236,7 @@ export default {
         }
         // console.log(left,width,clientWidth)
         if (left + width > clientWidth - 5) {
-          left = clientWidth - width - 5
+          left = clientWidth - width - 5 
           if (left < 0) {
             left = 0
           }

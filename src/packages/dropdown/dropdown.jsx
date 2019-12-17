@@ -47,6 +47,7 @@ export default {
       type: String,
       default: "left"
     },
+    offset:[Number,String],
     block: Boolean,
     noStyle: Boolean,
     layerWidth: {
@@ -132,6 +133,7 @@ export default {
               scrollElement: this.scrollElement,
               nearby: this.nearby,
               alignment: this.alignment,
+              offset: this.offset,
               gap:
                 this.gap !== undefined && this.gap !== null && this.gap !== ""
                   ? parseFloat(this.gap)

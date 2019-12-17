@@ -495,6 +495,7 @@ export default {
       } else {
         this.ins = layer();
       }
+      this.$emit('getLayerElement',this.ins.$el)
       this.ins.$on("layer-inited", () => {
         this.$nextTick().then(() => {
           this.ins.$refs.body.addEventListener(
