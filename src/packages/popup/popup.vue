@@ -52,10 +52,10 @@ export default {
       type: Object,
       default: () => ({})
     },
-    disabledOk:Boolean,
+    disabledOk: Boolean,
     okType: {
-      type:String,
-      default: 'primary'
+      type: String,
+      default: "primary"
     }
   },
   data() {
@@ -105,7 +105,9 @@ export default {
       this.$emit("after-leave", this.isOk)
     },
     onOk() {
-      if(this.disabledOk) {return}
+      if (this.disabledOk) {
+        return
+      }
       this.isOk = true
       this.$emit("after-ok")
     },
@@ -127,6 +129,9 @@ export default {
           size="14"
           title="关闭"
           weight
+          onMousedown={e => {
+            e.stopPropagation()
+          }}
           onClick={e => {
             this.onCancel(e)
             e.stopPropagation()
@@ -140,7 +145,13 @@ export default {
           this.$slots.header || (
             <div class="k-popup__header">
               <div class="k-popup__header__title">
-                <b>{this.title}</b>
+                <b
+                  onMousedown={e => {
+                    e.stopPropagation()
+                  }}
+                >
+                  {this.title}
+                </b>
               </div>
             </div>
           )
@@ -150,7 +161,12 @@ export default {
     r_body(has) {
       if (has) {
         return (
-          <div class="k-popup__body">
+          <div
+            class="k-popup__body"
+            onMousedown={e => {
+              e.stopPropagation()
+            }}
+          >
             <div class="k-popup__content">
               <div class="k-popup__content__main" style={this.bodyStyle}>
                 {this.$slots.body}
@@ -164,7 +180,7 @@ export default {
     r_footer(has) {
       if (has) {
         const p = {
-          class: 'k-popup__footer'
+          class: "k-popup__footer"
         }
         return (
           <div {...p}>
@@ -175,13 +191,28 @@ export default {
               ]}
             >
               <div class="k-popup__footer__between">
-                <div>{this.$slots["footer-prepend"]}</div>
+                <div
+                  onMousedown={e => {
+                    e.stopPropagation()
+                  }}
+                >
+                  {this.$slots["footer-prepend"]}
+                </div>
                 <div>
                   {this.$slots.footer || [
-                    <k-button onClick={this.onCancel} size={this.buttonSize}>
+                    <k-button
+                      onMousedown={e => {
+                        e.stopPropagation()
+                      }}
+                      onClick={this.onCancel}
+                      size={this.buttonSize}
+                    >
                       {this.cancelText}
                     </k-button>,
                     <k-button
+                      onMousedown={e => {
+                        e.stopPropagation()
+                      }}
                       disabled={this.disabledOk}
                       type={this.okType}
                       onClick={this.onOk}
@@ -207,10 +238,10 @@ export default {
       if (hasHeader) {
         container_p.directives = [
           {
-            name: "dnd",
-            value: {
-              handlerClass: "k-popup__header__title"
-            }
+            name: "dnd"
+            // value: {
+            //   handlerClass: "k-popup__header__title"
+            // }
           }
         ]
       }

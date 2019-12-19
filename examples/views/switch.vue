@@ -45,6 +45,9 @@ export default {
     value(v) {
       console.log(v)
     }
+  },
+  mounted() {
+    
   }
 }
 </script>
