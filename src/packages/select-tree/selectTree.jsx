@@ -49,7 +49,7 @@ export default {
       type: Boolean,
       default: true
     },
-    nearBy: Boolean,
+    nearby: Boolean,
     whiteList: Array,
     layerWidth: {
       type: String,
@@ -266,7 +266,7 @@ export default {
         body,
         bodyClassName: "k-select-tree-body",
         lazy: this.lazyLayer,
-        nearBy: this.nearBy,
+        nearby: this.nearby,
         whiteList: this.whiteList,
         layerWidth: this.layerWidth,
         layerMinWidthEqual: this.layerMinWidthEqual

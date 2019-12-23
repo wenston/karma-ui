@@ -2,7 +2,7 @@
   <div class="layout">
     <h3 class="layout__title">自动完成</h3>
     <div>
-      <k-auto-complete :data="list"
+      <k-auto-complete ref="au" :data="list"
         v-model="value"
         key-field="ProId"
         value-field="Name"
@@ -11,6 +11,7 @@
         @focus="onFocus"
         @toggle="onToggle"
         @input="onInput"
+        :empty="empty"
         pageSize="11">
         <div slot="header"
           class="list header">
@@ -89,6 +90,7 @@ export default {
       value1: "100022",
       value2: "",
       list: [],
+      empty: '',
       list1: [
         {
           Id: 0,
@@ -628,15 +630,23 @@ export default {
       this.list = []
       setTimeout(() => {
         this.list = this.list1
-      }, 1500)
+      }, 100)
     },
     clear() {
       this.value = ""
     },
     onFocus() {
       setTimeout(() => {
-        // this.list = this.list1
-      }, 1500)
+        this.list = this.list1
+        if(this.list.length===0) {
+          this.$refs.au.emptyTip(()=>{
+            this.$tips({
+              content:'Meiyou shujv',
+              type:'warning'
+            }).hide(1000)
+          })
+        }
+      }, 100)
     },
     onToggle(e) {
       console.log("toggle", e)
@@ -646,7 +656,7 @@ export default {
     }
   },
   mounted() {
-    this.list = this.list1
+    // this.list = this.list1
   },
   watch: {
     value(v) {

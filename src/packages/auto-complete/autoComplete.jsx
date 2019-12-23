@@ -83,7 +83,10 @@ export default {
     layerMinWidthEqual: {
       type: Boolean,
       default: false
-    }
+    },
+    clearWhenNoMatch: Boolean,
+    loading: Boolean,
+    empty: [Function, Object, Array, String]
   },
   model: {
     prop: "value",
@@ -107,10 +110,14 @@ export default {
       options: [], //收集本组件下属的所有option组件
       optionCompName: "",
       //控制延迟加载的转圈图形显示
-      loading: false,
+      ld: this.loading,
       pageIndex: 1,
       timer: null,
-      visible: false //是否展示出了下拉列表
+      visible: false, //是否展示出了下拉列表
+      //输入文本时，如果没在下拉列表中选择而直接离开了，
+      //noMatch记录有没有匹配到，
+      //如果没有匹配到
+      noMatch: false,
     };
   },
   computed: {
@@ -158,6 +165,13 @@ export default {
     },
     text(t) {
       this.inputText = t;
+    },
+    loading(v) {
+      this.ld = v
+      // this.ins && this.init();
+    },
+    ld(v) {
+      this.$emit('update:loading', v)
     }
   },
   methods: {
@@ -226,14 +240,20 @@ export default {
       let i = 0;
       const l = this.data.length;
       while (i < l) {
-        if (this.data[i][valueField] === inputText) {
+        if (this.data[i][valueField] === inputText && inputText) {
           v = this.data[i][keyField];
           break;
         }
         i++;
       }
+      if (!v) {
+        this.noMatch = true
+        // console.log(v, '没有匹配！！')
 
-      this.$emit("valueChange", v);
+      } else {
+        this.noMatch = false
+        this.$emit('valueChange', v)
+      }
     },
     //
     getInputTextByKeyField() {
@@ -459,6 +479,13 @@ export default {
             // if (!this.isMouseDownOption) {
             //   this.hideList(this.destroyLayer)
             // }
+            // this.matchValueByInputText();
+            if (!this.isMouseDownOption) {
+
+              if (this.noMatch && this.clearWhenNoMatch) {
+                this.$emit('valueChange', '')
+              }
+            }
           },
           input: () => {
             clearTimeout(this.timer);
@@ -495,7 +522,7 @@ export default {
       } else {
         this.ins = layer();
       }
-      this.$emit('getLayerElement',this.ins.$el)
+      this.$emit('getLayerElement', this.ins.$el)
       this.ins.$on("layer-inited", () => {
         this.$nextTick().then(() => {
           this.ins.$refs.body.addEventListener(
@@ -532,25 +559,27 @@ export default {
             $slots,
             $scopedSlots
           } = this;
-          if (this.filterData.length === 0) {
-            //提示加载中
-            this.loading = true;
-          } else {
-            this.loading = false;
-          }
+          // if (this.filterData.length === 0) {
+          //   //提示加载中
+          //   this.ld = true;
+          // } else {
+          //   this.ld = false;
+          // }
           const loadingProps = {
-            directives: [
+            style: {
+              minHeight: "180px",
+              display: this.ld ? 'block' : 'none'
+            }, directives: [
               {
                 name: "loading",
                 value: {
-                  loading: this.loading
+                  loading: this.ld
                 }
               }
-            ],
-            style: {
-              minHeight: "200px"
-            }
+            ]
           };
+          // console.log(this.ld)
+          const empty = this.empty || <div class="k-auto-complete-empty">暂无相关数据</div>
           const slotsDefault = $slots.default ||
             (filterData.length &&
               filterData
@@ -589,7 +618,7 @@ export default {
                       {item[this.valueField]}
                     </k-option>
                   );
-                })) || <k-option {...loadingProps} />;
+                })) || [<div {...loadingProps} />, !this.ld && empty];
           const slotsHeader = $slots.header;
           const slotsFooter = $slots.footer;
           this.ins.init(
