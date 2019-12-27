@@ -46,9 +46,9 @@ export default {
       if (arguments.length == 2) {
         let inputs = this.inputs[row]
         if (inputs[index]) {
-          if(inputs[index][this.type]) {
+          if (inputs[index][this.type]) {
             inputs[index][this.type]()
-          }else{
+          } else {
             inputs[index].focus()
           }
           this.scrollIntoView(inputs[index])
@@ -57,9 +57,9 @@ export default {
       } else if (arguments.length == 1) {
         let ipt = this.inputs[row]
         if (ipt) {
-          if(ipt[this.type]) {
+          if (ipt[this.type]) {
             ipt[this.type]()
-          }else{
+          } else {
             ipt.focus()
           }
           this.scrollIntoView(ipt)
@@ -92,10 +92,10 @@ export default {
       ipt = inputs[nexti]
       if (ipt) {
         this.$nextTick(() => {
-          if(ipt[this.type]) {
+          if (ipt[this.type]) {
             ipt[this.type]()
-          }else{
-            ipt.focus()
+          } else {
+            ipt && ipt.focus && ipt.focus()
           }
         })
         this.scrollIntoView(ipt)
@@ -104,7 +104,7 @@ export default {
       return null
     },
     scrollIntoView(elem) {
-      elem && elem.scrollIntoView({
+      elem && elem.scrollIntoView && elem.scrollIntoView({
         behavior: 'smooth',
         block: 'end'
       })
@@ -164,13 +164,13 @@ export default {
               }
               if ("__row" in currentInput) {
                 if (inputs[row + next] && inputs[row + next][i]) {
-                  if(inputs[row + next][i][type]) {
+                  if (inputs[row + next][i][type]) {
                     inputs[row + next][i][type]()
-                  }else{
+                  } else {
                     inputs[row + next][i]['focus']()
                   }
                   this.scrollIntoView(inputs[row + next][i])
-                  
+
                 } else {
                   this.$emit("end-row", [row, i])
                 }
@@ -190,21 +190,21 @@ export default {
               }
               //如果存在左右input
               if (inputs[row] && inputs[row][i + next]) {
-                if(inputs[row][i + next][type]) {
+                if (inputs[row][i + next][type]) {
                   inputs[row][i + next][type]()
-                }else{
+                } else {
                   inputs[row][i + next]['focus']()
                 }
-                this.scrollIntoView(inputs[row[i+next]])
-                
+                this.scrollIntoView(inputs[row[i + next]])
+
               } else if (inputs[row + next]) {
                 //如果存在下一行
                 const r = inputs[row + next]
                 const j = shift ? r.length - 1 : 0
                 if (r[j]) {
-                  if(r[j][type]) {
+                  if (r[j][type]) {
                     r[j][type]()
-                  }else{
+                  } else {
                     r[j]['focus']()
                   }
                   this.scrollIntoView(r[j])
@@ -218,9 +218,9 @@ export default {
                 next = -1
               }
               if (inputs[next]) {
-                if(inputs[next][type]) {
+                if (inputs[next][type]) {
                   inputs[next][type]()
-                }else{
+                } else {
                   inputs[next]['focus']()
                 }
                 this.scrollIntoView(inputs[next])

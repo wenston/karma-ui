@@ -137,6 +137,7 @@ export default {
                 this.currentVal = ""
                 this.currentText = ""
               }
+              this.$emit("toggle", [])
               e.stopPropagation()
             }}
           />
