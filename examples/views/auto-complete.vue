@@ -12,6 +12,7 @@
         @toggle="onToggle"
         @input="onInput"
         :empty="empty"
+        matchFromDatabase
         pageSize="11">
         <div slot="header"
           class="list header">
@@ -652,7 +653,9 @@ export default {
       console.log("toggle", e)
     },
     onInput(text) {
-      console.log(text)
+      setTimeout(()=>{
+        this.list = this.list1.slice(0,Math.round(Math.random()*15+1))
+      },200)
     }
   },
   mounted() {

@@ -86,7 +86,8 @@ export default {
     },
     clearWhenNoMatch: Boolean,
     loading: Boolean,
-    empty: [Function, Object, Array, String]
+    empty: [Function, Object, Array, String],
+    matchFromDatabase: Boolean
   },
   model: {
     prop: "value",
@@ -233,6 +234,7 @@ export default {
       }
     },
     matchValueByInputText() {
+      if(this.matchFromDatabase) {return}
       const inputText = this.inputText.trim();
       const keyField = this.keyField;
       const valueField = this.valueField;
@@ -280,8 +282,10 @@ export default {
           text = this.text;
         }
       }
-      this.inputText = text;
-      if (this.inputText === "") {
+      if (text) {
+        this.inputText = text;
+      }
+      if (text === "") {
         this.currentHoverIndex = -1;
         this.currentIndex = -1;
         this.getFilterData();
@@ -330,7 +334,7 @@ export default {
       }
     },
     getFilterData() {
-      if (this.inputText.trim() !== "") {
+      if (this.inputText.trim() !== "" && !this.matchFromDatabase) {
         //将用户输入，转化成关键字数组，以逐个匹配
         const arrText = this.inputText
           .toLowerCase()
@@ -371,6 +375,7 @@ export default {
           this.showList(this.scrollIntoViewIfNeed);
         }
         this.$forceUpdate();
+        console.log(this.filterData)
       } else {
         this.filterData = this.data;
         if (
@@ -424,11 +429,14 @@ export default {
       if (typeof index === "number") {
         i = index;
       } else {
-        this.filterData.forEach((el, index) => {
-          if (el[this.keyField] == this.value) {
-            i = index;
-          }
-        });
+        if (this.filterData && index !== undefined) {
+
+          this.filterData.forEach((el, index) => {
+            if (el[this.keyField] == this.value) {
+              i = index;
+            }
+          });
+        }
       }
       this.getAllOptionsComponent();
       if (this.options.length && this.options[i] && this.options[i].$el) {

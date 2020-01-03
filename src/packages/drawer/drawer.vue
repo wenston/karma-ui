@@ -75,8 +75,10 @@ export default {
       })
     },
     close() {
-      this.visible = false
-      this.$emit("after-close")
+      if (this.hasCloseBtn) {
+        this.visible = false
+        this.$emit("after-close")
+      }
     }
   },
   watch: {

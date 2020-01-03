@@ -13,7 +13,7 @@ export default {
     content: String,
     hasIcon: {
       type: Boolean,
-      default: true
+      default: false
     },
     iconName: {
       type: String,
