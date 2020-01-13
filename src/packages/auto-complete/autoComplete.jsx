@@ -166,6 +166,7 @@ export default {
     },
     text(t) {
       this.inputText = t;
+      this.getInputTextByKeyField();
     },
     loading(v) {
       this.ld = v
@@ -234,7 +235,7 @@ export default {
       }
     },
     matchValueByInputText() {
-      if(this.matchFromDatabase) {return}
+      if (this.matchFromDatabase) { return }
       const inputText = this.inputText.trim();
       const keyField = this.keyField;
       const valueField = this.valueField;
@@ -372,10 +373,10 @@ export default {
             this.ins.hide();
           }
         } else {
+          if(this.value)
           this.showList(this.scrollIntoViewIfNeed);
         }
         this.$forceUpdate();
-        console.log(this.filterData)
       } else {
         this.filterData = this.data;
         if (

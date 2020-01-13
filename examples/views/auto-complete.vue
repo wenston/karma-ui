@@ -4,6 +4,7 @@
     <div>
       <k-auto-complete ref="au" :data="list"
         v-model="value"
+        :text="text"
         key-field="ProId"
         value-field="Name"
         layer-width="250px"
@@ -31,11 +32,10 @@
     <div style="width: 500px;height: 300px;overflow:auto;"
       ref="box">
       <div style="width: 1000px;height: 1300px;">
-        <span>往右下拖动</span>
         <k-auto-complete :data="list"
           v-model="value1"
+          :text="text1"
           :scroll-element="$refs.box"
-          style="margin-top:1222px;margin-left:800px;"
           nearby>
           <div slot="header"
             class="list header">
@@ -53,6 +53,7 @@
               @click="onFresh">刷新</k-button>
           </div>
         </k-auto-complete>
+        <k-button type="warning" @click="onClear">清除</k-button>
       </div>
     </div>
     <h3 class="layout__title">自动完成</h3>
@@ -88,7 +89,9 @@ export default {
   data() {
     return {
       value: "300249",
+      text: '',
       value1: "100022",
+      text1:'小夜灯',
       value2: "",
       list: [],
       empty: '',
@@ -627,6 +630,10 @@ export default {
     }
   },
   methods: {
+    onClear() {
+      this.value1 = ''
+      this.text1= ''
+    },
     onFresh() {
       this.list = []
       setTimeout(() => {
@@ -635,6 +642,7 @@ export default {
     },
     clear() {
       this.value = ""
+      this.text= ''
     },
     onFocus() {
       setTimeout(() => {
