@@ -52,6 +52,7 @@ export default {
     },
     styles: Object,
     inputStyles: Object,
+    inputClass: [String],
     simple: Boolean, //简易型。只有下边框
     noStyle: Boolean,
     capsule: Boolean, //胶囊形状的输入框
@@ -114,12 +115,15 @@ export default {
           {...{ attrs: { ...this.$props, tabindex: 1 } }}
           domPropsValue={this.value}
           domPropsDisabled={this.disabled}
-          class={{
-            [this.isInput ? "k-input" : "k-textarea"]: true,
-            "k-input-disabled": this.disabled,
-            "k-input-active": this.active,
-            ["k-input--" + this.align]: true
-          }}
+          class={[
+            {
+              [this.isInput ? "k-input" : "k-textarea"]: true,
+              "k-input-disabled": this.disabled,
+              "k-input-active": this.active,
+              ["k-input--" + this.align]: true
+            },
+            this.inputClass ? this.inputClass : ""
+          ]}
           style={this.inputStyles}
           onInput={() => this.handlerEvent($event)}
           onChange={this.handlerEvent}
