@@ -107,7 +107,8 @@ export default {
       ]
     },
     scrollElement: Element,
-    nearby: Boolean
+    nearby: Boolean,
+    alignment: String
   },
   model: {
     prop: "value",
@@ -614,7 +615,8 @@ export default {
         body: this.renderBody(),
         scrollElement: this.scrollElement,
         nearby: this.nearby,
-        block: this.block
+        block: this.block,
+        alignment: this.alignment
       },
       on: {
         "update:show": v => {

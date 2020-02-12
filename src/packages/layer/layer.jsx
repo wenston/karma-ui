@@ -134,7 +134,7 @@ export default {
         this.layerWidth = w
       } else {
         if (this.width === "auto") {
-          setStyle(this.$el,{width:'auto'})
+          setStyle(this.$el, { width: 'auto' })
           //以下parseFloat不可去掉，否则宽度会算错！为什么！
           this.layerWidth = parseFloat(getStyle(this.$el, "width"))
         } else {
@@ -195,8 +195,17 @@ export default {
           if (top < 0) {
             top = 0
           }
-        }else{
+        } else {
           this.transitionType = 'slide-down'
+        }
+        const alignment = this.alignment.trim().toLowerCase()
+        //如果是左对齐
+        // left = this.left
+        //如果是右对齐
+        if (alignment === "right") {
+          left = left - (this.layerWidth - this.vmWidth)
+        } else if (alignment === "center") {
+          left = left - (this.layerWidth - this.vmWidth) / 2
         }
         if (left + width > pWidth - 5) {
           left = pWidth - width - 5
@@ -236,7 +245,7 @@ export default {
         }
         // console.log(left,width,clientWidth)
         if (left + width > clientWidth - 5) {
-          left = clientWidth - width - 5 
+          left = clientWidth - width - 5
           if (left < 0) {
             left = 0
           }

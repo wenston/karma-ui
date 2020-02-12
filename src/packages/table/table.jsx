@@ -1,6 +1,11 @@
 //为什么表头和表尾不采取数据驱动改变top和bottom？
 //因为：减少dom重绘的次数！
 //hover变色也是这样
+//优化
+/**
+ * 2020-01-15：当不需要汇总时，从原来的不渲染tfoot改为display:none
+ * 原因：列宽的调整在动态显隐tfoot时，会造成底部列宽和tbody列宽不一致！
+ */
 import { getStyle, offset, scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import { props } from "./_util/props"
 import mixins from "./_mixins/"
@@ -105,7 +110,7 @@ export default {
       this.$emit("sort", { type, field, name })
     },
     handleDrop(obj) {
-      this.$emit('drag-drop',obj)
+      this.$emit('drag-drop', obj)
     },
     setHighlightRow(e) {
       if (this.$refs.tbody) {
@@ -562,13 +567,19 @@ export default {
       }
     }
     let footProps = null
-    if (this.hasSum) {
-      footProps = {
-        props: {
-          ...baseProps.props
+    // if (this.hasSum) {
+    footProps = {
+      props: {
+        ...baseProps.props,
+      },
+      directives: [
+        {
+          name: 'show',
+          value: this.hasSum
         }
-      }
+      ]
     }
+    // }
     return (
       <div class="k-tableouter">
         <div {...tableWrapperProps}>
@@ -581,11 +592,10 @@ export default {
           <KTableBody {...bodyProps} ref="tbody">
             {colgroup}
           </KTableBody>
-          {this.hasSum ? (
-            <KTableFoot {...footProps} ref="tfoot">
-              {colgroup}
-            </KTableFoot>
-          ) : null}
+
+          <KTableFoot {...footProps} ref="tfoot">
+            {colgroup}
+          </KTableFoot>
         </div>
         {this.rBaseLine()}
       </div>
