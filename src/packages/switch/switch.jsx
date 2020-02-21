@@ -9,7 +9,25 @@ export default {
       type: String,
       default: "mini"
     },
-    disabled: Boolean
+    disabled: Boolean,
+    //onContent和offContent是文字描述，此文字描述在内部，
+    //故只适合图标类的内容，不适合大量文字描述
+    onContent: {
+      type: [String, Object, Array, Function],
+      default: ''
+    },
+    offContent: {
+      type: [String, Object, Array, Function],
+      default: ''
+    },
+    onClass: {
+      type: [String, Array],
+      default: ''
+    },
+    offClass: {
+      type: [String, Array],
+      default: ''
+    }
   },
   model: {
     prop: "checked",
@@ -50,14 +68,29 @@ export default {
       class: [
         "k-switch",
         "k-switch--" + this.size,
+        { ["k-switch--w-" + this.size]: this.$slots.on || this.$slots.off || this.onContent || this.offContent },
         { "k-switch--on": this.ckd == 1 },
+        this.ckd == 1 ? this.onClass : this.offClass,
         {
           "k-switch--disabled": this.disabled
         }
       ],
       on
     }
-    return <div {...p} />
+    return <div {...p} >
+      {
+        (this.$slots.on || this.onContent) && this.ckd == 1 ? (
+          <div class="k-switch-on-content">{this.$slots.on || this.onContent}</div>
+        ) : null
+      }
+      {
+        (this.$slots.off || this.offContent) && this.ckd != 1 ? (
+          <div class="k-switch-off-content">{
+            this.$slots.off || this.offContent
+          }</div>
+        ) : null
+      }
+    </div>
   },
   watch: {
     checked(c) {

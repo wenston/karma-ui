@@ -39,6 +39,16 @@ export default {
         type: 'error'
       }).show().hide(2222000)
     },
+  },
+  mounted() {
+    this.$tips({
+      content:'嗯嗯嗯',
+      icon: {
+        name: 'k-icon-question',
+        size: 120,
+        color: 'pink'
+      }
+    }).show().hide(4000)
   }
 }
 </script>

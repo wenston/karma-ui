@@ -21,6 +21,7 @@ export default {
     }
   },
   computed: {
+    //预置的三种
     success: () => ({
       name: "k-icon-success",
       size: "50px",
@@ -43,6 +44,7 @@ export default {
       content: baseContent,
       styles: baseStyle,
       type: "success", //'error','warning'
+      state_icon: {},
       timer: null,
       manual: true, //是否可以手动关闭
       callback: () => {} //传入的关闭后的回调
@@ -80,9 +82,9 @@ export default {
             <span class="k-tips__shadow"></span>
             <k-icon
               class="k-tips__icon"
-              size={obj[this.type].size}
-              name={obj[this.type].name}
-              color={obj[this.type].color}
+              size={this.state_icon.size || obj[this.type].size}
+              name={this.state_icon.name || obj[this.type].name}
+              color={this.state_icon.color || obj[this.type].color}
             />
           </div>
           <div class="k-tips__cont">{this.content}</div>
@@ -94,6 +96,10 @@ export default {
   methods: {
     setManual(b) {
       this.manual = b
+      return this
+    },
+    setIcon(icon) {
+      this.state_icon = icon
       return this
     },
     setType(type) {
