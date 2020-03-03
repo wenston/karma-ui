@@ -71,6 +71,9 @@ export default {
     }
   },
   methods: {
+    focus() {
+      this.$refs.input.focus()
+    },
     focusAndScrollIntoView() {
       this.$el.scrollIntoView({ behavior: "smooth" })
       this.$refs.input.focus()
@@ -364,6 +367,7 @@ export default {
           if (!this.isMouseDownOption) {
             this.hideList()
           }
+          this.$emit('blur',e)
         },
         keyup:e=>{
           if(e.keyCode==40) {

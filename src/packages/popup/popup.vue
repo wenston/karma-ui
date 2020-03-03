@@ -267,7 +267,12 @@ export default {
           this.layout.indexOf("mask") > -1
             ? "k-popup--mask"
             : "k-popup--transparent"
-        ]
+        ],
+        on: {
+          click:e=>{
+            e.stopPropagation()
+          }
+        }
       }
       if (this.bind === "v-show") {
         p.directives = [
