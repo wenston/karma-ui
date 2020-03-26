@@ -146,6 +146,7 @@
   --radio-border-color: color(var(--input-border-color) shade(10%));
   --radio-focus-active-shadow: 0 0 4px color(var(--primary-color) a(25%));
   --radio-hover-border-color: var(--primary-color);
+  --radio-disabled-bg-color: var(--disabled-color);
 
   /*input-number*/
   --input-number-btn-bg-color: var(--default-color);

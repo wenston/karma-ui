@@ -54,6 +54,9 @@
     border-right: 1px solid var(--table-border-color);
   }
 }
+.k-table-fixed-td-body {
+  box-shadow: 8px 0 8px -5px rgba(0, 0, 0, 0.13);
+}
 .k-table-fixed-td-right-head,
 .k-table-fixed-td-right-foot,
 .k-table-fixed-td-right-body {
@@ -93,7 +96,7 @@
       }
       & .k-table > thead > tr > th {
         &.k-table-th-dragging {
-          opacity: .4;
+          opacity: 0.4;
         }
       }
     }
@@ -185,7 +188,6 @@
         }
         &.k-table-tr-checked {
           > td {
-            
           }
         }
         &.k-table-tr-hover {
@@ -227,7 +229,7 @@
       0 1px 3px rgba(0, 0, 0, 0.09);
   }
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 1px;
@@ -371,7 +373,7 @@
   height: 0;
   border-radius: 0;
   background-color: transparent;
-  border-width: 4px ;
+  border-width: 4px;
   border-style: solid;
   border-color: transparent var(--table-base-line-color)
     var(--table-base-line-color) transparent;

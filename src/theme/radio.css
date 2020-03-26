@@ -52,6 +52,7 @@
     opacity: .65;
     .k-radio__icon {
       cursor: not-allowed;
+      background-color: var(--radio-disabled-bg-color);
     }
   }
 }

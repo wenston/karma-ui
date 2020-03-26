@@ -356,25 +356,25 @@ export default {
       if (scrollLeft > 0) {
         elems.forEach(el => {
           el.classList.add(klass_left)
-          el.style.left = `${scrollLeft}px`
+          el.style.transform = `translateX(${scrollLeft}px)`
         })
       } else {
         elems.forEach(el => {
           el.classList.remove(klass_left)
-          el.style.removeProperty("left")
+          el.style.removeProperty("transform")
         })
       }
       if (clientWidth < scrollWidth && scrollLeft + clientWidth < scrollWidth) {
         elems_r.forEach(el => {
           el.classList.add(klass_right)
           this.rightTranslate = scrollLeft + clientWidth - scrollWidth + 1
-          el.style.left = `${this.rightTranslate}px`
+          el.style.transform = `translateX(${this.rightTranslate}px)`
         })
       } else {
         this.rightTranslate = 0
         elems_r.forEach(el => {
           el.classList.remove(klass_right)
-          el.style.removeProperty("left")
+          el.style.removeProperty("transform")
         })
       }
     },

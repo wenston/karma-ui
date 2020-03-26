@@ -51,6 +51,7 @@ export default {
       type: Boolean,
       default: true
     },
+    //TODO：有时候layer没有被销毁，待检查
     destroyWhenHide: {
       type: Boolean,
       default: true
@@ -373,8 +374,8 @@ export default {
             this.ins.hide();
           }
         } else {
-          if(this.value)
-          this.showList(this.scrollIntoViewIfNeed);
+          if (this.value)
+            this.showList(this.scrollIntoViewIfNeed);
         }
         this.$forceUpdate();
       } else {
@@ -403,6 +404,7 @@ export default {
         }
       }
     }),
+    //TODO:showList时，需判断下拉有没有被实例化，如果没有，则先实例化
     showList(fn = () => { }) {
       this.$nextTick().then(() => {
         this.ins &&
