@@ -87,7 +87,9 @@ export default {
               color={this.state_icon.color || obj[this.type].color}
             />
           </div>
-          <div class="k-tips__cont">{this.content}</div>
+          <div class="k-tips__cont">
+            {typeof this.content === "function" ? this.content() : this.content}
+          </div>
         </div>
       </transition>
     )
