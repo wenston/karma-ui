@@ -17,17 +17,17 @@ export default {
   //key，用来选择用的字段名
   keyField: {
     type: String,
-    default: "id"
+    default: "Id"
   },
   //子节点字段名
   childField: {
     type: String,
-    default: "childs"
+    default: "Childs"
   },
   //展示出来的文本，字段名
   textField: {
     type: String,
-    default: "name"
+    default: "Name"
   },
   leafField: {
     type: String,
