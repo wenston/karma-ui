@@ -17,17 +17,17 @@ export default {
   //key，用来选择用的字段名
   keyField: {
     type: String,
-    default: "Id"
+    default: "id"
   },
   //子节点字段名
   childField: {
     type: String,
-    default: "Childs"
+    default: "childs"
   },
   //展示出来的文本，字段名
   textField: {
     type: String,
-    default: "Name"
+    default: "name"
   },
   leafField: {
     type: String,
@@ -49,7 +49,7 @@ export default {
   //复选控制，选中时的规则设置，selectedRule为some时，代表子级只要有一个被选中，则父级就被选中
   //为every时，代表子级所有都被选中时，父级才被选中
   selectedRule: {
-    type: [String,Boolean],
+    type: [String, Boolean],
     default: "some" //every
   },
   lazy: {
