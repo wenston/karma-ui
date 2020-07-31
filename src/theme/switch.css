@@ -7,26 +7,26 @@
   background-color: var(--font-color-3);
   &.k-switch--on {
     background-color: var(--success-color);
-    border-color:var(--success-color);
+    border-color: var(--success-color);
   }
   @each $name in (huge, large, big, medium, small, mini) {
     &.k-switch--$(name) {
       height: calc(var(--$(name)) / 1.6);
-      width: calc(var(--$(name)) * 1.3);
+      width: calc(var(--$(name)) * 1.1);
       border-radius: calc(var(--$(name)) / 2);
       transition: var(--transition);
       &.k-switch--w-$(name) {
-        width: calc(var(--$(name)) * 1.6);
+        width: calc(var(--$(name)) * 1.1);
       }
       &:after {
         transition: var(--transition);
-        content: "";
+        content: '';
         position: absolute;
         /* width: calc(var(--$(name)) / 1.6 + 2px);
         height: calc(var(--$(name)) / 1.6 + 2px);
         top: -3px; */
-        width:calc(var(--$(name)) / 1.6 - 6px); 
-        height:calc(var(--$(name)) / 1.6 - 6px); 
+        width: calc(var(--$(name)) / 1.6 - 6px);
+        height: calc(var(--$(name)) / 1.6 - 6px);
         top: 1px;
         border-radius: 100%;
         left: 1px;
@@ -34,7 +34,7 @@
         box-shadow: 5px 1px 5px -3px rgba(0, 0, 0, 0.3);
         border: 1px solid transparent;
       }
-      
+
       &.k-switch--on {
         &:after {
           left: calc(100% - 1px);
@@ -44,19 +44,19 @@
           box-shadow: -5px 1px 5px -3px rgba(0, 0, 0, 0.3);
         }
       }
-      
+
       & .k-switch-on-content,
       & .k-switch-off-content {
-        position:  absolute;
+        position: absolute;
         line-height: 1;
-        text-align:center;
+        text-align: center;
         > * {
           position: absolute;
-          top:0;
-          bottom:0;
-          right:0;
-          left:0;
-          margin:auto;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          margin: auto;
         }
       }
       & .k-switch-on-content {
@@ -64,7 +64,7 @@
         bottom: 1px;
         margin: auto;
         left: 1px;
-        right: calc(var(--$(name)) / 1.6 - 2px)
+        right: calc(var(--$(name)) / 1.6 - 2px);
       }
       & .k-switch-off-content {
         top: 1px;
@@ -77,6 +77,6 @@
   }
   &.k-switch--disabled {
     cursor: not-allowed;
-    opacity: .5;
+    opacity: 0.5;
   }
 }

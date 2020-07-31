@@ -74,8 +74,8 @@
   /* button padding*/
   --button-huge: 0 30px;
   --button-large: 0 24px;
-  --button-big: 0 18px;
-  --button-medium: 0 12px;
+  --button-big: 0 20px;
+  --button-medium: 0 15px;
   --button-small: 0 8px;
   --button-mini: 0 8px;
   /*button height*/
@@ -159,9 +159,10 @@
   --input-number-btn-hover-color: var(--primary-color);
 
   /* tips */
-  --tips-padding: 30px 20px;
+  --tips-padding: 20px 20px;
   --tips-bg-color: color(rgb(255, 255, 255) a(95%));
-  --tips-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 5px 8px rgba(0, 0, 0, 0.1);
+  --tips-box-shadow: 0 0 1px 0px rgba(0, 0, 0, 0.05),
+    0 2px 8px rgba(0, 0, 0, 0.15);
   --tips-z-index: 10000;
   --tips-radius: calc(var(--radius));
   --tips-cont-color: #666;
@@ -195,21 +196,22 @@
   --popup-container-bg-color: var(--bg-color);
   --popup-box-shadow: 0px 8px 10px -9px rgba(0, 0, 0, 0.25),
     0 2px 10px 0 rgba(0, 0, 0, 0.15);
-  --popup-header-bg-color-1: #fafafa;
-  --popup-header-bg-color-2: #fafafa;
-  --popup-header-border-color: #f0f0f0;
-  --popup-header-padding: 0 15px;
-  --popup-header-height: 36px;
+  --popup-header-bg-color-1: #fff;
+  --popup-header-bg-color-2: #fff;
+  --popup-header-border-color: #fff;
+  --popup-header-padding-left: 20px;
+  --popup-header-height: 40px;
   --popup-header-title-font-size: 14px;
   --popup-header-title-color: var(--font-color-2);
   --popup-content-min-height: 70px;
-  --popup-content-padding: 15px;
+  --popup-content-padding: 15px 20px;
   --popup-content-bg-color: var(--bg-color);
-  --popup-footer-padding: 8px 15px 8px;
+  --popup-footer-padding: 8px 18px 10px;
   --popup-footer-text-align: right;
-  --popup-footer-border-top: 1px solid #f0f0f0;
-  --popup-close-btn-color: var(--font-color-2);
-  --popup-close-btn-hover-color: var(--font-color-1);
+  --popup-footer-border-top: 1px solid #fff;
+  --popup-footer-background-color: #f5f5f5;
+  --popup-close-btn-color: var(--font-color-3);
+  --popup-close-btn-hover-color: var(--font-color-2);
 
   /*loading*/
   --loading-bg-color: color(#07192c a(70%));
