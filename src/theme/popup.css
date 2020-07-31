@@ -114,9 +114,9 @@
 
 .k-popup-container--before-enter {
   opacity: 0;
-  transform: translateY(-10%);
+  transform: scale(1.2, 1.2);
 }
 .k-popup-container--enter {
   opacity: 1;
-  transform: translateY(0);
+  transform: scale(1, 1);
 }
