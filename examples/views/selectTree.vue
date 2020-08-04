@@ -5,6 +5,9 @@
       <k-select-tree style="line-height:normal;display:inline-block;"
         :data="dataList"
         :show.sync="show"
+        childField="Childs"
+        textField="Name"
+        keyField="Id"
         hasCheckbox
         selected-rule="some"
         :selected-data.sync="checkedData"
