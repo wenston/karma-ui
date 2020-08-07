@@ -378,7 +378,7 @@ export default {
         console.log('请选择最末级')
         this.$nextTick().then(() => {
 
-          this.myId = 85
+          this.myId = ''
         })
       }
     },

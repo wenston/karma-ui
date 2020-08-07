@@ -71,8 +71,6 @@
     b {
       font-size: var(--popup-header-title-font-size);
       color: var(--popup-header-title-color);
-      font-weight: normal;
-      letter-spacing: 1.5px;
     }
   }
 }

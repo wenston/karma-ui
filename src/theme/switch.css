@@ -6,8 +6,8 @@
   cursor: pointer;
   background-color: var(--font-color-3);
   &.k-switch--on {
-    background-color: var(--success-color);
-    border-color: var(--success-color);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
   }
   @each $name in (huge, large, big, medium, small, mini) {
     &.k-switch--$(name) {

@@ -37,7 +37,7 @@
   --input-placeholder-color: #b7bac0;
   --input-padding: 0 0.82em;
   --input-radius: var(--radius);
-  --input-color: var(--font-color-2);
+  --input-color: var(--font-color-1);
 
   /*input组件里包括了textarea*/
   --input-textarea-padding: 0.5em;
@@ -202,7 +202,7 @@
   --popup-header-padding-left: 20px;
   --popup-header-height: 42px;
   --popup-header-title-font-size: 14px;
-  --popup-header-title-color: var(--font-color-2);
+  --popup-header-title-color: var(--font-color-1);
   --popup-content-min-height: 70px;
   --popup-content-padding: 15px 20px;
   --popup-content-bg-color: var(--bg-color);
