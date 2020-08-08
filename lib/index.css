@@ -481,7 +481,7 @@
   width: 200px
 }
 .k-input-section .k-input, .k-input-section .k-textarea {
-  color: #666;
+  color: #333;
   border: 1px solid #dcdfe6;
   outline: 0;
   font-size: 12px;
@@ -511,6 +511,7 @@
   color: #b7bac0;
 }
 .k-input-section .k-input.k-input-disabled, .k-input-section .k-textarea.k-input-disabled {
+  color: #999;
   background-color: #e9e9e9;
   cursor: not-allowed;
 }
@@ -565,7 +566,7 @@
 .k-input-section.k-input-huge .k-input-prepend, .k-input-section.k-input-huge .k-input-append {
   min-width: 50px;
   /*line-height: var(--input-$(name));*/
-  line-height:normal;
+  line-height: normal;
 }
 .k-input-section.k-input-huge .k-input-prepend ~ .k-input {
   padding-left: 50px;
@@ -586,7 +587,7 @@
 .k-input-section.k-input-large .k-input-prepend, .k-input-section.k-input-large .k-input-append {
   min-width: 40px;
   /*line-height: var(--input-$(name));*/
-  line-height:normal;
+  line-height: normal;
 }
 .k-input-section.k-input-large .k-input-prepend ~ .k-input {
   padding-left: 40px;
@@ -607,7 +608,7 @@
 .k-input-section.k-input-big .k-input-prepend, .k-input-section.k-input-big .k-input-append {
   min-width: 36px;
   /*line-height: var(--input-$(name));*/
-  line-height:normal;
+  line-height: normal;
 }
 .k-input-section.k-input-big .k-input-prepend ~ .k-input {
   padding-left: 36px;
@@ -628,7 +629,7 @@
 .k-input-section.k-input-medium .k-input-prepend, .k-input-section.k-input-medium .k-input-append {
   min-width: 32px;
   /*line-height: var(--input-$(name));*/
-  line-height:normal;
+  line-height: normal;
 }
 .k-input-section.k-input-medium .k-input-prepend ~ .k-input {
   padding-left: 32px;
@@ -649,7 +650,7 @@
 .k-input-section.k-input-small .k-input-prepend, .k-input-section.k-input-small .k-input-append {
   min-width: 28px;
   /*line-height: var(--input-$(name));*/
-  line-height:normal;
+  line-height: normal;
 }
 .k-input-section.k-input-small .k-input-prepend ~ .k-input {
   padding-left: 28px;
@@ -670,7 +671,7 @@
 .k-input-section.k-input-mini .k-input-prepend, .k-input-section.k-input-mini .k-input-append {
   min-width: 24px;
   /*line-height: var(--input-$(name));*/
-  line-height:normal;
+  line-height: normal;
 }
 .k-input-section.k-input-mini .k-input-prepend ~ .k-input {
   padding-left: 24px;
@@ -723,7 +724,7 @@
           box-shadow: none;
 }
 .k-input-section.k-input-simple:after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 0px;
   left: 50%;
@@ -1396,8 +1397,8 @@
   background-color: #999
 }
 .k-switch.k-switch--on {
-  background-color: #67c23a;
-  border-color: #67c23a;
+  background-color: #128dff;
+  border-color: #128dff;
 }
 .k-switch.k-switch--huge {
   height: 31.25px;
@@ -1845,19 +1846,14 @@
   left: auto;
   right: 20px;
   padding: 20px 20px;
-  background-color: rgba(255, 255, 255, .95);
+  background-color: rgb(255, 255, 255);
   /* width: fit-content; */
   /* margin: auto; */
   max-height: 70%;
-}
-@supports ((-webkit-backdrop-filter: blur()) or (backdrop-filter: blur())) {
-  .k-tips {
-    background-color: rgba(255, 255, 255, .5);
-    -webkit-backdrop-filter: blur(15px);
-            backdrop-filter: blur(15px);
-  }
-}
-.k-tips {
+  /* @supports (backdrop-filter: blur()) {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(15px);
+  } */
   -webkit-box-shadow: 0 0 1px 0px rgba(0, 0, 0, .05),
     0 2px 8px rgba(0, 0, 0, .15);
           box-shadow: 0 0 1px 0px rgba(0, 0, 0, .05),
@@ -1871,7 +1867,7 @@
       -ms-flex-align: center;
           align-items: center;
 }
-/*justify-content: center;*/
+/* justify-content: center; */
 .k-tips .k-tips__close {
     position: absolute;
     top: 3px;
@@ -1881,9 +1877,9 @@
     cursor: pointer;
     -webkit-transition: 0.25s ease-out;
     transition: 0.25s ease-out;
-    line-height: 1;
-}
-/*flex-direction: column;*/
+    line-height: 1
+  }
+/* flex-direction: column; */
 .k-tips .k-tips__close:hover {
   color: #666;
 }
@@ -1891,8 +1887,8 @@
     text-align: center;
     line-height: normal;
     position: relative;
-    z-index: 2;
-}
+    z-index: 2
+  }
 .k-tips .k-tips__tag .k-tips__shadow {
   position: absolute;
   width: 64%;
@@ -1915,7 +1911,7 @@
     overflow: auto;
     /* margin-top: 10px; */
     margin-left: 12px;
-}
+  }
 .k-popup {
   position: fixed;
   display: table;
@@ -1991,9 +1987,7 @@
   }
 .k-popup__header .k-popup__header__title b {
       font-size: 14px;
-      color: #666;
-      font-weight: normal;
-      letter-spacing: 1.5px;
+      color: #333;
     }
 .k-popup__content {
   overflow-y: auto;

@@ -66,6 +66,8 @@
     var(--input-clearable-btn-color) b(+50%)
   );
 
+  --input-disabled-color: #999;
+
   /* autocomplete */
   --auto-complete-icon-color: #ccc;
   --auto-complete-icon-hover-color: #999;
@@ -160,7 +162,7 @@
 
   /* tips */
   --tips-padding: 20px 20px;
-  --tips-bg-color: color(rgb(255, 255, 255) a(95%));
+  --tips-bg-color: color(rgb(255, 255, 255) a(100%));
   --tips-box-shadow: 0 0 1px 0px rgba(0, 0, 0, 0.05),
     0 2px 8px rgba(0, 0, 0, 0.15);
   --tips-z-index: 10000;

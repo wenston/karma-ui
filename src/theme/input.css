@@ -29,6 +29,7 @@
     }
 
     &.k-input-disabled {
+      color: var(--input-disabled-color);
       background-color: var(--disabled-color);
       cursor: not-allowed;
     }
@@ -103,7 +104,7 @@
       & .k-input-append {
         min-width: var(--input-$(name));
         /* line-height: var(--input-$(name)); */
-        line-height:normal;
+        line-height: normal;
       }
 
       & .k-input-prepend {
@@ -174,7 +175,7 @@
       }
     }
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       bottom: 0px;
       left: 50%;

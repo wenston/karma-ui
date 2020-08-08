@@ -8,10 +8,10 @@
   /* width: fit-content; */
   /* margin: auto; */
   max-height: 70%;
-  @supports (backdrop-filter: blur()) {
+  /* @supports (backdrop-filter: blur()) {
     background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(15px);
-  }
+  } */
   box-shadow: var(--tips-box-shadow);
   z-index: var(--tips-z-index);
   border-radius: var(--tips-radius);
