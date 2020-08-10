@@ -419,10 +419,10 @@ export default {
     emitValue() {
       let v = JSON.parse(JSON.stringify(this.dataValue));
       if (Array.isArray(this.value)) {
-        console.log('数组：', v, this.dataValue);
+        // console.log('数组：', v, this.dataValue);
         this.$emit('valueChange', v);
       } else if (typeof this.value === 'string') {
-        console.log('字符串：', v, v.filter((el) => !!el).join(','));
+        // console.log('字符串：', v, v.filter((el) => !!el).join(','));
         this.$emit('valueChange', v.filter((el) => !!el).join(','));
       } else {
         this.$emit('valueChange', v);
