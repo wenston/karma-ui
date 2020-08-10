@@ -3,13 +3,45 @@
   transition: transform var(--transition);
   transform-origin: 0 0;
   z-index: 9999;
-  border-radius:var(--layer-radius);
+  border-radius: var(--layer-radius);
   border: 1px solid color(var(--border-color) tint(50%));
-  box-shadow: 0 1px 9px 0px rgba(0,0,0,.08);
+  box-shadow: 0 1px 9px 0px rgba(0, 0, 0, 0.08);
   /* overflow: hidden; */
   outline: none;
+  &.k-layer-arrow {
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-width: 7px;
+      border-style: solid;
+      border-color: transparent transparent color(var(--border-color));
+      top: -14px;
+      left: 20px;
+      z-index: 101;
+    }
+    &:after {
+      top: -13px;
+      border-bottom-color: white;
+    }
+  }
   &.k-layer-origin-bottom {
-    transform-origin: left bottom; 
+    transform-origin: left bottom;
+    &.k-layer-arrow {
+      &:before,
+      &:after {
+        border-color: color(var(--border-color)) transparent transparent;
+        bottom: -14px;
+        left: 20px;
+        top: auto;
+      }
+      &:after {
+        bottom: -13px;
+        border-top-color: white;
+      }
+    }
   }
   & .k-layer-body {
     @extend .k-select__list;
@@ -21,7 +53,7 @@
     /* border-top: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
     border-right: 1px solid var(--border-color); */
-    border-top-left-radius:var(--layer-radius);
+    border-top-left-radius: var(--layer-radius);
     border-top-right-radius: var(--layer-radius);
     background-color: white;
     /* @extend .k-backdrop-filter; */
