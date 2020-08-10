@@ -66,6 +66,7 @@ export default {
       //定义layer最小宽度是否和vm元素等宽
       layerMinWidthEqual: false,
       hasArrow: true,
+      hasPadding: false,
     };
   },
   computed: {
@@ -345,7 +346,9 @@ export default {
       },
       class: {
         'k-layer': true,
+        'k-layer-has-padding': this.hasPadding,
         'k-layer-arrow': this.hasArrow,
+        'k-layer-arrow-right': this.alignment === 'right',
         'k-layer-origin-bottom': this.transitionType === 'slide-down-bottom',
         [this.layerClassName]: !!this.layerClassName,
       },

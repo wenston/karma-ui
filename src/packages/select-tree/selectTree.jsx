@@ -278,6 +278,7 @@ export default {
         whiteList: this.whiteList,
         layerWidth: this.layerWidth,
         layerMinWidthEqual: this.layerMinWidthEqual,
+        gap: 10,
       },
       on: {
         'update:show': (v) => {

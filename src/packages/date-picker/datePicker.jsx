@@ -623,6 +623,7 @@ export default {
         nearby: this.nearby,
         block: this.block,
         alignment: this.alignment,
+        gap: 10,
       },
       on: {
         'update:show': (v) => {

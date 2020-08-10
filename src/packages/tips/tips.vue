@@ -69,7 +69,7 @@ export default {
     obj.warning = { ...this.warning, ...this.icon.warning }
 
     let tip = (
-      <transition name="k-t-fade">
+      <transition name="k-t-translate">
         <div {...p}>
           {this.manual && (
             <k-icon

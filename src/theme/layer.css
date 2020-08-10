@@ -8,6 +8,10 @@
   box-shadow: 0 1px 9px 0px rgba(0, 0, 0, 0.08);
   /* overflow: hidden; */
   outline: none;
+  background-color: white;
+  &.k-layer-has-padding {
+    padding: 4px 0;
+  }
   &.k-layer-arrow {
     &:before,
     &:after {
@@ -41,6 +45,13 @@
         bottom: -13px;
         border-top-color: white;
       }
+    }
+  }
+  &.k-layer-arrow-right {
+    &:before,
+    &:after {
+      left: auto;
+      right: 20px;
     }
   }
   & .k-layer-body {
