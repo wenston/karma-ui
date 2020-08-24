@@ -297,7 +297,7 @@
 
   /* 斑马线和滑入变色 */
   --table-stripe-bg-color: #fbfcfd;
-  --table-hover-bg-color: #eaecf0;
+  --table-hover-bg-color: #f0f5f8;
 
   /* 固定列时，左右移动时的固定列阴影 */
   --table-fixed-left-shadow: 6px 0 3px -3px rgba(0, 0, 0, 0.1);

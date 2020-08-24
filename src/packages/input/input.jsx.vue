@@ -25,7 +25,10 @@ export default {
       default: void 0
     },
     name: String,
-    placeholder: String,
+    placeholder: {
+      type: String,
+      default: ''
+    },
     readonly: Boolean,
     disabled: Boolean,
     autofocus: Boolean,

@@ -21,7 +21,7 @@
       height: 0;
       border-width: 7px;
       border-style: solid;
-      border-color: transparent transparent color(var(--border-color));
+      border-color: transparent transparent color(var(--border-color) tint(50%));
       top: -14px;
       left: 20px;
       z-index: 101;
@@ -36,7 +36,8 @@
     &.k-layer-arrow {
       &:before,
       &:after {
-        border-color: color(var(--border-color)) transparent transparent;
+        border-color: color(var(--border-color) tint(50%)) transparent
+          transparent;
         bottom: -14px;
         left: 20px;
         top: auto;

@@ -541,7 +541,7 @@
   border: 1px solid transparent;
   overflow: hidden;
   text-align: center;
-  z-index: 1;
+  z-index: 0;
 }
 .k-input-section .k-input-append {
   left: auto;
@@ -1009,16 +1009,51 @@
   -webkit-transform-origin: 0 0;
           transform-origin: 0 0;
   z-index: 9999;
-  border-radius:4px;
+  border-radius: 4px;
   border: 1px solid rgb(238, 239, 243);
   -webkit-box-shadow: 0 1px 9px 0px rgba(0, 0, 0, .08);
           box-shadow: 0 1px 9px 0px rgba(0, 0, 0, .08);
   /* overflow: hidden; */
-  outline: none
+  outline: none;
+  background-color: white
+}
+.k-layer.k-layer-has-padding {
+  padding: 4px 0;
+}
+.k-layer.k-layer-arrow:before, .k-layer.k-layer-arrow:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-width: 7px;
+  border-style: solid;
+  border-color: transparent transparent rgb(238, 239, 243);
+  top: -14px;
+  left: 20px;
+  z-index: 101;
+}
+.k-layer.k-layer-arrow:after {
+  top: -13px;
+  border-bottom-color: white;
 }
 .k-layer.k-layer-origin-bottom {
   -webkit-transform-origin: left bottom;
           transform-origin: left bottom;
+}
+.k-layer.k-layer-origin-bottom.k-layer-arrow:before, .k-layer.k-layer-origin-bottom.k-layer-arrow:after {
+  border-color: rgb(238, 239, 243) transparent
+          transparent;
+  bottom: -14px;
+  left: 20px;
+  top: auto;
+}
+.k-layer.k-layer-origin-bottom.k-layer-arrow:after {
+  bottom: -13px;
+  border-top-color: white;
+}
+.k-layer.k-layer-arrow-right:before, .k-layer.k-layer-arrow-right:after {
+  left: auto;
+  right: 20px;
 }
 .k-layer .k-layer-body {
   -webkit-box-shadow: none;
@@ -1030,7 +1065,7 @@
   /*border-top: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
     border-right: 1px solid var(--border-color);*/
-  border-top-left-radius:4px;
+  border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   background-color: white;
   /*@extend .k-backdrop-filter;*/
@@ -1172,8 +1207,8 @@
   transition: 0.25s ease-out;
   cursor: pointer;
   text-align: left;
-  color: #666;
-  border-radius: 4px
+  color: #666
+  /* border-radius: var(--option-radius); */
 }
 .k-option:hover, .k-option.k-option--hover {
   color: #666;
@@ -2963,7 +2998,7 @@ ul.k-pagi li.k-pagi-order-7 {
 }
 .k-tablebox .k-table > tbody > tr.k-table-tr-checked > td {}
 .k-tablebox .k-table > tbody > tr.k-table-tr-hover > td {
-            background-color: #eaecf0;
+            background-color: #f0f5f8;
 }
 .k-tablebox .k-table > tbody > tr.k-table-tr-highlight > td {
             background-color: #eef2ff;

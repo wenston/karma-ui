@@ -70,7 +70,7 @@
     border: 1px solid transparent;
     overflow: hidden;
     text-align: center;
-    z-index: 1;
+    z-index: 0;
   }
 
   & .k-input-append {
