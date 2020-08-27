@@ -56,6 +56,7 @@
           type="number"
           v-model.number="goPage"
           @keyup.enter="goto"
+          placeholder=""
           ref="pageInput"></k-input>
         页
       </li>
