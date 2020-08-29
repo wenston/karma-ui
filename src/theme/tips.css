@@ -1,12 +1,14 @@
 .k-tips {
   position: fixed;
-  top: 20px;
-  left: auto;
-  right: 20px;
+  top: 30%;
+  /* left: auto;
+  right: 20px; */
   padding: var(--tips-padding);
   background-color: var(--tips-bg-color);
-  /* width: fit-content; */
-  /* margin: auto; */
+  /* width: fit-content;
+  margin: auto; */
+  left: 50%;
+  transform: translate(-50%, -50%);
   max-height: 70%;
   /* @supports (backdrop-filter: blur()) {
     background-color: rgba(255, 255, 255, 0.5);
@@ -43,7 +45,7 @@
       width: 64%;
       height: 10px;
       border-radius: 100%;
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: rgba(0, 0, 0, 0);
       left: 18%;
       bottom: 0px;
       z-index: 1;

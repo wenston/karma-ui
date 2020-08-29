@@ -52,6 +52,7 @@ let obj = {
   KInputNumber,
   KArea,
   KPopup,
+  KDialog,
   Dialog,
   KToTop,
   KIcon,

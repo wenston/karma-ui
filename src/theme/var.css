@@ -1,8 +1,8 @@
 :root {
   /*base color*/
   --default-color: #fafafa;
-  --primary-color: #128dff;
-  --primary-gradient-color: #128dff;
+  --primary-color: #0f6ffc;
+  --primary-gradient-color: #0f6ffc;
   --danger-color: #f56c6c;
   --warning-color: #e6a23c;
   --success-color: #67c23a;
@@ -74,10 +74,10 @@
 
   /* button */
   /* button padding*/
-  --button-huge: 0 30px;
-  --button-large: 0 24px;
-  --button-big: 0 20px;
-  --button-medium: 0 15px;
+  --button-huge: 0 28px;
+  --button-large: 0 22px;
+  --button-big: 0 18px;
+  --button-medium: 0 12px;
   --button-small: 0 8px;
   --button-mini: 0 8px;
   /*button height*/

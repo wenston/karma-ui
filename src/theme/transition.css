@@ -1,15 +1,13 @@
 .k-t-translate {
   &-enter,
   &-leave-to {
-    transform: translateY(-100%);
+    transform: translate(-50%, -300%);
     will-change: transform;
-    opacity: 0;
   }
   &-enter-to,
   &-leave {
-    transform: translateY(0);
+    transform: translate(-50%, -50%);
     will-change: transform;
-    opacity: 1;
   }
   &-enter-active,
   &-leave-active {
