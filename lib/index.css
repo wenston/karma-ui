@@ -2448,7 +2448,7 @@ ul.k-pagi li.k-pagi-order-7 {
   position: absolute;
   width: 100%;
   height: 100%;
-  padding-left: 5px;
+  padding-left: 10px;
   padding-right: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2461,7 +2461,7 @@ ul.k-pagi li.k-pagi-order-7 {
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1;
-    text-align: center;
+    /* text-align: center; */
   }
 .k-date-picker {
   background-color: white;
