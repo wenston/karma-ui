@@ -4,7 +4,6 @@
 import KPopup from "karma-ui/packages/popup/popup"
 import KIcon from "karma-ui/packages/icon/icon"
 export default {
-  name: 'KDialog',
   components: {
     KPopup,
     KIcon
@@ -20,14 +19,8 @@ export default {
       type: String,
       default: "k-icon-question"
     },
-    iconColor: {
-      type: String,
-      default: ''
-    },
-    iconSize: {
-      type: [String, Number],
-      default: ''
-    }
+    iconColor: String,
+    iconSize: [String, Number]
   },
   methods: {
     afterCancel() {
@@ -48,10 +41,10 @@ export default {
         "update:show": v => {
           this.show = v
         },
-        "after-leave": e => {
-          if (e) {
+        "after-leave": e=>{
+          if(e) {
             this.afterOk()
-          } else {
+          }else{
             this.afterCancel()
           }
         },

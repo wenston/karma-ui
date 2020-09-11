@@ -10,8 +10,7 @@
       class="k-pagi-item k-pagi-prev"
       @click="goPrev"
       :class="[{'k-pagi-mini':size=='mini'},`k-pagi-order-${order('prev')}`,{'k-pagi-disabled':currentPage<=1}]">
-      <k-icon size="12"
-        name="k-icon-arrow-left"></k-icon>
+      <k-icon size="12" name="k-icon-arrow-left"></k-icon>
     </li>
     <template v-if="showItem('pager')">
       <template v-for="(page,i) in cTotal">
@@ -32,8 +31,7 @@
       class="k-pagi-item k-pagi-next"
       @click="goNext"
       :class="[{'k-pagi-mini':size=='mini'},`k-pagi-order-${order('next')}`,{'k-pagi-disabled':currentPage>=totalPages}]">
-      <k-icon size="12"
-        name="k-icon-arrow-right"></k-icon>
+      <k-icon size="12" name="k-icon-arrow-right"></k-icon>
     </li>
     <li v-if="showItem('sizes')"
       class="k-pagi-sizes"
@@ -51,12 +49,11 @@
     <template v-if="showItem('jumper')">
       <li class="k-pagi-go"
         :class="`k-pagi-order-${order('jumper')}`">
-        跳转到
+        前往
         <k-input :size="size||'small'"
           type="number"
           v-model.number="goPage"
           @keyup.enter="goto"
-          placeholder=""
           ref="pageInput"></k-input>
         页
       </li>
@@ -101,12 +98,12 @@ export default {
       default: "total,prev,pager,next,sizes,jumper"
     },
     size: {
-      type: String,
-      default: ''
+      type:String,
+      default:''
     }, //目前支持默认、mini
     align: {
-      type: String,
-      default: ''
+      type:String,
+      default:''
     },
     disabled: Boolean
   },
