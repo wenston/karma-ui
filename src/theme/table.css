@@ -12,7 +12,7 @@
   box-shadow: 0px 1px 0 0 var(--table-border-color),
     1px 1px 0 0 var(--table-border-color);
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     width: 0;
     height: 100%;
@@ -45,7 +45,7 @@
   position: relative;
   z-index: 10;
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     width: 0;
     height: 100%;
@@ -55,16 +55,14 @@
   }
 }
 .k-table-fixed-td-body {
-  &:last-child {
-    box-shadow: 3px 0 5px -2px rgba(0, 0, 0, 0.2);
-  }
+  box-shadow: 3px 0 3px -3px rgba(0, 0, 0, 0.13);
 }
 .k-table-fixed-td-right-head,
 .k-table-fixed-td-right-foot,
 .k-table-fixed-td-right-body {
   border-right: none !important;
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     width: 0;
     height: 100%;
@@ -106,11 +104,11 @@
 
   &--stripe {
     & .k-table > tbody > tr:nth-child(2n) {
-      background-color: white;
+      background-color: var(--table-stripe-bg-color);
     }
 
     & .k-table > tbody > tr:nth-child(2n-1) {
-      background-color: var(--table-stripe-bg-color);
+      background-color: white;
     }
   }
 
@@ -231,7 +229,7 @@
       0 1px 3px rgba(0, 0, 0, 0.09);
   }
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 1px;

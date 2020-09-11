@@ -16,7 +16,7 @@ ul.k-pagi {
   > li {
     display: flex;
     align-items: center;
-    /* margin: 0 3px; */
+    margin: 0 3px;
   }
   li.k-pagi-total {
     color: var(--font-color-1);
@@ -31,7 +31,7 @@ ul.k-pagi {
       align-items: center;
       min-width: 30px;
       height: 28px;
-      /* border: 1px solid var(--pagi-default-border-color); */
+      border: 1px solid var(--pagi-default-border-color);
       border-radius: var(--radius);
       transition: var(--transition);
       cursor: pointer;
@@ -47,7 +47,6 @@ ul.k-pagi {
         border-color: var(--pagi-current-border-color);
         background-color: var(--pagi-current-background-color);
         color: var(--pagi-current-text-color);
-        font-weight: bold;
         &:hover {
           border-color: var(--pagi-current-border-color);
           background-color: var(--pagi-current-background-color);

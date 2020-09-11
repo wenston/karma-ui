@@ -8,7 +8,6 @@
         style="width: 300px"
         layer-width="auto"
         layerMinWidthEqual
-        placeholder="请选择"
         :nearby="true"
         :show.sync="show">
         <div slot-scope="{row}">
@@ -775,7 +774,7 @@ export default {
   },
   watch: {
     ids(arr) {
-      console.log('使用：', arr)
+      console.log('使用：',arr)
     }
   },
   mounted() {

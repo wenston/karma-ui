@@ -1,11 +1,11 @@
 :root {
   /*base color*/
   --default-color: #fafafa;
-  --primary-color: #0f6ffc;
-  --primary-gradient-color: #0f6ffc;
-  --danger-color: #f56c6c;
-  --warning-color: #e6a23c;
-  --success-color: #67c23a;
+  --primary-color: #409eff;
+  --primary-gradient-color: #409eff;
+  --danger-color: #F56C6C;
+  --warning-color: #E6A23C;
+  --success-color: #67C23A;
   --disabled-color: #e9e9e9;
   --bg-color: #fff;
   /*文本颜色*/
@@ -16,28 +16,28 @@
   /*尺寸*/
   --huge: 50px;
   --large: 40px;
-  --big: 36px;
-  --medium: 32px;
+  --big: 34px;
+  --medium: 30px;
   --small: 28px;
   --mini: 24px;
   /*边框颜色，form表单相关控件的边框、分页器按钮边框*/
-  --border-color: #dcdfe6;
+  --border-color: #e1e1e1;
 
   /*过渡*/
-  --transition: 0.25s ease-out;
+  --transition: .25s ease-out;
   /*box-shadow*/
   --box-shadow: 0 2px 5px rgba(60, 70, 80, 0.15);
   /*圆角弧度*/
-  --radius: 4px;
-  --layer-radius: var(--radius);
+  --radius: 2px;
+  --layer-radius:var(--radius);
   /* input */
-  --input-border-color: #dcdfe6;
-  --input-focus-border-color: #41a4ff;
-  --input-width: 200px;
-  --input-placeholder-color: #b7bac0;
-  --input-padding: 0 0.82em;
+  --input-border-color: #e1e1e1;
+  --input-focus-border-color:#9FCEFF;
+  --input-width: 180px;
+  --input-placeholder-color: #bbb;
+  --input-padding: 0 .82em;
   --input-radius: var(--radius);
-  --input-color: var(--font-color-1);
+  --input-color: var(--font-color-2);
 
   /*input组件里包括了textarea*/
   --input-textarea-padding: 0.5em;
@@ -61,21 +61,17 @@
   --input-focus-active-shadow: 0 0 4px color(var(--primary-color) a(25%));
 
   /* input clearable 颜色*/
-  --input-clearable-btn-color: #ccc;
-  --input-clearable-btn-hover-color: color(
-    var(--input-clearable-btn-color) b(+50%)
-  );
-
-  --input-disabled-color: #999;
+  --input-clearable-btn-color:#ccc;
+  --input-clearable-btn-hover-color:color(var(--input-clearable-btn-color) b(+50%));
 
   /* autocomplete */
   --auto-complete-icon-color: #ccc;
   --auto-complete-icon-hover-color: #999;
-
+  
   /* button */
   /* button padding*/
-  --button-huge: 0 28px;
-  --button-large: 0 22px;
+  --button-huge: 0 30px;
+  --button-large: 0 24px;
   --button-big: 0 18px;
   --button-medium: 0 12px;
   --button-small: 0 8px;
@@ -109,9 +105,9 @@
   --button-default-bg-color: white;
   --button-default-border-color: var(--border-color);
   /*button active 内阴影*/
-  --button-active-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+  --button-active-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .1);
   /*button 过渡*/
-  --button-transition: 0.15s ease;
+  --button-transition: .15s ease;
 
   /* select */
   --select-down-size: 14px;
@@ -124,7 +120,7 @@
   --select-option-bg-color: var(--bg-color);
   /* option */
   --option-height: 30px;
-  --option-padding: 0 0.5em;
+  --option-padding: 0 .5em;
   --option-radius: var(--radius);
   --option-hover-color: var(--font-color-2);
   --option-huge-font-size: 16px;
@@ -134,12 +130,10 @@
   --option-small-font-size: 12px;
   --option-mini-font-size: 12px;
   /* --option-hover-bg-color: color(var(--primary-color) tint(80%)); */
-  --option-hover-bg-color: #f7f8f8;
+  --option-hover-bg-color: #F6F9FA;
   --option-selected-color: var(--font-color-2);
   --option-selected-bg-color: color(var(--primary-color) tint(90%));
-  --option-selected-bg-gradient-color: color(
-    var(--primary-gradient-color) tint(90%)
-  );
+  --option-selected-bg-gradient-color: color(var(--primary-gradient-color) tint(90%));
 
   /* select2 */
   --select2-width: var(--input-width);
@@ -161,10 +155,9 @@
   --input-number-btn-hover-color: var(--primary-color);
 
   /* tips */
-  --tips-padding: 20px 20px;
-  --tips-bg-color: color(rgb(255, 255, 255) a(100%));
-  --tips-box-shadow: 0 0 1px 0px rgba(0, 0, 0, 0.05),
-    0 2px 8px rgba(0, 0, 0, 0.15);
+  --tips-padding: 30px 20px;
+  --tips-bg-color: color(rgb(255, 255, 255) a(95%));
+  --tips-box-shadow: 0 0 0 1px rgba(0,0,0,.05),0 5px 8px rgba(0, 0, 0, .1);
   --tips-z-index: 10000;
   --tips-radius: calc(var(--radius));
   --tips-cont-color: #666;
@@ -174,7 +167,7 @@
   /*checkbox*/
   --checkbox-gutter: 20px;
   --checkbox-line-height: normal;
-  --checkbox-border-color: color(var(--input-border-color) shade(10%));
+  --checkbox-border-color:color(var(--input-border-color) shade(10%));;
   --checkbox-bg-color: #fff;
   --checkbox-radius: 2px;
   --checkbox-hover-border-color: var(--primary-color);
@@ -183,9 +176,7 @@
   --checkbox-checked-bg-color: var(--primary-color);
   --checkbox-disabled-border-color: color(var(--disabled-color) b(+5%));
   --checkbox-disabled-bg-color: var(--disabled-color);
-  --checkbox-checked-disabled-border-color: color(
-    var(--disabled-color) b(+30%)
-  );
+  --checkbox-checked-disabled-border-color: color(var(--disabled-color) b(+30%));
   --checkbox-text-color: var(--font-color-2);
   --checkbox-text-font-size: 12px;
   --checkbox-checked-text-color: var(--primary-color);
@@ -193,64 +184,64 @@
   /*popup*/
   --popup-z-index: 999;
   --popup-radius: var(--radius);
-  --popup-mask-bg-color: color(rgb(70, 80, 90) a(35%));
+  --popup-mask-bg-color: color(rgb(70,80,90) a(35%));
   --popup-container-width: 300px;
   --popup-container-bg-color: var(--bg-color);
-  --popup-box-shadow: 0px 8px 10px -9px rgba(0, 0, 0, 0.25),
-    0 2px 10px 0 rgba(0, 0, 0, 0.15);
-  --popup-header-bg-color-1: #fff;
-  --popup-header-bg-color-2: #fff;
-  --popup-header-border-color: #fff;
-  --popup-header-padding-left: 20px;
-  --popup-header-height: 42px;
-  --popup-header-title-font-size: 14px;
-  --popup-header-title-color: var(--font-color-1);
+  --popup-box-shadow: 0px 8px 10px -9px rgba(0, 0, 0, .25),
+    0 2px 10px 0 rgba(0,0,0,.15);
+  --popup-header-bg-color-1: #fafafa;
+  --popup-header-bg-color-2: #fafafa;
+  --popup-header-border-color: #f0f0f0;
+  --popup-header-padding: 0 15px;
+  --popup-header-height: 36px;
+  --popup-header-title-font-size:14px;
+  --popup-header-title-color:var(--font-color-2);
   --popup-content-min-height: 70px;
-  --popup-content-padding: 15px 20px;
+  --popup-content-padding: 15px;
   --popup-content-bg-color: var(--bg-color);
-  --popup-footer-padding: 8px 18px 10px;
+  --popup-footer-padding: 8px 15px 8px;
   --popup-footer-text-align: right;
-  --popup-footer-border-top: 1px solid #fff;
-  --popup-footer-background-color: #f5f5f5;
-  --popup-close-btn-color: var(--font-color-3);
-  --popup-close-btn-hover-color: var(--font-color-2);
+  --popup-footer-border-top: 1px solid #f0f0f0;
+  --popup-close-btn-color: var(--font-color-2);
+  --popup-close-btn-hover-color: var(--font-color-1);
 
   /*loading*/
-  --loading-bg-color: color(#07192c a(70%));
-  --loading-z-index: 1000;
-  --loading-radius: calc(var(--radius) * 2);
-  --loading-width: 120px;
-  --loading-height: 100px;
-  --loading-text-font-size: 12px;
-  --loading-text-color: #fff;
+  --loading-bg-color:color(#07192c a(70%));
+  --loading-z-index:1000;
+  --loading-radius:calc(var(--radius)*2);
+  --loading-width:120px;
+  --loading-height:100px;
+  --loading-text-font-size:12px;
+  --loading-text-color:#fff;
   --loading-padding: 15px;
 
+
   /* carousel */
-  --carousel-transition: 0.5s cubic-bezier(0, 0, 0, 1);
-  --carousel-button-gutter: 5px;
-  --carousel-button-border: 2px solid #ccc;
-  --carousel-button-bg-color: color(#fff a(30%));
-  --carousel-button-size: 14px;
-  --carousel-button-active-bg-color: #fff;
-  --carousel-button-active-border: 2px solid color(#ccc shade(20%));
+  --carousel-transition:.5s cubic-bezier(0,0,0,1);
+  --carousel-button-gutter:5px;
+  --carousel-button-border:2px solid #ccc;
+  --carousel-button-bg-color:color(#fff a(30%));
+  --carousel-button-size:14px;
+  --carousel-button-active-bg-color:#fff;
+  --carousel-button-active-border:2px solid color(#ccc shade(20%));
 
   /*css icon*/
   --icon-arrow: #ccc;
   --icon-plus-minus: #ccc;
 
   /*to-top*/
-  --to-top-border: 1px solid #ccc;
-  --to-top-bottom: 50px;
-  --to-top-right: 40px;
-  --to-top-btn-size: 50px;
-  --to-top-btn-bg-color: #fff;
-  --to-top-icon-color: #ccc;
-  --to-top-icon-size: 12px;
+  --to-top-border:1px solid #ccc;
+  --to-top-bottom:50px;
+  --to-top-right:40px;
+  --to-top-btn-size:50px;
+  --to-top-btn-bg-color:#fff;
+  --to-top-icon-color:#ccc;
+  --to-top-icon-size:12px;
 
   /*pagination*/
   --pagi-default-border-color: #e1e1e1;
   --pagi-hover-border-color: var(--font-color-4);
-  --pagi-hover-background-color: #f7f8f8;
+  --pagi-hover-background-color: white;
   --pagi-text-color: var(--font-color-2);
   --pagi-prev-next-icon-size: 18px;
   --pagi-bg-color: white;
@@ -266,14 +257,14 @@
   --dp-calendar-border: 1px solid var(--border-color);
 
   /* table */
-  --table-wrapper-bg-color: white;
-  --table-border-color: #eaecf0;
+  --table-wrapper-bg-color: var(--default-color);
+  --table-border-color: #eff1f7;
   --table-border: 1px solid var(--table-border-color);
 
   /* 表头 */
-  --table-head-bg-color: #f8f8f8;
-  --table-head-border-color: #eaecf0;
-  --table-head-bottom-border-color: #eaecf0;
+  --table-head-bg-color: #E7EBF4;
+  --table-head-border-color: #DEE1E6;
+  --table-head-bottom-border-color: #DEE1E6;
   /* 尺寸 */
   --table-huge: var(--huge);
   --table-huge-font-size: 14px;
@@ -282,7 +273,7 @@
   --table-large-font-size: 14px;
   --table-large-padding: 10px;
   --table-big: var(--big);
-  --table-big-font-size: 12px;
+  --table-big-font-size: 14px;
   --table-big-padding: 8px 10px;
   --table-medium: var(--medium);
   --table-medium-font-size: 12px;
@@ -293,16 +284,18 @@
   --table-mini: var(--mini);
   --table-mini-font-size: 12px;
   --table-mini-padding: 3px;
-  --table-tr-highlight-color: #eef2ff;
+  --table-tr-highlight-color: #EEF2FF;
 
   /* 斑马线和滑入变色 */
-  --table-stripe-bg-color: #fbfcfd;
-  --table-hover-bg-color: #f0f5f8;
+  --table-stripe-bg-color: #FBFCFD;
+  --table-hover-bg-color: #FFF5E6;
 
   /* 固定列时，左右移动时的固定列阴影 */
-  --table-fixed-left-shadow: 6px 0 3px -3px rgba(0, 0, 0, 0.1);
-  --table-fixed-right-shadow: -6px 0 3px -3px rgba(0, 0, 0, 0.1);
+  --table-fixed-left-shadow: 6px 0 3px -3px rgba(0,0,0,.10);
+  --table-fixed-right-shadow: -6px 0 3px -3px rgba(0,0,0,.10);
 
   /** 列宽调整的基准线 */
   --table-base-line-color: color(var(--danger-color) a(50%));
+
+  
 }

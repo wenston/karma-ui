@@ -10,8 +10,6 @@
       pageSize="20"
       pageIndex="3"
       index-text="序"
-      :leftFixedNumber="2"
-      :rightFixedNumber="1"
       nowrap
       resize-width
       max-height="calc(100vh - 130px)"
@@ -1254,10 +1252,10 @@ export default {
       const tax =
         this.random > 0.5
           ? {
-            field: "TaxRate",
-            name: "税率",
-            sum: true
-          }
+              field: "TaxRate",
+              name: "税率",
+              sum: true
+            }
           : null
       return [
         {

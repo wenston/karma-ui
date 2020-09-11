@@ -6,7 +6,7 @@
   cursor: pointer;
   text-align: left;
   color: var(--font-color-2);
-  /* border-radius: var(--option-radius); */
+  border-radius: var(--option-radius);
   @extend .k-ellipsis;
   &:hover,
   &.k-option--hover {
@@ -21,7 +21,7 @@
     );
     color: var(--option-selected-color);
   }
-  @each $name in (huge, large, big, medium, small, mini) {
+  @each $name in (huge,large,big,medium,small,mini) {
     &.k-option--$(name) {
       height: var(--$(name));
       line-height: var(--$(name));

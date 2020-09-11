@@ -1,7 +1,7 @@
 <script>
 const baseStyle = {
-  "min-width": "280px",
-  "max-width": "280px"
+  "min-width": "180px",
+  "max-width": "250px"
 }
 const baseContent = "操作完成"
 import KIcon from "karma-ui/packages/icon/icon.jsx"
@@ -24,17 +24,17 @@ export default {
     //预置的三种
     success: () => ({
       name: "k-icon-success",
-      size: "36px",
+      size: "50px",
       color: "#409eff"
     }),
     error: () => ({
       name: "k-icon-close-circle",
-      size: "36px",
+      size: "50px",
       color: "#F56C6C"
     }),
     warning: () => ({
       name: "k-icon-tip",
-      size: "36px",
+      size: "50px",
       color: "#E6A23C"
     })
   },
@@ -47,7 +47,7 @@ export default {
       state_icon: {},
       timer: null,
       manual: true, //是否可以手动关闭
-      callback: () => { } //传入的关闭后的回调
+      callback: () => {} //传入的关闭后的回调
     }
   },
   render() {
@@ -69,7 +69,7 @@ export default {
     obj.warning = { ...this.warning, ...this.icon.warning }
 
     let tip = (
-      <transition name="k-t-translate">
+      <transition name="k-t-fade">
         <div {...p}>
           {this.manual && (
             <k-icon

@@ -17,7 +17,7 @@ export default {
   },
   props: {
     size: {
-      type: String,
+      type:String,
       default: 'medium'
     },
     value: {
@@ -176,8 +176,7 @@ export default {
           layerMinWidthEqual: this.layerMinWidthEqual,
           canCloseByClickoutside: true,
           scrollElement: this.scrollElement,
-          nearby: this.nearby,
-          hasPadding: true
+          nearby: this.nearby
         })
       })
     },
@@ -368,11 +367,11 @@ export default {
           if (!this.isMouseDownOption) {
             this.hideList()
           }
-          this.$emit('blur', e)
+          this.$emit('blur',e)
         },
-        keyup: e => {
-          if (e.keyCode == 40) {
-            if (!this.showOptionList) {
+        keyup:e=>{
+          if(e.keyCode==40) {
+            if(!this.showOptionList) {
               this.toggleList()
               e.stopPropagation()
             }
