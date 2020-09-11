@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       visible: this.show,
+      showDeleteButton: false,
       checkedData: this.selectedData,
       checkedKeys: this.selectedKeys.join(","),
       list: [],
@@ -121,7 +122,7 @@ export default {
         icon = (
           <k-icon
             class="k-select-tree-clear"
-            name="k-icon-close-circle"
+            name={this.showDeleteButton ? "k-icon-close" : "k-icon-arrow-down"}
             tabindex="-1"
             onFocus={e => {
               e.stopPropagation()
@@ -145,7 +146,7 @@ export default {
       } else {
         icon = (
           <k-icon
-            name="k-icon-arrow-down"
+            name={this.showDeleteButton ? "k-icon-close" : "k-icon-arrow-down"}
             class="k-select-tree-clear"
             transform={this.visible && "rotateX(180deg)"}
           />
@@ -169,8 +170,14 @@ export default {
             if (e.keyCode == 13 || e.keyCode == 40) {
               this.visible = true
             }
-          }
-        }
+          },
+          mouseenter: e => {
+            this.showDeleteButton = true;
+          },
+          mouseleave: e => {
+            this.showDeleteButton = false;
+          },
+        },
       }
       return (
         <div {...p}>
