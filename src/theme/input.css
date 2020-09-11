@@ -29,6 +29,7 @@
     }
 
     &.k-input-disabled {
+      color: var(--input-disabled-color);
       background-color: var(--disabled-color);
       cursor: not-allowed;
     }
@@ -69,7 +70,7 @@
     border: 1px solid transparent;
     overflow: hidden;
     text-align: center;
-    z-index: 1;
+    z-index: 0;
   }
 
   & .k-input-append {
@@ -103,7 +104,7 @@
       & .k-input-append {
         min-width: var(--input-$(name));
         /* line-height: var(--input-$(name)); */
-        line-height:normal;
+        line-height: normal;
       }
 
       & .k-input-prepend {
@@ -174,7 +175,7 @@
       }
     }
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       bottom: 0px;
       left: 50%;

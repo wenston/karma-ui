@@ -14,7 +14,7 @@ export default {
       okText,
       cancelText,
       layout,
-      hasIcon = false,
+      hasIcon = true,
       iconColor,
       iconSize,
       hasBottomLine = false

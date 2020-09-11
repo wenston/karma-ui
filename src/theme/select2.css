@@ -21,7 +21,6 @@
     border-left: none;
     border-right: none;
     &:focus {
-
       /* box-shadow: none; */
     }
   }
@@ -46,14 +45,14 @@
 .k-select2-list-item {
   height: var(--option-height);
   line-height: var(--option-height);
-  padding: var(--option-padding);
+  padding: 0 0.9em;
   transition: var(--transition);
   cursor: pointer;
   text-align: left;
   border-radius: var(--option-radius);
   &.k-select2-list-item-checked {
-    color:var(--option-selected-color);
-    background-color:var(--option-selected-bg-color)
+    color: var(--option-selected-color);
+    background-color: var(--option-selected-bg-color);
   }
   &:hover,
   &.k-select2-list-item-hover {

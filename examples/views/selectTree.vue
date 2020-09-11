@@ -5,10 +5,11 @@
       <k-select-tree style="line-height:normal;display:inline-block;"
         :data="dataList"
         :show.sync="show"
-        hasCheckbox
-        selected-rule="some"
-        :selected-data.sync="checkedData"
-        :selected-keys.sync="checkedKeys">
+        childField="Childs"
+        textField="Name"
+        keyField="Id"
+        v-model="myId"
+        @toggle="onToggle">
         <k-button slot="footer">footer</k-button>
       </k-select-tree>
       <k-select-tree :data="data1"
@@ -35,7 +36,7 @@ export default {
   data() {
     return {
       show: false,
-
+      myId: '',
       show1: false,
       data: [],
       data1: [],
@@ -372,6 +373,15 @@ export default {
     }
   },
   methods: {
+    onToggle(arr) {
+      if (arr.length < 3) {
+        console.log('请选择最末级')
+        this.$nextTick().then(() => {
+
+          this.myId = ''
+        })
+      }
+    },
     expand(e, obj) {
       console.log(e, obj)
     },
@@ -384,9 +394,8 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.val = 28
-      // this.text1 = 'mate20'
-    }, 1000)
+      this.myId = 28
+    })
   },
   watch: {
     checkedData(d) {
