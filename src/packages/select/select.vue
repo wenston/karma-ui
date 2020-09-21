@@ -40,7 +40,7 @@ export default {
     block: Boolean,
     icon: {
       type: Array,
-      default: () => ["k-icon-arrow-down", "k-icon-close"]
+      default: () => ["k-icon-arrow-down", "k-icon-close-circle"]
     },
     scrollElement: {
       type: Element,
