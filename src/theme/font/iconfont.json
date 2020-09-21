@@ -13,18 +13,32 @@
       "unicode_decimal": 58901
     },
     {
+      "icon_id": "10514899",
+      "name": "增加的副本",
+      "font_class": "add",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "10514904",
+      "name": "删除",
+      "font_class": "close-circle",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
       "icon_id": "1196748",
       "name": "add-2",
       "font_class": "plus-square",
-      "unicode": "e602",
-      "unicode_decimal": 58882
+      "unicode": "e60f",
+      "unicode_decimal": 58895
     },
     {
       "icon_id": "1444831",
       "name": "leaf",
       "font_class": "leaf",
-      "unicode": "e7d0",
-      "unicode_decimal": 59344
+      "unicode": "e7de",
+      "unicode_decimal": 59358
     },
     {
       "icon_id": "1704295",
@@ -158,20 +172,6 @@
       "font_class": "double-right",
       "unicode": "eb9e",
       "unicode_decimal": 60318
-    },
-    {
-      "icon_id": "10514899",
-      "name": "增加的副本",
-      "font_class": "add",
-      "unicode": "e635",
-      "unicode_decimal": 58933
-    },
-    {
-      "icon_id": "10514904",
-      "name": "删除",
-      "font_class": "close-circle",
-      "unicode": "e637",
-      "unicode_decimal": 58935
     },
     {
       "icon_id": "11318197",
