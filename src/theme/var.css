@@ -176,7 +176,7 @@
   --checkbox-line-height: normal;
   --checkbox-border-color: color(var(--input-border-color) shade(10%));
   --checkbox-bg-color: #fff;
-  --checkbox-radius: 2px;
+  --checkbox-radius: var(--radius);
   --checkbox-hover-border-color: var(--primary-color);
   --checkbox-checked-border-color: var(--primary-color);
   --checkbox-focus-active-shadow: 0 0 4px color(var(--primary-color) a(25%));
