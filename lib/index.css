@@ -1344,7 +1344,7 @@
     height: 14px;
     border: 1px solid rgb(198, 201, 207);
     background: #fff;
-    border-radius: 2px;
+    border-radius: 4px;
     display: inline-block;
     vertical-align: -2px;
     -webkit-transition: .25s ease-out;
