@@ -1,5 +1,5 @@
 <template>
-  <label class="k-checkbox">
+  <label class="k-checkbox" v-cloak>
     <input type="checkbox"
       class="k-checkbox__input"
       v-if="type==='arr' && !noInput"
