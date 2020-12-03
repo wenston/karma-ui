@@ -10,7 +10,8 @@
       class="k-pagi-item k-pagi-prev"
       @click="goPrev"
       :class="[{'k-pagi-mini':size=='mini'},`k-pagi-order-${order('prev')}`,{'k-pagi-disabled':currentPage<=1}]">
-      <k-icon size="12" name="k-icon-arrow-left"></k-icon>
+      <k-icon size="12"
+        name="k-icon-arrow-left"></k-icon>
     </li>
     <template v-if="showItem('pager')">
       <template v-for="(page,i) in cTotal">
@@ -31,7 +32,8 @@
       class="k-pagi-item k-pagi-next"
       @click="goNext"
       :class="[{'k-pagi-mini':size=='mini'},`k-pagi-order-${order('next')}`,{'k-pagi-disabled':currentPage>=totalPages}]">
-      <k-icon size="12" name="k-icon-arrow-right"></k-icon>
+      <k-icon size="12"
+        name="k-icon-arrow-right"></k-icon>
     </li>
     <li v-if="showItem('sizes')"
       class="k-pagi-sizes"
@@ -98,12 +100,12 @@ export default {
       default: "total,prev,pager,next,sizes,jumper"
     },
     size: {
-      type:String,
-      default:''
+      type: String,
+      default: ''
     }, //目前支持默认、mini
     align: {
-      type:String,
-      default:''
+      type: String,
+      default: ''
     },
     disabled: Boolean
   },
@@ -126,7 +128,10 @@ export default {
     modelPageSize(s, os) {
       if (s != os) {
         this.$emit("update:pageSize", s)
-        this.$emit("size-change", s)
+        setTimeout(() => {
+          this.$emit("size-change", s)
+
+        })
       }
     }
   },
@@ -210,7 +215,10 @@ export default {
         if (page != this.currentPage && this.total > 0) {
           this.$emit("update:currentPage", page)
           //事件，页码变动时
-          this.$emit("page-change", page)
+          setTimeout(() => {
+            this.$emit("page-change", page)
+
+          })
         }
       }
     }

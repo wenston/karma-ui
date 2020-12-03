@@ -393,19 +393,22 @@ export default {
       const tdOldWidth = parseFloat(getStyle(el, "width"))
       const totalHeight = getStyle(this.$refs.mainTable, "height")
       const baseLine = this.$refs.baseLine
-      let left = offset(el, this.$el).left + tdOldWidth - scrollLeft
+      let left = offset(el, this.$el).left + tdOldWidth- scrollLeft
       baseLine.style.height = totalHeight
-      if (col.fixed) {
-        //目前没有实现这种方式
-        left = left + scrollLeft
-      } else if (this.leftFixedNumber && index < this.leftFixedNumber) {
-        left += scrollLeft
+      // console.log(this.leftFixedNumber,index, col.fixed)
+      // if (col.fixed) {
+      //   //目前没有实现这种方式
+      //   left = left + scrollLeft
+      // } else 
+      if (this.leftFixedNumber && index < this.leftFixedNumber) {
+        // left += scrollLeft
+        // console.log('??')
       } else if (
         this.rightFixedNumber &&
         index >=
         this.machiningColumns.bodyColumns.length - 1 - this.rightFixedNumber
       ) {
-        left = left + this.rightTranslate
+        // left = left + this.rightTranslate
       }
       baseLine.style.left = left + 1 + "px"
       this.currentResizeTd.startX = e.clientX
