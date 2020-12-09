@@ -9,6 +9,7 @@
         layer-width="auto"
         layerMinWidthEqual
         :nearby="true"
+        clearable
         :show.sync="show">
         <div slot-scope="{row}">
           <em>{{row.Contact}}</em>

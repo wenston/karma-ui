@@ -43,6 +43,7 @@ export default {
       type: [String, Array],
       default: "Name"
     },
+    clearable: Boolean,
     block: Boolean,
     simple: Boolean,
     noStyle: Boolean,
@@ -159,7 +160,42 @@ export default {
         //   }
         // }
       }
-      return <k-input {...p} />
+      return <k-input {...p} >{this.rIcon()}</k-input>
+    },
+    rIcon() {
+      if(this.clearable && this.dataValue.length) {
+        return (
+          <span
+            class="k-select__icon__wrapper"
+            slot="append"
+            onClick={e => {
+              this.clear()
+              e.stopPropagation()
+            }}
+          >
+            <k-icon
+              size="12"
+              class="k-select__clear"
+              name={ "k-icon-close-circle"}
+            />
+          </span>
+        )
+      }
+      return (
+        <span
+          class="k-select__icon__wrapper"
+          slot="append"
+        >
+          <k-icon
+            size="12"
+            class={{
+              "k-select__down": true,
+              "k-select__down--up": this.visible
+            }}
+            name={ "k-icon-arrow-down"}
+          />
+        </span>
+      )
     },
     //搜索匹配框、全选
     rSearchInput() {
@@ -345,6 +381,9 @@ export default {
           <k-checkbox {...checkProps} />
         </span>
       )
+    },
+    clear() {
+      this.dataValue = []
     },
     hideLayer() {
       this.visible = false
