@@ -44,6 +44,10 @@ export default {
       default: "Name"
     },
     clearable: Boolean,
+    hasIcon: {
+      type: Boolean,
+      default: true
+    },
     block: Boolean,
     simple: Boolean,
     noStyle: Boolean,
@@ -160,7 +164,7 @@ export default {
         //   }
         // }
       }
-      return <k-input {...p} >{this.rIcon()}</k-input>
+      return <k-input {...p} >{this.hasIcon && this.rIcon()}</k-input>
     },
     rIcon() {
       if(this.clearable && this.dataValue.length) {
@@ -610,7 +614,11 @@ export default {
         if (Array.isArray(v)) {
           this.dataValue = v.map(id=>id+'')
         } else if (typeof v === "string") {
-          this.dataValue = v.split(/\s*,\s*/)
+          if(v) {
+            this.dataValue = v.split(/\s*,\s*/)
+          }else{
+            this.dataValue = []
+          }
         } else if (typeof v === "number") {
           this.dataValue = [v + ""]
         }

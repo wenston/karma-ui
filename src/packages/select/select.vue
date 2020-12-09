@@ -40,7 +40,7 @@ export default {
     block: Boolean,
     icon: {
       type: Array,
-      default: () => ["k-icon-arrow-down", "k-icon-close"]
+      default: () => ["k-icon-arrow-down", "k-icon-close-circle"]
     },
     scrollElement: {
       type: Element,
@@ -138,7 +138,7 @@ export default {
             <k-icon
               size="12"
               class="k-select__clear"
-              name={this.icon[1] || "k-icon-close"}
+              name={this.icon[1] || "k-icon-close-circle"}
             />
           </span>
         )

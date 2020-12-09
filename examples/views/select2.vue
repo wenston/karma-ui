@@ -17,6 +17,9 @@
         <div slot="footer">
           <k-button size="mini">刷新</k-button>
         </div>
+        <div slot="append">
+          append
+        </div>
       </k-select2>
     </div>
   </div>
