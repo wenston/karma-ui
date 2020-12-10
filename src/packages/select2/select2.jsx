@@ -388,6 +388,7 @@ export default {
     },
     clear() {
       this.dataValue = []
+      this.emitValue()
     },
     hideLayer() {
       this.visible = false
