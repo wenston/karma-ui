@@ -292,7 +292,7 @@ export default {
     renderTitle() {
       const p = {
         style: {
-          width: this.block ? "" : "98px",
+          width: this.block ? "" : "180px",
           ...this.styles
         },
         class: 'k-date-picker-cursor-pointer',
