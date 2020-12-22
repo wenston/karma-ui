@@ -163,6 +163,20 @@ export default {
       immediate: true,
       handler(v) {
         this.getInputTextByKeyField();
+        if(v===undefined ||
+            v===null ||
+            v==='') {
+              if (!this.disabled) {
+                this.pageIndex = 1;
+                this.inputText = "";
+                this.currentHoverIndex = this.currentIndex = -1;
+                if (this.visible) {
+                  this.$refs.input.focus();
+                }
+                this.getFilterData();
+              }
+            }
+
       }
     },
     text(t) {
@@ -304,7 +318,7 @@ export default {
     getInputValue() {
       return this.inputText;
     },
-    //外部调用
+    //可外部调用
     clear() {
       if (!this.disabled) {
         this.pageIndex = 1;

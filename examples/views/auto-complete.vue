@@ -2,7 +2,8 @@
   <div class="layout">
     <h3 class="layout__title">自动完成</h3>
     <div>
-      <k-auto-complete ref="au" :data="list"
+      <k-auto-complete ref="au"
+        :data="list"
         v-model="value"
         :text="text"
         key-field="ProId"
@@ -53,7 +54,8 @@
               @click="onFresh">刷新</k-button>
           </div>
         </k-auto-complete>
-        <k-button type="warning" @click="onClear">清除</k-button>
+        <k-button type="warning"
+          @click="onClear">清除</k-button>
       </div>
     </div>
     <h3 class="layout__title">自动完成</h3>
@@ -91,7 +93,7 @@ export default {
       value: "300249",
       text: '',
       value1: "100022",
-      text1:'小夜灯',
+      text1: '小夜灯',
       value2: "",
       list: [],
       empty: '',
@@ -632,7 +634,7 @@ export default {
   methods: {
     onClear() {
       this.value1 = ''
-      this.text1= ''
+      this.text1 = ''
     },
     onFresh() {
       this.list = []
@@ -642,16 +644,16 @@ export default {
     },
     clear() {
       this.value = ""
-      this.text= ''
+      this.text = ''
     },
     onFocus() {
       setTimeout(() => {
         this.list = this.list1
-        if(this.list.length===0) {
-          this.$refs.au.emptyTip(()=>{
+        if (this.list.length === 0) {
+          this.$refs.au.emptyTip(() => {
             this.$tips({
-              content:'Meiyou shujv',
-              type:'warning'
+              content: 'Meiyou shujv',
+              type: 'warning'
             }).hide(1000)
           })
         }
@@ -661,9 +663,9 @@ export default {
       console.log("toggle", e)
     },
     onInput(text) {
-      setTimeout(()=>{
-        this.list = this.list1.slice(0,Math.round(Math.random()*15+1))
-      },200)
+      setTimeout(() => {
+        this.list = this.list1.slice(0, Math.round(Math.random() * 15 + 1))
+      }, 200)
     }
   },
   mounted() {
