@@ -156,7 +156,8 @@ export default {
           readonly: true,
           placeholder: this.dataValue.length ? "" : this.placeholder,
           block: true,
-          simple: this.simple
+          simple: this.simple,
+          noStyle: this.noStyle
         }
         // on: {
         //   focus: e => {

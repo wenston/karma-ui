@@ -81,7 +81,8 @@ export default {
     },
     rColGroup() {
       return <template slot="colgroup">{this.colGroup}</template>
-    }
+    },
+    tdMinWidth:()=>20
   },
   watch: {
     leftFixedNumber(n) {
@@ -435,6 +436,7 @@ export default {
     },
     resizeColumnWidth(t, e) {
       const { colIndex, startX, tdOldWidth } = this.currentResizeTd
+      const {bodyColumns} = this.machiningColumns
       if (t) {
         const head = t.querySelector(".k-theadwrapper"),
           body = t.querySelector(".k-tbodywrapper"),
@@ -443,8 +445,14 @@ export default {
             if (el) {
               const cols = el.querySelectorAll("col")
               if (cols) {
+                const w = tdOldWidth + e.clientX - startX
+                const {__index,__level,...col} = bodyColumns[colIndex]
+                
                 cols[+colIndex].style.width =
-                  tdOldWidth + e.clientX - startX + "px"
+                  w + "px"
+                if(w!=tdOldWidth) {
+                  this.$emit('resize', {width:w,col,index:colIndex})
+                }
               }
             }
           }

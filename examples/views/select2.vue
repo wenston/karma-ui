@@ -10,6 +10,7 @@
         layerMinWidthEqual
         :nearby="true"
         clearable
+        noStyle
         :show.sync="show">
         <div slot-scope="{row}">
           <em>{{row.Contact}}</em>
@@ -21,6 +22,7 @@
           append
         </div>
       </k-select2>
+      <k-button @click="onClear">清空</k-button>
     </div>
   </div>
 </template>
@@ -778,8 +780,14 @@ export default {
   },
   watch: {
     ids(arr) {
-      console.log('使用：',arr)
+      console.log('使用：', arr)
     }
+  },
+  methods: {
+    onClear() {
+      this.ids = ''
+    }
+
   },
   mounted() {
     // setTimeout(()=>{
