@@ -47,6 +47,7 @@ export default {
         props: {
           ...this.$props,
           item,
+          index: i,
           isLastOne: i === len,
           spread: item.__open__
         },

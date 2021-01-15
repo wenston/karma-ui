@@ -9,6 +9,7 @@ export default {
   props: {
     ...props,
     item: Object,
+    index: Number,
     isLastOne: Boolean, //是不是数组中最后一条数据
     active: [Number, String], //当前选择的节点数据
     spread: Boolean, //
@@ -62,7 +63,7 @@ export default {
       }
       return <k-icon {...p} />
     },
-    renderText(item) {
+    renderText(item,index) {
       const { textField, keyField, active, hasCheckbox } = this
       const p = {
         attrs: {
@@ -93,7 +94,7 @@ export default {
         text = (
           <span {...p}>
             {this.scopedSlots.default({
-              item
+              item, index
             })}
           </span>
         )
@@ -256,7 +257,7 @@ export default {
       <div {...itemProps}>
         <div class="k-tree-item-k">
           {this.renderIconWrapper()}
-          {this.renderText(this.item)}
+          {this.renderText(this.item, this.index)}
         </div>
         <k-transition
           onAfter-transition={() => {

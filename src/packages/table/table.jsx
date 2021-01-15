@@ -445,9 +445,11 @@ export default {
             if (el) {
               const cols = el.querySelectorAll("col")
               if (cols) {
-                const w = tdOldWidth + e.clientX - startX
+                let w = tdOldWidth + e.clientX - startX
                 const {__index,__level,...col} = bodyColumns[colIndex]
-                
+                if(w<this.tdMinWidth)  {
+                  w = this.tdMinWidth
+                }
                 cols[+colIndex].style.width =
                   w + "px"
                 if(w!=tdOldWidth) {
