@@ -437,6 +437,9 @@ export default {
     resizeColumnWidth(t, e) {
       const { colIndex, startX, tdOldWidth } = this.currentResizeTd
       const {bodyColumns} = this.machiningColumns
+      // const col = bodyColumns[colIndex]
+      // const width = col.style&&col.style.width?col.style.width:120
+      
       if (t) {
         const head = t.querySelector(".k-theadwrapper"),
           body = t.querySelector(".k-tbodywrapper"),
@@ -447,13 +450,20 @@ export default {
               if (cols) {
                 let w = tdOldWidth + e.clientX - startX
                 const {__index,__level,...col} = bodyColumns[colIndex]
-                if(w<this.tdMinWidth)  {
-                  w = this.tdMinWidth
-                }
-                cols[+colIndex].style.width =
-                  w + "px"
                 if(w!=tdOldWidth) {
-                  this.$emit('resize', {width:w,col,index:colIndex})
+                  if(w<this.tdMinWidth)  {
+                    w = this.tdMinWidth
+                  }
+                  if(this.minContent) {
+                    // cols[+colIndex].style.width = w + "px"
+                    cols[+colIndex].width = w
+                  } else {
+                    //当宽度是100%时，目前没有好办法精准调整列宽
+                    cols[+colIndex].width = w
+                  }
+                  if(w!=tdOldWidth) {
+                    this.$emit('resize', {width:w,col,index:colIndex})
+                  }
                 }
               }
             }
