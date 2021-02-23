@@ -18,17 +18,19 @@ export default {
   },
   methods: {
     handleClick(e) {
-      this.emitKeyValueToSelect(!this.multiple,true)
-      this.$emit('click',e)
+      this.emitKeyValueToSelect(!this.multiple, true, true)
+      this.$emit('click', e)
     },
-    emitKeyValueToSelect(hide = false,isFocus = false) {
+    emitKeyValueToSelect(hide = false, isFocus = false, isEmit = false) {
+      // console.log('??')
       this.layerComponent &&
         this.layerComponent.$data.vm.$emit(
           "getKeyValueFromOption",
           this.value,
           this.label,
           !!hide, //true代表要收起下拉列表
-          isFocus
+          isFocus,
+          isEmit
         )
     }
   },
@@ -57,13 +59,13 @@ export default {
           e.stopPropagation()
           this.layerComponent &&
             this.layerComponent.$data.vm.$emit("inovering", true)
-          this.$emit('mousedown',e)
+          this.$emit('mousedown', e)
         },
         mouseup: e => {
           e.stopPropagation()
           this.layerComponent &&
             this.layerComponent.$data.vm.$emit("inovering", false)
-          this.$emit('mouseup',e)
+          this.$emit('mouseup', e)
         }
       }
     }

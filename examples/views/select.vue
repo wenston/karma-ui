@@ -4,7 +4,6 @@
     <div>
       <div style="height:50px;">
         <k-select v-model="curCity"
-          
           @change="onChange"
           @focus="onFocus"
           @blur="onBlur"
@@ -19,6 +18,7 @@
       </div>
       <div>
         <k-select v-model="curCity1"
+          @change="onChangeC1"
           simple
           clearable>
           <k-option v-for="(v,k) in cities"
@@ -38,13 +38,13 @@ export default {
   data() {
     return {
       curCity1: '',
-      curCity:'',
+      curCity: '',
       cits: {},
       cities: {
-        1:'北京',
-        2:'上海',
-        3:'广州',
-        4:'郑州'
+        1: '北京',
+        2: '上海',
+        3: '广州',
+        4: '郑州'
       }
     }
   },
@@ -52,24 +52,26 @@ export default {
     onChange(obj) {
       console.log(obj)
     },
+    onChangeC1(obj) {
+      console.log('emit:', obj)
+    },
     onFocus(e) {
-      setTimeout(()=>{
+      setTimeout(() => {
 
-        this.cits = {...this.cities}
-      },1000)
+        this.cits = { ...this.cities }
+      }, 1000)
     },
     onBlur(e) {
       console.log(e)
     }
   },
   mounted() {
-    // setTimeout(()=>{
-    //   this.curCity = 1
-    // },1000)
+    setTimeout(() => {
+      this.curCity1 = 1
+    }, 1000)
   }
 }
 </script>
 
 <style>
-
 </style>

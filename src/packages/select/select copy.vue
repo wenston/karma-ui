@@ -17,7 +17,7 @@ export default {
   },
   props: {
     size: {
-      type: String,
+      type:String,
       default: 'medium'
     },
     value: {
@@ -62,8 +62,7 @@ export default {
       ins: null,
       options: [], //收集本组件下属的所有option组件
       optionCompName: "",
-      isMouseDownOption: false,
-      timer: null
+      isMouseDownOption: false
     }
   },
   computed: {
@@ -81,9 +80,7 @@ export default {
       this.toggleList()
     },
     clear() {
-      const obj = { k: '', v: '' }
-      this._change(obj, false, true)
-      this.emit(obj)
+      this._change({}, false, true)
       this.showDelete = false
     },
     showDeleteBtn() {
@@ -124,14 +121,8 @@ export default {
       this.modelValue = obj.v
       isFocus && this.$refs.input.focus()
       this.$emit("modelKeyChange", obj.k)
+      this.$emit("change", obj)
       hide && this.hideList()
-    },
-    emit(obj) {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.$emit('change', obj)
-
-      }, 50)
     },
     rIcon() {
       if (this.showDelete && this.clearable) {
@@ -235,13 +226,11 @@ export default {
       if (!this.options[i]) {
         return
       }
-      const obj = { k: this.options[i].value, v: this.options[i].label }
       this._change(
-        obj,
+        { k: this.options[i].value, v: this.options[i].label },
         false,
         true
       )
-      this.emit(obj)
       this.scrollIntoViewIfNeed(i)
 
       e.preventDefault()
@@ -302,12 +291,9 @@ export default {
     })
   },
   created() {
-    this.$on("getKeyValueFromOption", (k, v, hide, isFocus, isEmit) => {
+    this.$on("getKeyValueFromOption", (k, v, hide, isFocus) => {
+      // console.log(k,v)
       this._change({ k, v }, hide, isFocus)
-      // console.log('select组件', k, v)
-      if (isEmit) {
-        this.emit({ k, v })
-      }
     })
     this.$on("getOptionComponentName", name => {
       this.optionCompName = name
@@ -325,7 +311,7 @@ export default {
   watch: {
     modelKey(n) {
       if (n === undefined || n === "") {
-        this._change({ k: '', v: '' }, false, false)
+        this._change({})
       }
     },
     ifOptionList(val) {
@@ -381,11 +367,11 @@ export default {
           if (!this.isMouseDownOption) {
             this.hideList()
           }
-          this.$emit('blur', e)
+          this.$emit('blur',e)
         },
-        keyup: e => {
-          if (e.keyCode == 40) {
-            if (!this.showOptionList) {
+        keyup:e=>{
+          if(e.keyCode==40) {
+            if(!this.showOptionList) {
               this.toggleList()
               e.stopPropagation()
             }
