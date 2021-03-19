@@ -256,21 +256,26 @@ export default {
       const valueField = this.valueField;
       let v = "";
       let i = 0;
+      let row;
       const l = this.data.length;
       while (i < l) {
         if (this.data[i][valueField] === inputText && inputText) {
           v = this.data[i][keyField];
+          row = this.data[i]
           break;
         }
         i++;
       }
       if (!v) {
         this.noMatch = true
+        // this.$emit('valueChange','')//不能加，加了会清空已输入的文本
+        this.$emit('toggle',{row,index:undefined})
         // console.log(v, '没有匹配！！')
 
       } else {
         this.noMatch = false
         this.$emit('valueChange', v)
+        this.$emit('toggle',{row,index:i})
       }
     },
     //
