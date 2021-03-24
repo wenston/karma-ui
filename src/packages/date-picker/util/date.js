@@ -61,6 +61,7 @@ export const isSameDate = (d1, d2) => {
   return isSameDay(d1, d2) && isSameMonth(d1, d2) && isSameYear(d1, d2)
 }
 export const formatDate = (date) => {
+
   date = new Date(date)
   const y = date.getFullYear()
   let m = date.getMonth() + 1
@@ -81,7 +82,7 @@ export const addDays = (date, day) => {
 export const getMondayInThisWeek = () => {
   const d = getNow()
   let day = d.getDay()
-  if(day === 0) {
+  if (day === 0) {
     day = 7
   }
   return addDays(new Date(), (day - 1) * -1)
@@ -102,15 +103,15 @@ export const getLastMonth = () => {
   const d = getNow()
   const m = d.getMonth() + 1
   let y = d.getFullYear()
-  const lastM = addMonths(m,-1)
-  if(lastM>m) {
+  const lastM = addMonths(m, -1)
+  if (lastM > m) {
     y = y - 1
   }
   const days = getMonths(y)[lastM]
   const start = formatDate(`${y}-${lastM}-1`)
   return {
     start,
-    end: formatDate(addDays(start,days-1))
+    end: formatDate(addDays(start, days - 1))
   }
 }
 export default {
