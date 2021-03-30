@@ -85,7 +85,10 @@ export default {
       type: Boolean,
       default: false
     },
-    clearWhenNoMatch: Boolean,
+    clearWhenNoMatch: {
+      type: Boolean,
+      default: true
+    },
     loading: Boolean,
     empty: [Function, Object, Array, String],
     matchFromDatabase: Boolean
@@ -168,7 +171,7 @@ export default {
             v==='') {
               if (!this.disabled) {
                 this.pageIndex = 1;
-                this.inputText = "";
+                // this.inputText = "";
                 this.currentHoverIndex = this.currentIndex = -1;
                 if (this.visible) {
                   this.$refs.input.focus();
@@ -235,6 +238,7 @@ export default {
               },
               e
             );
+            this.noMatch=false
             this.hideList(this.destroyLayer);
           }
           return;
@@ -266,10 +270,13 @@ export default {
         }
         i++;
       }
+      // console.log(inputText,'v::',v)
       if (!v) {
         this.noMatch = true
         // this.$emit('valueChange','')//不能加，加了会清空已输入的文本
-        this.$emit('toggle',{row,index:undefined})
+
+        // this.inputText = inputText
+        // this.$emit('toggle',{row,index:undefined})
         // console.log(v, '没有匹配！！')
 
       } else {
@@ -514,6 +521,7 @@ export default {
 
               if (this.noMatch && this.clearWhenNoMatch) {
                 this.$emit('valueChange', '')
+                this.$emit('toggle',{row:undefined,index:undefined})
               }
             }
           },
@@ -629,6 +637,7 @@ export default {
                         this.currentIndex = index;
                         this.$emit("valueChange", item[this.keyField]);
                         this.$emit("toggle", { row: item, index });
+                        this.noMatch = false
                         this.hideList(this.destroyLayer);
                       }
                     }

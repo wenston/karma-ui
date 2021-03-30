@@ -12,7 +12,6 @@
         placeholder="商品名称"
         @focus="onFocus"
         @toggle="onToggle"
-        @input="onInput"
         :empty="empty"
         matchFromDatabase
         pageSize="11">
@@ -68,7 +67,7 @@
         placeholder="商品名称"
         @focus="onFocus"
         @toggle="onToggle"
-        @input="onInput"
+        clear-when-no-match
         pageSize="11">
         <div slot="header"
           class="list header">
@@ -661,11 +660,6 @@ export default {
     },
     onToggle(e) {
       console.log("toggle", e)
-    },
-    onInput(text) {
-      setTimeout(() => {
-        this.list = this.list1.slice(0, Math.round(Math.random() * 15 + 1))
-      }, 200)
     }
   },
   mounted() {

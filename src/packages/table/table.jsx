@@ -95,7 +95,43 @@ export default {
           this.setHighlightRow({ key: v })
         })
       }
-    }
+    },
+    data: {
+      immediate: true,
+      handler(d) {
+        let b = false
+        const { thead } = this.$refs
+        if(d.length) {
+          if(thead) {
+            //设置表头的全选复选框状态
+            const keys = [...this.selectedKeys.map(s=>s+'')]
+            if(keys.length) {
+              const ks = d.map(el=>{
+                return el[this.checkboxKey]+''
+              })
+              if(keys.length>=ks.length) {
+                let _b = true
+                let i = 0
+                let len = ks.length
+    
+                while(i<len) {
+                  if(!keys.some(k=>k===ks[i])) {
+                    _b = false
+                    break
+                  }
+                  i++
+                }
+                if(_b) {
+                  b = true
+                }
+  
+              }
+            }
+          }
+        }
+        thead && thead.onCheckedAll(b)
+      }
+    },
   },
   methods: {
     onMouseoutTr(e) {

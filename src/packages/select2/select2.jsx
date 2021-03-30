@@ -390,6 +390,7 @@ export default {
     clear() {
       this.dataValue = []
       this.emitValue()
+      this.$emit('toggle',[])
     },
     hideLayer() {
       this.visible = false
