@@ -34,8 +34,8 @@
       :selectedRows.sync="selectedRows"
       :selectedKeys.sync="selectedKeys"
       :checkable="checkable"
-      :leftFixedNumber="2"
-      :rightFixedNumber="1"
+      :leftFixedNumber="0"
+      :rightFixedNumber="3"
       @sort="onSort"
       :draggable="true">
       <template slot="xxx"
