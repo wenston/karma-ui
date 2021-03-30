@@ -4,6 +4,7 @@
     <k-table :data="table"
       min-content
       :columns="columns"
+      leftFixedNumber="2"
       has-radio
       radio-key="name"
       has-index

@@ -196,11 +196,13 @@ export default {
         this.scrollLeft = tar.scrollLeft
         if (thead) {
           const theadEl = thead.$el
-          theadEl.style.top = scrollTop + "px"
+          // theadEl.style.top = scrollTop + "px"
           if (scrollTop > 0) {
             theadEl.classList.add("k-theadwrapper-shadow")
+            // theadEl.classList.add("k-thead-sticky")
           } else {
             theadEl.classList.remove("k-theadwrapper-shadow")
+            // theadEl.classList.remove("k-thead-sticky")
           }
           if (this.leftFixedNumber || this.rightFixedNumber) {
             this.fixedLeftThead(theadEl)
@@ -209,11 +211,14 @@ export default {
         if (tfoot) {
           const tfootEl = tfoot.$el
           const bottom = scrollHeight - clientHeight - scrollTop
-          tfootEl.style.bottom = bottom + "px"
+          // tfootEl.style.bottom = bottom + "px"
+          const footTable = tfootEl.querySelector(".k-table")
           if (bottom > 0) {
-            tfootEl.querySelector(".k-table").classList.add("k-tfootshadow")
+            footTable.classList.add("k-tfootshadow")
+            // tfootEl.classList.add("k-tfoot-sticky")
           } else {
-            tfootEl.querySelector(".k-table").classList.remove("k-tfootshadow")
+            footTable.classList.remove("k-tfootshadow")
+            // tfootEl.classList.remove("k-tfoot-sticky")
           }
           if (this.leftFixedNumber || this.rightFixedNumber) {
             this.fixedLeftTfoot(tfootEl)
