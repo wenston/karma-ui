@@ -435,7 +435,12 @@ export default {
       if(this.leftFixedNumber) {
         const {thead,tbody,tfoot} = this.$refs
         // const tds = [...tbody.$el.querySelector('.k-table>thead>tr>td')]
-        const tds = [...tbody.$el.querySelectorAll('.k-tbody>tbody>tr:first-child>td')].slice(0, this.leftFixedNumber)
+        const tds = [...tbody.$el.querySelectorAll('.k-tbody>tbody>tr:first-child>td')]
+          .slice(0, this.leftFixedNumber)
+        tds.forEach(td=>{
+          td.style.removeProperty('position')
+          td.style.removeProperty('left')
+        })
         this.leftSticky = tds.map(td=>td.offsetLeft+'px')
         tbody.$el.querySelectorAll('.k-tbody>tbody>tr').forEach(tr=>{
           [...tr.querySelectorAll('td')].slice(0,this.leftFixedNumber-0).forEach((td,i)=>{
@@ -463,6 +468,10 @@ export default {
         // const tds = [...tbody.$el.querySelector('.k-table>thead>tr>td')]
         const tds = [...tbody.$el.querySelectorAll('.k-tbody>tbody>tr:first-child>td')]
         .slice(-1*this.rightFixedNumber).reverse()
+        tds.forEach(td=>{
+          td.style.removeProperty('position')
+          td.style.removeProperty('right')
+        })
         this.rightSticky = []
         let ws = tds.map(td=>td.offsetWidth)
         tds.forEach((td,i)=>{
@@ -626,6 +635,7 @@ export default {
     }
   },
   updated() {
+    this.init()
     this.clearCells()
     this.onTableWrapperScroll()
   },

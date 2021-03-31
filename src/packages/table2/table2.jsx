@@ -189,5 +189,10 @@ export default {
   },
   updated() {
     // console.log('table2 updated')
+    setTimeout(()=>{
+      if(this.$refs.table) {
+        this.$refs.table.init()
+      }
+    })
   }
 }
