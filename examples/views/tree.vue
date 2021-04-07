@@ -26,6 +26,10 @@
         lazy>
         <div slot-scope="{item}">{{item.Code}} - {{item.Name}}</div>
       </k-tree>
+
+      <k-tree class="tree"
+        :data="bigdata"
+        hasCheckbox />
     </div>
     <div>
       <k-button @click="change">改变树形组件的选择项</k-button>
@@ -36,6 +40,7 @@
 </template>
 
 <script>
+import treeData from './treeData'
 export default {
   data() {
     return {
@@ -351,7 +356,8 @@ export default {
       ],
       categoryId: 39,
       selectedData: [],
-      selectedKeys: []
+      selectedKeys: [],
+      bigdata: treeData
     }
   },
   methods: {
@@ -364,22 +370,22 @@ export default {
           d.push({
             Code: Math.floor(Math.random() * 1000),
             Name: (Math.round(Math.random() * 20901) + 19968).toString(16),
-            IsLeaf: Math.random()>0.5
+            IsLeaf: Math.random() > 0.5
           })
           // console.log(this.tree3)
         })
         setTimeout(() => {
           res(d)
-        }, Math.random()*500)
+        }, Math.random() * 500)
       })
     },
     addItem() {
       this.curItem.Childs.push(
         {
-            Code: Math.floor(Math.random() * 1000),
-            Name: (Math.round(Math.random() * 20901) + 19968).toString(16),
-            IsLeaf: Math.random()>0.5
-          }
+          Code: Math.floor(Math.random() * 1000),
+          Name: (Math.round(Math.random() * 20901) + 19968).toString(16),
+          IsLeaf: Math.random() > 0.5
+        }
       )
     },
     changeData() {
@@ -388,7 +394,7 @@ export default {
     toggleNode(arr) {
       let item = arr[arr.length - 1]
       this.curItem = item
-      console.log('toggleNode',this.curItem)
+      console.log('toggleNode', this.curItem)
       // item.Name = '改变值'
     },
     change() {

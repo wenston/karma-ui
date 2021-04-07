@@ -27,9 +27,9 @@ export function selectChilds(
     }
   } else {
     if (checked) {
-      set.add(item[keyField])
+      set.add(item[keyField]+'')
     } else {
-      set.delete(item[keyField])
+      set.delete(item[keyField]+'')
     }
   }
   checkedKeys = [...set]
@@ -116,9 +116,9 @@ export function selectParent(
     checkedKeys = [...set]
   } else {
     if (checked) {
-      set.add(item[keyField])
+      set.add(item[keyField]+'')
     } else {
-      set.delete(item[keyField])
+      set.delete(item[keyField]+'')
     }
     checkedKeys = [...set]
   }
