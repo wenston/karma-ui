@@ -50,14 +50,13 @@
   cursor: pointer;
   text-align: left;
   border-radius: var(--option-radius);
-  &.k-select2-list-item-checked {
-    color: var(--option-selected-color);
-    background-color: var(--option-selected-bg-color);
-  }
   &:hover,
   &.k-select2-list-item-hover {
     color: var(--option-hover-color);
     background: var(--option-hover-bg-color);
+  }
+  &.k-select2-list-item-disabled {
+    cursor: not-allowed;
   }
   .k-select2-checkbox {
     display: block;

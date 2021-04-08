@@ -186,6 +186,7 @@
   --checkbox-checked-disabled-border-color: color(
     var(--disabled-color) b(+30%)
   );
+  --checkbox-disabled-text-color: color(var(--disabled-color) l(-20%));
   --checkbox-text-color: var(--font-color-2);
   --checkbox-text-font-size: 12px;
   --checkbox-checked-text-color: var(--primary-color);

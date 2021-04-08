@@ -193,12 +193,17 @@ export default {
     },
     dateToString() {
       if (this.currentDate) {
-        const y = this.currentYear;
-        const m = this.currentMonth;
-        const d = this.currentDay;
-        return util.formatDate(`${y}-${m}-${d}`);
+        // const y = this.currentYear
+        // const m = this.currentMonth
+        // const d = this.currentDay
+        // const w = util.toDateType(this.currentDate)
+        // const f = util.formatDate(w)
+        // return f
+        // debugger;
+        const w = util.formatDate(this.currentDate)
+        return w
       } else {
-        return '';
+        return ""
       }
     },
     setDateByDay(day) {

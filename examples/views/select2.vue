@@ -11,10 +11,9 @@
         placeholder="请选择"
         :checkable="checkable"
         :nearby="true"
+        clearable
         :show.sync="show">
-        <div slot-scope="{row}">
-          <em>{{row.Contact}}</em>
-        </div>
+
         <div slot="footer">
           <k-button size="mini">刷新</k-button>
         </div>
@@ -780,7 +779,12 @@ export default {
     },
   },
   methods: {
-    checkable() {},
+    checkable(item, index) {
+      if (item.Name.length > 6) {
+        return true;
+      }
+      return false;
+    },
   },
   mounted() {
     // setTimeout(()=>{
