@@ -306,7 +306,9 @@ export default {
           }
         }
       } else {
-        if (this.text) {
+        if(this.inputText) {
+          text = this.inputText
+        }else if (this.text) {
           text = this.text;
         }
       }

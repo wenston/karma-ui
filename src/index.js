@@ -24,7 +24,7 @@ import KScrollbar from 'karma-ui/packages/scrollbar/index.js'
 import KTransition from 'karma-ui/packages/transition/index.js'
 import KTable from 'karma-ui/packages/table/index.js'
 import KTable2 from 'karma-ui/packages/table2/index.js'
-// import KLayer from 'karma-ui/packages/layer/index.js'
+import KLayer from 'karma-ui/packages/layer/index.js'
 import board from 'karma-ui/packages/board/index.js'
 import KIcon from 'karma-ui/packages/icon/index.js'
 import KAutoComplete from 'karma-ui/packages/auto-complete/index.js'
@@ -69,7 +69,7 @@ let obj = {
   KTransition,
   KTable,
   KTable2,
-  // KLayer,
+  KLayer,
   board,
   KAutoComplete,
   KTree,
