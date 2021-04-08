@@ -22,8 +22,6 @@
         range
         ref="dp2"
         nearby
-        
-        
         @getLayerElement="getDatePickerElement"></k-date-picker>
     </div>
     <div>
@@ -43,24 +41,24 @@ export default {
       show: true,
       show1: false,
       start: new Date(),
-      end: new Date()
-    }
+      end: new Date(),
+    };
   },
   computed: {
     max() {
-      return new Date()
+      return new Date();
     },
     min() {
-      return new Date() - 15 * 3600 * 24 * 1000
-    }
+      return new Date() - 15 * 3600 * 24 * 1000;
+    },
   },
   methods: {
     toggle(e) {
-      this.show = !this.show
+      this.show = !this.show;
     },
     getDatePickerElement(el) {
-      console.log(el)
-    }
+      console.log(el);
+    },
   },
   watch: {
     value(v) {
@@ -71,9 +69,9 @@ export default {
     },
     end(d) {
       // console.log(d)
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>
