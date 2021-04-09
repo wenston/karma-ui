@@ -9,11 +9,14 @@ export default {
   props: {
     ...props,
     item: Object,
-    index: Number,
     isLastOne: Boolean, //是不是数组中最后一条数据
     active: [Number, String], //当前选择的节点数据
     spread: Boolean, //
-    scopedSlots: Object
+    scopedSlots: Object,
+    canck: {
+      type: Boolean,
+      default: undefined
+    }
   },
   data() {
     return {
@@ -24,6 +27,12 @@ export default {
   },
   inject: ["tree"],
   methods: {
+    canCheck(item) {
+      if(this.checkable) {
+        return this.checkable(item)
+      }
+      return true
+    },
     isSelected(item) {
       //console.log(item,this.selectedData)
       const set = new Set(this.tree.checkedKeys.map(t => t + ""))
@@ -63,7 +72,7 @@ export default {
       }
       return <k-icon {...p} />
     },
-    renderText(item,index) {
+    renderText(item) {
       const { textField, keyField, active, hasCheckbox } = this
       const p = {
         attrs: {
@@ -94,7 +103,7 @@ export default {
         text = (
           <span {...p}>
             {this.scopedSlots.default({
-              item, index
+              item
             })}
           </span>
         )
@@ -118,7 +127,8 @@ export default {
                 checked,
                 this.keyField,
                 this.childField,
-                this.selectedRule
+                this.selectedRule,
+                this.checkable
               )
               //选中、取消选中父级所有节点
               // this.selectParent(item, checked)
@@ -129,7 +139,8 @@ export default {
                 checked,
                 this.keyField,
                 this.childField,
-                this.selectedRule
+                this.selectedRule,
+                this.checkable
               )
               //复选或者取消复选时，当前节点数据
               this.tree.$emit("select", checked, item)
@@ -144,6 +155,9 @@ export default {
               e.stopPropagation()
             }
           }
+        }
+        if(this.canck!==undefined) {
+          checkProp.props.disabled=!this.canck
         }
         return [<k-checkbox {...checkProp} />, text]
       }
@@ -245,6 +259,10 @@ export default {
         }
       ]
     }
+    if(this.checkable) {
+      child.props.canck = this.checkable(this.item) && this.canck
+      // console.log(this.item.Name,child.props.canck)
+    }
     const itemProps = {
       class: [
         "k-tree-item",
@@ -257,7 +275,7 @@ export default {
       <div {...itemProps}>
         <div class="k-tree-item-k">
           {this.renderIconWrapper()}
-          {this.renderText(this.item, this.index)}
+          {this.renderText(this.item)}
         </div>
         <k-transition
           onAfter-transition={() => {

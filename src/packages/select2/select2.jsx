@@ -69,7 +69,8 @@ export default {
       default: null
     },
     nearby: Boolean,
-    footer: [Function, Array, Object, String, Number]
+    footer: [Function, Array, Object, String, Number],
+    checkable: Function
   },
   data() {
     let arr = []
@@ -134,6 +135,12 @@ export default {
     }
   },
   methods: {
+    canCheck(item,index) {
+      if(this.checkable) {
+        return this.checkable(item,index)
+      }
+      return true
+    },
     setDisabled(arr) {
       this.disabledArr = arr
     },
@@ -246,7 +253,8 @@ export default {
                 text: item[this.textField],
                 value: item[this.keyField],
                 checked,
-                disabled: this.disabledArr.some(id => id == item[this.keyField])
+                // disabled: this.disabledArr.some(id => id == item[this.keyField])
+                disabled: !this.canCheck(item,index)
               },
               on: {
                 checkedChange: checked => {
@@ -347,8 +355,11 @@ export default {
       }
     },
     rCheckedAll() {
-      if(this.dataValue.length && this.dataValue.length === this.data.length) {
-        this.isCheckedAll = true
+      if(this.dataValue.length) {
+        let len = this.data.filter((d,i)=>this.canCheck(d,i)).length
+        this.isCheckedAll = len === this.dataValue.length
+      } else {
+        this.isCheckedAll = false
       }
       const checkProps = {
         props: {
@@ -367,9 +378,21 @@ export default {
                   }
                 })
               } else {
-                filterData.forEach(el => {
-                  set.add(el[this.keyField] + "")
-                })
+                if(this.checkable) {
+                  filterData.forEach((el,i) => {
+                    if(this.canCheck(el,i)) {
+                      set.add(el[this.keyField] + "")
+
+                    }
+                  })
+
+                } else {
+                  filterData.forEach((el) => {
+                    
+                    set.add(el[this.keyField] + "")
+                  })
+
+                }
               }
               this.dataValue = [...set]
             } else {

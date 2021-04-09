@@ -61,5 +61,7 @@ export default {
   accordion: {
     type: Boolean,
     default: true
-  }
+  },
+  
+  checkable: Function
 }

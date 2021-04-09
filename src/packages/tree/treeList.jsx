@@ -8,7 +8,11 @@ export default {
   props: {
     ...props,
     scopedSlots: Object,
-    active: [String, Number] //当前选择的节点数据
+    active: [String, Number], //当前选择的节点数据,
+    canck: {
+      type: Boolean,
+      default: undefined
+    }
   },
   data() {
     return {
@@ -36,7 +40,13 @@ export default {
     toggle(e) {
       //暂时用不到这种方式
       // this.$emit('toggle',e)
-    }
+    },
+    canCheck(item) {
+      if(this.checkable) {
+        return this.checkable(item)
+      }
+      return true
+    },
   },
   render() {
     let { data: sourceData, treeProps } = this
@@ -47,7 +57,6 @@ export default {
         props: {
           ...this.$props,
           item,
-          index: i,
           isLastOne: i === len,
           spread: item.__open__
         },
@@ -68,6 +77,22 @@ export default {
             }
           }
         }
+      }
+      //只要父级不能选，则其子级就不能选
+      //
+      if(this.checkable) {
+        // treeItemProps.props.canck = !this.canCheck(item)
+        // let c = this.canck && this.canCheck(item)
+        let c
+        if(this.canck!==undefined) {
+          c = this.canck
+        }
+        if(c || c === undefined) {
+          if(this.checkable) {
+            c=this.checkable(item)
+          }
+        }
+        treeItemProps.props.canck = c
       }
       return <k-tree-item {...treeItemProps} />
     })

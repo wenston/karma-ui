@@ -21,7 +21,6 @@
     border-left: none;
     border-right: none;
     &:focus {
-
       /* box-shadow: none; */
     }
   }
@@ -52,8 +51,11 @@
   text-align: left;
   border-radius: var(--option-radius);
   &.k-select2-list-item-checked {
-    color:var(--option-selected-color);
-    background-color:var(--option-selected-bg-color)
+    color: var(--option-selected-color);
+    background-color: var(--option-selected-bg-color);
+  }
+  &.k-select2-list-item-disabled {
+    cursor: not-allowed;
   }
   &:hover,
   &.k-select2-list-item-hover {
