@@ -62,4 +62,5 @@ export default {
     type: Boolean,
     default: true,
   },
+  checkable: Function
 };

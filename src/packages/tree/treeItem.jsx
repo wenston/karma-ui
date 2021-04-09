@@ -23,6 +23,12 @@ export default {
   },
   inject: ["tree"],
   methods: {
+    canCheck(item) {
+      if(this.checkable) {
+        return this.checkable(item)
+      }
+      return true
+    },
     isSelected(item) {
       //console.log(item,this.selectedData)
       const set = new Set(this.tree.checkedKeys.map(t => t + ""))
@@ -105,7 +111,8 @@ export default {
           class: "k-tree-checkbox",
           props: {
             checked: this.isSelected(item),
-            value: item[keyField]
+            value: item[keyField],
+            disabled: !this.canCheck(item)
           },
           on: {
             checkedChange: checked => {

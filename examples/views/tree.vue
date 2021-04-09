@@ -3,10 +3,14 @@
     <h3 class="layout__title">tree 树形组件</h3>
     <div style="display:flex;">
       <k-tree class="tree"
+        keyField="Id"
+        textField="Name"
+        childField="Childs"
         :data="treeDataBig"
         size="big"
         :selectedData.sync="selectedData"
         :icon="['k-icon-arrow-right','k-icon-arrow-down','k-icon-success']"
+        :checkable="checkable"
         hasCheckbox></k-tree>
       <k-tree class="tree"
         :data="treeData"
@@ -39,29 +43,29 @@
 export default {
   data() {
     return {
-      curValue: '',
+      curValue: "",
       curItem: {},
       tree3: [
         {
           Code: 1,
-          Name: "资产类"
+          Name: "资产类",
         },
         {
           Code: 2,
-          Name: "负债类"
+          Name: "负债类",
         },
         {
           Code: 3,
-          Name: "共同类"
+          Name: "共同类",
         },
         {
           Code: 4,
-          Name: "所有者权益类"
+          Name: "所有者权益类",
         },
         {
           Code: 5,
-          Name: "成本类"
-        }
+          Name: "成本类",
+        },
       ],
       treeData: [
         {
@@ -80,8 +84,8 @@ export default {
                   Childs: [
                     { Id: 28, Name: "mate20", PId: 14, Childs: [] },
                     { Id: 85, Name: "magic2", PId: 14, Childs: [] },
-                    { Id: 55, Name: "8x", PId: 14, Childs: [] }
-                  ]
+                    { Id: 55, Name: "8x", PId: 14, Childs: [] },
+                  ],
                 },
                 { Id: 4, Name: "华为", PId: 1, Childs: [] },
                 { Id: 41, Name: "小米", PId: 1, Childs: [] },
@@ -92,28 +96,30 @@ export default {
                   PId: 1,
                   Childs: [
                     { Id: 225, Name: "iphoneX", PId: 63, Childs: [] },
-                    { Id: 227, Name: "iphone6", PId: 63, Childs: [] }
-                  ]
+                    { Id: 227, Name: "iphone6", PId: 63, Childs: [] },
+                  ],
                 },
                 {
                   Id: 86,
                   Name: "OPPO",
                   PId: 1,
-                  Childs: [{ Id: 87, Name: "r17", PId: 86, Childs: [] }]
+                  Childs: [{ Id: 87, Name: "r17", PId: 86, Childs: [] }],
                 },
                 {
                   Id: 92,
                   Name: "努比亚",
                   PId: 1,
-                  Childs: [{ Id: 93, Name: "红魔", PId: 92, Childs: [] }]
+                  Childs: [{ Id: 93, Name: "红魔", PId: 92, Childs: [] }],
                 },
                 {
                   Id: 107,
                   Name: "VIVO",
                   PId: 1,
-                  Childs: [{ Id: 108, Name: "VIVO  NEX", PId: 107, Childs: [] }]
-                }
-              ]
+                  Childs: [
+                    { Id: 108, Name: "VIVO  NEX", PId: 107, Childs: [] },
+                  ],
+                },
+              ],
             },
             {
               Id: 2,
@@ -126,13 +132,13 @@ export default {
                   PId: 2,
                   Childs: [
                     { Id: 39, Name: "毁灭者", PId: 36, Childs: [] },
-                    { Id: 40, Name: "飞行堡垒", PId: 36, Childs: [] }
-                  ]
+                    { Id: 40, Name: "飞行堡垒", PId: 36, Childs: [] },
+                  ],
                 },
                 { Id: 37, Name: "惠普", PId: 2, Childs: [] },
                 { Id: 38, Name: "苹果", PId: 2, Childs: [] },
-                { Id: 84, Name: "联想", PId: 2, Childs: [] }
-              ]
+                { Id: 84, Name: "联想", PId: 2, Childs: [] },
+              ],
             },
             { Id: 29, Name: "智能穿戴", PId: 0, Childs: [] },
             { Id: 10, Name: "家电", PId: 0, Childs: [] },
@@ -147,8 +153,8 @@ export default {
                   PId: 13,
                   Childs: [
                     { Id: 25, Name: "英语本", PId: 23, Childs: [] },
-                    { Id: 24, Name: "数学本", PId: 23, Childs: [] }
-                  ]
+                    { Id: 24, Name: "数学本", PId: 23, Childs: [] },
+                  ],
                 },
                 {
                   Id: 22,
@@ -156,16 +162,16 @@ export default {
                   PId: 13,
                   Childs: [
                     { Id: 26, Name: "足球", PId: 22, Childs: [] },
-                    { Id: 27, Name: "跳绳", PId: 22, Childs: [] }
-                  ]
+                    { Id: 27, Name: "跳绳", PId: 22, Childs: [] },
+                  ],
                 },
                 {
                   Id: 64,
                   Name: "教材类",
                   PId: 13,
-                  Childs: [{ Id: 65, Name: "小学教材", PId: 64, Childs: [] }]
-                }
-              ]
+                  Childs: [{ Id: 65, Name: "小学教材", PId: 64, Childs: [] }],
+                },
+              ],
             },
             {
               Id: 42,
@@ -176,9 +182,9 @@ export default {
                   Id: 43,
                   Name: "耳机",
                   PId: 42,
-                  Childs: [{ Id: 44, Name: "蓝牙", PId: 43, Childs: [] }]
-                }
-              ]
+                  Childs: [{ Id: 44, Name: "蓝牙", PId: 43, Childs: [] }],
+                },
+              ],
             },
             {
               Id: 77,
@@ -189,9 +195,9 @@ export default {
                   Id: 78,
                   Name: "Nova",
                   PId: 77,
-                  Childs: [{ Id: 79, Name: "Nova4", PId: 78, Childs: [] }]
-                }
-              ]
+                  Childs: [{ Id: 79, Name: "Nova4", PId: 78, Childs: [] }],
+                },
+              ],
             },
             {
               Id: 88,
@@ -202,12 +208,12 @@ export default {
                   Id: 89,
                   Name: "智能机器人",
                   PId: 88,
-                  Childs: [{ Id: 90, Name: "小艾机器人", PId: 89, Childs: [] }]
-                }
-              ]
-            }
-          ]
-        }
+                  Childs: [{ Id: 90, Name: "小艾机器人", PId: 89, Childs: [] }],
+                },
+              ],
+            },
+          ],
+        },
       ],
       treeDataBig: [
         {
@@ -222,8 +228,8 @@ export default {
               Childs: [
                 { Id: 28, Name: "mate20", PId: 14, Childs: [] },
                 { Id: 85, Name: "magic2", PId: 14, Childs: [] },
-                { Id: 55, Name: "8x", PId: 14, Childs: [] }
-              ]
+                { Id: 55, Name: "8x", PId: 14, Childs: [] },
+              ],
             },
             { Id: 4, Name: "华为", PId: 1, Childs: [] },
             { Id: 41, Name: "小米", PId: 1, Childs: [] },
@@ -234,28 +240,28 @@ export default {
               PId: 1,
               Childs: [
                 { Id: 225, Name: "iphoneX", PId: 63, Childs: [] },
-                { Id: 227, Name: "iphone6", PId: 63, Childs: [] }
-              ]
+                { Id: 227, Name: "iphone6", PId: 63, Childs: [] },
+              ],
             },
             {
               Id: 86,
               Name: "OPPO",
               PId: 1,
-              Childs: [{ Id: 87, Name: "r17", PId: 86, Childs: [] }]
+              Childs: [{ Id: 87, Name: "r17", PId: 86, Childs: [] }],
             },
             {
               Id: 92,
               Name: "努比亚",
               PId: 1,
-              Childs: [{ Id: 93, Name: "红魔", PId: 92, Childs: [] }]
+              Childs: [{ Id: 93, Name: "红魔", PId: 92, Childs: [] }],
             },
             {
               Id: 107,
               Name: "VIVO",
               PId: 1,
-              Childs: [{ Id: 108, Name: "VIVO  NEX", PId: 107, Childs: [] }]
-            }
-          ]
+              Childs: [{ Id: 108, Name: "VIVO  NEX", PId: 107, Childs: [] }],
+            },
+          ],
         },
         {
           Id: 2,
@@ -268,13 +274,13 @@ export default {
               PId: 2,
               Childs: [
                 { Id: 39, Name: "毁灭者", PId: 36, Childs: [] },
-                { Id: 40, Name: "飞行堡垒", PId: 36, Childs: [] }
-              ]
+                { Id: 40, Name: "飞行堡垒", PId: 36, Childs: [] },
+              ],
             },
             { Id: 37, Name: "惠普", PId: 2, Childs: [] },
             { Id: 38, Name: "苹果", PId: 2, Childs: [] },
-            { Id: 84, Name: "联想", PId: 2, Childs: [] }
-          ]
+            { Id: 84, Name: "联想", PId: 2, Childs: [] },
+          ],
         },
         { Id: 29, Name: "智能穿戴", PId: 0, Childs: [] },
         { Id: 10, Name: "家电", PId: 0, Childs: [] },
@@ -289,8 +295,8 @@ export default {
               PId: 13,
               Childs: [
                 { Id: 25, Name: "英语本", PId: 23, Childs: [] },
-                { Id: 24, Name: "数学本", PId: 23, Childs: [] }
-              ]
+                { Id: 24, Name: "数学本", PId: 23, Childs: [] },
+              ],
             },
             {
               Id: 22,
@@ -298,16 +304,16 @@ export default {
               PId: 13,
               Childs: [
                 { Id: 26, Name: "足球", PId: 22, Childs: [] },
-                { Id: 27, Name: "跳绳", PId: 22, Childs: [] }
-              ]
+                { Id: 27, Name: "跳绳", PId: 22, Childs: [] },
+              ],
             },
             {
               Id: 64,
               Name: "教材类",
               PId: 13,
-              Childs: [{ Id: 65, Name: "小学教材", PId: 64, Childs: [] }]
-            }
-          ]
+              Childs: [{ Id: 65, Name: "小学教材", PId: 64, Childs: [] }],
+            },
+          ],
         },
         {
           Id: 42,
@@ -318,9 +324,9 @@ export default {
               Id: 43,
               Name: "耳机",
               PId: 42,
-              Childs: [{ Id: 44, Name: "蓝牙", PId: 43, Childs: [] }]
-            }
-          ]
+              Childs: [{ Id: 44, Name: "蓝牙", PId: 43, Childs: [] }],
+            },
+          ],
         },
         {
           Id: 77,
@@ -331,9 +337,9 @@ export default {
               Id: 78,
               Name: "Nova",
               PId: 77,
-              Childs: [{ Id: 79, Name: "Nova4", PId: 78, Childs: [] }]
-            }
-          ]
+              Childs: [{ Id: 79, Name: "Nova4", PId: 78, Childs: [] }],
+            },
+          ],
         },
         {
           Id: 88,
@@ -344,55 +350,59 @@ export default {
               Id: 89,
               Name: "智能机器人",
               PId: 88,
-              Childs: [{ Id: 90, Name: "小艾机器人", PId: 89, Childs: [] }]
-            }
-          ]
-        }
+              Childs: [{ Id: 90, Name: "小艾机器人", PId: 89, Childs: [] }],
+            },
+          ],
+        },
       ],
       categoryId: 39,
       selectedData: [],
-      selectedKeys: []
-    }
+      selectedKeys: [],
+    };
   },
   methods: {
+    checkable(item) {
+      if (item.Name.length > 3) {
+        return false;
+      }
+      return true;
+    },
     toLoad(item) {
-      return new Promise(res => {
-        let d = []
+      return new Promise((res) => {
+        let d = [];
         Array.apply(null, {
-          length: Math.floor(Math.random() * 5)
+          length: Math.floor(Math.random() * 5),
         }).forEach(() => {
           d.push({
             Code: Math.floor(Math.random() * 1000),
             Name: (Math.round(Math.random() * 20901) + 19968).toString(16),
-            IsLeaf: Math.random()>0.5
-          })
+            IsLeaf: Math.random() > 0.5,
+          });
           // console.log(this.tree3)
-        })
+        });
         setTimeout(() => {
-          res(d)
-        }, Math.random()*500)
-      })
+          res(d);
+        }, Math.random() * 500);
+      });
     },
     addItem() {
-      this.curItem.Childs.push(
-        {
-            Code: Math.floor(Math.random() * 1000),
-            Name: (Math.round(Math.random() * 20901) + 19968).toString(16),
-            IsLeaf: Math.random()>0.5
-          }
-      )
+      this.curItem.Childs.push({
+        Code: Math.floor(Math.random() * 1000),
+        Name: (Math.round(Math.random() * 20901) + 19968).toString(16),
+        IsLeaf: Math.random() > 0.5,
+      });
     },
     changeData() {
-      this.curItem.Name = '改变'
+      this.curItem.Name = "改变";
     },
     toggleNode(arr) {
-      let item = arr[arr.length - 1]
-      this.curItem = item
-      console.log('toggleNode',this.curItem)
+      let item = arr[arr.length - 1];
+      this.curItem = item;
+      console.log("toggleNode", this.curItem);
       // item.Name = '改变值'
     },
     change() {
-      this.categoryId = 87
+      this.categoryId = 87;
     },
     toggleTree(e) {
       // console.log(e)
@@ -402,14 +412,14 @@ export default {
     },
     onSelect(checked, obj) {
       // console.log('选中或者取消选中：',checked,obj)
-    }
+    },
   },
   watch: {
     selectedData(d) {
       // console.log("选择的数据", d)
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
