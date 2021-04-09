@@ -13,7 +13,8 @@ export default {
         parent = document.body,
         afterHide = () => {},
         bodyClassName,
-        alignment = 'left'
+        alignment = 'left',
+        offset
       }
     ) => {
       if (!elem[boardIns]) {
@@ -33,6 +34,7 @@ export default {
           width: "auto",
           bodyClassName,
           alignment,
+          offset,
           afterLeave: () => {
             afterHide()
             if (destroyWhenHide) {
