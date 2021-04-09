@@ -12,7 +12,11 @@ export default {
     isLastOne: Boolean, //是不是数组中最后一条数据
     active: [Number, String], //当前选择的节点数据
     spread: Boolean, //
-    scopedSlots: Object
+    scopedSlots: Object,
+    canck: {
+      type: Boolean,
+      default: undefined
+    }
   },
   data() {
     return {
@@ -111,8 +115,7 @@ export default {
           class: "k-tree-checkbox",
           props: {
             checked: this.isSelected(item),
-            value: item[keyField],
-            disabled: !this.canCheck(item)
+            value: item[keyField]
           },
           on: {
             checkedChange: checked => {
@@ -124,7 +127,8 @@ export default {
                 checked,
                 this.keyField,
                 this.childField,
-                this.selectedRule
+                this.selectedRule,
+                this.checkable
               )
               //选中、取消选中父级所有节点
               // this.selectParent(item, checked)
@@ -135,7 +139,8 @@ export default {
                 checked,
                 this.keyField,
                 this.childField,
-                this.selectedRule
+                this.selectedRule,
+                this.checkable
               )
               //复选或者取消复选时，当前节点数据
               this.tree.$emit("select", checked, item)
@@ -150,6 +155,9 @@ export default {
               e.stopPropagation()
             }
           }
+        }
+        if(this.canck!==undefined) {
+          checkProp.props.disabled=!this.canck
         }
         return [<k-checkbox {...checkProp} />, text]
       }
@@ -250,6 +258,10 @@ export default {
           value: open
         }
       ]
+    }
+    if(this.checkable) {
+      child.props.canck = this.checkable(this.item) && this.canck
+      // console.log(this.item.Name,child.props.canck)
     }
     const itemProps = {
       class: [

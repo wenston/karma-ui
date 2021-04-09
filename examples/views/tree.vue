@@ -103,7 +103,10 @@ export default {
                   Id: 86,
                   Name: "OPPO",
                   PId: 1,
-                  Childs: [{ Id: 87, Name: "r17", PId: 86, Childs: [] }],
+                  Childs: [
+                    { Id: 87, Name: "r17", PId: 86, Childs: [] },
+                    { Id: 10000, Name: "r1" },
+                  ],
                 },
                 {
                   Id: 92,
@@ -247,7 +250,15 @@ export default {
               Id: 86,
               Name: "OPPO",
               PId: 1,
-              Childs: [{ Id: 87, Name: "r17", PId: 86, Childs: [] }],
+              Childs: [
+                {
+                  Id: 87,
+                  Name: "r17",
+                  PId: 86,
+                  Childs: [{ Id: 10001, Name: "o3" }],
+                },
+                { Id: 10000, Name: "r1" },
+              ],
             },
             {
               Id: 92,
