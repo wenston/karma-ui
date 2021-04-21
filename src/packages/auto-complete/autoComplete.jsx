@@ -85,7 +85,10 @@ export default {
       type: Boolean,
       default: false
     },
-    clearWhenNoMatch: Boolean,
+    clearWhenNoMatch: {
+      type: Boolean,
+      default: true
+    },
     loading: Boolean,
     empty: [Function, Object, Array, String],
     matchFromDatabase: Boolean
@@ -163,6 +166,20 @@ export default {
       immediate: true,
       handler(v) {
         this.getInputTextByKeyField();
+        if(v===undefined ||
+            v===null ||
+            v==='') {
+              if (!this.disabled) {
+                this.pageIndex = 1;
+                // this.inputText = "";
+                this.currentHoverIndex = this.currentIndex = -1;
+                if (this.visible) {
+                  this.$refs.input.focus();
+                }
+                this.getFilterData();
+              }
+            }
+
       }
     },
     text(t) {
@@ -221,6 +238,7 @@ export default {
               },
               e
             );
+            this.noMatch=false
             this.hideList(this.destroyLayer);
           }
           return;
@@ -242,21 +260,29 @@ export default {
       const valueField = this.valueField;
       let v = "";
       let i = 0;
+      let row;
       const l = this.data.length;
       while (i < l) {
         if (this.data[i][valueField] === inputText && inputText) {
           v = this.data[i][keyField];
+          row = this.data[i]
           break;
         }
         i++;
       }
+      // console.log(inputText,'v::',v)
       if (!v) {
         this.noMatch = true
+        // this.$emit('valueChange','')//不能加，加了会清空已输入的文本
+
+        // this.inputText = inputText
+        // this.$emit('toggle',{row,index:undefined})
         // console.log(v, '没有匹配！！')
 
       } else {
         this.noMatch = false
         this.$emit('valueChange', v)
+        this.$emit('toggle',{row,index:i})
       }
     },
     //
@@ -280,7 +306,9 @@ export default {
           }
         }
       } else {
-        if (this.text) {
+        if(this.inputText) {
+          text = this.inputText
+        }else if (this.text) {
           text = this.text;
         }
       }
@@ -304,7 +332,7 @@ export default {
     getInputValue() {
       return this.inputText;
     },
-    //外部调用
+    //可外部调用
     clear() {
       if (!this.disabled) {
         this.pageIndex = 1;
@@ -495,6 +523,7 @@ export default {
 
               if (this.noMatch && this.clearWhenNoMatch) {
                 this.$emit('valueChange', '')
+                this.$emit('toggle',{row:undefined,index:undefined})
               }
             }
           },
@@ -610,6 +639,7 @@ export default {
                         this.currentIndex = index;
                         this.$emit("valueChange", item[this.keyField]);
                         this.$emit("toggle", { row: item, index });
+                        this.noMatch = false
                         this.hideList(this.destroyLayer);
                       }
                     }
