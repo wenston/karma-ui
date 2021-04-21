@@ -12,6 +12,7 @@ import KSwitch from 'karma-ui/packages/switch/index.js'
 import KInputNumber from 'karma-ui/packages/input-number/index.js'
 import KArea from 'karma-ui/packages/area/index.js'
 import KPopup from 'karma-ui/packages/popup/index.js'
+import KDialog from 'karma-ui/packages/dialog/dialog.vue'
 import Dialog from 'karma-ui/packages/dialog/index.js'
 import KCarousel from 'karma-ui/packages/carousel/index.js'
 import KCarouselItem from 'karma-ui/packages/carousel-item/index.js'
@@ -31,10 +32,14 @@ import KAutoComplete from 'karma-ui/packages/auto-complete/index.js'
 import KTree from 'karma-ui/packages/tree/index.js'
 import KDropdown from 'karma-ui/packages/dropdown/index.js'
 import KSelectTree from 'karma-ui/packages/select-tree/index.js'
+import KDrawer from 'karma-ui/packages/drawer/index.js'
+import KKeyEnter from 'karma-ui/packages/key-enter/index.js'
+import KGroup from 'karma-ui/packages/group/index.js'
 //指令
 import Dnd from 'karma-ui/directives/dnd/index.js'
 import Pin from 'karma-ui/directives/pin/index.js'
-import Viewable from 'karma-ui/directives/viewable/index.js'
+import Clickoutside from 'karma-ui/directives/clickoutside/index.js'
+// import Viewable from 'karma-ui/directives/viewable/index.js'
 
 let obj = {
   KButton,
@@ -48,6 +53,7 @@ let obj = {
   KInputNumber,
   KArea,
   KPopup,
+  KDialog,
   Dialog,
   KToTop,
   KIcon,
@@ -55,9 +61,10 @@ let obj = {
   Loading,
   Dnd,
   Pin,
+  Clickoutside,
   KCarousel,
   KCarouselItem,
-  Viewable,
+  // Viewable,
   KPagination,
   KDatePicker,
   KScrollbar,
@@ -69,7 +76,10 @@ let obj = {
   KAutoComplete,
   KTree,
   KDropdown,
-  KSelectTree
+  KSelectTree,
+  KDrawer,
+  KKeyEnter,
+  KGroup
 }
 
 export default {

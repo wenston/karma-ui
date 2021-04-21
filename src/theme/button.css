@@ -16,6 +16,7 @@ $types: primary, warning, danger, success;
   text-decoration: none;
   transition: var(--button-transition);
   outline: 0;
+  position: relative;
 
   &.k-btn--default {
     background-color: var(--button-default-bg-color);
@@ -24,16 +25,13 @@ $types: primary, warning, danger, success;
     &:not([disabled]) {
       &:hover,
       &:focus {
-        border-color: color(var(--primary-color) tint(70%));
-        background-color: color(var(--primary-color) tint(95%));
+        border-color: var(--primary-color);
+        background-color: white;
         color: var(--primary-color);
-        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
       }
 
       &:active {
         border-color: var(--primary-color);
-        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08),
-          var(--button-active-box-shadow);
       }
     }
   }
@@ -47,15 +45,14 @@ $types: primary, warning, danger, success;
       &:not([disabled]) {
         &:hover,
         &:focus {
-          border-color: color(var(--$(type)-color) s(+12%) l(+12%));
-          background-color: color(var(--$(type)-color) s(+12%) l(+12%));
-          box-shadow: 0 0 0 2px color(var(--$(type)-color) a(30%));
+          background-color: color(var(--$(type)-color) l(-8%));
+          border-color: color(var(--$(type)-color) l(-8%));
         }
 
-        &:active {
+        /* &:active {
           box-shadow: var(--button-active-box-shadow),
             0 0 0 2px color(var(--$(type)-color) a(20%));
-        }
+        } */
       }
     }
   }
@@ -92,9 +89,9 @@ $types: primary, warning, danger, success;
     justify-content: center;
   }
   & > span.k-btn-cont + .k-btn__loading {
-    position: relative;
-    top: -1px;
-    margin-left: 15px;
+    position: absolute;
+    top: 0;
+    right: 5px;
     @extend .k-roll;
   }
 }

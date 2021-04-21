@@ -3,6 +3,10 @@ export default {
   name: "KOption",
   inject: ["layerComponent"],
   props: {
+    size: {
+      type: String,
+      default: 'medium'
+    },
     tag: {
       type: String,
       default: "li"
@@ -14,16 +18,17 @@ export default {
   },
   methods: {
     handleClick(e) {
-      this.emitKeyValueToSelect(!this.multiple)
+      this.emitKeyValueToSelect(!this.multiple,true)
       this.$emit('click',e)
     },
-    emitKeyValueToSelect(hide = false) {
+    emitKeyValueToSelect(hide = false,isFocus = false) {
       this.layerComponent &&
         this.layerComponent.$data.vm.$emit(
           "getKeyValueFromOption",
           this.value,
           this.label,
-          !!hide //true代表要收起下拉列表
+          !!hide, //true代表要收起下拉列表
+          isFocus
         )
     }
   },
@@ -42,6 +47,7 @@ export default {
       },
       class: {
         "k-option": true,
+        [`k-option--${this.size}`]: true,
         "k-option--selected": selected
       },
       on: {

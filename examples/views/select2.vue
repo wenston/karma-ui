@@ -5,11 +5,18 @@
       <k-select2 v-model="ids"
         :data="dataList"
         text-field="Name"
-        style="width: 200px"
-        :layer-width="false"
-        nearby
+        style="width: 300px"
+        layer-width="auto"
+        layerMinWidthEqual
+        placeholder="请选择"
+        :checkable="checkable"
+        :nearby="true"
+        clearable
         :show.sync="show">
-        
+
+        <div slot="footer">
+          <k-button size="mini">刷新</k-button>
+        </div>
       </k-select2>
     </div>
   </div>
@@ -19,8 +26,8 @@
 export default {
   data() {
     return {
-      ids: '',
-      show: true,
+      ids: "",
+      show: false,
       dataList: [
         {
           Name: "新天地大楼",
@@ -39,7 +46,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300072,
-          DateAdded: "2019-01-16 14:02:13"
+          DateAdded: "2019-01-16 14:02:13",
         },
         {
           Name: "鹿邑万达",
@@ -58,7 +65,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300071,
-          DateAdded: "2019-01-15 13:59:01"
+          DateAdded: "2019-01-15 13:59:01",
         },
         {
           Name: "宝丰",
@@ -77,7 +84,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300070,
-          DateAdded: "2019-01-08 15:21:12"
+          DateAdded: "2019-01-08 15:21:12",
         },
         {
           Name: "移动营业厅",
@@ -96,7 +103,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300068,
-          DateAdded: "2018-12-20 16:40:08"
+          DateAdded: "2018-12-20 16:40:08",
         },
         {
           Name: "上街供应商",
@@ -115,7 +122,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300066,
-          DateAdded: "2018-12-14 18:28:46"
+          DateAdded: "2018-12-14 18:28:46",
         },
         {
           Name: "18860",
@@ -134,7 +141,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300065,
-          DateAdded: "2018-12-10 14:17:44"
+          DateAdded: "2018-12-10 14:17:44",
         },
         {
           Name: "移动终端",
@@ -153,7 +160,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300064,
-          DateAdded: "2018-12-08 17:02:07"
+          DateAdded: "2018-12-08 17:02:07",
         },
         {
           Name: "视佳 凯盛2008室",
@@ -172,7 +179,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300063,
-          DateAdded: "2018-12-08 17:01:08"
+          DateAdded: "2018-12-08 17:01:08",
         },
         {
           Name: "小蜜蜂",
@@ -191,7 +198,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300062,
-          DateAdded: "2018-12-08 11:00:33"
+          DateAdded: "2018-12-08 11:00:33",
         },
         {
           Name: "淮阳供应商",
@@ -210,7 +217,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300061,
-          DateAdded: "2018-12-05 11:29:57"
+          DateAdded: "2018-12-05 11:29:57",
         },
         {
           Name: "华为河南总代理",
@@ -229,7 +236,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300060,
-          DateAdded: "2018-12-05 09:53:41"
+          DateAdded: "2018-12-05 09:53:41",
         },
         {
           Name: "供应商测试002",
@@ -248,7 +255,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300056,
-          DateAdded: "2018-11-30 17:30:19"
+          DateAdded: "2018-11-30 17:30:19",
         },
         {
           Name: "供应商测试",
@@ -267,7 +274,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300053,
-          DateAdded: "2018-11-22 16:50:43"
+          DateAdded: "2018-11-22 16:50:43",
         },
         {
           Name: " 供应商测试",
@@ -286,7 +293,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300052,
-          DateAdded: "2018-11-22 16:26:03"
+          DateAdded: "2018-11-22 16:26:03",
         },
         {
           Name: "演示供应商",
@@ -305,7 +312,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300051,
-          DateAdded: "2018-11-20 09:48:30"
+          DateAdded: "2018-11-20 09:48:30",
         },
         {
           Name: "融商",
@@ -324,7 +331,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300049,
-          DateAdded: "2018-11-19 13:37:00"
+          DateAdded: "2018-11-19 13:37:00",
         },
         {
           Name: "郑州捷信",
@@ -343,7 +350,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300048,
-          DateAdded: "2018-11-19 09:03:22"
+          DateAdded: "2018-11-19 09:03:22",
         },
         {
           Name: "霍尔果斯",
@@ -362,7 +369,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300045,
-          DateAdded: "2018-11-15 10:39:18"
+          DateAdded: "2018-11-15 10:39:18",
         },
         {
           Name: "李桂香",
@@ -381,7 +388,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300043,
-          DateAdded: "2018-11-09 11:07:34"
+          DateAdded: "2018-11-09 11:07:34",
         },
         {
           Name: "努比亚流",
@@ -400,7 +407,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300011,
-          DateAdded: "2018-10-28 17:26:36"
+          DateAdded: "2018-10-28 17:26:36",
         },
         {
           Name: "努比亚崔",
@@ -419,7 +426,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300010,
-          DateAdded: "2018-10-28 16:08:27"
+          DateAdded: "2018-10-28 16:08:27",
         },
         {
           Name: "智选云商a",
@@ -438,7 +445,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300009,
-          DateAdded: "2018-10-28 16:07:42"
+          DateAdded: "2018-10-28 16:07:42",
         },
         {
           Name: "淮阳万盛",
@@ -457,7 +464,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300007,
-          DateAdded: "2018-10-23 16:13:07"
+          DateAdded: "2018-10-23 16:13:07",
         },
         {
           Name: "爱施德",
@@ -476,7 +483,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300006,
-          DateAdded: "2018-10-22 09:57:15"
+          DateAdded: "2018-10-22 09:57:15",
         },
         {
           Name: "星云",
@@ -495,7 +502,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300005,
-          DateAdded: "2018-10-19 11:23:59"
+          DateAdded: "2018-10-19 11:23:59",
         },
         {
           Name: "普通供应商",
@@ -514,7 +521,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300004,
-          DateAdded: "2018-10-17 14:06:41"
+          DateAdded: "2018-10-17 14:06:41",
         },
         {
           Name: "国宇通讯",
@@ -533,7 +540,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300003,
-          DateAdded: "2018-10-15 09:38:09"
+          DateAdded: "2018-10-15 09:38:09",
         },
         {
           Name: "荣安商贸",
@@ -552,7 +559,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 300001,
-          DateAdded: "2018-10-10 17:28:59"
+          DateAdded: "2018-10-10 17:28:59",
         },
         {
           Name: "北京中关村在线",
@@ -571,7 +578,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100120,
-          DateAdded: "2018-09-19 15:28:10"
+          DateAdded: "2018-09-19 15:28:10",
         },
         {
           Name: "融商智选1",
@@ -590,7 +597,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100119,
-          DateAdded: "2018-09-19 15:28:10"
+          DateAdded: "2018-09-19 15:28:10",
         },
         {
           Name: "金鼎达成",
@@ -609,7 +616,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100034,
-          DateAdded: "2017-12-25 18:12:18"
+          DateAdded: "2017-12-25 18:12:18",
         },
         {
           Name: "金马时代",
@@ -628,7 +635,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100033,
-          DateAdded: "2017-12-25 18:11:44"
+          DateAdded: "2017-12-25 18:11:44",
         },
         {
           Name: "深圳世纪海洋广告有限公司",
@@ -647,7 +654,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100016,
-          DateAdded: "2017-11-09 10:25:17"
+          DateAdded: "2017-11-09 10:25:17",
         },
         {
           Name: "北京小米科技有限公司",
@@ -666,7 +673,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100010,
-          DateAdded: "2017-11-01 11:05:22"
+          DateAdded: "2017-11-01 11:05:22",
         },
         {
           Name: "河南捷信",
@@ -685,7 +692,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100009,
-          DateAdded: "2017-10-31 11:40:12"
+          DateAdded: "2017-10-31 11:40:12",
         },
         {
           Name: "JBL河南总代",
@@ -704,7 +711,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100008,
-          DateAdded: "2017-10-30 17:31:08"
+          DateAdded: "2017-10-30 17:31:08",
         },
         {
           Name: "三星河北总代",
@@ -723,7 +730,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100007,
-          DateAdded: "2017-10-28 09:21:54"
+          DateAdded: "2017-10-28 09:21:54",
         },
         {
           Name: "苹果河北总代",
@@ -742,7 +749,7 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100006,
-          DateAdded: "2017-10-28 09:20:43"
+          DateAdded: "2017-10-28 09:20:43",
         },
         {
           Name: "华为技术有限公司",
@@ -761,22 +768,30 @@ export default {
           BeginingBalance: 0,
           EndingBalance: 0,
           Id: 100005,
-          DateAdded: "2017-10-27 16:23:20"
-        }
-      ]
-    }
+          DateAdded: "2017-10-27 16:23:20",
+        },
+      ],
+    };
   },
   watch: {
     ids(arr) {
-      console.log('使用：',arr)
-    }
+      console.log("使用：", arr);
+    },
+  },
+  methods: {
+    checkable(item, index) {
+      if (item.Name.length > 6) {
+        return true;
+      }
+      return false;
+    },
   },
   mounted() {
     // setTimeout(()=>{
     //   this.ids = '300071,300072,300068, 300066'
     // },1500)
-  }
-}
+  },
+};
 </script>
 
 <style>

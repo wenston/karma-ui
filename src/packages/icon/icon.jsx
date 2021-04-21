@@ -8,7 +8,8 @@ export default {
     tag: {
       type: String,
       default: 'i'
-    }
+    },
+    transform:[String,Boolean]
   },
   render() {
     const {$props,$listeners} = this
@@ -24,7 +25,8 @@ export default {
       style: {
         'font-size': parseFloat($props.size) + 'px',
         'color': $props.color,
-        'font-weight': $props.weight?'bold': ''
+        'font-weight': $props.weight?'bold': '',
+        'transform':$props.transform || ''
       }
     }
     return (

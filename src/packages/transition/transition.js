@@ -11,7 +11,7 @@ export default {
     },
     timingFunction: {
       type: String,
-      default: "ease"
+      default: "ease-out"
     }
   },
   data() {
@@ -70,7 +70,8 @@ export default {
           marginTop: 0,
           marginBottom: 0,
           borderBottomWidth: 0,
-          borderTopWidth: 0
+          borderTopWidth: 0,
+          overflow: "hidden"
         })
         pnode.removeAttribute("style")
       } else {
@@ -89,7 +90,8 @@ export default {
           marginTop: 0,
           marginBottom: 0,
           borderBottomWidth: 0,
-          borderTopWidth: 0
+          borderTopWidth: 0,
+          overflow: "hidden"
         })
       }
     },
@@ -104,13 +106,14 @@ export default {
           marginBottom: this.marginBottom,
           borderBottomWidth: this.borderBottomWidth,
           borderTopWidth: this.borderTopWidth,
-          transition: this.duration + "ms " + this.timingFunction
+          transition: this.duration + "ms " + this.timingFunction,
+          overflow: "hidden"
         })
       })
     },
     beforeLeave(el) {
       this.setProperty(el)
-      setStyle(el,{
+      setStyle(el, {
         height: this.height,
         opacity: 1,
         paddingBottom: this.paddingBottom,
@@ -119,12 +122,12 @@ export default {
         marginBottom: this.marginBottom,
         borderBottomWidth: this.borderBottomWidth,
         borderTopWidth: this.borderTopWidth,
-        transition: this.duration + "ms " + this.timingFunction
+        transition: this.duration + "ms " + this.timingFunction,
+        overflow: "hidden"
       })
     },
     leave(el, done) {
-      setTimeout(()=>{
-
+      setTimeout(() => {
         setStyle(el, {
           height: 0,
           opacity: 0,
@@ -133,7 +136,8 @@ export default {
           marginTop: 0,
           marginBottom: 0,
           borderBottomWidth: 0,
-          borderTopWidth: 0
+          borderTopWidth: 0,
+          overflow: "hidden"
         })
       })
     },
@@ -145,7 +149,7 @@ export default {
       this.$emit("after-transition")
     },
     afterEnter(el) {
-      el.removeAttribute('style')
+      el.removeAttribute("style")
       this.$emit("after-transition")
     }
   },
@@ -153,6 +157,7 @@ export default {
     const children = this.$slots.default
     return (
       <transition
+        duration={{ enter: this.duration, leave: this.duration }}
         enterClass=""
         enterToClass=""
         enterActiveClass=""

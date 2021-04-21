@@ -1,28 +1,10 @@
 
 
 <script>
-// <template>
-//   <k-popup ref="popup"
-//     v-bind="$props"
-//     :show.sync="show"
-//     @after-cancel="afterCancel"
-//     @after-ok="afterOk">
-//     <div class='k-dialog'>
-//       <k-icon :name="iconName"
-//         class="k-dialog-icon"
-//         :color="iconColor"
-//         :size="iconSize"
-//         v-if="hasIcon" />
-//       <template v-if="$slots.default">
-//         <slot></slot>
-//       </template>
-//       <div v-else>{{content}}</div>
-//     </div>
-//   </k-popup>
-// </template>
 import KPopup from "karma-ui/packages/popup/popup"
 import KIcon from "karma-ui/packages/icon/icon"
 export default {
+  name: 'KDialog',
   components: {
     KPopup,
     KIcon
@@ -32,14 +14,20 @@ export default {
     content: String,
     hasIcon: {
       type: Boolean,
-      default: true
+      default: false
     },
     iconName: {
       type: String,
       default: "k-icon-question"
     },
-    iconColor: String,
-    iconSize: [String, Number]
+    iconColor: {
+      type: String,
+      default: ''
+    },
+    iconSize: {
+      type: [String, Number],
+      default: ''
+    }
   },
   methods: {
     afterCancel() {
@@ -60,8 +48,16 @@ export default {
         "update:show": v => {
           this.show = v
         },
-        "after-cancel": this.afterCancel,
-        "after-ok": this.afterOk
+        "after-leave": e => {
+          if (e) {
+            this.afterOk()
+          } else {
+            this.afterCancel()
+          }
+        },
+        "after-ok": () => {
+          this.show = false
+        }
       }
     }
     return (

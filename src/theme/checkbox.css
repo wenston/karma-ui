@@ -1,8 +1,9 @@
 .k-checkbox {
   margin-right: var(--checkbox-gutter);
   display: inline-flex;
+  align-items: center;
   &:nth-last-of-type(1) {
-    margin-right:0;
+    margin-right: 0;
   }
   /* display: inline-block; */
   line-height: var(--checkbox-line-height);
@@ -22,19 +23,47 @@
     border-radius: var(--checkbox-radius);
     display: inline-block;
     vertical-align: -2px;
-    transition: .25s ease-out;
+    transition: 0.25s ease-out;
+    cursor: pointer;
     &:before {
-      content: "";
+      content: '';
       position: absolute;
-      left: 2px;
-      top: 2px;
-      width: 7px;
+      left: 1px;
+      top: 1.5px;
+      width: 9px;
       height: 4px;
       border: 2px solid #fff;
       border-width: 0 0 2px 2px;
       visibility: hidden;
-      transform: rotate(-58deg) scale(0,0);
-      transition: var(--transition);
+      transform: rotate(-50deg) scale(0, 0);
+      transition: 0.2s;
+    }
+    &.k-checkbox__icon--checked {
+      border-color: var(--checkbox-checked-border-color);
+      background: var(--checkbox-checked-bg-color);
+      box-shadow: var(--checkbox-focus-active-shadow);
+      &:before {
+        visibility: visible;
+        transform: rotate(-50deg) scale(0.75, 0.75);
+      }
+    }
+    &.k-checkbox__icon--disabled {
+      border-color: var(--checkbox-disabled-border-color);
+      background: var(--checkbox-disabled-bg-color);
+      cursor: not-allowed;
+      & + .k-checkbox__text {
+        cursor: not-allowed;
+        color: var(--checkbox-disabled-text-color);
+      }
+    }
+    &.k-checkbox__icon--2 {
+      border-color: var(--checkbox-disabled-border-color);
+      background: var(--checkbox-disabled-bg-color);
+      cursor: not-allowed;
+      &:before {
+        border: 2px solid var(--checkbox-checked-disabled-border-color);
+        border-width: 0 0 2px 2px;
+      }
     }
   }
   &:hover {
@@ -49,14 +78,15 @@
       & ~ .k-checkbox__icon {
         border-color: var(--checkbox-checked-border-color);
         background: var(--checkbox-checked-bg-color);
+        box-shadow: var(--checkbox-focus-active-shadow);
         &:before {
           visibility: visible;
-          transform: rotate(-58deg) scale(.8,.8);
+          transform: rotate(-50deg) scale(0.75, 0.75);
         }
       }
-      & ~ .k-checkbox__text {
+      /* & ~ .k-checkbox__text {
         color:var(--checkbox-checked-text-color);
-      }
+      } */
     }
     &[disabled] {
       & ~ .k-checkbox__icon {
@@ -73,5 +103,8 @@
         }
       }
     }
+  }
+  &.k-checkbox--disabled {
+    cursor: not-allowed;
   }
 }

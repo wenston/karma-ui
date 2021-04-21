@@ -57,6 +57,9 @@ export default (source, val, keyField, childField) => {
     })
     return arr
   }
+  // console.time('获取当前节点的所有父级')
   findAllParent(source, val, keyField, childField)
-  return uniq(copyArr, keyField)
+  const a = uniq(copyArr, keyField)
+  // console.timeEnd('获取当前节点的所有父级')
+  return a
 }

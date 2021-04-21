@@ -4,7 +4,8 @@
     <div>
       <span style="display:inline-block"
         ref="el"
-        @click="handleClick">(点我)可以动态展示一些东西的$board</span>
+        @mouseenter="onenter"
+        @mouseleave="onleave">鼠标滑入</span>
       <div v-for="n in 18"
         :key="n">{{n}} </div>
       <div ref="other"
@@ -16,39 +17,48 @@
 <script>
 export default {
   data() {
-    return {}
+    return {
+      b: null,
+    };
   },
   methods: {
     handleClickOther() {
       let b = this.$board(this.$refs.other, {
         body: `
           什么和什么士大夫撒地方的
-        `
-      })
-      b.show()
+        `,
+      });
+      b.show();
     },
-    handleClick() {
-      let b = this.$board(this.$refs.el, {
-        header: "展示一个title",
+    onenter() {
+      this.b = this.$board(this.$refs.el, {
+        bodyClassName: this.css.body,
+        alignment: "left",
         body: () => {
           return (
             <div>
               <h3>展示什么好呢</h3>
               <k-button>一个小按钮</k-button>
             </div>
-          )
-        }
-      })
-      b.show()
-    }
-  }
-}
+          );
+        },
+      });
+      this.b.show();
+    },
+    onleave() {
+      if (this.b) {
+        this.b.hide();
+        this.b = null;
+      }
+    },
+  },
+};
 </script>
 
-<style scoped>
+<style module="css" lang="postcss">
 .body {
   padding: 20px;
-  width: 400px;
+  width: 300px;
   overflow: auto;
   background-color: white;
 }

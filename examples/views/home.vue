@@ -143,6 +143,14 @@ export default {
           {
             name: "selectTree",
             title: "selectTree 下拉树形选择器"
+          },
+          {
+            name: "drawer",
+            title: "drawer 抽屉式弹出层"
+          },
+          {
+            name: 'group',
+            title: 'group 控件组'
           }
         ],
         directives: [

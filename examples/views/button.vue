@@ -44,16 +44,16 @@
     <h3 class="layout__title">有loading图标的按钮</h3>
     <div>
       <p><code>k-button</code>组件提供了一种loading样式，loading时，默认不可点击</p>
-      <k-button type="primary" loading>加载中... </k-button>
+      <k-button type="primary" loading>保存 </k-button>
       <div class="javascript" v-pre>
-        <pre>&lt;k-button type="primary" loading&gt;加载中... &lt;/k-button&gt;</pre>
+        <pre>&lt;k-button type="primary" loading&gt;保存 &lt;/k-button&gt;</pre>
       </div>
       <div>
-        <k-button type="warning" size="huge" loading>加载中... </k-button>
-        <k-button type="danger" size="large" loading>加载中... </k-button>
-        <k-button size="big" loading>加载中... </k-button>
-        <k-button type="success" size="small" loading>加载中... </k-button>
-        <k-button type="primary" size="mini" loading>加载中... </k-button>
+        <k-button type="warning" size="huge" loading>保存 </k-button>
+        <k-button type="danger" size="large" loading>保存 </k-button>
+        <k-button size="big" loading>保存 </k-button>
+        <k-button type="success" size="small" loading>保存 </k-button>
+        <k-button type="primary" size="mini" loading>保存 </k-button>
       </div>
     </div>
     <h3 class="layout__title">disabled 不可用</h3>

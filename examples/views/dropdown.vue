@@ -6,14 +6,21 @@
         :show.sync="show"
         trigger="click"
         :white-list="wh"
-        nearby>
+        alignment="right"
+        gap="10">
         <h1 slot="header">这是标题了！！！</h1>
         <em slot="footer">这是底部了</em>
         <div>展示面板打开了！</div>
         来一个日期
-        <k-date-picker :start.sync="start" :end.sync="end" @getLayerElement="getDatePickerElement"
+        <k-date-picker :start.sync="start"
+          :end.sync="end"
+          @getLayerElement="getDatePickerElement"
           range />
       </k-dropdown>
+
+    </div>
+    <div>
+      <iframe style="width: 1000px;height: 500px"></iframe>
     </div>
   </div>
 </template>
@@ -22,7 +29,7 @@
 export default {
   data() {
     return {
-      show:true,
+      show: true,
       title: <div>新的title哦，object格式</div>,
       dpElement: null,
       wh: [],

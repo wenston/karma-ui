@@ -4,17 +4,21 @@
     <k-table :data="table"
       min-content
       :columns="columns"
-      has-checkbox
-      checkbox-key="name"
+      has-radio
+      radio-key="name"
       has-index
+      pageSize="20"
+      pageIndex="3"
       index-text="序"
+      :leftFixedNumber="2"
+      :rightFixedNumber="1"
       nowrap
       resize-width
       max-height="calc(100vh - 130px)"
       canHighlightRow
+      draggable
       highlightKey="name"
-      :highlightValue.sync="highlightValue"
-      @select-change="onSelectChange"></k-table>
+      :highlightValue.sync="highlightValue"></k-table>
     <h3 class="layout__title">自定义列</h3>
 
     <k-table :data="table1"
@@ -26,10 +30,15 @@
       nowrap
       hover
       resize-width
+      height="200px"
       :stripe="false"
       :selectedRows.sync="selectedRows"
+      :selectedKeys.sync="selectedKeys"
       :checkable="checkable"
-      @sort="onSort">
+      :leftFixedNumber="2"
+      :rightFixedNumber="1"
+      @sort="onSort"
+      :draggable="true">
       <template slot="xxx"
         slot-scope="{row}">
         <a :class="css.code"
@@ -59,6 +68,7 @@
       :columns="columns3"
       :selectedKeys.sync="selectedKeys3"
       :selectedRows.sync="selectedRows3"
+      @select-change="onSlcChange"
       hasCheckbox
       checkboxKey="ProductId" />
     <h3 class="layout__title">根据数据自动合并行</h3>
@@ -905,7 +915,7 @@ export default {
           name: "功能模块",
           field: "ProductName",
           style: { width: 150 },
-          fixed: 'left'
+          fixed: "left"
         },
         {
           name: "结算单位",
@@ -923,17 +933,308 @@ export default {
         }
       ],
       selectedKeys3: [],
-      selectedRows3: [
-        
+      selectedRows3: [],
+
+      KEYS: ["1056", "1055", "1054", "1050", "1049"],
+      ROWS: [
+        {
+          SupplierId: 300048,
+          SupplierName: "郑州捷信",
+          FinalPrice: 6000,
+          HaveWorkFlow: 0,
+          BalanceCode: "",
+          TradeMode: 0,
+          TaxRate: 0,
+          Code: "PC04201811230005",
+          TotalPrice: 6000,
+          Description: "",
+          Source: 0,
+          SourceCode: null,
+          Status: 6,
+          UserIdAdded: 10,
+          UserNameAdded: "张总",
+          PrintCount: 0,
+          StoreId: 8,
+          BranchId: 0,
+          HandlerId: 10,
+          HandlerName: "张总",
+          ChkUserId: 0,
+          ChkUserName: null,
+          ChkDateTime: null,
+          CompanyCode: "S00000186",
+          PayType: 0,
+          Receipt: 0,
+          UserBranchId: 0,
+          Id: 1056,
+          DateAdded: "2018-11-23 17:58:05",
+          StoreName: "渠道总仓",
+          BalanceName: "",
+          Details: [
+            {
+              PurchasingContractCode: "PC04201811230005",
+              ProCount1: 2,
+              StoreId: 8,
+              Status: 6,
+              SupplierId: 300048,
+              CategoryId: 120,
+              ProName: "华为MATE9 PRO  6+128G",
+              ProId: 100687,
+              ProPrice: 3000,
+              AccountingType: 1,
+              ProCount: 2,
+              TaxRate: 1,
+              Description: "",
+              Description1: "",
+              Description2: "",
+              Id: 1770,
+              DateAdded: "2018-11-28 09:21:21"
+            }
+          ]
+        },
+        {
+          SupplierId: 100119,
+          SupplierName: "融商智选1",
+          FinalPrice: 5000,
+          HaveWorkFlow: 0,
+          BalanceCode: "",
+          TradeMode: 0,
+          TaxRate: 5,
+          Code: "PC04201811230004",
+          TotalPrice: 5000,
+          Description: "",
+          Source: 0,
+          SourceCode: null,
+          Status: 6,
+          UserIdAdded: 10,
+          UserNameAdded: "李娜",
+          PrintCount: 0,
+          StoreId: 29,
+          BranchId: 0,
+          HandlerId: 10,
+          HandlerName: "张总",
+          ChkUserId: 0,
+          ChkUserName: null,
+          ChkDateTime: null,
+          CompanyCode: "S00000186",
+          PayType: 0,
+          Receipt: 1,
+          UserBranchId: 0,
+          Id: 1055,
+          DateAdded: "2018-11-23 16:41:47",
+          StoreName: "海龙门店",
+          BalanceName: "",
+          Details: [
+            {
+              PurchasingContractCode: "PC04201811230004",
+              ProCount1: 2,
+              StoreId: 29,
+              Status: 6,
+              SupplierId: 100119,
+              CategoryId: 124,
+              ProName: "努比亚Z17 64g 黑灰色",
+              ProId: 100040,
+              ProPrice: 2500,
+              AccountingType: 1,
+              ProCount: 3,
+              TaxRate: 1,
+              Description: "",
+              Description1: "",
+              Description2: "",
+              Id: 1769,
+              DateAdded: "2018-11-28 09:21:21"
+            }
+          ]
+        },
+        {
+          SupplierId: 300053,
+          SupplierName: "测试供应商",
+          FinalPrice: 100,
+          HaveWorkFlow: 0,
+          BalanceCode: "100217",
+          TradeMode: 0,
+          TaxRate: 4,
+          Code: "PC04201811230003",
+          TotalPrice: 100,
+          Description: "",
+          Source: 0,
+          SourceCode: null,
+          Status: 6,
+          UserIdAdded: 10,
+          UserNameAdded: "张总",
+          PrintCount: 0,
+          StoreId: 9,
+          BranchId: 0,
+          HandlerId: 300014,
+          HandlerName: "林小静",
+          ChkUserId: 0,
+          ChkUserName: null,
+          ChkDateTime: null,
+          CompanyCode: "S00000186",
+          PayType: 0,
+          Receipt: 1,
+          UserBranchId: 0,
+          Id: 1054,
+          DateAdded: "2018-11-23 15:42:29",
+          StoreName: "总仓",
+          BalanceName: "农业银行111",
+          Details: [
+            {
+              PurchasingContractCode: "PC04201811230003",
+              ProCount1: 5,
+              StoreId: 9,
+              Status: 6,
+              SupplierId: 300053,
+              CategoryId: 300008,
+              ProName: "小夜灯",
+              ProId: 300038,
+              ProPrice: 20,
+              AccountingType: 1,
+              ProCount: 5,
+              TaxRate: 1,
+              Description: "",
+              Description1: "",
+              Description2: "",
+              Id: 1768,
+              DateAdded: "2018-11-28 09:21:21"
+            }
+          ]
+        },
+        {
+          SupplierId: 300048,
+          SupplierName: "郑州捷信",
+          FinalPrice: 3000,
+          HaveWorkFlow: 0,
+          BalanceCode: "",
+          TradeMode: 0,
+          TaxRate: 0,
+          Code: "PC04201811220001",
+          TotalPrice: 3000,
+          Description: "",
+          Source: 0,
+          SourceCode: null,
+          Status: 6,
+          UserIdAdded: 10,
+          UserNameAdded: "张总",
+          PrintCount: 0,
+          StoreId: 9,
+          BranchId: 0,
+          HandlerId: 10,
+          HandlerName: "张总",
+          ChkUserId: 0,
+          ChkUserName: null,
+          ChkDateTime: null,
+          CompanyCode: "S00000186",
+          PayType: 0,
+          Receipt: 0,
+          UserBranchId: 0,
+          Id: 1050,
+          DateAdded: "2018-11-22 15:06:51",
+          StoreName: "总仓",
+          BalanceName: "",
+          Details: [
+            {
+              PurchasingContractCode: "PC04201811220001",
+              ProCount1: 100,
+              StoreId: 9,
+              Status: 6,
+              SupplierId: 300048,
+              CategoryId: 301045,
+              ProName: "蓝牙耳机",
+              ProId: 303382,
+              ProPrice: 30,
+              AccountingType: 1,
+              ProCount: 100,
+              TaxRate: 1,
+              Description: "",
+              Description1: "",
+              Description2: "",
+              Id: 1762,
+              DateAdded: "2018-11-28 09:21:21"
+            }
+          ]
+        },
+        {
+          SupplierId: 300051,
+          SupplierName: "演示供应商",
+          FinalPrice: 20,
+          HaveWorkFlow: 0,
+          BalanceCode: "",
+          TradeMode: 0,
+          TaxRate: 0,
+          Code: "PC04201811210001",
+          TotalPrice: 20,
+          Description: "",
+          Source: 0,
+          SourceCode: null,
+          Status: 6,
+          UserIdAdded: 300012,
+          UserNameAdded: "智选云商",
+          PrintCount: 0,
+          StoreId: 9,
+          BranchId: 129,
+          HandlerId: 300012,
+          HandlerName: "智选云商",
+          ChkUserId: 0,
+          ChkUserName: null,
+          ChkDateTime: null,
+          CompanyCode: "S00000186",
+          PayType: 0,
+          Receipt: 0,
+          UserBranchId: 0,
+          Id: 1049,
+          DateAdded: "2018-11-21 17:58:52",
+          StoreName: "总仓",
+          BalanceName: "",
+          Details: [
+            {
+              PurchasingContractCode: "PC04201811210001",
+              ProCount1: 1,
+              StoreId: 9,
+              Status: 6,
+              SupplierId: 300051,
+              CategoryId: 301016,
+              ProName: "水杯",
+              ProId: 303378,
+              ProPrice: 10,
+              AccountingType: 3,
+              ProCount: 1,
+              TaxRate: 1,
+              Description: "",
+              Description1: "",
+              Description2: "",
+              Id: 1760,
+              DateAdded: "2018-11-28 09:21:21"
+            },
+            {
+              PurchasingContractCode: "PC04201811210001",
+              ProCount1: 1,
+              StoreId: 9,
+              Status: 6,
+              SupplierId: 300051,
+              CategoryId: 301016,
+              ProName: "计算器",
+              ProId: 303379,
+              ProPrice: 10,
+              AccountingType: 3,
+              ProCount: 1,
+              TaxRate: 1,
+              Description: "",
+              Description1: "",
+              Description2: "",
+              Id: 1761,
+              DateAdded: "2018-11-28 09:21:21"
+            }
+          ]
+        }
       ]
     }
   },
   methods: {
-    checkable3(row,index) {
-      if(row.HasOpened === 'Y') {
-        return [true,false]
+    checkable3(row, index) {
+      if (row.HasOpened === "Y") {
+        return [true, false]
       }
-      return [false,true]
+      return [false, true]
       // if (row.HasOpened && row.HasOpened.toLowerCase() === "n") {
       //     return [false, true]
       //   } else {
@@ -948,13 +1249,15 @@ export default {
       return [false, true]
     },
     fnColumns() {
+      const supplierSorter = this.supplierSorter
+      const priceSorter = this.priceSorter
       const tax =
         this.random > 0.5
           ? {
-              field: "TaxRate",
-              name: "税率",
-              sum: true
-            }
+            field: "TaxRate",
+            name: "税率",
+            sum: true
+          }
           : null
       return [
         {
@@ -968,7 +1271,7 @@ export default {
           style: { width: "100" },
           field: "SupplierName",
           name: "供应商",
-          sorter: this.supplierSorter
+          sorter: supplierSorter
         },
         tax,
         {
@@ -976,7 +1279,7 @@ export default {
           field: "TotalPrice",
           name: "金额",
           scopedSlots: "TotalPrice",
-          sorter: this.priceSorter,
+          sorter: priceSorter,
           sum: true
         },
         {
@@ -990,8 +1293,11 @@ export default {
       this.random = Math.random()
       console.log(this.random)
     },
+    onSlcChange(checked, row, index) {
+      // console.log(checked,row,index)
+    },
     onSelectChange(e) {
-      // console.log(e);
+      console.log(e)
     },
     onDel(row, row1, index) {
       console.log(row, row1, index)
@@ -999,14 +1305,14 @@ export default {
     },
     onSort({ type, field, name }) {
       console.log(type, field, name)
-      if(field=='SupplierName') {
-        this.priceSorter = true
-      }else if(field=='TotalPrice') {
-        this.supplierSorter = true
-      }
+      // if(field=='SupplierName') {
+      //   this.priceSorter = true
+      // }else if(field=='TotalPrice') {
+      //   this.supplierSorter = true
+      // }
     },
     onClear() {
-      // this.selectedKeys = []
+      this.selectedKeys = []
       this.selectedRows = []
     }
   },
@@ -1027,9 +1333,11 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.currentId = "PC04201811230002,1053"
-      this.selectedKeys3 = ['2','1']
-      this.selectedRows3 = this.data3.slice(1)
+      // this.currentId = "PC04201811230002,1053"
+      // this.selectedKeys3 = ['2','1']
+      // this.selectedRows3 = this.data3.slice(1)
+      this.selectedKeys = this.KEYS.slice(0)
+      this.selectedRows = this.ROWS.slice(0)
     }, 0)
   }
 }
