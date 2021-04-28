@@ -80,9 +80,8 @@ export default {
       )
     },
     prevNextYear(n) {
-      this.showingDate = `${this.showingYear + n}-${this.showingMonth}-${
-        this.showingDay
-      }`
+      this.showingDate = `${this.showingYear + n}-${String(this.showingMonth).padStart(2, 0)}-${this.showingDay
+        }`
       this.$emit("change-ymd", this.showingDate)
     },
     prevNextMonth(n) {
@@ -94,7 +93,7 @@ export default {
       } else if (n > 0 && m < showM) {
         y = y + 1
       }
-      this.showingDate = `${y}-${m}-${this.showingDay}`
+      this.showingDate = `${y}-${String(m).padStart(2, 0)}-${this.showingDay}`
       this.$emit("change-ymd", this.showingDate)
     },
     _renderBodyTitle() {
@@ -104,23 +103,23 @@ export default {
             {this.range && this.hidePrevNext && this.isEnd
               ? null
               : [
-                  <k-icon
-                    name="k-icon-double-left"
-                    class="k-date-picker-prev-next"
-                    title="上一年"
-                    onClick={e => {
-                      this.prevNextYear(-1)
-                    }}
-                  />,
-                  <k-icon
-                    name="k-icon-arrow-left"
-                    class="k-date-picker-prev-next"
-                    title="上个月"
-                    onClick={e => {
-                      this.prevNextMonth(-1)
-                    }}
-                  />
-                ]}
+                <k-icon
+                  name="k-icon-double-left"
+                  class="k-date-picker-prev-next"
+                  title="上一年"
+                  onClick={e => {
+                    this.prevNextYear(-1)
+                  }}
+                />,
+                <k-icon
+                  name="k-icon-arrow-left"
+                  class="k-date-picker-prev-next"
+                  title="上个月"
+                  onClick={e => {
+                    this.prevNextMonth(-1)
+                  }}
+                />
+              ]}
           </div>
           <div class="k-date-picker-year-month">
             <span class="k-date-picker-item">{this.showingYear}年</span>
@@ -130,23 +129,23 @@ export default {
             {this.range && this.hidePrevNext && this.isStart
               ? null
               : [
-                  <k-icon
-                    name="k-icon-arrow-right"
-                    class="k-date-picker-prev-next"
-                    title="下个月"
-                    onClick={e => {
-                      this.prevNextMonth(1)
-                    }}
-                  />,
-                  <k-icon
-                    name="k-icon-double-right"
-                    class="k-date-picker-prev-next"
-                    title="下一年"
-                    onClick={e => {
-                      this.prevNextYear(1)
-                    }}
-                  />
-                ]}
+                <k-icon
+                  name="k-icon-arrow-right"
+                  class="k-date-picker-prev-next"
+                  title="下个月"
+                  onClick={e => {
+                    this.prevNextMonth(1)
+                  }}
+                />,
+                <k-icon
+                  name="k-icon-double-right"
+                  class="k-date-picker-prev-next"
+                  title="下一年"
+                  onClick={e => {
+                    this.prevNextYear(1)
+                  }}
+                />
+              ]}
           </div>
         </div>
       )
