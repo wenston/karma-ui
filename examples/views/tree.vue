@@ -31,6 +31,7 @@
         hasActions
         :data="bigdata"
         v-model="bigValue"
+        @toggle="toggleBig"
         hasCheckbox />
     </div>
     <div>
@@ -366,6 +367,9 @@ export default {
     };
   },
   methods: {
+    toggleBig(e) {
+      console.log(e);
+    },
     toLoad(item) {
       return new Promise((res) => {
         let d = [];

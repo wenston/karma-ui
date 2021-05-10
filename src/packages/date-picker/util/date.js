@@ -14,20 +14,20 @@ export const toDateType = v => {
     value = (value + "Z")
       .replace(/\//g, "-")
       .replace(/[\u4E00-\u9FA5]/g, "")
-      .replace(/-(\d+)-(\d+)/, function(all, a, b) {
-        ;/^\d$/.test(a) && (a = "0" + a)
-        ;/^\d$/.test(b) && (b = "0" + b)
+      .replace(/-(\d+)-(\d+)/, function (all, a, b) {
+        ; /^\d$/.test(a) && (a = "0" + a)
+          ; /^\d$/.test(b) && (b = "0" + b)
         return "-" + a + "-" + b
       })
-      .replace(/(\d+):(\d+):(\d+)/, function(all, a, b, c) {
+      .replace(/(\d+):(\d+):(\d+)/, function (all, a, b, c) {
         let arrTemp = []
-        ;/^\d$/.test(a) && (a = "0" + a)
-        ;/^\d$/.test(b) && (b = "0" + b)
-        ;/^\d$/.test(c) && (c = "0" + c)
+          ; /^\d$/.test(a) && (a = "0" + a)
+          ; /^\d$/.test(b) && (b = "0" + b)
+          ; /^\d$/.test(c) && (c = "0" + c)
         arrTemp.push(a, b, c)
         return arrTemp.join(":")
       })
-      .replace(/\d(\s+)\d/, function(all, a) {
+      .replace(/\d(\s+)\d/, function (all, a) {
         if (/^\s+$/.test(a)) {
           return all.replace(a, "T")
         }
@@ -37,7 +37,7 @@ export const toDateType = v => {
   if (Object.prototype.toString.call(dt) !== "[object Date]") {
     dt = new Date(new Date(value).toUTCString().replace("GMT", ""))
   }
-  if(typeof v === 'string' &&  dt == "Invalid Date") {
+  if (typeof v === 'string' && dt == "Invalid Date") {
     dt = new Date(v.replace(/\-/g, '/'))
   }
   if (dt == "Invalid Date") {
@@ -47,7 +47,7 @@ export const toDateType = v => {
         new Date(value.replace(/t/i, " ")).toUTCString().replace("GMT", "")
       )
     }
-  } 
+  }
   return dt
 
   // var year = dt.getFullYear()
@@ -103,7 +103,7 @@ export const getDateByAddOneMonths = (date, n) => {
   } else if (n === -1 && month < month_n) {
     return `${y - 1}-${month_n}-01`
   }
-  return `${y}-${month_n}`
+  return `${y}-${String(month_n).padStart(2, 0)}`
 }
 export const isSameMonth = (date1, date2) => {
   date1 = toDateType(date1)
@@ -145,7 +145,7 @@ export const addDays = (date, day) => {
 export const getMondayInThisWeek = () => {
   const d = getNow()
   let day = d.getDay()
-  if(day === 0) {
+  if (day === 0) {
     day = 7
   }
   return addDays(new Date(), (day - 1) * -1)
@@ -166,15 +166,15 @@ export const getLastMonth = () => {
   const d = getNow()
   const m = d.getMonth() + 1
   let y = d.getFullYear()
-  const lastM = addMonths(m,-1)
-  if(lastM>m) {
+  const lastM = addMonths(m, -1)
+  if (lastM > m) {
     y = y - 1
   }
   const days = getMonths(y)[lastM]
   const start = formatDate(`${y}-${lastM}-1`)
   return {
     start,
-    end: formatDate(addDays(start,days-1))
+    end: formatDate(addDays(start, days - 1))
   }
 }
 export default {
