@@ -53,7 +53,9 @@ export default {
         tfootLeftTds: [],
         tfootRightTds: []
       },
-      rightTranslate: 0
+      rightTranslate: 0,
+      leftSticky: [],
+      rightSticky: []
     }
   },
   provide() {
@@ -81,7 +83,8 @@ export default {
     },
     rColGroup() {
       return <template slot="colgroup">{this.colGroup}</template>
-    }
+    },
+    tdMinWidth:()=>20
   },
   watch: {
     leftFixedNumber(n) {
@@ -94,7 +97,43 @@ export default {
           this.setHighlightRow({ key: v })
         })
       }
-    }
+    },
+    data: {
+      immediate: true,
+      handler(d) {
+        let b = false
+        const { thead } = this.$refs
+        if(d.length) {
+          if(thead) {
+            //设置表头的全选复选框状态
+            const keys = [...this.selectedKeys.map(s=>s+'')]
+            if(keys.length) {
+              const ks = d.map(el=>{
+                return el[this.checkboxKey]+''
+              })
+              if(keys.length>=ks.length) {
+                let _b = true
+                let i = 0
+                let len = ks.length
+    
+                while(i<len) {
+                  if(!keys.some(k=>k===ks[i])) {
+                    _b = false
+                    break
+                  }
+                  i++
+                }
+                if(_b) {
+                  b = true
+                }
+  
+              }
+            }
+          }
+        }
+        thead && thead.onCheckedAll(b)
+      }
+    },
   },
   methods: {
     onMouseoutTr(e) {
@@ -159,11 +198,13 @@ export default {
         this.scrollLeft = tar.scrollLeft
         if (thead) {
           const theadEl = thead.$el
-          theadEl.style.top = scrollTop + "px"
+          // theadEl.style.top = scrollTop + "px"
           if (scrollTop > 0) {
             theadEl.classList.add("k-theadwrapper-shadow")
+            // theadEl.classList.add("k-thead-sticky")
           } else {
             theadEl.classList.remove("k-theadwrapper-shadow")
+            // theadEl.classList.remove("k-thead-sticky")
           }
           if (this.leftFixedNumber || this.rightFixedNumber) {
             this.fixedLeftThead(theadEl)
@@ -172,11 +213,14 @@ export default {
         if (tfoot) {
           const tfootEl = tfoot.$el
           const bottom = scrollHeight - clientHeight - scrollTop
-          tfootEl.style.bottom = bottom + "px"
+          // tfootEl.style.bottom = bottom + "px"
+          const footTable = tfootEl.querySelector(".k-table")
           if (bottom > 0) {
-            tfootEl.querySelector(".k-table").classList.add("k-tfootshadow")
+            footTable.classList.add("k-tfootshadow")
+            // tfootEl.classList.add("k-tfoot-sticky")
           } else {
-            tfootEl.querySelector(".k-table").classList.remove("k-tfootshadow")
+            footTable.classList.remove("k-tfootshadow")
+            // tfootEl.classList.remove("k-tfoot-sticky")
           }
           if (this.leftFixedNumber || this.rightFixedNumber) {
             this.fixedLeftTfoot(tfootEl)
@@ -354,35 +398,109 @@ export default {
             ? "k-table-fixed-td-right-foot"
             : "k-table-fixed-td-right-body"
       if (scrollLeft > 0) {
-        elems.forEach(el => {
+        // console.log(elems)
+        elems.forEach((el,i) => {
           el.classList.add(klass_left)
-          el.style.left = `${scrollLeft}px`
+          // el.style.left = `${scrollLeft}px`
         })
       } else {
         elems.forEach(el => {
           el.classList.remove(klass_left)
-          el.style.removeProperty("left")
+          // el.style.removeProperty("left")
         })
       }
       if (clientWidth < scrollWidth && scrollLeft + clientWidth < scrollWidth) {
         elems_r.forEach(el => {
           el.classList.add(klass_right)
           this.rightTranslate = scrollLeft + clientWidth - scrollWidth + 1
-          el.style.left = `${this.rightTranslate}px`
+          // el.style.left = `${this.rightTranslate}px`
         })
       } else {
         this.rightTranslate = 0
         elems_r.forEach(el => {
           el.classList.remove(klass_right)
-          el.style.removeProperty("left")
+          // el.style.removeProperty("left")
         })
       }
     },
     init() {
       this.$nextTick(() => {
+        this.setStickLeft()
+        this.setStickRight()
         this.onTableWrapperScroll()
         window.addEventListener("resize", this.onTableWrapperScroll)
       })
+    },
+    setStickLeft() {
+      if(this.leftFixedNumber) {
+        const {thead,tbody,tfoot} = this.$refs
+        // const tds = [...tbody.$el.querySelector('.k-table>thead>tr>td')]
+        const tds = [...tbody.$el.querySelectorAll('.k-tbody>tbody>tr:first-child>td')]
+          .slice(0, this.leftFixedNumber)
+        tds.forEach(td=>{
+          td.style.removeProperty('position')
+          td.style.removeProperty('left')
+        })
+        this.leftSticky = tds.map(td=>td.offsetLeft+'px')
+        tbody.$el.querySelectorAll('.k-tbody>tbody>tr').forEach(tr=>{
+          [...tr.querySelectorAll('td')].slice(0,this.leftFixedNumber-0).forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.left = this.leftSticky[i]
+          })
+        })
+        thead.$el.querySelectorAll('.k-table>thead>tr').forEach(tr=>{
+          [...tr.querySelectorAll('th')].slice(0,this.leftFixedNumber-0).forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.left = this.leftSticky[i]
+          })
+        })
+        tfoot.$el.querySelectorAll('.k-tfoot>tfoot>tr').forEach(tr=>{
+          [...tr.querySelectorAll('th')].slice(0,this.leftFixedNumber-0).forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.left = this.leftSticky[i]
+          })
+        })
+      }
+    },
+    setStickRight() {
+      if(this.rightFixedNumber) {
+        const {thead,tbody,tfoot} = this.$refs
+        // const tds = [...tbody.$el.querySelector('.k-table>thead>tr>td')]
+        const tds = [...tbody.$el.querySelectorAll('.k-tbody>tbody>tr:first-child>td')]
+        .slice(-1*this.rightFixedNumber).reverse()
+        tds.forEach(td=>{
+          td.style.removeProperty('position')
+          td.style.removeProperty('right')
+        })
+        this.rightSticky = []
+        let ws = tds.map(td=>td.offsetWidth)
+        tds.forEach((td,i)=>{
+          if(i===0) {
+            this.rightSticky.push(0)
+          }else{
+            this.rightSticky.push(ws.slice(0,i).reduce((total,num)=>total+num))
+          }
+        })
+        console.log(this.rightSticky)
+        tbody.$el.querySelectorAll('.k-tbody>tbody>tr').forEach(tr=>{
+          [...tr.querySelectorAll('td')].slice(-1*this.rightFixedNumber).reverse().forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.right = this.rightSticky[i] + 'px'
+          })
+        })
+        thead.$el.querySelectorAll('.k-table>thead>tr').forEach(tr=>{
+          [...tr.querySelectorAll('th')].slice(-1*this.rightFixedNumber).reverse().forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.right = this.rightSticky[i] + 'px'
+          })
+        })
+        tfoot.$el.querySelectorAll('.k-tfoot>tfoot>tr').forEach(tr=>{
+          [...tr.querySelectorAll('th')].slice(-1*this.rightFixedNumber).reverse().forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.right = this.rightSticky[i] + 'px'
+          })
+        })
+      }
     },
     //e是事件对象，el是当前要调整宽度的单元格，index是第几个单元格
     handleResizeDown(e, el, index, col) {
@@ -393,19 +511,22 @@ export default {
       const tdOldWidth = parseFloat(getStyle(el, "width"))
       const totalHeight = getStyle(this.$refs.mainTable, "height")
       const baseLine = this.$refs.baseLine
-      let left = offset(el, this.$el).left + tdOldWidth - scrollLeft
+      let left = offset(el, this.$el).left + tdOldWidth- scrollLeft
       baseLine.style.height = totalHeight
-      if (col.fixed) {
-        //目前没有实现这种方式
-        left = left + scrollLeft
-      } else if (this.leftFixedNumber && index < this.leftFixedNumber) {
-        left += scrollLeft
+      // console.log(this.leftFixedNumber,index, col.fixed)
+      // if (col.fixed) {
+      //   //目前没有实现这种方式
+      //   left = left + scrollLeft
+      // } else 
+      if (this.leftFixedNumber && index < this.leftFixedNumber) {
+        // left += scrollLeft
+        // console.log('??')
       } else if (
         this.rightFixedNumber &&
         index >=
         this.machiningColumns.bodyColumns.length - 1 - this.rightFixedNumber
       ) {
-        left = left + this.rightTranslate
+        // left = left + this.rightTranslate
       }
       baseLine.style.left = left + 1 + "px"
       this.currentResizeTd.startX = e.clientX
@@ -429,9 +550,14 @@ export default {
       this.currentResizeTd = null
       document.removeEventListener("mousemove", this.handleResizeMove)
       document.removeEventListener("mouseup", this.handleResizeUp)
+      this.init()
     },
     resizeColumnWidth(t, e) {
       const { colIndex, startX, tdOldWidth } = this.currentResizeTd
+      const {bodyColumns} = this.machiningColumns
+      // const col = bodyColumns[colIndex]
+      // const width = col.style&&col.style.width?col.style.width:120
+      
       if (t) {
         const head = t.querySelector(".k-theadwrapper"),
           body = t.querySelector(".k-tbodywrapper"),
@@ -440,8 +566,23 @@ export default {
             if (el) {
               const cols = el.querySelectorAll("col")
               if (cols) {
-                cols[+colIndex].style.width =
-                  tdOldWidth + e.clientX - startX + "px"
+                let w = tdOldWidth + e.clientX - startX
+                const {__index,__level,...col} = bodyColumns[colIndex]
+                if(w!=tdOldWidth) {
+                  if(w<this.tdMinWidth)  {
+                    w = this.tdMinWidth
+                  }
+                  if(this.minContent) {
+                    // cols[+colIndex].style.width = w + "px"
+                    cols[+colIndex].width = w
+                  } else {
+                    //当宽度是100%时，目前没有好办法精准调整列宽
+                    cols[+colIndex].width = w
+                  }
+                  if(w!=tdOldWidth) {
+                    this.$emit('resize', {width:w,col,index:colIndex})
+                  }
+                }
               }
             }
           }
@@ -494,6 +635,7 @@ export default {
     }
   },
   updated() {
+    this.init()
     this.clearCells()
     this.onTableWrapperScroll()
   },

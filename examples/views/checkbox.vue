@@ -4,7 +4,7 @@
     <div>
       <div>
         买衣服送袜子
-        <k-checkbox v-model="b"></k-checkbox>
+        < v-model="b"></>
         {{b}}
         <div>
           
