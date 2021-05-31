@@ -267,6 +267,7 @@ export default {
                   }
                   this.dataValue = [...set]
                   this.emitValue()
+                  this.$emit('toggle', this.dataValue)
                   // this.$forceUpdate()
                 }
               }
@@ -341,6 +342,7 @@ export default {
                   const i = dataValue.indexOf(k)
                   this.dataValue.splice(i, 1)
                   this.emitValue()
+                  this.$emit('toggle', this.dataValue)
                   e.stopPropagation()
                 }}
               ></k-icon>
