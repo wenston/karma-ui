@@ -93,7 +93,8 @@ export default {
       } else if (n > 0 && m < showM) {
         y = y + 1
       }
-      this.showingDate = `${y}-${String(m).padStart(2, 0)}-${this.showingDay}`
+      // this.showingDate = `${y}-${String(m).padStart(2, 0)}-${this.showingDay}`
+      this.showingDate = `${y}-${String(m).padStart(2, 0)}-01`
       this.$emit("change-ymd", this.showingDate)
     },
     _renderBodyTitle() {
