@@ -7,6 +7,23 @@ function isLeapYear(y) {
   //所以得出判断闰年的表达式：
   return cond1 && cond2 || cond3
 }
+export const parseDate = (str, fmt)=>{
+	fmt = fmt || 'yyyy-MM-dd';
+	var obj = {y: 0, M: 1, d: 0, H: 0, h: 0, m: 0, s: 0, S: 0};
+	fmt.replace(/([^yMdHmsS]*?)(([yMdHmsS])\3*)([^yMdHmsS]*?)/g, function(m, $1, $2, $3, $4, idx, old)
+	{
+		str = str.replace(new RegExp($1+'(\\d{'+$2.length+'})'+$4), function(_m, _$1)
+		{
+			obj[$3] = parseInt(_$1);
+			return '';
+		});
+		return '';
+	});
+	obj.M--; // 月份是从0开始的，所以要减去1
+	var date = new Date(obj.y, obj.M, obj.d, obj.H, obj.m, obj.s);
+	if(obj.S !== 0) date.setMilliseconds(obj.S); // 如果设置了毫秒
+	return date;
+}
 export const toDateType = v => {
   let value = v
   if (typeof value === "string") {
@@ -31,7 +48,7 @@ export const toDateType = v => {
         if (/^\s+$/.test(a)) {
           return all.replace(a, "T")
         }
-      }) //强制把时间格式加T
+      })
   }
   let dt = value
   if (Object.prototype.toString.call(dt) !== "[object Date]") {
@@ -41,7 +58,6 @@ export const toDateType = v => {
     dt = new Date(v.replace(/\-/g, '/'))
   }
   if (dt == "Invalid Date") {
-    //后台有时候是mm-dd-yyy  经过前面一系列变化，在加上t，就成了无效的日期，加t 只能是yyyy-mm-dd
     if (value) {
       dt = new Date(
         new Date(value.replace(/t/i, " ")).toUTCString().replace("GMT", "")
@@ -49,27 +65,6 @@ export const toDateType = v => {
     }
   }
   return dt
-
-  // var year = dt.getFullYear()
-  // var month = parseInt(dt.getMonth()) + 1
-  // var day = parseInt(dt.getDate())
-  // var hours = parseInt(dt.getHours())
-  // var minutes = parseInt(dt.getMinutes())
-  // var seconds = parseInt(dt.getSeconds())
-
-  // month = month < 10 ? "0" + month : month
-  // day = day < 10 ? "0" + day : day
-  // hours = hours < 10 ? "0" + hours : hours
-  // minutes = minutes < 10 ? "0" + minutes : minutes
-  // seconds = seconds < 10 ? "0" + seconds : seconds
-  // return {
-  //   year: year,
-  //   month: month,
-  //   day: day,
-  //   hours: hours,
-  //   minutes: minutes,
-  //   seconds: seconds
-  // }
 }
 export const getNow = () => {
   let now = null
@@ -154,7 +149,11 @@ export const getLastWeek = () => {
   const thisMonday = getMondayInThisWeek()
   const start = addDays(thisMonday, -7)
   const end = addDays(start, 6)
-  return { start, end }
+  // const t = formatDate(parseDate(thisMonday))
+  const now = formatDate(parseDate(thisMonday) - 6.5 * 86400000)
+  const _end = formatDate(parseDate(thisMonday) - 0.5 * 86400000)
+  // console.log(t,now,_end)
+  return { start:now, end:_end }
 }
 export const getFirstDayInThisMonth = () => {
   const d = getNow()
@@ -172,9 +171,11 @@ export const getLastMonth = () => {
   }
   const days = getMonths(y)[lastM]
   const start = formatDate(`${y}-${lastM}-1`)
+  const end = formatDate(`${y}-${lastM}-${days}`)
   return {
     start,
-    end: formatDate(addDays(start, days - 1))
+    // end: formatDate(addDays(start, days - 1))
+    end
   }
 }
 export default {

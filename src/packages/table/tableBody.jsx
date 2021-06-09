@@ -385,8 +385,17 @@ export default {
       const curHighlightRowKey = this.getRowKey(row, index, this.highlightKey);
       let tds = [];
       this.columns.forEach(col => {
+        
         tds.push(this.renderTd(row, index, col));
       });
+      // this.columns.forEach(col => {
+      //   let colspan = col.colspan || 1
+      //   while(colspan>0) {
+
+      //     colspan-=1
+      //   }
+      //   tds.push(this.renderTd(row, index, col));
+      // });
       let trClass = {};
 
       if (Array.isArray(this.trClass)) {
