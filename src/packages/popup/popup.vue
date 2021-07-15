@@ -7,60 +7,64 @@ export default {
   name: "KPopup",
   components: {
     KButton,
-    KIcon
+    KIcon,
   },
   props: {
     bind: {
       type: String,
-      default: "v-if"
+      default: "v-if",
     },
     title: {
       type: String,
-      default: "确认"
+      default: "确认",
     },
     okText: {
       type: String,
-      default: "确定"
+      default: "确定",
     },
     cancelText: {
       type: String,
-      default: "取消"
+      default: "取消",
     },
     show: {
       type: Boolean,
-      default: false
+      default: false,
     },
     //显示出此组件的哪些部分：头部、body、footer，关闭按钮、遮罩
     //默认全显示
     layout: {
       type: String,
-      default: "header,body,footer,close,mask"
+      default: "header,body,footer,close,mask",
     },
     buttonSize: {
       type: String,
-      default: "medium"
+      default: "medium",
     },
     hasBottomLine: {
       type: Boolean,
-      default: true
+      default: true,
     },
     allowBodyScroll: {
       type: Boolean,
-      default: false
+      default: false,
     },
     bodyStyle: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     disabledOk: Boolean,
     okType: {
       type: String,
-      default: "primary"
-    }
+      default: "primary",
+    },
+    stopPropagation: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
-      isOk: false
+      isOk: false,
     }
   },
   methods: {
@@ -129,10 +133,10 @@ export default {
           size="14"
           title="关闭"
           weight
-          onMousedown={e => {
+          onMousedown={(e) => {
             e.stopPropagation()
           }}
-          onClick={e => {
+          onClick={(e) => {
             this.onCancel(e)
             e.stopPropagation()
           }}
@@ -146,7 +150,7 @@ export default {
             <div class="k-popup__header">
               <div class="k-popup__header__title">
                 <b
-                  onMousedown={e => {
+                  onMousedown={(e) => {
                     e.stopPropagation()
                   }}
                 >
@@ -163,7 +167,7 @@ export default {
         return (
           <div
             class="k-popup__body"
-            onMousedown={e => {
+            onMousedown={(e) => {
               e.stopPropagation()
             }}
           >
@@ -180,19 +184,19 @@ export default {
     r_footer(has) {
       if (has) {
         const p = {
-          class: "k-popup__footer"
+          class: "k-popup__footer",
         }
         return (
           <div {...p}>
             <div
               class={[
                 "k-popup__footer__con",
-                { "k-popup__footer__con--line": this.hasBottomLine }
+                { "k-popup__footer__con--line": this.hasBottomLine },
               ]}
             >
               <div class="k-popup__footer__between">
                 <div
-                  onMousedown={e => {
+                  onMousedown={(e) => {
                     e.stopPropagation()
                   }}
                 >
@@ -201,7 +205,7 @@ export default {
                 <div>
                   {this.$slots.footer || [
                     <k-button
-                      onMousedown={e => {
+                      onMousedown={(e) => {
                         e.stopPropagation()
                       }}
                       onClick={this.onCancel}
@@ -210,7 +214,7 @@ export default {
                       {this.cancelText}
                     </k-button>,
                     <k-button
-                      onMousedown={e => {
+                      onMousedown={(e) => {
                         e.stopPropagation()
                       }}
                       disabled={this.disabledOk}
@@ -219,7 +223,7 @@ export default {
                       size={this.buttonSize}
                     >
                       {this.okText}
-                    </k-button>
+                    </k-button>,
                   ]}
                 </div>
               </div>
@@ -233,16 +237,16 @@ export default {
       const hasHeader = layout.indexOf("header") > -1
       const container_p = {
         class: "k-popup__container",
-        ref: "container"
+        ref: "container",
       }
       if (hasHeader) {
         container_p.directives = [
           {
-            name: "dnd"
+            name: "dnd",
             // value: {
             //   handlerClass: "k-popup__header__title"
             // }
-          }
+          },
         ]
       }
       return (
@@ -260,26 +264,28 @@ export default {
       const p = {
         ref: "popup",
         attrs: {
-          tabindex: -1
+          tabindex: -1,
         },
         class: [
           "k-popup",
           this.layout.indexOf("mask") > -1
             ? "k-popup--mask"
-            : "k-popup--transparent"
+            : "k-popup--transparent",
         ],
         on: {
-          click:e=>{
-            e.stopPropagation()
-          }
-        }
+          click: (e) => {
+            if (this.stopPropagation) {
+              e.stopPropagation()
+            }
+          },
+        },
       }
       if (this.bind === "v-show") {
         p.directives = [
           {
             name: "show",
-            value: this.show
-          }
+            value: this.show,
+          },
         ]
         return <div {...p}>{this.r_wrapper()}</div>
       } else if (this.bind === "v-if") {
@@ -287,7 +293,7 @@ export default {
           return <div {...p}>{this.r_wrapper()}</div>
         }
       }
-    }
+    },
   },
   render() {
     return (
@@ -310,7 +316,7 @@ export default {
     document.removeEventListener("keyup", this.esc)
   },
   directives: {
-    dnd
-  }
+    dnd,
+  },
 }
 </script>
