@@ -168,7 +168,9 @@ export default {
           <div
             class="k-popup__body"
             onMousedown={(e) => {
-              e.stopPropagation()
+              if (this.stopPropagation) {
+                e.stopPropagation()
+              }
             }}
           >
             <div class="k-popup__content">
@@ -197,7 +199,7 @@ export default {
               <div class="k-popup__footer__between">
                 <div
                   onMousedown={(e) => {
-                    e.stopPropagation()
+                    if (this.stopPropagation) e.stopPropagation()
                   }}
                 >
                   {this.$slots["footer-prepend"]}
