@@ -26,6 +26,10 @@ export default {
       type: String,
       default: "取消"
     },
+    onClose: {
+      type: Boolean,
+      default: false
+    },
     show: {
       type: Boolean,
       default: false
@@ -114,7 +118,9 @@ export default {
     onCancel() {
       this.isOk = false
       this.$emit("update:show", false)
-      this.$emit("after-cancel")
+      if (!this.onClose) {
+        this.$emit("after-cancel")
+      } 
     },
     esc(e) {
       if (e.keyCode == 27) {
@@ -269,7 +275,7 @@ export default {
             : "k-popup--transparent"
         ],
         on: {
-          click:e=>{
+          click: e => {
             e.stopPropagation()
           }
         }
