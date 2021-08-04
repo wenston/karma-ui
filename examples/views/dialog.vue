@@ -17,16 +17,17 @@ export default {
   methods: {
     onShow() {
       this.$dialog({
-        layout: 'body,mask,footer',
-        content(){
+        // layout: 'body,mask,footer',
+        onlyClose: true,
+        content() {
           return (
             <div>确认要删除吗，确认要删除吗，确认要删除吗，确认要删除吗，确认要删除吗，确认要删除吗，</div>
           )
         },
-        ok:()=>{
+        ok: () => {
           console.log('页面接收到了ok')
         },
-        cancel:()=>{
+        cancel: () => {
           console.log('页面接收到了cancel')
         }
       })
@@ -36,5 +37,4 @@ export default {
 </script>
 
 <style>
-
 </style>

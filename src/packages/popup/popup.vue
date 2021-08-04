@@ -26,10 +26,6 @@ export default {
       type: String,
       default: "取消"
     },
-    onClose: {
-      type: Boolean,
-      default: false
-    },
     show: {
       type: Boolean,
       default: false
@@ -118,9 +114,7 @@ export default {
     onCancel() {
       this.isOk = false
       this.$emit("update:show", false)
-      if (!this.onClose) {
-        this.$emit("after-cancel")
-      } 
+      this.$emit("after-cancel")
     },
     esc(e) {
       if (e.keyCode == 27) {
