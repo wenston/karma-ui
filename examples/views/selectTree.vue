@@ -9,6 +9,7 @@
         textField="Name"
         keyField="Id"
         v-model="myId"
+        text='测试一下'
         @toggle="onToggle">
         <k-button slot="footer">footer</k-button>
       </k-select-tree>
@@ -20,8 +21,18 @@
     </div>
     <h3 class="layout__title">基本用法(数据较多)</h3>
     <div>
-      <k-select-tree block
+      <k-select-tree 
         :data="data2"
+        size='huge'
+        keyField='atid'
+        childField='childs'
+        searchField='atname'
+        textField='atname'
+        :show.sync="show"
+        showTitleLevel='2'
+        levelField='areaLevel'
+        block
+        text='测试一下'
         hasCheckbox
         selected-rule="every"
         :selected-data.sync="selectedData"
@@ -395,6 +406,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.myId = 28
+      this.selectedData = [{ "areaLevel": 2, "atid": "37", "atname": "蚌埠", "atpids": "AAA001-3-37", "atnames": "中国-安徽-蚌埠" }, { "areaLevel": 2, "atid": "39", "atname": "池州", "atpids": "AAA001-3-39", "atnames": "中国-安徽-池州" }, { "areaLevel": 2, "atid": "40", "atname": "滁州", "atpids": "AAA001-3-40", "atnames": "中国-安徽-滁州" }, { "areaLevel": 2, "atid": "41", "atname": "阜阳", "atpids": "AAA001-3-41", "atnames": "中国-安徽-阜阳" }, { "areaLevel": 2, "atid": "42", "atname": "淮北", "atpids": "AAA001-3-42", "atnames": "中国-安徽-淮北" }, { "areaLevel": 2, "atid": "43", "atname": "淮南", "atpids": "AAA001-3-43", "atnames": "中国-安徽-淮南" }, { "areaLevel": 2, "atid": "44", "atname": "黄山", "atpids": "AAA001-3-44", "atnames": "中国-安徽-黄山" }, { "areaLevel": 2, "atid": "45", "atname": "六安", "atpids": "AAA001-3-45", "atnames": "中国-安徽-六安" }, { "areaLevel": 2, "atid": "46", "atname": "马鞍山", "atpids": "AAA001-3-46", "atnames": "中国-安徽-马鞍山" }, { "areaLevel": 2, "atid": "47", "atname": "宿州", "atpids": "AAA001-3-47", "atnames": "中国-安徽-宿州" }, { "areaLevel": 2, "atid": "48", "atname": "铜陵", "atpids": "AAA001-3-48", "atnames": "中国-安徽-铜陵" }, { "areaLevel": 2, "atid": "49", "atname": "芜湖", "atpids": "AAA001-3-49", "atnames": "中国-安徽-芜湖" }, { "areaLevel": 2, "atid": "50", "atname": "宣城", "atpids": "AAA001-3-50", "atnames": "中国-安徽-宣城" }, { "areaLevel": 2, "atid": "51", "atname": "亳州", "atpids": "AAA001-3-51", "atnames": "中国-安徽-亳州" }, { "areaLevel": 2, "atid": "3401", "atname": "合肥", "atpids": "AAA001-3-3401", "atnames": "中国-安徽-合肥" }, { "areaLevel": 1, "atid": "4", "atname": "福建", "atpids": "AAA001-4", "atnames": "中国-福建" }, { "areaLevel": 2, "atid": "53", "atname": "福州", "atpids": "AAA001-4-53", "atnames": "中国-福建-福州" }, { "areaLevel": 2, "atid": "54", "atname": "龙岩", "atpids": "AAA001-4-54", "atnames": "中国-福建-龙岩" }, { "areaLevel": 2, "atid": "55", "atname": "南平", "atpids": "AAA001-4-55", "atnames": "中国-福建-南平" }, { "areaLevel": 2, "atid": "56", "atname": "宁德", "atpids": "AAA001-4-56", "atnames": "中国-福建-宁德" }, { "areaLevel": 2, "atid": "57", "atname": "莆田", "atpids": "AAA001-4-57", "atnames": "中国-福建-莆田" }, { "areaLevel": 2, "atid": "58", "atname": "泉州", "atpids": "AAA001-4-58", "atnames": "中国-福建-泉州" }, { "areaLevel": 2, "atid": "59", "atname": "三明", "atpids": "AAA001-4-59", "atnames": "中国-福建-三明" }, { "areaLevel": 2, "atid": "60", "atname": "厦门", "atpids": "AAA001-4-60", "atnames": "中国-福建-厦门" }, { "areaLevel": 2, "atid": "61", "atname": "漳州", "atpids": "AAA001-4-61", "atnames": "中国-福建-漳州" }]
     })
   },
   watch: {

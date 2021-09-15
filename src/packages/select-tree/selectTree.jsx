@@ -23,7 +23,7 @@ export default {
       type: Boolean,
       default: false
     },
-    showTitleLevel: {//默认显示的是 父级和下面级别的，有的需求只显示2级，比如城市只显示市，不显示省份
+    showTitleLevel: {//默认显示的是 父级和下面级别的，有的需求只显示2级，比如城市只显示市，不显示省份,1 是省份，2 是地级市，不给 都显示
       type: String,
       default: ''
     },
@@ -104,7 +104,6 @@ export default {
           keyField = this.keyField,
           checkedData = this.checkedData
         if (checkedData && checkedData.length) {
-          console.log(checkedData)
           if (this.showTitleLevel) {
             checkedData = checkedData.filter(item => item[this.levelField] == this.showTitleLevel)
           }
