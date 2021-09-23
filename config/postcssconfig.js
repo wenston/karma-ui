@@ -5,7 +5,7 @@ module.exports = {
     require('precss')(),
     require('postcss-color-function')(),
     require('postcss-cssnext')(),
-    require('postcss-atrule-bem')(),
+    require('postcss-atrule-bem')()
     // require('postcss-normalize')({
     //   forceImport:true
     // }),
