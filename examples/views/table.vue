@@ -526,12 +526,12 @@ let table1 = [
       },
     ],
   },
-];
+]
 export default {
   data() {
     return {
       priceSorter: true,
-      supplierSorter: true,
+      supplierSorter: 1,
       table: [
         {
           name: "明明",
@@ -617,7 +617,7 @@ export default {
       columns: [
         {
           name: () => {
-            return <span style="color:red">学生信息</span>;
+            return <span style="color:red">学生信息</span>
           },
           fixed: "left",
           children: [
@@ -685,7 +685,7 @@ export default {
           name: "操作",
           // fixed: "right",
           customRender: (row, index) => {
-            return <a href="javascript:;">删除</a>;
+            return <a href="javascript:;">删除</a>
           },
         },
       ],
@@ -762,7 +762,7 @@ export default {
               <a href="javascript:;" onClick={() => this.onDel(row, index)}>
                 删除
               </a>
-            );
+            )
           },
         },
       ],
@@ -817,7 +817,7 @@ export default {
               >
                 删除
               </a>
-            );
+            )
           },
         },
       ],
@@ -1228,14 +1228,14 @@ export default {
           ],
         },
       ],
-    };
+    }
   },
   methods: {
     checkable3(row, index) {
       if (row.HasOpened === "Y") {
-        return [true, false];
+        return [true, false]
       }
-      return [false, true];
+      return [false, true]
       // if (row.HasOpened && row.HasOpened.toLowerCase() === "n") {
       //     return [false, true]
       //   } else {
@@ -1245,13 +1245,13 @@ export default {
     checkable(row, index) {
       // console.log(row,index)
       if (row.SupplierName === "融商") {
-        return [true, false];
+        return [true, false]
       }
-      return [false, true];
+      return [false, true]
     },
     fnColumns() {
-      const supplierSorter = this.supplierSorter;
-      const priceSorter = this.priceSorter;
+      const supplierSorter = this.supplierSorter
+      const priceSorter = this.priceSorter
       const tax =
         this.random > 0.5
           ? {
@@ -1259,7 +1259,7 @@ export default {
               name: "税率",
               sum: true,
             }
-          : null;
+          : null
       return [
         {
           style: { width: "150" },
@@ -1288,24 +1288,24 @@ export default {
           field: "StoreName",
           name: "收货仓库",
         },
-      ];
+      ]
     },
     onShowSomeCol() {
-      this.random = Math.random();
-      console.log(this.random);
+      this.random = Math.random()
+      console.log(this.random)
     },
     onSlcChange(checked, row, index) {
       // console.log(checked,row,index)
     },
     onSelectChange(e) {
-      console.log(e);
+      console.log(e)
     },
     onDel(row, row1, index) {
-      console.log(row, row1, index);
+      console.log(row, row1, index)
       // row.Details.splice(index,1)
     },
     onSort({ type, field, name }) {
-      console.log(type, field, name);
+      console.log(type, field, name)
       // if(field=='SupplierName') {
       //   this.priceSorter = true
       // }else if(field=='TotalPrice') {
@@ -1313,8 +1313,8 @@ export default {
       // }
     },
     onClear() {
-      this.selectedKeys = [];
-      this.selectedRows = [];
+      this.selectedKeys = []
+      this.selectedRows = []
     },
   },
   computed: {},
@@ -1326,10 +1326,10 @@ export default {
       // console.log(v)
     },
     selectedKeys(keys) {
-      console.log(keys);
+      console.log(keys)
     },
     selectedRows(rows) {
-      console.log(rows);
+      console.log(rows)
     },
   },
   mounted() {
@@ -1337,11 +1337,11 @@ export default {
       // this.currentId = "PC04201811230002,1053"
       // this.selectedKeys3 = ['2','1']
       // this.selectedRows3 = this.data3.slice(1)
-      this.selectedKeys = this.KEYS.slice(0);
-      this.selectedRows = this.ROWS.slice(0);
-    }, 0);
+      this.selectedKeys = this.KEYS.slice(0)
+      this.selectedRows = this.ROWS.slice(0)
+    }, 0)
   },
-};
+}
 </script>
 <style lang="postcss" module="css">
 .code {

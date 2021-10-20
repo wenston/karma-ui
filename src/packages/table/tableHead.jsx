@@ -206,15 +206,27 @@ export default {
               index: i,
               tag: "th",
               sorter: (() => {
-                let b = true;
-                if (col.field && this.currentSorterField == col.field) {
-                  b = this.currentSort
+                // let b = true;
+                // if (col.field && this.currentSorterField == col.field) {
+                //   b = this.currentSort
+                // } else {
+                //   b = "sorter" in col
+                // }
+                // return b
+                
+                
+                if('sorter' in col) {
+                  if(col.field && this.currentSorterField==col.field) {
+                    return this.currentSort
+                  }
+                  return col.sorter
                 } else {
-                  b = "sorter" in col
+                  let b = false
+                  if(col.field && this.currentSorterField==col.field) {
+                    b = this.currentSort
+                  }
+                  return b
                 }
-                // console.log(b)
-                return b
-                // col.sorter === undefined ? false : col.sorter
               })()
             },
             class: [
