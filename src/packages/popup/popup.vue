@@ -146,19 +146,21 @@ export default {
     r_header(has) {
       if (has) {
         return (
-          this.$slots.header || (
-            <div class="k-popup__header">
-              <div class="k-popup__header__title">
-                <b
-                  onMousedown={(e) => {
-                    e.stopPropagation()
-                  }}
-                >
-                  {this.title}
-                </b>
+          <div class="k-popup__header__wrapper">
+            {this.$slots.header || (
+              <div class="k-popup__header">
+                <div class="k-popup__header__title">
+                  <b
+                    onMousedown={(e) => {
+                      e.stopPropagation()
+                    }}
+                  >
+                    {this.title}
+                  </b>
+                </div>
               </div>
-            </div>
-          )
+            )}
+          </div>
         )
       }
     },
@@ -246,7 +248,7 @@ export default {
           {
             name: "dnd",
             value: {
-              handlerClass: "k-popup__header__title",
+              handlerClass: "k-popup__header__wrapper",
             },
           },
         ]
