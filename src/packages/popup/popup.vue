@@ -245,9 +245,9 @@ export default {
         container_p.directives = [
           {
             name: "dnd",
-            // value: {
-            //   handlerClass: "k-popup__header__title"
-            // }
+            value: {
+              handlerClass: "k-popup__header__title",
+            },
           },
         ]
       }

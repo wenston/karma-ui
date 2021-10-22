@@ -15,6 +15,7 @@
         :min="value"
         simple
         block></k-date-picker>
+      <k-button @click="value1=''">清空单个日期</k-button>
     </div>
     <div>
       日期区间：<k-date-picker :start.sync="start"
@@ -42,22 +43,22 @@ export default {
       show1: false,
       start: new Date(),
       end: new Date(),
-    };
+    }
   },
   computed: {
     max() {
-      return new Date();
+      return new Date()
     },
     min() {
-      return new Date() - 15 * 3600 * 24 * 1000;
+      return new Date() - 15 * 3600 * 24 * 1000
     },
   },
   methods: {
     toggle(e) {
-      this.show = !this.show;
+      this.show = !this.show
     },
     getDatePickerElement(el) {
-      console.log(el);
+      console.log(el)
     },
   },
   watch: {
@@ -71,7 +72,7 @@ export default {
       // console.log(d)
     },
   },
-};
+}
 </script>
 
 <style>

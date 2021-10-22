@@ -662,6 +662,8 @@ export default {
     value(d) {
       if (d) {
         this.currentDate = util.formatDate(d)
+      } else {
+        this.currentDate = ''
       }
     },
     start: {
