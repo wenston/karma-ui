@@ -481,7 +481,7 @@ export default {
             this.rightSticky.push(ws.slice(0,i).reduce((total,num)=>total+num))
           }
         })
-        console.log(this.rightSticky)
+        // console.log(this.rightSticky)
         tbody.$el.querySelectorAll('.k-tbody>tbody>tr').forEach(tr=>{
           [...tr.querySelectorAll('td')].slice(-1*this.rightFixedNumber).reverse().forEach((td,i)=>{
             td.style.position = 'sticky'

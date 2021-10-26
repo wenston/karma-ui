@@ -49,6 +49,8 @@ export default {
     beforeDrag(e) {
       this.startX = e.clientX
       this.startY = e.clientY
+      this.type = ''
+      this.toIndex = -1
       const wrapper = this.parent_thead.$el
       const tr = wrapper.querySelector('tr')
       //排除了预置列
@@ -88,8 +90,8 @@ export default {
       setStyle(this.dragElem, {
         left: left + 'px',
       })
-      this.type = ''
-      this.toIndex = -1
+      // this.type = ''
+      // this.toIndex = -1
       let r_left = -9999
       let r_top = -9999
       let ex_left = -9999
@@ -137,6 +139,7 @@ export default {
       }
     },
     handleMouseup_drag(e) {
+      console.log()
       const from = this.index - this.presets
       if (this.type && this.toIndex > -1 && this.toIndex !== from) {
         if (!(this.type === 'move' && from - this.toIndex === -1)) {
