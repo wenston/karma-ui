@@ -1,7 +1,12 @@
 //为什么表头和表尾不采取数据驱动改变top和bottom？
 //因为：减少dom重绘的次数！
 //hover变色也是这样
-import { getStyle, offset } from "karma-ui/util/dom"
+//优化
+/**
+ * 2020-01-15：当不需要汇总时，从原来的不渲染tfoot改为display:none
+ * 原因：列宽的调整在动态显隐tfoot时，会造成底部列宽和tbody列宽不一致！
+ */
+import { getStyle, offset, scrollIntoViewIfNeed } from "karma-ui/util/dom"
 import { props } from "./_util/props"
 import mixins from "./_mixins/"
 import KTableHead from "./tableHead"
@@ -19,8 +24,14 @@ export default {
   name: "KTable",
   props: {
     ...props,
-    leftFixedNumber: [Number, String],
-    rightFixedNumber: [Number, String]
+    leftFixedNumber: {
+      type: [Number, String],
+      default: 0
+    },
+    rightFixedNumber: {
+      type: [Number, String],
+      default: 0
+    }
   },
   model: {
     prop: "value",
@@ -42,7 +53,9 @@ export default {
         tfootLeftTds: [],
         tfootRightTds: []
       },
-      rightTranslate: 0
+      rightTranslate: 0,
+      leftSticky: [],
+      rightSticky: []
     }
   },
   provide() {
@@ -70,7 +83,8 @@ export default {
     },
     rColGroup() {
       return <template slot="colgroup">{this.colGroup}</template>
-    }
+    },
+    tdMinWidth:()=>20
   },
   watch: {
     leftFixedNumber(n) {
@@ -83,7 +97,43 @@ export default {
           this.setHighlightRow({ key: v })
         })
       }
-    }
+    },
+    data: {
+      immediate: true,
+      handler(d) {
+        let b = false
+        const { thead } = this.$refs
+        if(d.length) {
+          if(thead) {
+            //设置表头的全选复选框状态
+            const keys = [...this.selectedKeys.map(s=>s+'')]
+            if(keys.length) {
+              const ks = d.map(el=>{
+                return el[this.checkboxKey]+''
+              })
+              if(keys.length>=ks.length) {
+                let _b = true
+                let i = 0
+                let len = ks.length
+    
+                while(i<len) {
+                  if(!keys.some(k=>k===ks[i])) {
+                    _b = false
+                    break
+                  }
+                  i++
+                }
+                if(_b) {
+                  b = true
+                }
+  
+              }
+            }
+          }
+        }
+        thead && thead.onCheckedAll(b)
+      }
+    },
   },
   methods: {
     onMouseoutTr(e) {
@@ -98,6 +148,9 @@ export default {
       const { name, field } = col
       this.$emit("sort", { type, field, name })
     },
+    handleDrop(obj) {
+      this.$emit('drag-drop', obj)
+    },
     setHighlightRow(e) {
       if (this.$refs.tbody) {
         this.$refs.tbody.setHighlightRow(e)
@@ -107,41 +160,10 @@ export default {
       const { tbody } = this.$refs
       tbody && tbody.onCheckedAll(b)
     },
-    canCheckRow(row = {}, index) {
-      let can = [false, true]
-      if (this.checkable && typeof this.checkable === "function") {
-        can = this.checkable(row, index)
-      }
-      return can
-    },
     emitSelectChange(e) {
-      //{checked,rows,row,index}
-      const sourceDataLength = this.$props.data.length
-      let cant = 0
-      this.$props.data.forEach((row, index) => {
-        if (!this.canCheckRow(row, index)[1]) {
-          cant += 1
-        }
-      })
-      if (this.$refs.thead) {
-        const rowsLength = e.rows.length
-        const keysLength = e.keys.length
-        if (cant === 0) {
-          this.$refs.thead.onCheckedAll(
-            sourceDataLength > 0 &&
-              (rowsLength === sourceDataLength ||
-                keysLength === sourceDataLength)
-          )
-        } else {
-          const cans = sourceDataLength - cant
-          this.$refs.thead.onCheckedAll(
-            sourceDataLength > 0 && cans>0 && (rowsLength === cans || keysLength === cans)
-          )
-        }
-      }
       this.$emit("update:selectedRows", e.rows)
       this.$emit("update:selectedKeys", e.keys)
-      this.$emit("select-change", /*JSON.parse(JSON.stringify(e))*/ e)
+      this.$emit("select-change", e)
     },
     emitHighlight(e) {
       this.setHighlightRow(e)
@@ -156,6 +178,9 @@ export default {
     },
     emitDblclickRow(e) {
       this.$emit("dblclick-row", e)
+    },
+    emitClickRow(e) {
+      this.$emit("click-row", e)
     },
     emitAddRow(e) {
       this.$emit("add-row", e)
@@ -173,11 +198,13 @@ export default {
         this.scrollLeft = tar.scrollLeft
         if (thead) {
           const theadEl = thead.$el
-          theadEl.style.top = scrollTop + "px"
+          // theadEl.style.top = scrollTop + "px"
           if (scrollTop > 0) {
             theadEl.classList.add("k-theadwrapper-shadow")
+            // theadEl.classList.add("k-thead-sticky")
           } else {
             theadEl.classList.remove("k-theadwrapper-shadow")
+            // theadEl.classList.remove("k-thead-sticky")
           }
           if (this.leftFixedNumber || this.rightFixedNumber) {
             this.fixedLeftThead(theadEl)
@@ -186,11 +213,14 @@ export default {
         if (tfoot) {
           const tfootEl = tfoot.$el
           const bottom = scrollHeight - clientHeight - scrollTop
-          tfootEl.style.bottom = bottom + "px"
+          // tfootEl.style.bottom = bottom + "px"
+          const footTable = tfootEl.querySelector(".k-table")
           if (bottom > 0) {
-            tfootEl.querySelector(".k-table").classList.add("k-tfootshadow")
+            footTable.classList.add("k-tfootshadow")
+            // tfootEl.classList.add("k-tfoot-sticky")
           } else {
-            tfootEl.querySelector(".k-table").classList.remove("k-tfootshadow")
+            footTable.classList.remove("k-tfootshadow")
+            // tfootEl.classList.remove("k-tfoot-sticky")
           }
           if (this.leftFixedNumber || this.rightFixedNumber) {
             this.fixedLeftTfoot(tfootEl)
@@ -359,44 +389,118 @@ export default {
         which === "head"
           ? "k-table-fixed-td-head"
           : which === "foot"
-          ? "k-table-fixed-td-foot"
-          : "k-table-fixed-td-body"
+            ? "k-table-fixed-td-foot"
+            : "k-table-fixed-td-body"
       const klass_right =
         which === "head"
           ? "k-table-fixed-td-right-head"
           : which === "foot"
-          ? "k-table-fixed-td-right-foot"
-          : "k-table-fixed-td-right-body"
+            ? "k-table-fixed-td-right-foot"
+            : "k-table-fixed-td-right-body"
       if (scrollLeft > 0) {
-        elems.forEach(el => {
+        // console.log(elems)
+        elems.forEach((el,i) => {
           el.classList.add(klass_left)
-          el.style.transform = `translateX(${scrollLeft}px)`
+          // el.style.left = `${scrollLeft}px`
         })
       } else {
         elems.forEach(el => {
           el.classList.remove(klass_left)
-          el.style.removeProperty("transform")
+          // el.style.removeProperty("left")
         })
       }
       if (clientWidth < scrollWidth && scrollLeft + clientWidth < scrollWidth) {
         elems_r.forEach(el => {
           el.classList.add(klass_right)
           this.rightTranslate = scrollLeft + clientWidth - scrollWidth + 1
-          el.style.transform = `translateX(${this.rightTranslate}px)`
+          // el.style.left = `${this.rightTranslate}px`
         })
       } else {
         this.rightTranslate = 0
         elems_r.forEach(el => {
           el.classList.remove(klass_right)
-          el.style.removeProperty("transform")
+          // el.style.removeProperty("left")
         })
       }
     },
     init() {
       this.$nextTick(() => {
+        this.setStickLeft()
+        this.setStickRight()
         this.onTableWrapperScroll()
         window.addEventListener("resize", this.onTableWrapperScroll)
       })
+    },
+    setStickLeft() {
+      if(this.leftFixedNumber) {
+        const {thead,tbody,tfoot} = this.$refs
+        // const tds = [...tbody.$el.querySelector('.k-table>thead>tr>td')]
+        const tds = [...tbody.$el.querySelectorAll('.k-tbody>tbody>tr:first-child>td')]
+          .slice(0, this.leftFixedNumber)
+        tds.forEach(td=>{
+          td.style.removeProperty('position')
+          td.style.removeProperty('left')
+        })
+        this.leftSticky = tds.map(td=>td.offsetLeft+'px')
+        tbody.$el.querySelectorAll('.k-tbody>tbody>tr').forEach(tr=>{
+          [...tr.querySelectorAll('td')].slice(0,this.leftFixedNumber-0).forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.left = this.leftSticky[i]
+          })
+        })
+        thead.$el.querySelectorAll('.k-table>thead>tr').forEach(tr=>{
+          [...tr.querySelectorAll('th')].slice(0,this.leftFixedNumber-0).forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.left = this.leftSticky[i]
+          })
+        })
+        tfoot.$el.querySelectorAll('.k-tfoot>tfoot>tr').forEach(tr=>{
+          [...tr.querySelectorAll('th')].slice(0,this.leftFixedNumber-0).forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.left = this.leftSticky[i]
+          })
+        })
+      }
+    },
+    setStickRight() {
+      if(this.rightFixedNumber) {
+        const {thead,tbody,tfoot} = this.$refs
+        // const tds = [...tbody.$el.querySelector('.k-table>thead>tr>td')]
+        const tds = [...tbody.$el.querySelectorAll('.k-tbody>tbody>tr:first-child>td')]
+        .slice(-1*this.rightFixedNumber).reverse()
+        tds.forEach(td=>{
+          td.style.removeProperty('position')
+          td.style.removeProperty('right')
+        })
+        this.rightSticky = []
+        let ws = tds.map(td=>td.offsetWidth)
+        tds.forEach((td,i)=>{
+          if(i===0) {
+            this.rightSticky.push(0)
+          }else{
+            this.rightSticky.push(ws.slice(0,i).reduce((total,num)=>total+num))
+          }
+        })
+        // console.log(this.rightSticky)
+        tbody.$el.querySelectorAll('.k-tbody>tbody>tr').forEach(tr=>{
+          [...tr.querySelectorAll('td')].slice(-1*this.rightFixedNumber).reverse().forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.right = this.rightSticky[i] + 'px'
+          })
+        })
+        thead.$el.querySelectorAll('.k-table>thead>tr').forEach(tr=>{
+          [...tr.querySelectorAll('th')].slice(-1*this.rightFixedNumber).reverse().forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.right = this.rightSticky[i] + 'px'
+          })
+        })
+        tfoot.$el.querySelectorAll('.k-tfoot>tfoot>tr').forEach(tr=>{
+          [...tr.querySelectorAll('th')].slice(-1*this.rightFixedNumber).reverse().forEach((td,i)=>{
+            td.style.position = 'sticky'
+            td.style.right = this.rightSticky[i] + 'px'
+          })
+        })
+      }
     },
     //e是事件对象，el是当前要调整宽度的单元格，index是第几个单元格
     handleResizeDown(e, el, index, col) {
@@ -407,18 +511,22 @@ export default {
       const tdOldWidth = parseFloat(getStyle(el, "width"))
       const totalHeight = getStyle(this.$refs.mainTable, "height")
       const baseLine = this.$refs.baseLine
-      let left = offset(el, this.$el).left + tdOldWidth - scrollLeft
+      let left = offset(el, this.$el).left + tdOldWidth- scrollLeft
       baseLine.style.height = totalHeight
-      if (col.fixed) {
-        left = left + scrollLeft
-      } else if (this.leftFixedNumber && index <= this.leftFixedNumber) {
-        left += scrollLeft
+      // console.log(this.leftFixedNumber,index, col.fixed)
+      // if (col.fixed) {
+      //   //目前没有实现这种方式
+      //   left = left + scrollLeft
+      // } else 
+      if (this.leftFixedNumber && index < this.leftFixedNumber) {
+        // left += scrollLeft
+        // console.log('??')
       } else if (
         this.rightFixedNumber &&
         index >=
-          this.machiningColumns.bodyColumns.length - 1 - this.rightFixedNumber
+        this.machiningColumns.bodyColumns.length - 1 - this.rightFixedNumber
       ) {
-        left = left + this.rightTranslate
+        // left = left + this.rightTranslate
       }
       baseLine.style.left = left + 1 + "px"
       this.currentResizeTd.startX = e.clientX
@@ -442,9 +550,14 @@ export default {
       this.currentResizeTd = null
       document.removeEventListener("mousemove", this.handleResizeMove)
       document.removeEventListener("mouseup", this.handleResizeUp)
+      this.init()
     },
     resizeColumnWidth(t, e) {
       const { colIndex, startX, tdOldWidth } = this.currentResizeTd
+      const {bodyColumns} = this.machiningColumns
+      // const col = bodyColumns[colIndex]
+      // const width = col.style&&col.style.width?col.style.width:120
+      
       if (t) {
         const head = t.querySelector(".k-theadwrapper"),
           body = t.querySelector(".k-tbodywrapper"),
@@ -453,8 +566,23 @@ export default {
             if (el) {
               const cols = el.querySelectorAll("col")
               if (cols) {
-                cols[+colIndex].style.width =
-                  tdOldWidth + e.clientX - startX + "px"
+                let w = tdOldWidth + e.clientX - startX
+                const {__index,__level,...col} = bodyColumns[colIndex]
+                if(w!=tdOldWidth) {
+                  if(w<this.tdMinWidth)  {
+                    w = this.tdMinWidth
+                  }
+                  if(this.minContent) {
+                    // cols[+colIndex].style.width = w + "px"
+                    cols[+colIndex].width = w
+                  } else {
+                    //当宽度是100%时，目前没有好办法精准调整列宽
+                    cols[+colIndex].width = w
+                  }
+                  if(w!=tdOldWidth) {
+                    this.$emit('resize', {width:w,col,index:colIndex})
+                  }
+                }
               }
             }
           }
@@ -489,9 +617,25 @@ export default {
         )
       }
     },
-    rMainTable() {}
+    scrollTo(obj) {
+      if (this.$refs.mainTable) {
+        this.$refs.mainTable.scrollTo(obj)
+      }
+    },
+    scrollBy(obj) {
+      if (this.$refs.mainTable) {
+        this.$refs.mainTable.scrollBy(obj)
+      }
+    },
+
+    scrollIntoViewIfNeed(elem, offset = 0) {
+      if (this.$refs.mainTable && elem) {
+        scrollIntoViewIfNeed(elem, this.$refs.mainTable, offset)
+      }
+    }
   },
   updated() {
+    this.init()
     this.clearCells()
     this.onTableWrapperScroll()
   },
@@ -503,9 +647,7 @@ export default {
   },
   render() {
     const { bodyColumns, headColumns } = this.machiningColumns
-    //对columns进行初步处理，剔除null/undefined/false/''等无效的列
-
-    // 2. 整理出来colgroup
+    // 整理出来colgroup
     const colgroup = <template slot="colgroup">{this.colGroup}</template>
     const tableWrapperProps = {
       ref: "mainTable",
@@ -541,7 +683,8 @@ export default {
       on: {
         handleResizeDown: this.handleResizeDown,
         togglechecked: this.toggleCheckedAll,
-        sort: this.handleSort
+        sort: this.handleSort,
+        drop: this.handleDrop
       }
     }
     let bodyProps = {
@@ -553,6 +696,7 @@ export default {
       on: {
         "add-row": this.emitAddRow,
         "delete-row": this.emitDeleteRow,
+        "click-row": this.emitClickRow,
         "dblclick-row": this.emitDblclickRow,
         "toggle-radio-row": this.emitRadioChange,
         "toggle-highlight": this.emitHighlight,
@@ -565,13 +709,19 @@ export default {
       }
     }
     let footProps = null
-    if (this.hasSum) {
-      footProps = {
-        props: {
-          ...baseProps.props
+    // if (this.hasSum) {
+    footProps = {
+      props: {
+        ...baseProps.props,
+      },
+      directives: [
+        {
+          name: 'show',
+          value: this.hasSum
         }
-      }
+      ]
     }
+    // }
     return (
       <div class="k-tableouter">
         <div {...tableWrapperProps}>
@@ -584,11 +734,10 @@ export default {
           <KTableBody {...bodyProps} ref="tbody">
             {colgroup}
           </KTableBody>
-          {this.hasSum ? (
-            <KTableFoot {...footProps} ref="tfoot">
-              {colgroup}
-            </KTableFoot>
-          ) : null}
+
+          <KTableFoot {...footProps} ref="tfoot">
+            {colgroup}
+          </KTableFoot>
         </div>
         {this.rBaseLine()}
       </div>

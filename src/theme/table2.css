@@ -1,0 +1,17 @@
+.k-tableouter-2 {
+  & .k-table {
+    & > thead,
+    & > tbody,
+    & > tfoot {
+      & > tr {
+        & > td {
+          & .k-input.k-input--nostyle {
+            &:focus {
+              /* box-shadow: 0 0 0 1px var(--primary-color); */
+            }
+          }
+        }
+      }
+    }
+  }
+}

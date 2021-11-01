@@ -2,6 +2,16 @@
   display: inline-block;
   line-height: normal;
   position: relative;
+  width: var(--select2-width);
+  &.k-select2--nostyle {
+    height: 100%;
+    width: 100%;
+    display: block;
+    background-color: transparent;
+  }
+  .k-input {
+    cursor: pointer;
+  }
 }
 .k-select2-searchinput {
   .k-input {
@@ -10,6 +20,9 @@
     border-top: none;
     border-left: none;
     border-right: none;
+    &:focus {
+      /* box-shadow: none; */
+    }
   }
 
   .k-input-append {
@@ -18,6 +31,9 @@
   .k-select2-check-all {
     width: 16px;
     height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 .k-select2-list {
@@ -33,6 +49,14 @@
   transition: var(--transition);
   cursor: pointer;
   text-align: left;
+  border-radius: var(--option-radius);
+  &.k-select2-list-item-checked {
+    color: var(--option-selected-color);
+    background-color: var(--option-selected-bg-color);
+  }
+  &.k-select2-list-item-disabled {
+    cursor: not-allowed;
+  }
   &:hover,
   &.k-select2-list-item-hover {
     color: var(--option-hover-color);
@@ -40,9 +64,8 @@
   }
   .k-select2-checkbox {
     display: block;
-    width: 100%;
-    height: 25px;
-    line-height: 25px;
+    height: 28px;
+    line-height: 28px;
     cursor: pointer;
     @extend .k-ellipsis;
   }
@@ -58,16 +81,22 @@
 }
 .k-select2-checked-box {
   padding: 1px 2px;
+  cursor: pointer;
+  width: fit-content;
+  padding-right: 32px;
 }
 .k-select2-checked-item {
   margin: 2px;
   white-space: nowrap;
   display: inline-block;
+  line-height: 1;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
   .k-select2-checked-name {
-    background-color: var(--border-color);
-    height: 18px;
-    line-height: 18px;
-    padding: 0 3px;
+    background-color: #fafafa;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 2px 0 4px;
     display: inline-block;
     vertical-align: middle;
     color: var(--font-color-2);
@@ -76,23 +105,30 @@
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
-    background-color: var(--border-color);
-    width: 15px;
-    height: 18px;
-    line-height: 18px;
-    border-left: 1px solid color(white a(50%));
+    background-color: #fafafa;
+    width: 17px;
+    height: 20px;
+    line-height: 20px;
     text-align: center;
     color: var(--font-color-3);
-    font-size: 14px;
+    font-size: 12px;
     &:hover {
-      color: var(--font-color-1);
+      color: var(--font-color-2);
     }
   }
 }
 
 .k-select2-footer {
-  padding: 5px 5px;
+  padding: 6px 10px;
+  line-height: normal;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+  border-top: 1px solid var(--border-color);
+}
+.k-select2-append {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  right: 1px;
 }

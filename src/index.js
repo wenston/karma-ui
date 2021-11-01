@@ -9,7 +9,7 @@ import KOption from 'karma-ui/packages/option/index.js'
 import KRadio from 'karma-ui/packages/radio/index.js'
 import KCheckbox from 'karma-ui/packages/checkbox/index.js'
 import KSwitch from 'karma-ui/packages/switch/index.js'
-import KInputNumber from 'karma-ui/packages/input-number/index.js'
+// import KInputNumber from 'karma-ui/packages/input-number/index.js'
 import KArea from 'karma-ui/packages/area/index.js'
 import KPopup from 'karma-ui/packages/popup/index.js'
 import Dialog from 'karma-ui/packages/dialog/index.js'
@@ -17,7 +17,7 @@ import KCarousel from 'karma-ui/packages/carousel/index.js'
 import KCarouselItem from 'karma-ui/packages/carousel-item/index.js'
 import Tips from 'karma-ui/packages/tips/index.js'
 import Loading from 'karma-ui/packages/loading/index.js'
-import KToTop from 'karma-ui/packages/to-top/index.js'
+// import KToTop from 'karma-ui/packages/to-top/index.js'
 import KPagination from 'karma-ui/packages/pagination/index.js'
 import KDatePicker from 'karma-ui/packages/date-picker/index.js'
 import KScrollbar from 'karma-ui/packages/scrollbar/index.js'
@@ -31,10 +31,14 @@ import KAutoComplete from 'karma-ui/packages/auto-complete/index.js'
 import KTree from 'karma-ui/packages/tree/index.js'
 import KDropdown from 'karma-ui/packages/dropdown/index.js'
 import KSelectTree from 'karma-ui/packages/select-tree/index.js'
+import KDrawer from 'karma-ui/packages/drawer/index.js'
+import KKeyEnter from 'karma-ui/packages/key-enter/index.js'
+import KGroup from 'karma-ui/packages/group/index.js'
 //指令
 import Dnd from 'karma-ui/directives/dnd/index.js'
 import Pin from 'karma-ui/directives/pin/index.js'
-import Viewable from 'karma-ui/directives/viewable/index.js'
+import Clickoutside from 'karma-ui/directives/clickoutside/index.js'
+// import Viewable from 'karma-ui/directives/viewable/index.js'
 
 let obj = {
   KButton,
@@ -45,19 +49,20 @@ let obj = {
   KRadio,
   KCheckbox,
   KSwitch,
-  KInputNumber,
+  // KInputNumber,
   KArea,
   KPopup,
   Dialog,
-  KToTop,
+  // KToTop,
   KIcon,
   Tips,
   Loading,
   Dnd,
   Pin,
+  Clickoutside,
   KCarousel,
   KCarouselItem,
-  Viewable,
+  // Viewable,
   KPagination,
   KDatePicker,
   KScrollbar,
@@ -69,7 +74,10 @@ let obj = {
   KAutoComplete,
   KTree,
   KDropdown,
-  KSelectTree
+  KSelectTree,
+  KDrawer,
+  KKeyEnter,
+  KGroup
 }
 
 export default {

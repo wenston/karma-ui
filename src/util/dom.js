@@ -12,6 +12,34 @@ export const getStyle = (elem, prop) => {
   return window.getComputedStyle(elem, null)[prop]
 }
 
+export const isVisible = (elem, p_elem = document.body) => {
+  let isvisible = true
+  function isHide(elem) {
+    return (
+      getStyle(elem, "display").toLowerCase() === "none" ||
+      getStyle(elem, "visibility").toLowerCase() === "hidden"
+    )
+  }
+  function fn(elem) {
+    if (isHide(elem)) {
+      isvisible = false
+      return
+    } else {
+      const p = elem.parentNode
+      if (p === p_elem) {
+        if (isHide(p)) {
+          isvisible = false
+        }
+        return
+      } else {
+        fn(p)
+      }
+    }
+  }
+  fn(elem)
+  return isvisible
+}
+
 //注意，offset包含了元素内部的滚动高度！
 export const offset = (elem, parent) => {
   let left = elem.offsetLeft,
@@ -53,14 +81,15 @@ export const client = () => {
   }
 }
 
-export const scrollIntoViewIfNeed = (elem, wrapperElem) => {
+//_offset是偏移量
+export const scrollIntoViewIfNeed = (elem, wrapperElem, _offset = 0) => {
   if (elem && wrapperElem) {
     let top = offset(elem, wrapperElem).top
     let elemHeight = parseFloat(getStyle(elem, "height"))
     let bodyHeight = parseFloat(getStyle(wrapperElem, "height"))
     let scrollTop = wrapperElem.scrollTop
     if (top > bodyHeight + scrollTop - elemHeight || top < scrollTop) {
-      wrapperElem.scrollTop = top - bodyHeight + elemHeight
+      wrapperElem.scrollTop = top - bodyHeight + elemHeight + _offset
     }
   } else {
     console.warn(`scrollIntoViewIfNeed函数传入了无效的参数`)

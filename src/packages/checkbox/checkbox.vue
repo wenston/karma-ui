@@ -1,20 +1,23 @@
 <template>
-  <label class="k-checkbox">
+  <label class="k-checkbox"
+    :class="{'k-checkbox--disabled':disabled}">
     <input type="checkbox"
       class="k-checkbox__input"
-      v-if="type==='arr'"
+      v-if="type==='arr' && !noInput"
       v-model="arr"
       :value="value"
       :disabled="disabled"
       @change="_change">
-    <input type="checkbox"
-      class="k-checkbox__input"
-      v-else
-      :checked="checked"
-      :value="value"
-      :disabled="disabled"
-      @change="_change">
-    <span class="k-checkbox__icon"></span>
+    <template v-else>
+      <input type="checkbox"
+        class="k-checkbox__input"
+        v-if="!noInput"
+        :checked="checked"
+        :value="value"
+        :disabled="disabled"
+        @change="_change"></template>
+    <span class="k-checkbox__icon"
+      :class="icon"></span>
     <span v-if="text!==''"
       class="k-checkbox__text">{{text}}</span>
   </label>
@@ -54,64 +57,74 @@ export default {
   name: "KCheckbox",
   model: {
     prop: "checked",
-    event: "checkedChange"
+    event: "checkedChange",
   },
   props: {
     text: {
       type: [String, Number],
-      default: ""
+      default: "",
     },
     checked: Boolean,
     value: {
       type: [Number, String],
-      default: ""
+      default: "",
     },
     dataArr: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     disabled: Boolean,
     type: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
+    noInput: Boolean,
   },
   data() {
     return {
-      arr: this.dataArr
-    }
+      arr: this.dataArr,
+    };
+  },
+  computed: {
+    icon() {
+      return {
+        "k-checkbox__icon--checked": this.checked,
+        "k-checkbox__icon--disabled": this.disabled,
+        "k-checkbox__icon--2": this.disabled && this.checked,
+      };
+    },
   },
   methods: {
     _has() {
-      return this.arr.some(item => item == this.value)
+      return this.arr.some((item) => item == this.value);
     },
     _del() {
-      this.arr = this.arr.splice(this.arr.indexOf(this.value), 1)
+      this.arr = this.arr.splice(this.arr.indexOf(this.value), 1);
     },
     _change(e) {
-      let isChecked = e.target.checked
+      let isChecked = e.target.checked;
       if (this.type === "arr") {
         if (isChecked) {
           if (this.value !== "") {
             if (!this._has()) {
-              this.arr.push(this.value)
+              this.arr.push(this.value);
             }
           }
         } else {
           if (this._has()) {
-            this._del()
+            this._del();
           }
         }
-        this.$emit("update:dataArr", this.arr)
+        this.$emit("update:dataArr", this.arr);
       }
-      this.$emit("checkedChange", isChecked)
-      this.$emit("change", e)
-    }
+      this.$emit("checkedChange", isChecked);
+      this.$emit("change", e);
+    },
   },
   watch: {
     dataArr() {
-      this.arr = this.dataArr
-    }
-  }
-}
+      this.arr = this.dataArr;
+    },
+  },
+};
 </script>

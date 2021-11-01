@@ -1,6 +1,6 @@
 <template>
   <ul class="k-pagi"
-    :class="{'k-pagi-disabled-all':disabled}">
+    :class="[{'k-pagi-disabled-all':disabled},align=='left'?'k-pagi-left':align=='center'?'k-pagi-center':'']">
     <li class="k-pagi-total"
       :class="`k-pagi-order-${order('total')}`"
       v-if="showItem('total')">
@@ -9,8 +9,9 @@
     <li v-if="showItem('prev')"
       class="k-pagi-item k-pagi-prev"
       @click="goPrev"
-      :class="[`k-pagi-order-${order('prev')}`,{'k-pagi-disabled':currentPage<=1}]">
-      <k-icon name="k-icon-arrow-left"></k-icon>
+      :class="[{'k-pagi-mini':size=='mini'},`k-pagi-order-${order('prev')}`,{'k-pagi-disabled':currentPage<=1}]">
+      <k-icon size="12"
+        name="k-icon-arrow-left"></k-icon>
     </li>
     <template v-if="showItem('pager')">
       <template v-for="(page,i) in cTotal">
@@ -18,6 +19,7 @@
           :class="[
           `k-pagi-order-${order('pager')}`
           ,{
+            'k-pagi-mini':size=='mini',
             'k-current-page':page==currentPage,
             'k-pagi-dot':page==dot
           }]"
@@ -29,15 +31,17 @@
     <li v-if="showItem('next')"
       class="k-pagi-item k-pagi-next"
       @click="goNext"
-      :class="[`k-pagi-order-${order('next')}`,{'k-pagi-disabled':currentPage>=totalPages}]">
-      <k-icon name="k-icon-arrow-right"></k-icon>
+      :class="[{'k-pagi-mini':size=='mini'},`k-pagi-order-${order('next')}`,{'k-pagi-disabled':currentPage>=totalPages}]">
+      <k-icon size="12"
+        name="k-icon-arrow-right"></k-icon>
     </li>
     <li v-if="showItem('sizes')"
       class="k-pagi-sizes"
       :class="`k-pagi-order-${order('sizes')}`">
       <k-select v-model="modelPageSize"
-        size="small">
+        :size="size||'small'">
         <k-option v-for="s in pageSizes"
+          :size="size||'small'"
           :key="s"
           :label="`${s}条/页`"
           :value="s"
@@ -48,7 +52,7 @@
       <li class="k-pagi-go"
         :class="`k-pagi-order-${order('jumper')}`">
         前往
-        <k-input size="small"
+        <k-input :size="size||'small'"
           type="number"
           v-model.number="goPage"
           @keyup.enter="goto"
@@ -56,7 +60,7 @@
         页
       </li>
       <li :class="`k-pagi-order-${order('jumper')}`">
-        <k-button size="small"
+        <k-button :size="size||'small'"
           @click="goto">Go</k-button>
       </li>
     </template>
@@ -68,7 +72,7 @@ import KSelect from "karma-ui/packages/select/select"
 import KOption from "karma-ui/packages/option/option"
 import KInput from "karma-ui/packages/input/input.jsx.vue"
 import KButton from "karma-ui/packages/button/button"
-import KIcon from 'karma-ui/packages/icon/icon'
+import KIcon from "karma-ui/packages/icon/icon"
 export default {
   components: {
     KSelect,
@@ -95,12 +99,20 @@ export default {
       type: String,
       default: "total,prev,pager,next,sizes,jumper"
     },
+    size: {
+      type: String,
+      default: ''
+    }, //目前支持默认、mini
+    align: {
+      type: String,
+      default: ''
+    },
     disabled: Boolean
   },
   data() {
     return {
       dot: "...", //省略符号
-      size: 10, //超出10时，开始显示...
+      outsize: 10, //超出10时，开始显示...
       max: 5, //出现两个dot时最大连续展示5个页码
       max2: 7, //只出现一个dot时，最大连续展示7个页码
       modelPageSize: this.pageSize,
@@ -116,7 +128,10 @@ export default {
     modelPageSize(s, os) {
       if (s != os) {
         this.$emit("update:pageSize", s)
-        this.$emit("size-change", s)
+        setTimeout(() => {
+          this.$emit("size-change", s)
+
+        })
       }
     }
   },
@@ -128,12 +143,12 @@ export default {
     cTotal() {
       //无论总页数多少，第一页和最后一页总是要展示
       const t = this.totalPages,
-        size = this.size,
+        outsize = this.outsize,
         max = this.max,
         max2 = this.max2,
         p = this.currentPage, //当前页码
         dot = this.dot
-      if (t > size) {
+      if (t > outsize) {
         let arr = []
         if (t - p >= this.max && p > this.max) {
           for (let i = p - 2; i <= p + 2; i++) {
@@ -200,7 +215,10 @@ export default {
         if (page != this.currentPage && this.total > 0) {
           this.$emit("update:currentPage", page)
           //事件，页码变动时
-          this.$emit("page-change", page)
+          setTimeout(() => {
+            this.$emit("page-change", page)
+
+          })
         }
       }
     }

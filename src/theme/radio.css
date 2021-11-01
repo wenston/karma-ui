@@ -1,70 +1,58 @@
 .k-radio {
-  &+& {
-    margin-left:var(--radio-gutter);
+  display: inline-flex;
+  align-items: center;
+  & + & {
+    margin-left: var(--radio-gutter);
   }
   & &__icon {
-    display:inline-block;
+    display: inline-block;
     width: var(--radio-size);
     height: var(--radio-size);
     border-radius: 100%;
     border: 1px solid var(--radio-border-color);
-    transition:var(--transition);
+    transition: var(--transition);
     position: relative;
     vertical-align: middle;
+    cursor: pointer;
     &:after {
-      content:'';
+      content: "";
       @extend .k-center;
-      background-color:transparent;
-      width: 0px;
-      height: 0px;
+      background-color: transparent;
+      width: 8px;
+      height: 8px;
       border-radius: 100%;
       opacity: 0;
-      transition:var(--transition);
+      transform: scale(0, 0);
+      transition: .15s;
     }
     &:hover {
-      border-color:var(--radio-hover-border-color);
+      border-color: var(--radio-hover-border-color);
     }
   }
   & &__text {
-    font-size:var(--radio-font-size);
+    font-size: var(--radio-font-size);
+    margin-left: var(--radio-icon-text-gutter);
   }
-  & &__input {
-    display:none;
-    opacity: 0;
-    &[disabled] {
-      & ~.k-radio__icon {
-        border-color:var(--disabled-color);
-        background-color:var(--disabled-color);
-        pointer-events: none;
-        opacity: .8;
-      }
-      & ~.k-radio__text {
-        opacity: .9;
-        color:var(--disabled-color);
-        user-select: none;
+  &.k-radio--checked {
+
+    .k-radio__icon {
+      border-radius: 100%;
+      border: 1px solid var(--primary-color);
+      background-color:white;
+      box-shadow: var(--radio-focus-active-shadow);
+      &:after {
+        background-color: var(--primary-color);
+        transform: scale(1, 1);
+        opacity: 1;
       }
     }
-    &:checked {
-      & ~.k-radio__icon {
-        border-color:var(--primary-color);
-        background-color:var(--primary-color);
-        &:after {
-          background-color:#fff;
-          opacity: 1;
-          width: 4px;
-          height: 4px;
-        }
-      }
-      &[disabled] {
-        & ~.k-radio__icon {
-          border-color:var(--primary-color);
-          background-color:var(--primary-color);
-          opacity: .8;
-        }
-      }
-      & ~ .k-radio__text {
-        color:var(--primary-color)
-      }
+  }
+  &.k-radio--disabled {
+    cursor: not-allowed;
+    opacity: .65;
+    .k-radio__icon {
+      cursor: not-allowed;
+      background-color: var(--radio-disabled-bg-color);
     }
   }
 }

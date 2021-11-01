@@ -1,0 +1,51 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-18 11:37:11
+ * @LastEditTime: 2021-01-27 11:14:54
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit! 
+ * @FilePath: /test/index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            margin: 0em;
+            padding: 2em;
+        }
+
+        #source {
+            color: blue;
+            border: 1px solid black;
+        }
+
+        #target {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        点击我
+    </div>
+    <script>
+        let el = document.querySelector('div')
+        el.addEventListener('mousedown', (a) => {
+            console.log(a.type);
+            a.preventDefault()
+        })
+        el.addEventListener('contextmenu',e=>{
+            console.log(e.type)
+            e.preventDefault()
+        })
+
+    </script>
+</body>
+
+</html>

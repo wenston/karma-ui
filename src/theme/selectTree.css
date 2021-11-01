@@ -2,6 +2,12 @@
   outline: none;
   @extend .k-select2;
   @extend .k-like-input;
+  @extend .k-cursor-pointer;
+  @each $name in (huge, large, big, medium, small, mini) {
+    &.k-select-tree--$(name) {
+      height: var(--$(name));
+    }
+  }
   &.k-select-tree--block {
     @extend .k-block;
     position: relative;
@@ -31,15 +37,27 @@
       }
     }
   }
+  &.k-select-tree--nostyle {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    border-radius: 0;
+    &:focus {
+      box-shadow: 0 0 0 1px var(--primary-color);
+      background-color: white;
+    }
+  }
 }
 .k-select-tree-body {
   position: relative;
   line-height: normal;
   padding: 10px 12px;
   background-color: white;
-  @extend .k-backdrop-filter;
   min-width: 250px;
-  max-height: 40vh;
+  max-height: 60vh;
   min-height: 200px;
   overflow-y: auto;
   & > .k-tree {
@@ -56,24 +74,30 @@
   overflow: hidden;
 }
 .k-select-tree-checked {
-  padding: 5px 15px 5px 5px;
+  padding: 6px 15px 5px 5px;
   height: 100%;
   line-height: 1.4;
 }
 .k-select-tree-checked-one {
-  padding: 0 5px;
+  padding: var(--input-padding);
   height: 100%;
   font-size: 12px;
   display: flex;
   align-items: center;
+  color: var(--font-color-2);
 }
 .k-select-tree-clear {
   color: var(--font-color-4);
   cursor: pointer;
   z-index: 2;
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 0;
+  bottom: 0;
+  height: 12px;
+  margin: auto;
+  right: 8px;
+  font-size: 12px;
+  transition: var(--transition);
   &:hover {
     color: var(--font-color-2);
   }

@@ -107,6 +107,14 @@ export default {
           item.__open__ = true
         })
         this.$emit("toggle", arr)
+        const item = arr[arr.length-1]
+        if(item) {
+          setTimeout(()=>{
+            const _el = this.$el.querySelector(`span[data-tree-key="${item[keyField]}"]`)
+            _el.scrollIntoViewIfNeeded()
+          },800)
+        }
+        
       }
     },
     createCheckedDataByCheckedKeys(k) {

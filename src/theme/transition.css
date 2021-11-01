@@ -1,24 +1,43 @@
-
-.k-t-scale-up-down {
+.k-t-translate {
   &-enter,
   &-leave-to {
-    transform: scale(.5,1);
+    transform: translateY(-100%);
+    will-change: transform;
     opacity: 0;
   }
   &-enter-to,
   &-leave {
-    transform: scale(1,1);
+    transform: translateY(0);
+    will-change: transform;
     opacity: 1;
   }
   &-enter-active,
   &-leave-active {
-    transition: transform .25s ease;
+    transition: transform 0.35s ease;
+  }
+}
+.k-t-scale-up-down {
+  &-enter,
+  &-leave-to {
+    transform: scale(0.5, 1);
+    will-change: transform;
+    opacity: 0;
+  }
+  &-enter-to,
+  &-leave {
+    transform: scale(1, 1);
+    will-change: transform;
+    opacity: 1;
+  }
+  &-enter-active,
+  &-leave-active {
+    transition: transform 0.25s ease;
   }
 }
 .k-t-fade {
   &-enter,
   &-leave-to {
-    opacity: 0;
+    opacity: 0.1;
   }
   &-enter-to,
   &-leave {
@@ -26,23 +45,25 @@
   }
   &-enter-active,
   &-leave-active {
-    transition: .25s ease;
+    transition: 0.25s ease;
   }
 }
 .k-t-scale {
   &-enter,
   &-leave-to {
     opacity: 0;
-    transform: scale(1,0);
+    transform: scale(1, 0);
+    will-change: transform;
   }
   &-enter-to,
   &-leave {
     opacity: 1;
-    transform: scale(1,1);
+    transform: scale(1, 1);
+    will-change: transform;
   }
   &-enter-active,
   &-leave-active {
-    transition: transform .25s ease;
+    transition: transform 0.25s ease;
   }
 }
 
@@ -50,40 +71,43 @@
 /*下拉*/
 .k-transition-slide-down-enter-active {
   transition: transform var(--transition);
-  transform-origin:0 0;
+  transform-origin: 0 0;
 }
 .k-transition-slide-down-leave-active {
   transition: var(--transition);
-  transform-origin:0 0;
+  transform-origin: 0 0;
 }
 .k-transition-slide-down-bottom-enter-active {
   transition: transform var(--transition);
-  transform-origin:bottom;
+  transform-origin: center bottom;
 }
 .k-transition-slide-down-bottom-leave-active {
   transition: var(--transition);
-  transform-origin:bottom;
+  transform-origin: center bottom;
 }
 .k-transition-slide-down-enter,
 .k-transition-slide-down-bottom-enter {
-  transform:rotateX(50deg);
+  transform: rotateX(50deg);
+  will-change: transform;
   opacity: 0;
 }
 .k-transition-slide-down-enter-to,
-.k-transition-slide-down-bottom-enter-to
- {
-  transform:rotateX(0deg);
+.k-transition-slide-down-bottom-enter-to {
+  transform: rotateX(0deg);
+  will-change: transform;
   opacity: 1;
 }
 
 .k-transition-slide-down-leave,
 .k-transition-slide-down-bottom-leave {
   opacity: 1;
-  transform:rotateX(0deg);
+  transform: rotateX(0deg);
+  will-change: transform;
 }
 
 .k-transition-slide-down-leave-to,
 .k-transition-slide-down-bottom-leave-to {
   opacity: 0;
-  transform:rotateX(50deg);
+  transform: rotateX(50deg);
+  will-change: transform;
 }

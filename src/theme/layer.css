@@ -2,27 +2,29 @@
   @extend .k-absolute;
   transition: transform var(--transition);
   transform-origin: 0 0;
-  will-change: transform;
   z-index: 9999;
-  border-radius:4px;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 3px 5px 0px rgba(0,0,0,.1);
+  border-radius:var(--layer-radius);
+  border: 1px solid color(var(--border-color) tint(50%));
+  box-shadow: 0 1px 9px 0px rgba(0,0,0,.08);
   /* overflow: hidden; */
   outline: none;
+  &.k-layer-origin-bottom {
+    transform-origin: left bottom; 
+  }
   & .k-layer-body {
     @extend .k-select__list;
     box-shadow: none;
     border: none;
-    @extend .k-backdrop-filter;
+    /* @extend .k-backdrop-filter; */
   }
   & .k-layer-header {
     /* border-top: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
     border-right: 1px solid var(--border-color); */
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    border-top-left-radius:var(--layer-radius);
+    border-top-right-radius: var(--layer-radius);
     background-color: white;
-    @extend .k-backdrop-filter;
+    /* @extend .k-backdrop-filter; */
     position: relative;
     z-index: 100;
     /* box-shadow: 1px 0 3px 0 rgba(0,0,0,.1),
@@ -35,24 +37,24 @@
     border-top: none;
     /* margin-top:-1px; */
     /* box-shadow: 0 1px 5px 0 rgba(0,0,0,.1); */
-    max-height: 25vh;
+    max-height: 33vh;
   }
   & .k-layer-has-footer {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom: none;
     /* box-shadow: 0 1px 5px 0 rgba(0,0,0,.1); */
-    max-height: 25vh;
+    max-height: 33vh;
   }
   & .k-layer-footer {
     /* border-bottom: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
     border-right: 1px solid var(--border-color); */
 
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: var(--layer-radius);
+    border-bottom-right-radius: var(--layer-radius);
     background-color: white;
-    @extend .k-backdrop-filter;
+    /* @extend .k-backdrop-filter; */
     position: relative;
     z-index: 2;
     /* box-shadow: 0 5px 5px -5px rgba(0,0,0,.1),

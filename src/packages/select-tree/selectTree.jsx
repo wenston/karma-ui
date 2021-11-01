@@ -15,6 +15,10 @@ export default {
   //根据hasCheckbox判断是否是多选
   props: {
     ...KTree.props,
+    size: {//是title框的高度大小
+      type: String,
+      default: 'medium'
+    },
     show: {
       type: Boolean,
       default: false
@@ -27,6 +31,7 @@ export default {
       type: Boolean,
       default: false
     },
+    noStyle: Boolean,
     simple: {
       type: Boolean,
       default: false
@@ -44,12 +49,18 @@ export default {
       type: Boolean,
       default: true
     },
-    nearBy:Boolean,
-    whiteList: Array
+    nearby: Boolean,
+    whiteList: Array,
+    layerWidth: {
+      type: String,
+      default: 'auto'
+    },
+    layerMinWidthEqual: Boolean
   },
   data() {
     return {
       visible: this.show,
+      showDeleteButton: false,
       checkedData: this.selectedData,
       checkedKeys: this.selectedKeys.join(","),
       list: [],
@@ -74,10 +85,11 @@ export default {
       return a1 === a2
     },
     checkedList() {
+      const placeholder = (
+        <span class="k-select-tree-placeholder">{this.placeholder}</span>
+      )
       if (this.hasCheckbox) {
-        let list = (
-            <span class="k-select-tree-placeholder">{this.placeholder}</span>
-          ),
+        let list = placeholder,
           textField = this.textField,
           keyField = this.keyField,
           checkedData = this.checkedData
@@ -92,7 +104,11 @@ export default {
           </ScrollBar>
         )
       } else {
-        return <div class="k-select-tree-checked-one">{this.currentText}</div>
+        return (
+          <div class="k-select-tree-checked-one">
+            {this.currentText || placeholder}
+          </div>
+        )
       }
     },
     title() {
@@ -106,7 +122,7 @@ export default {
         icon = (
           <k-icon
             class="k-select-tree-clear"
-            name="k-icon-close"
+            name={this.showDeleteButton ? "k-icon-close" : "k-icon-arrow-down"}
             tabindex="-1"
             onFocus={e => {
               e.stopPropagation()
@@ -122,8 +138,17 @@ export default {
                 this.currentVal = ""
                 this.currentText = ""
               }
+              this.$emit("toggle", [])
               e.stopPropagation()
             }}
+          />
+        )
+      } else {
+        icon = (
+          <k-icon
+            name={this.showDeleteButton ? "k-icon-close" : "k-icon-arrow-down"}
+            class="k-select-tree-clear"
+            transform={this.visible && "rotateX(180deg)"}
           />
         )
       }
@@ -133,19 +158,26 @@ export default {
         },
         class: [
           "k-select-tree",
+          [`k-select-tree--${this.size}`],
           {
             ["k-select-tree--block"]: this.block,
-            ["k-select-tree--simple"]: this.simple
+            ["k-select-tree--simple"]: this.simple,
+            ["k-select-tree--nostyle"]: this.noStyle
           }
         ],
         on: {
-          focus: e => {
-            this.visible = true
+          keyup: e => {
+            if (e.keyCode == 13 || e.keyCode == 40) {
+              this.visible = true
+            }
           },
-          click: e => {
-            e.stopPropagation()
-          }
-        }
+          mouseenter: e => {
+            this.showDeleteButton = true;
+          },
+          mouseleave: e => {
+            this.showDeleteButton = false;
+          },
+        },
       }
       return (
         <div {...p}>
@@ -177,7 +209,8 @@ export default {
           ...this.$props,
           value: this.currentVal,
           selectedData: this.checkedData,
-          lazy: this.lazyTree
+          lazy: this.lazyTree,
+          noStyle: false
         },
         on: {
           ...this.$listeners,
@@ -202,8 +235,13 @@ export default {
           toggle: arr => {
             if (arr.length) {
               const item = arr[arr.length - 1]
-              this.currentText = item[textField]
+              if (item)
+                this.currentText = item[textField]
+              else {
+                this.currentText = ''
+              }
             }
+            //TODO:有时返回的arr为[undefined]
             this.$emit("toggle", arr)
           },
           "update:selectedData": d => {
@@ -217,7 +255,6 @@ export default {
             name: "loading",
             value: {
               loading: this.data.length === 0,
-              content: "数据获取中..."
             }
           }
         ]
@@ -230,13 +267,17 @@ export default {
     const body = this.body()
     const p = {
       props: {
+        block: this.block,
+        noStyle: this.noStyle,
         show: this.visible,
         title,
         body,
         bodyClassName: "k-select-tree-body",
-        lazyLayer: this.lazyLayer,
-        nearBy:this.nearBy,
-        whiteList: this.whiteList
+        lazy: this.lazyLayer,
+        nearby: this.nearby,
+        whiteList: this.whiteList,
+        layerWidth: this.layerWidth,
+        layerMinWidthEqual: this.layerMinWidthEqual
       },
       on: {
         "update:show": v => {
@@ -244,11 +285,16 @@ export default {
         },
         getLayerElement: elem => {
           this.layerElem = elem
-          this.$emit('getLayerElement',elem)
+          this.$emit("getLayerElement", elem)
         }
       }
     }
-    return <KDropdown {...p} />
+    return (
+      <KDropdown {...p} >
+        <template slot="header">{this.$slots.header}</template>
+        <template slot="footer">{this.$slots.footer}</template>
+      </KDropdown>
+    )
   },
   watch: {
     text(t) {

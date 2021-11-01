@@ -41,6 +41,7 @@
    * 
   */
 import { getStyle, offset } from "karma-ui/util/dom"
+import { isFF, isChrome } from 'karma-ui/util/brower'
 import ScrollbarY from "./ScrollbarY"
 import ScrollbarX from "./ScrollbarX"
 // import {debounce} from 'karma-ui/util/throttle_debounce'
@@ -57,6 +58,10 @@ export default {
       default: () => ({})
     },
     thumbStyle: {
+      type: Object,
+      default: () => ({})
+    },
+    containerStyle: {
       type: Object,
       default: () => ({})
     },
@@ -86,7 +91,8 @@ export default {
       wrapperHeight: 0, //scrollbar组件最外部容器的高度
       contentWidth: 0,
       wrapperWidth: 0,
-      dragging: false
+      dragging: false,
+      timer: null
     }
   },
   render() {
@@ -115,6 +121,7 @@ export default {
           }}
           ref="content"
           style={{
+            ...this.containerStyle,
             marginTop: this.top * -1 + "px",
             marginLeft: this.left * -1 + "px"
           }}
@@ -154,7 +161,8 @@ export default {
       this.dragging = isDragging
     },
     onWheel(e) {
-      // console.log(e)
+      // console.log(e.deltaY, e.wheelDeltaY)
+
       this.scrollY(e.deltaY)
       this.dragging = false
       if (!this.allow) {
@@ -163,20 +171,42 @@ export default {
       }
     },
     scrollY(y) {
-      const s = this.speed,
-        max = this.maxScrollTop
-      let top = 0
-      if (y > 0) {
-        top = s + this.top
-      } else if (y < 0) {
-        top = this.top - s
-      }
-      if (top < 0) {
-        top = 0
-      } else if (top > max) {
-        top = max
-      }
-      this.top = top
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        let s = this.speed
+        const _y = Math.abs(y)
+        if (isChrome) {
+          if (_y < 3) { return }
+          if (_y % 100 != 0) {
+            //笔记本触摸板
+            s = Math.floor(_y)
+            // console.log(s)
+          } else {
+            // console.log(_y, s)
+          }
+        } else if (isFF) {
+          if (_y % 3 != 0) {
+            //笔记本触摸板
+            s = Math.floor(_y)
+            if (s < 3) { return }
+            console.log(s)
+          }
+        }
+        const max = this.maxScrollTop
+        let top = 0
+        if (y > 0) {
+          top = s + this.top
+        } else if (y < 0) {
+          top = this.top - s
+        }
+        if (top < 0) {
+          top = 0
+        } else if (top > max) {
+          top = max
+        }
+        this.top = top
+
+      }, 10)
       //滚动条thumb位置
       //由于dom的margin变化会反映到updated钩子，所以不需要再次调用scroll
       // this.$refs.y.scroll(top)
@@ -252,6 +282,7 @@ export default {
         this.left = maxScrollLeft
       }
       if (this.$refs.y) {
+
         this.$refs.y.scroll(this.top)
       }
       if (this.$refs.x) {

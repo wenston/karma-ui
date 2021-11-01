@@ -29,28 +29,37 @@ export default {
       default: "Id"
     },
     //描述，data中的字段名
-    textField: String,
+    textField: {
+      type:String,
+      default: 'Name'
+    },
     placeholder: String,
-    searchPlaceholder: String,
+    searchPlaceholder: {
+      type: String,
+      default: "请输入关键字"
+    },
     //模糊匹配需要搜索的字段
     searchField: {
       type: [String, Array],
       default: "Name"
     },
+    clearable: Boolean,
+    hasIcon: {
+      type: Boolean,
+      default: true
+    },
     block: Boolean,
     simple: Boolean,
+    noStyle: Boolean,
+    lazy: {
+      type: Boolean,
+      default: true
+    },
     layerWidth: {
       type: [String, Boolean],
       default: "auto"
     },
-    hasClose: {
-      type: Boolean,
-      default: true
-    },
-    hasRefresh: {
-      type: Boolean,
-      default: true
-    },
+    layerMinWidthEqual: Boolean,
     show: {
       type: Boolean,
       default: false
@@ -59,7 +68,9 @@ export default {
       type: Element,
       default: null
     },
-    nearby: Boolean
+    nearby: Boolean,
+    footer: [Function, Array, Object, String, Number],
+    checkable: Function
   },
   data() {
     let arr = []
@@ -78,7 +89,8 @@ export default {
       //全选
       isCheckedAll: false,
       //通过键盘上下箭头选择的当前数据行的index
-      currentIndex: -1
+      currentIndex: -1,
+      disabledArr: []
     }
   },
   model: {
@@ -95,8 +107,8 @@ export default {
           typeof this.searchField === "string"
             ? [this.searchField]
             : Array.isArray(this.searchField)
-            ? this.searchField
-            : []
+              ? this.searchField
+              : []
         if (arrField.length === 0) {
           console.warn(`${this.$options.name}是否没有传入searchField参数？`)
         }
@@ -123,10 +135,19 @@ export default {
     }
   },
   methods: {
+    canCheck(item,index) {
+      if(this.checkable) {
+        return this.checkable(item,index)
+      }
+      return true
+    },
+    setDisabled(arr) {
+      this.disabledArr = arr
+    },
     toArray(v) {
       let arr = []
       if (Array.isArray(v)) {
-        arr = JSON.parse(JSON.stringify(v))
+        arr = v.map(id=>id+'')
       } else if (typeof v === "string") {
         arr = v.split(/\s*,\s*/)
       } else if (typeof v === "number") {
@@ -142,15 +163,51 @@ export default {
           readonly: true,
           placeholder: this.dataValue.length ? "" : this.placeholder,
           block: true,
-          simple: this.simple
-        },
-        on: {
-          focus: e => {
-            this.showLayer()
-          }
+          simple: this.simple,
+          noStyle: this.noStyle
         }
+        // on: {
+        //   focus: e => {
+        //     this.showLayer()
+        //   }
+        // }
       }
-      return <k-input {...p} />
+      return <k-input {...p} >{this.hasIcon && this.rIcon()}</k-input>
+    },
+    rIcon() {
+      if(this.clearable && this.dataValue.length) {
+        return (
+          <span
+            class="k-select__icon__wrapper"
+            slot="append"
+            onClick={e => {
+              this.clear()
+              e.stopPropagation()
+            }}
+          >
+            <k-icon
+              size="12"
+              class="k-select__clear"
+              name={ "k-icon-close-circle"}
+            />
+          </span>
+        )
+      }
+      return (
+        <span
+          class="k-select__icon__wrapper"
+          slot="append"
+        >
+          <k-icon
+            size="12"
+            class={{
+              "k-select__down": true,
+              "k-select__down--up": this.visible
+            }}
+            name={ "k-icon-arrow-down"}
+          />
+        </span>
+      )
     },
     //搜索匹配框、全选
     rSearchInput() {
@@ -172,38 +229,12 @@ export default {
             this.currentIndex = -1
             this.searchText = v
           },
-          input: e => {}
-        }
-      }
-      const checkProps = {
-        props: {
-          checked: this.isCheckedAll
-        },
-        on: {
-          checkedChange: b => {
-            if (b) {
-              let set = new Set(this.dataValue)
-              const filterData = this.filterData
-              filterData.forEach(el => {
-                set.add(el[this.keyField] + "")
-              })
-              this.dataValue = [...set]
-            } else {
-              this.dataValue = []
-            }
-
-            this.emitValue()
-            // this.$forceUpdate()
-          }
+          input: e => { }
         }
       }
       return (
         <div>
-          <k-input {...p}>
-            <span class="k-select2-check-all" slot="prepend">
-              <k-checkbox {...checkProps} />
-            </span>
-          </k-input>
+          <k-input {...p}></k-input>
         </div>
       )
     },
@@ -214,13 +245,16 @@ export default {
         let list = []
         if (Array.isArray(filterData)) {
           list = filterData.map((item, index) => {
+            const checked = this.dataValue.some(id => id == item[this.keyField])
             const p = {
               ref: "filterDataList" + item[this.keyField],
               class: "k-select2-checkbox",
               props: {
                 text: item[this.textField],
                 value: item[this.keyField],
-                checked: this.dataValue.some(id => id == item[this.keyField])
+                checked,
+                // disabled: this.disabledArr.some(id => id == item[this.keyField])
+                disabled: !this.canCheck(item,index)
               },
               on: {
                 checkedChange: checked => {
@@ -233,17 +267,25 @@ export default {
                   }
                   this.dataValue = [...set]
                   this.emitValue()
+                  this.$emit('toggle', this.dataValue)
                   // this.$forceUpdate()
                 }
               }
             }
             const itemClass = {
               "k-select2-list-item": true,
-              "k-select2-list-item-hover": this.currentIndex === index
+              "k-select2-list-item-hover": this.currentIndex === index,
+              "k-select2-list-item-checked": checked
             }
             return (
               <div class={itemClass}>
                 <k-checkbox {...p} />
+                {this.$scopedSlots.default
+                  ? this.$scopedSlots.default({
+                    row: item,
+                    index
+                  })
+                  : null}
               </div>
             )
           })
@@ -262,8 +304,7 @@ export default {
             {
               name: "loading",
               value: {
-                loading: this.data.length === 0,
-                content: "数据获取中..."
+                loading: this.data.length === 0
               }
             }
           ]
@@ -293,66 +334,120 @@ export default {
           return (
             <div class="k-select2-checked-item">
               <span class="k-select2-checked-name">{item[textField]}</span>
-              <span
+              <k-icon
+                name="k-icon-close"
                 class="k-select2-checked-del"
                 onClick={e => {
                   const k = item[keyField] + ""
                   const i = dataValue.indexOf(k)
                   this.dataValue.splice(i, 1)
                   this.emitValue()
+                  this.$emit('toggle', this.dataValue)
                   e.stopPropagation()
                 }}
-              >
-                &times;
-              </span>
+              ></k-icon>
             </div>
           )
         })
         return (
-          <ScrollBar speed={10} class="k-select2-checked-list">
+          <ScrollBar speed={10} containerStyle={{cursor:'pointer'}} class="k-select2-checked-list">
             <div class="k-select2-checked-box">{list}</div>
           </ScrollBar>
         )
       }
     },
-    refresh() {
-      this.$emit("refresh")
+    rCheckedAll() {
+      if(this.dataValue.length) {
+        let len = this.data.filter((d,i)=>this.canCheck(d,i)).length
+        this.isCheckedAll = len === this.dataValue.length
+      } else {
+        this.isCheckedAll = false
+      }
+      const checkProps = {
+        props: {
+          checked: this.isCheckedAll,
+          text: '全选'
+        },
+        on: {
+          checkedChange: b => {
+            if (b) {
+              let set = new Set(this.dataValue)
+              const filterData = this.filterData
+              if (this.disabledArr.length) {
+                filterData.forEach(el => {
+                  if (this.disabledArr.indexOf(el[this.keyField]) < 0) {
+                    set.add(el[this.keyField] + "")
+                  }
+                })
+              } else {
+                if(this.checkable) {
+                  filterData.forEach((el,i) => {
+                    if(this.canCheck(el,i)) {
+                      set.add(el[this.keyField] + "")
+
+                    }
+                  })
+
+                } else {
+                  filterData.forEach((el) => {
+                    
+                    set.add(el[this.keyField] + "")
+                  })
+
+                }
+              }
+              this.dataValue = [...set]
+            } else {
+              this.dataValue = []
+            }
+
+            this.emitValue()
+            // this.$forceUpdate()
+          }
+        }
+      }
+      return (
+        <span class="k-select2-check-all">
+          <k-checkbox {...checkProps} />
+        </span>
+      )
+    },
+    clear() {
+      this.dataValue = []
+      this.emitValue()
+      this.$emit('toggle',[])
     },
     hideLayer() {
       this.visible = false
       if (this.layerIns) {
         this.layerIns.hide()
+        this.removeUpdownEvent()
       }
-      this.removeUpdownEvent()
     },
     showLayer() {
       const input = this.$refs.searchInput
-      this.layerIns.show(input && input.focus)
-      input && input.focus()
-      this.visible = true
-      this.addUpdownEvent()
+      const showAndFocusAndBind = () => {
+        this.layerIns.show(input && input.focus)
+        input && input.focus()
+        this.visible = true
+        this.addUpdownEvent()
+      }
+      if(!this.layerIns) {
+        this.initIns(showAndFocusAndBind)
+      }else{
+        showAndFocusAndBind()
+      }
+      
     },
     //实例化option列表
-    initIns() {
+    initIns(callback) {
       this.$nextTick(() => {
-        // this.layerIns.init(this, [this.rSearchInput(), this.rList()])
-        const close = this.hasClose ? (
-          <k-button size="mini" onClick={this.hideLayer}>
-            关闭
-          </k-button>
-        ) : null
-        const refresh = this.hasRefresh ? (
-          <k-button size="mini" type="primary" onClick={this.refresh}>
-            刷新
-          </k-button>
-        ) : null
-        const footer =
-          close || refresh ? (
-            <div class="k-select2-footer">
-              {close}
-              {refresh}
-            </div>
-          ) : null
+        if (!this.layerIns) {
+          this.createLayer()
+        }
+        const footer = <div class="k-select2-footer">{this.rCheckedAll()}
+          {this.$slots.footer || this.footer}
+        </div>
         this.layerIns.init(
           this,
           {
@@ -362,11 +457,15 @@ export default {
           },
           {
             width: this.layerWidth,
+            layerMinWidthEqual: this.layerMinWidthEqual,
             canCloseByClickoutside: true,
             scrollElement: this.scrollElement,
             nearby: this.nearby
           }
         )
+        if (callback) {
+          callback()
+        }
       })
     },
     isSame(v, ov) {
@@ -466,6 +565,18 @@ export default {
         }
         this.$forceUpdate()
       })
+    },
+    createLayer() {
+      if (this.nearby) {
+        this.layerIns = layer(this.$el.parentNode)
+      } else {
+        this.layerIns = layer()
+      }
+      //拦截由layer组件中关闭layer的情况
+      this.layerIns.$on("after-hide", () => {
+        this.visible = false
+        this.removeUpdownEvent()
+      })
     }
   },
   render() {
@@ -476,10 +587,19 @@ export default {
           value: this.hideLayer
         }
       ],
-      class: ["k-select2", { "k-block": this.block }],
+      class: [
+        "k-select2",
+        { "k-block": this.block, "k-select2--nostyle": this.noStyle }
+      ],
       on: {
         click: e => {
-          this.$refs.boxInput.focus()
+          // this.$refs.boxInput.focus()
+          if (this.visible) {
+            this.hideLayer()
+          } else {
+            this.showLayer()
+          }
+          e.stopPropagation()
         }
       }
     }
@@ -487,12 +607,25 @@ export default {
       <div {...p}>
         {this.rBox()}
         {this.rCheckedList()}
+        {this.$slots.append ? (
+          <div
+            class="k-select2-append"
+            onClick={e => {
+              e.stopPropagation()
+            }}
+          >
+            {this.$slots.append}
+          </div>
+        ) : null}
       </div>
     )
   },
   watch: {
     visible(v) {
       this.$emit("update:show", v)
+      if (!v) {
+        this.$emit("toggle", this.dataValue)
+      }
     },
     show: {
       handler(v) {
@@ -501,15 +634,19 @@ export default {
         } else {
           this.hideLayer()
         }
-      },
+      }
     },
     value(v, ov) {
       // console.log('value:',v,ov)
       if (!this.isSame(v, ov)) {
         if (Array.isArray(v)) {
-          this.dataValue = JSON.parse(JSON.stringify(v))
+          this.dataValue = v.map(id=>id+'')
         } else if (typeof v === "string") {
-          this.dataValue = v.split(/\s*,\s*/)
+          if(v) {
+            this.dataValue = v.split(/\s*,\s*/)
+          }else{
+            this.dataValue = []
+          }
         } else if (typeof v === "number") {
           this.dataValue = [v + ""]
         }
@@ -526,30 +663,23 @@ export default {
     }
   },
   beforeDestroy() {
+    if(this.layerIns)
     this.layerIns.destroy()
   },
-  destroyed() {},
   updated() {
+    if(this.layerIns)
     this.initIns()
   },
   mounted() {
-    this.$nextTick(()=>{
-      if(this.nearby) {
-        this.layerIns = layer(this.$el.parentNode)
-      }else{
-        this.layerIns = layer()
-      }
-      //拦截由layer组件中关闭layer的情况
-      this.layerIns.$on("after-hide", () => {
-        this.visible = false
-        this.removeUpdownEvent()
+    // this.$nextTick(() => {
+    if (!this.lazy) {
+      this.initIns(() => {
+        if (this.show) {
+          this.showLayer()
+        }
       })
-      this.initIns()
-      if(this.show) {
-        this.showLayer()
-      }
-    })
-
+    }
+    // })
   },
   directives: {
     esc,

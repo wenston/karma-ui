@@ -1,5 +1,5 @@
 import { getStyle, setStyle, offset } from "karma-ui/util/dom"
-import clickoutside from "karma-ui/util/clickoutside.js"
+import clickoutside from "karma-ui/directives/clickoutside/clickoutside.js"
 // import esc from "karma-ui/util/esc.js"
 export default {
   name: "KLayer",
@@ -28,7 +28,7 @@ export default {
       bodyTag: "div",
       headerTag: "div",
       footerTag: "div",
-      gap: 2,//弹层与相关元素的间距
+      gap: 2, //弹层与相关元素的间距
       //位置
       left: 0,
       top: -9999,
@@ -42,7 +42,7 @@ export default {
       layerHeight: 0,
       visible: false,
       //layer外层的class
-      layerClassName: '',
+      layerClassName: "",
       //default插槽的class
       bodyClassName: "",
       //header插槽的class
@@ -57,8 +57,14 @@ export default {
       canCloseByClickoutside: false,
       whiteList: [],
       styles: {},
-      afterEnter: () => {},
-      afterLeave: () => {}
+      afterEnter: () => { },
+      afterLeave: () => { },
+      //对齐方式
+      alignment: "left",
+      //偏移量，横向偏移
+      offset: 0,
+      //定义layer最小宽度是否和vm元素等宽
+      layerMinWidthEqual: false
     }
   },
   computed: {
@@ -100,7 +106,7 @@ export default {
 
       this.vm = vm
       for (let k in opts) {
-        if (opts[k]!==null && opts[k]!==undefined && opts[k]!=='') {
+        if (opts[k] !== null && opts[k] !== undefined && opts[k] !== "") {
           this.$data[k] = opts[k]
         }
       }
@@ -120,18 +126,29 @@ export default {
         return
       }
       const elem = this.vm.$el
+      let w = getStyle(elem, "width")
       if (!elem) {
         return null
       }
       if (!this.width) {
-        const w = getStyle(elem, "width")
         this.layerWidth = w
       } else {
-        this.layerWidth = this.width
+        if (this.width === "auto") {
+          setStyle(this.$el, { width: 'auto' })
+          //以下parseFloat不可去掉，否则宽度会算错！为什么！
+          this.layerWidth = parseFloat(getStyle(this.$el, "width"))
+        } else {
+          this.layerWidth = this.width
+        }
+      }
+      if (this.layerMinWidthEqual) {
+        if (parseFloat(this.layerWidth) - parseFloat(w) < 0) {
+          this.layerWidth = w
+        }
       }
       const h = getStyle(elem, "height")
-      this.vmHeight = h
-      this.vmWidth = this.layerWidth
+      this.vmHeight = parseFloat(h)
+      this.vmWidth = parseFloat(getStyle(elem, "width"))
       //如果就近插入dom
       if (this.nearby) {
         const parent = this.parent
@@ -156,25 +173,39 @@ export default {
         this.top = pos.top + window.pageYOffset
       }
       this._setSizeAndPosition()
+      // console.log(this.layerWidth)
     },
     _setSizeAndPosition() {
       //layer本身的高度
+      // console.log(this.layerHeight)
       let height = this.layerHeight,
         width = parseFloat(getStyle(this.$el, "width")),
-        left = 0,
+        left = this.left + (parseFloat(this.offset) || 0),
         top = 0
       if (this.nearby) {
-        left = this.left
-        top = this.top + parseFloat(this.vmHeight) + this.gap
+        // left = this.left 
+        top = this.top + this.vmHeight + this.gap
         //父级元素大小
         const parent = this.parent
         const pHeight = parseFloat(getStyle(parent, "height"))
         const pWidth = parseFloat(getStyle(parent, "width"))
         if (top + height > pHeight - 5 && height < pHeight - 5) {
-          top = pHeight - 5 - height
+          top = this.top - 5 - height
+          this.transitionType = "slide-down-bottom"
           if (top < 0) {
             top = 0
           }
+        } else {
+          this.transitionType = 'slide-down'
+        }
+        const alignment = this.alignment.trim().toLowerCase()
+        //如果是左对齐
+        // left = this.left
+        //如果是右对齐
+        if (alignment === "right") {
+          left = left - (this.layerWidth - this.vmWidth)
+        } else if (alignment === "center") {
+          left = left - (this.layerWidth - this.vmWidth) / 2
         }
         if (left + width > pWidth - 5) {
           left = pWidth - width - 5
@@ -187,16 +218,30 @@ export default {
         const clientHeight = document.documentElement.clientHeight,
           clientWidth = document.documentElement.clientWidth
         //关联vm元素的底部距离屏幕最上边的高
-        top = this.top + parseFloat(this.vmHeight) + this.gap
-        left = this.left
+        top = this.top + this.vmHeight + this.gap
+        const alignment = this.alignment.trim().toLowerCase()
+        //如果是左对齐
+        // left = this.left
+        //如果是右对齐
+        if (alignment === "right") {
+          left = left - (this.layerWidth - this.vmWidth)
+        } else if (alignment === "center") {
+          left = left - (this.layerWidth - this.vmWidth) / 2
+        }
 
         //5是layer距离可视区边界的大小
         const wholeHeight = clientHeight + window.pageYOffset
         if (top + height > wholeHeight - 5) {
           top = wholeHeight - 5 - height
+          if (top < this.top) {
+            top = this.top - height - 5
+            this.transitionType = "slide-down-bottom"
+          }
           if (top < 0) {
             top = 0
           }
+        } else {
+          this.transitionType = "slide-down"
         }
         // console.log(left,width,clientWidth)
         if (left + width > clientWidth - 5) {
@@ -230,6 +275,7 @@ export default {
 
     show(callback) {
       this.visible = true
+      this.$emit("after-show")
       this.afterEnter = () => {
         this.$nextTick(() => {
           // this.calcLayerHeightAndGetPosition()
@@ -249,6 +295,7 @@ export default {
     },
     calcLayerHeightAndGetPosition() {
       this.layerHeight = parseFloat(getStyle(this.$el, "height"))
+      // console.log(this.layerHeight)
       this._getElemPosition()
     },
     //检测外部容器的滚动，如果layer可视，且外部容器出现了滚动，则再次计算
@@ -265,14 +312,16 @@ export default {
     }
     this.parent.removeChild(this.$el)
   },
-  destroyed() {},
+  destroyed() { },
   mounted() {
     this.$nextTick(() => {
-      this._getElemPosition()
+      this.calcLayerHeightAndGetPosition()
+      // this._getElemPosition()
     })
   },
   updated() {
-    this.$nextTick(this._getElemPosition)
+    // this.$nextTick(this._getElemPosition)
+    this.$nextTick(this.calcLayerHeightAndGetPosition)
   },
   watch: {
     vm: "_getElemPosition",
@@ -295,6 +344,7 @@ export default {
       },
       class: {
         "k-layer": true,
+        "k-layer-origin-bottom": this.transitionType === "slide-down-bottom",
         [this.layerClassName]: !!this.layerClassName
       },
       on: {
@@ -319,7 +369,8 @@ export default {
           "after-leave": this._handleAfterLeave
         },
         props: {
-          name: "k-transition-slide-down"
+          // name: "k-transition-slide-down"
+          name: this.transitionName
         }
       }
       p.directives = [

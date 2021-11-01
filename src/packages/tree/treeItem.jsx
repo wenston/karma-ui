@@ -2,7 +2,6 @@ import KCheckbox from "karma-ui/packages/checkbox/checkbox"
 import KIcon from "karma-ui/packages/icon/icon"
 import KTransition from "karma-ui/packages/transition/transition"
 import KTreeList from "./treeList"
-// import getAllParent from "karma-ui/util/getAllParent"
 import { selectChilds, selectParent } from "./_util"
 import props from "./props"
 export default {
@@ -13,7 +12,11 @@ export default {
     isLastOne: Boolean, //是不是数组中最后一条数据
     active: [Number, String], //当前选择的节点数据
     spread: Boolean, //
-    scopedSlots: Object
+    scopedSlots: Object,
+    canck: {
+      type: Boolean,
+      default: undefined
+    }
   },
   data() {
     return {
@@ -24,176 +27,21 @@ export default {
   },
   inject: ["tree"],
   methods: {
+    canCheck(item) {
+      if(this.checkable) {
+        return this.checkable(item)
+      }
+      return true
+    },
     isSelected(item) {
       //console.log(item,this.selectedData)
       const set = new Set(this.tree.checkedKeys.map(t => t + ""))
       const v = item[this.keyField] + ""
       return set.has(v)
     },
-    // cancelChecked(data, set, rule = "some") {
-    //   //data是当前数据及其所有父级，set是selectedKeys
-    //   //如果data只有1，则代表只选择了顶级一层的数据
-    //   const { keyField, childField } = this
-    //   if (data.length === 1) {
-    //     const v = data[0][keyField] + ""
-    //     set.delete(v)
-    //   } else {
-    //     function deleteFromSet(data, set) {
-    //       let len = data.length,
-    //         i = len - 1
-    //       do {
-    //         if (i === len - 1) {
-    //           set.delete(data[i][keyField] + "")
-    //         } else {
-    //           //搜集所有同级，判断是否有一个被选中
-    //           let has = false
-    //           if (rule === "every") {
-    //             has = true
-    //           }
-    //           for (
-    //             let j = 0, jlen = data[i][childField].length;
-    //             j < jlen;
-    //             j++
-    //           ) {
-    //             const c = data[i][childField][j]
-    //             if (rule === "some") {
-    //               if (set.has(c[keyField] + "")) {
-    //                 has = true
-    //                 break
-    //               }
-    //             } else if (rule === "every") {
-    //               if (!set.has(c[keyField] + "")) {
-    //                 has = false
-    //                 break
-    //               }
-    //             }
-    //           }
-    //           if (has) {
-    //             break
-    //           } else {
-    //             deleteFromSet(data.slice(0, -1), set)
-    //           }
-    //         }
-    //         i = i - 1
-    //       } while (i >= 0)
-    //     }
-    //     deleteFromSet(data, set)
-    //   }
-    //   return set
-    // },
-    // selectParent(item, checked) {
-    //   const { keyField, childField, selectedRule } = this
-    //   let set = new Set(this.tree.checkedKeys.map(k => k + ""))
-
-    //   if (selectedRule === "some" || selectedRule === "every") {
-    //     //将此节点及父级相关的节点push到selectedData
-    //     let arr = getAllParent(
-    //       this.tree.sourceData,
-    //       item[keyField],
-    //       keyField,
-    //       childField
-    //     )
-    //     let checkedData = this.tree.checkedData
-    //     // console.log(arr)
-    //     let vals = []
-    //     arr.forEach(el => {
-    //       vals.push(el[keyField] + "")
-    //     })
-
-    //     if (checked) {
-    //       //只要有一个子级被选中，则父级就被选中
-    //       if (selectedRule === "some") {
-    //         vals.forEach(k => {
-    //           set.add(k)
-    //         })
-    //         //只有所有的子级都被选中，父级才会被选中
-    //       } else if (selectedRule === "every") {
-    //         //arr长度是1时代表只选择了一个根节点数据，此时不用向上找父级了
-    //         if (arr.length === 1) {
-    //           set.add(vals[0])
-    //         } else {
-    //           function everySelect(arr, set) {
-    //             let len = arr.length,
-    //               i = len - 1
-    //             do {
-    //               if (i === len - 1) {
-    //                 set.add(arr[i][keyField] + "")
-    //               } else {
-    //                 const childs = arr[i][childField]
-    //                 if (childs && childs.length) {
-    //                   let has = true
-    //                   for (let j = 0; j < childs.length; j++) {
-    //                     const item = childs[j]
-    //                     if (!set.has(item[keyField] + "")) {
-    //                       has = false
-    //                       break
-    //                     }
-    //                   }
-    //                   if (has) {
-    //                     everySelect(arr.slice(0, -1), set)
-    //                   } else {
-    //                     break
-    //                   }
-    //                 }
-    //               }
-    //               i = i - 1
-    //             } while (i >= 0)
-    //           }
-    //           everySelect(arr, set)
-    //         }
-    //       }
-    //     } else {
-    //       if (selectedRule === "some") {
-    //         //取消选中此项，
-    //         //并判断同级有没有被选中，如果所有同级都没有被选中，则父级取消选中
-    //         set = this.cancelChecked(arr, set)
-    //       } else if (selectedRule === "every") {
-    //         //如果有一个没有被选中，则父级取消选中
-    //         set = this.cancelChecked(arr, set, "every")
-    //       }
-    //     }
-    //     this.tree.checkedKeys = [...set]
-    //   } else {
-    //     if (checked) {
-    //       set.add(item[keyField])
-    //     } else {
-    //       set.delete(item[keyField])
-    //     }
-    //     this.tree.checkedKeys = [...set]
-    //   }
-    // },
-    // selectChilds(item, checked) {
-    //   const { keyField, childField, selectedRule } = this
-
-    //   let set = new Set(this.tree.checkedKeys.map(t => t + ""))
-    //   if (selectedRule === "some" || selectedRule === "every") {
-    //     function selectChildren(data, set, type = "add") {
-    //       data.forEach(el => {
-    //         set[type](el[keyField] + "")
-    //         if (el[childField] && el[childField].length) {
-    //           selectChildren(el[childField], set, type)
-    //         }
-    //       })
-    //     }
-    //     if (item[childField] && item[childField].length) {
-    //       if (checked) {
-    //         selectChildren(item[childField], set)
-    //       } else {
-    //         selectChildren(item[childField], set, "delete")
-    //       }
-    //     }
-    //   } else {
-    //     if (checked) {
-    //       set.add(item[keyField])
-    //     } else {
-    //       set.delete(item[keyField])
-    //     }
-    //   }
-    //   this.tree.checkedKeys = [...set]
-    // },
     leafIcon() {
       const icon = this.icon[2]
-      return <k-icon class="k-tree-icon-leaf" name={icon} />
+      if (icon) return <k-icon class="k-tree-icon-leaf" name={icon} />
     },
     foldIcon() {
       const icon = this.icon[0]
@@ -279,7 +127,8 @@ export default {
                 checked,
                 this.keyField,
                 this.childField,
-                this.selectedRule
+                this.selectedRule,
+                this.checkable
               )
               //选中、取消选中父级所有节点
               // this.selectParent(item, checked)
@@ -290,7 +139,8 @@ export default {
                 checked,
                 this.keyField,
                 this.childField,
-                this.selectedRule
+                this.selectedRule,
+                this.checkable
               )
               //复选或者取消复选时，当前节点数据
               this.tree.$emit("select", checked, item)
@@ -305,6 +155,9 @@ export default {
               e.stopPropagation()
             }
           }
+        }
+        if(this.canck!==undefined) {
+          checkProp.props.disabled=!this.canck
         }
         return [<k-checkbox {...checkProp} />, text]
       }
@@ -406,6 +259,10 @@ export default {
         }
       ]
     }
+    if(this.checkable) {
+      child.props.canck = this.checkable(this.item) && this.canck
+      // console.log(this.item.Name,child.props.canck)
+    }
     const itemProps = {
       class: [
         "k-tree-item",
@@ -416,8 +273,10 @@ export default {
     }
     return (
       <div {...itemProps}>
-        {this.renderIconWrapper()}
-        {this.renderText(this.item)}
+        <div class="k-tree-item-k">
+          {this.renderIconWrapper()}
+          {this.renderText(this.item)}
+        </div>
         <k-transition
           onAfter-transition={() => {
             this.tree.$emit("after-transition")

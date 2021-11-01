@@ -3,62 +3,71 @@
   position: relative;
   &__y {
     opacity: 0;
-    transition: opacity .25s;
+    transition: opacity 0.25s;
     position: absolute;
     height: 100%;
     top: 0;
     right: 0;
+    z-index: 7;
     &track {
       width: 8px;
-      background-color: rgba(0,0,0,.08);
+      background-color: rgba(0, 0, 0, 0.08);
       height: 100%;
     }
     &thumb {
       position: absolute;
-      top:0;
-      left:0;
+      top: 0;
+      left: 0;
       width: 8px;
-      background-color: rgba(0,0,0,.5);
+      background-color: rgba(0, 0, 0, 0.5);
       border-radius: 4px;
+      z-index: 9;
       &:active {
-        background-color: rgba(0,0,0,.65);
+        background-color: rgba(0, 0, 0, 0.65);
       }
     }
   }
   &__x {
     opacity: 0;
-    transition: opacity .25s;
+    transition: opacity 0.25s;
     position: absolute;
     width: 100%;
     bottom: 0;
     left: 0;
     &track {
       width: 100%;
-      background-color: rgba(0,0,0,.08);
+      background-color: rgba(0, 0, 0, 0.08);
       height: 8px;
+      position: relative;
+      z-index: 8;
     }
     &thumb {
       position: absolute;
-      bottom:0;
-      left:0;
+      bottom: 0;
+      left: 0;
       height: 8px;
-      background-color: rgba(0,0,0,.5);
+      background-color: rgba(0, 0, 0, 0.5);
       border-radius: 4px;
+      z-index: 9;
       &:active {
-        background-color: rgba(0,0,0,.65);
+        background-color: rgba(0, 0, 0, 0.65);
       }
     }
   }
   &:hover {
-    .k-scrollbar__y,
-    .k-scrollbar__x {
+    & > .k-scrollbar__y,
+    & > .k-scrollbar__x {
       opacity: 1;
     }
+  }
+  .k-scrollbar__x.k-scrollbar--active,
+  .k-scrollbar__y.k-scrollbar--active {
+    opacity: 1;
   }
 }
 .k-scrollbar__content {
   /* width: 2000px; */
 }
 .k-scrollbar-transition {
-  transition: .25s;
+  transition: height 0.25s, top 0.25s, margin 0.25s;
 }

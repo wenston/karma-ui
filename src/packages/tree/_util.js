@@ -1,38 +1,50 @@
 
 import getAllParent from "karma-ui/util/getAllParent"
+function canCheck(checkable,item) {
+  if(checkable) {
+    return checkable(item)
+  }
+  return true
+}
 export function selectChilds(
   item, //当前数据
   checkedKeys, //已选的数组
   checked, //是否选中
   keyField,
   childField,
-  selectedRule //选中规则
+  selectedRule, //选中规则
+  checkable
 ) {
   let set = new Set(checkedKeys.map(t => t + ""))
   if (selectedRule === "some" || selectedRule === "every") {
     function selectChildren(data, set, type = "add") {
       data.forEach(el => {
-        set[type](el[keyField] + "")
-        if (el[childField] && el[childField].length) {
-          selectChildren(el[childField], set, type)
+        if(canCheck(checkable,el)) {
+          set[type](el[keyField] + "")
+          if (el[childField] && el[childField].length) {
+            selectChildren(el[childField], set, type)
+          }
         }
       })
     }
-    if (item[childField] && item[childField].length) {
-      if (checked) {
-        selectChildren(item[childField], set)
-      } else {
-        selectChildren(item[childField], set, "delete")
+    if(canCheck(checkable,item)) {
+      if (item[childField] && item[childField].length) {
+        if (checked) {
+          selectChildren(item[childField], set)
+        } else {
+          selectChildren(item[childField], set, "delete")
+        }
       }
     }
   } else {
     if (checked) {
       set.add(item[keyField])
     } else {
-      set.delete(item[keyField])
+      set.delete(item[keyField]+'')
     }
   }
   checkedKeys = [...set]
+  console.log(checkedKeys)
   return checkedKeys
 }
 
@@ -43,7 +55,8 @@ export function selectParent(
   checked, //是否选中
   keyField,
   childField,
-  selectedRule //选中规则
+  selectedRule, //选中规则
+  checkable
 ) {
   let set = new Set(checkedKeys.map(k => k + ""))
 
@@ -118,7 +131,7 @@ export function selectParent(
     if (checked) {
       set.add(item[keyField])
     } else {
-      set.delete(item[keyField])
+      set.delete(item[keyField]+'')
     }
     checkedKeys = [...set]
   }
@@ -175,4 +188,3 @@ export function cancelChecked(keyField,childField,data, set, rule = "some") {
   }
   return set
 }
-

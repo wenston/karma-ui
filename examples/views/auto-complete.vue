@@ -2,15 +2,18 @@
   <div class="layout">
     <h3 class="layout__title">自动完成</h3>
     <div>
-      <k-auto-complete :data="list"
+      <k-auto-complete ref="au"
+        :data="list"
         v-model="value"
+        :text="text"
         key-field="ProId"
         value-field="Name"
         layer-width="250px"
         placeholder="商品名称"
         @focus="onFocus"
         @toggle="onToggle"
-        @input="onInput"
+        :empty="empty"
+        matchFromDatabase
         pageSize="11">
         <div slot="header"
           class="list header">
@@ -29,11 +32,10 @@
     <div style="width: 500px;height: 300px;overflow:auto;"
       ref="box">
       <div style="width: 1000px;height: 1300px;">
-        <span>往右下拖动</span>
         <k-auto-complete :data="list"
           v-model="value1"
+          :text="text1"
           :scroll-element="$refs.box"
-          style="margin-top:1222px;margin-left:800px;"
           nearby>
           <div slot="header"
             class="list header">
@@ -51,7 +53,35 @@
               @click="onFresh">刷新</k-button>
           </div>
         </k-auto-complete>
+        <k-button type="warning"
+          @click="onClear">清除</k-button>
       </div>
+    </div>
+    <h3 class="layout__title">自动完成</h3>
+    <div style="margin-top:250px;">
+      <k-auto-complete :data="list"
+        v-model="value2"
+        key-field="ProId"
+        value-field="Name"
+        layer-width="250px"
+        placeholder="商品名称"
+        @focus="onFocus"
+        @toggle="onToggle"
+        clear-when-no-match
+        pageSize="11">
+        <div slot="header"
+          class="list header">
+          <span class="name">商品名称</span>
+          <span class="index">库存</span>
+        </div>
+        <div slot-scope="{row,index}"
+          :key="row.Id"
+          class="list">
+          <span class="name">{{row.Name}}</span>
+          <span class="index">{{index}}</span>
+        </div>
+      </k-auto-complete>
+      <k-button @click="clear">清空</k-button>
     </div>
   </div>
 </template>
@@ -60,13 +90,17 @@ export default {
   data() {
     return {
       value: "300249",
+      text: '',
       value1: "100022",
+      text1: '小夜灯',
+      value2: "",
       list: [],
+      empty: '',
       list1: [
         {
           Id: 0,
           ProId: 0,
-          Name: '平台'
+          Name: "平台"
         },
         {
           Id: 300038,
@@ -597,34 +631,39 @@ export default {
     }
   },
   methods: {
+    onClear() {
+      this.value1 = ''
+      this.text1 = ''
+    },
     onFresh() {
       this.list = []
       setTimeout(() => {
         this.list = this.list1
-      }, 1500)
+      }, 100)
     },
     clear() {
       this.value = ""
+      this.text = ''
     },
     onFocus() {
       setTimeout(() => {
-        // this.list = this.list1
-      }, 1500)
+        this.list = this.list1
+        if (this.list.length === 0) {
+          this.$refs.au.emptyTip(() => {
+            this.$tips({
+              content: 'Meiyou shujv',
+              type: 'warning'
+            }).hide(1000)
+          })
+        }
+      }, 100)
     },
     onToggle(e) {
       console.log("toggle", e)
-    },
-    onInput(text) {
-      console.log(text)
     }
   },
   mounted() {
-    // setTimeout(() => {
-    //   this.value = "300034"
-    // }, 1800)
-    setTimeout(() => {
-      this.list = this.list1
-    }, 1500)
+    // this.list = this.list1
   },
   watch: {
     value(v) {

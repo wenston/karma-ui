@@ -5,7 +5,11 @@
     <div>
       <div style="height: 50px">
 
-      <k-switch :size="size" v-model="value" @change="change" />
+        <k-switch :size="size"
+          v-model="value"
+          @change="change"
+          :onContent="on"
+          :offContent="off" />
       </div>
       <div>
         <k-button @click="handleClick">大小变化</k-button>
@@ -21,21 +25,27 @@ export default {
     return {
       size: "mini",
       i: 0,
-      value: false,
+      value: false
     }
   },
   computed: {
     dic() {
       return ["mini", "small", "medium", "big", "large", "huge"]
-    }
+    },
+    on() {
+      return <span>启用</span>
+    },
+    off() {
+      return <span style="font-size:12px">禁用</span>
+    },
   },
   methods: {
     change(e) {
-      console.log('change:',e)
+      console.log("change:", e)
     },
     handleClick() {
       this.i += 1
-      if(this.i>5) {
+      if (this.i > 5) {
         this.i = 0
       }
       this.size = this.dic[this.i]
@@ -45,6 +55,7 @@ export default {
     value(v) {
       console.log(v)
     }
-  }
+  },
+  mounted() {}
 }
 </script>

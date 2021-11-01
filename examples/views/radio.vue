@@ -18,8 +18,13 @@
 export default {
   data() {
     return {
-      b:1
+      b:-1
     }
+  },
+  mounted() {
+    setTimeout(()=>{
+      this.b = 0
+    },1000)
   }
 }
 </script>

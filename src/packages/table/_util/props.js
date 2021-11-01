@@ -19,8 +19,13 @@ export const props = {
   },
   //循环行时的那个key，指的是字段名
   //loopKey可以是以逗号分隔的多个字段名，也可以是单个
+  //另外可以是function，使用function的目的是额外指定一个key
+  //而不是从表格数据里取值
+  //这样做的目的是简化使用，也就是在使用时不需要关心key
+  //比如table2组件，由于此组件需要编辑表格内数据，数据原本是没有的
+  //所以从外部用function给每一行一个指定的key是比较合适的
   loopKey: {
-    type: [String, Number],
+    type: [String, Number,Function],
     //index是指的数据行号
     default: "index,Id"
   },
@@ -81,11 +86,17 @@ export const props = {
     type: Boolean,
     default: false
   },
+  pageIndex: [String,Number],
+  pageSize: [String,Number],
   //是否有操作按钮
   //默认只有添加和删除操作
   hasAction: {
     type: Boolean,
     default: false
+  },
+  actions: {
+    type: Array,
+    default: ()=>['add','delete']
   },
   //是否有表头
   hasThead: {
@@ -174,8 +185,19 @@ export const props = {
     type: Boolean,
     default: false
   },
+  trClass: [Array,String,Object],
   emptyText: {
     type: [String, Function],
     default: "暂无相关数据"
-  }
+  },
+  loadingText: {
+    type: [String,Function],
+    default: ''
+  },
+  defaultText: {
+    type: [String,Function],
+    default: ''
+  },
+  //是否支持列拖拽排序
+  draggable: Boolean
 }

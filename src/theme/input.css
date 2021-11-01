@@ -18,25 +18,29 @@
     transition: var(--transition);
 
     &:focus,
-    &:active {
-      border-color: var(--primary-color);
-      box-shadow: var(--input-focus-active-shadow);
-    }
+    &:active,
     &.k-input-active {
-      border-color: var(--primary-color);
+      border-color: var(--input-focus-border-color);
+      box-shadow: var(--input-focus-active-shadow);
     }
 
     &::placeholder {
       color: var(--input-placeholder-color);
     }
 
-    &[readonly] {
-      cursor: default;
-    }
-
     &.k-input-disabled {
       background-color: var(--disabled-color);
       cursor: not-allowed;
+    }
+
+    &.k-input--left {
+      text-align: left;
+    }
+    &.k-input--right {
+      text-align: right;
+    }
+    &.k-input--center {
+      text-align: center;
     }
   }
 
@@ -44,7 +48,19 @@
     @extend .k-block;
   }
 
-  & .k-input-prepend,
+  & .k-input-prepend {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border: 1px solid transparent;
+    overflow: hidden;
+    z-index: 1;
+    & > * {
+      @extend .k-center;
+    }
+  }
+
   & .k-input-append {
     position: absolute;
     left: 0;
@@ -52,9 +68,8 @@
     height: 100%;
     border: 1px solid transparent;
     overflow: hidden;
-    & > * {
-      @extend .k-center;
-    }
+    text-align: center;
+    z-index: 1;
   }
 
   & .k-input-append {
@@ -87,6 +102,8 @@
       & .k-input-prepend,
       & .k-input-append {
         min-width: var(--input-$(name));
+        /* line-height: var(--input-$(name)); */
+        line-height:normal;
       }
 
       & .k-input-prepend {
@@ -129,7 +146,7 @@
     }
     & .k-input,
     & .k-textarea {
-      border-color: var(--primary-color);
+      border-color: var(--input-focus-border-color);
     }
   }
 
@@ -144,7 +161,7 @@
       border-radius: 0;
       background-color: transparent;
       &.k-input-active {
-        border-bottom-color: var(--primary-color);
+        border-bottom-color: var(--input-focus-border-color);
       }
       &.k-input-disabled {
         background-color: transparent;
@@ -152,25 +169,26 @@
       }
       &:focus,
       &:active {
-        border-bottom-color: var(--primary-color);
+        border-bottom-color: var(--input-focus-border-color);
         box-shadow: none;
       }
     }
     &:after {
       content: "";
       position: absolute;
-      bottom: -1px;
+      bottom: 0px;
       left: 50%;
       width: 0;
       height: 0;
-      border-bottom: 2px solid transparent;
+      border-bottom: 1px solid transparent;
       transition: var(--transition);
     }
     &:focus-within {
       &:after {
-        border-bottom-color: var(--primary-color);
+        border-bottom-color: var(--input-focus-border-color);
         width: 100%;
         left: 0;
+        box-shadow: var(--input-focus-active-shadow);
       }
     }
   }
@@ -186,7 +204,12 @@
       border: none;
       border-radius: 0;
       height: 100%;
-      /* background-color: transparent; */
+      background-color: transparent;
+
+      &:focus {
+        box-shadow: 0 0 0 1px var(--input-focus-border-color);
+        background-color: white;
+      }
     }
   }
 }

@@ -6,13 +6,20 @@ ul.k-pagi {
   align-items: center;
   justify-content: flex-end;
   transition: var(--transition);
+  user-select: none;
+  &.k-pagi-center {
+    justify-content: center;
+  }
+  &.k-pagi-left {
+    justify-content: flex-start;
+  }
   > li {
     display: flex;
     align-items: center;
     margin: 0 3px;
   }
   li.k-pagi-total {
-    color: #333;
+    color: var(--font-color-1);
     font-size: 12px;
     margin: 0 8px;
   }
@@ -33,12 +40,22 @@ ul.k-pagi {
       line-height: normal;
       &:hover:not(.k-pagi-dot) {
         border-color: var(--pagi-hover-border-color);
-        color: var(--pagi-hover-border-color);
-      }
-      &.k-current-page {
-        border-color: var(--pagi-hover-border-color);
         background-color: var(--pagi-hover-background-color);
-        color: white !important;
+      }
+
+      &.k-current-page {
+        border-color: var(--pagi-current-border-color);
+        background-color: var(--pagi-current-background-color);
+        color: var(--pagi-current-text-color);
+        &:hover {
+          border-color: var(--pagi-current-border-color);
+          background-color: var(--pagi-current-background-color);
+          color: var(--pagi-current-text-color);
+        }
+      }
+      &.k-pagi-mini {
+        min-width: 26px;
+        height: 24px;
       }
     }
     &.k-pagi-prev,
@@ -50,14 +67,13 @@ ul.k-pagi {
       user-select: none;
     }
     &.k-pagi-disabled {
-      cursor: no-drop;
-      pointer-events: none;
+      cursor: not-allowed;
     }
   }
   li.k-pagi-sizes {
     margin-left: 8px;
     .k-input-section {
-      width: 77px;
+      width: 80px;
     }
   }
   li.k-pagi-go {
@@ -65,17 +81,17 @@ ul.k-pagi {
     font-size: 12px;
     .k-input-section {
       width: 50px;
-      margin:0 5px;
+      margin: 0 5px;
     }
   }
   &.k-pagi-disabled-all {
     pointer-events: none;
-    opacity: .60;
+    opacity: 0.6;
   }
-  $orders: 0,1,2,3,4,5,6,7;
+  $orders: 0, 1, 2, 3, 4, 5, 6, 7;
   @each $order in $orders {
     li.k-pagi-order-$order {
-      order:$order;
+      order: $order;
     }
   }
 }

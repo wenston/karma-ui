@@ -3,71 +3,86 @@
     <h3 class="layout__title">table2</h3>
     <div>
       <k-table2 :data="data"
+        ref="table2"
         :columns="columns"
         :hover="false"
         :row-data="baseRowData"
         max-height="calc(100vh - 120px)">
-        <template slot="color" slot-scope="{row}">
-          <k-input block no-style v-model="row.Color"></k-input>
+        <template slot="color"
+          slot-scope="{row,index}">
+          <k-input block
+            :ref='`input_color_${index}`'
+            no-style
+            v-model="row.Color"></k-input>
         </template>
+        <k-select slot="select"
+          slot-scope="{row}"
+          v-model="row.Id"
+          clearable
+          block>
+          <k-option v-for="item in list"
+            :key="item.Id"
+            :value="item.Id"
+            :label="item.ProName"
+            :selected="item.Id==row.Id">{{item.ProName}}</k-option>
+        </k-select>
       </k-table2>
     </div>
   </div>
 </template>
 
 <script>
+let i = 1
 const baseRowData = () => ({
-  ProName: '',
-        Color: '',
-        RetailPrice: '',
-        ProCount: '',
-        Id: '',
-        ProId: '',
+  ProName: "",
+  Color: "",
+  RetailPrice: "",
+  ProCount: "",
+  Id: "",
+  ProId: ""
 })
 export default {
   data() {
     return {
+      selectValue: "",
       baseRowData,
-      data: Array.apply(null,{length:3}).map(t=>baseRowData()),
+      data: Array.apply(null, { length: 8 }).map(t => baseRowData()),
       columns: [
         {
           field: "ProName",
           name: "名称",
-          style:(row,index)=> {
-            if(row) {
+          style: (row, index) => {
+            if (row) {
               return {
-                padding: '2px'
+                padding: "1px"
               }
             }
-            return {width: 200}
-            
+            return { width: 200 }
           },
-          customRender: (row,index) => {
+          customRender: (row, index) => {
             const p = {
               props: {
                 value: row.ProId,
                 data: this.list,
                 noStyle: true,
                 pageSize: 7,
-                layerWidth: false,//没值表示和输入框等宽
+                layerWidth: false //没值表示和输入框等宽
               },
               on: {
                 valueChange: v => {
-                  row.Id = row.ProId = v
-                  console.log(v)
+                  row.ProId = v
+                  this.$refs.table2.next(2)
                 },
-                toggle: (e) => {
-                  
-                  if(e.row) {
-                    e.row.ProCount = 1
-                    // this.data.splice(index,1,e.row)
-                    // this.data[i]
-                    console.log(this.data[index])
+                toggle: e => {
+                  if (e.row) {
                     for(let k in row) {
-                      this.data[index][k] = e.row[k]
+                      if(k in e.row) {
+                        row[k] = e.row[k]
+                      }
                     }
+                    
                   }else{
-                    this.data.splice(index,1,baseRowData())
+                    
                   }
                 }
               },
@@ -76,26 +91,33 @@ export default {
                   return (
                     <div>
                       <span>{row.ProName}</span>
-                      <span>{index}</span>
+                      <span style="color:red">{index}</span>
                     </div>
                   )
                 }
               }
             }
-            {/**当选一个商品时，autoComple组件会被vue自动销毁，为什么？？？ */}
-            return <k-auto-complete {...p}>
-            </k-auto-complete>
-            
+            {
+              /**当选一个商品时，autoComple组件会被vue自动销毁，为什么？？？ */
+              /**因为table组件的参数loopKey变化了，而且，table组件
+               * 中某些组件使用了此loopKey中的某键，所以导致列表中原来的loopKey没有了，即发生了列表重新渲染*/
+            }
+            return <k-auto-complete {...p}></k-auto-complete>
           }
+        },
+        {
+          name: "商品",
+          scopedSlots: "select",
+          style: { width: 200 }
         },
         {
           field: "Color",
           name: "颜色",
-          hasWrapper: false,
           style: {
-            width: 80,padding: '2px'
+            width: 80,
+            padding: "1px"
           },
-          scopedSlots:'color'
+          scopedSlots: "color"
         },
         {
           field: "RetailPrice",
@@ -109,29 +131,28 @@ export default {
           field: "ProCount",
           name: "数量",
           style: {
-            width: 70,padding:'2px'
+            width: 70,
+            padding: "1px"
           },
-          customRender:(row,index) => {
+          customRender: (row, index) => {
             const p = {
               props: {
-                block:true,
+                block: true,
                 noStyle: true,
                 value: row.ProCount,
-                type: 'number',
+                type: "number",
                 min: 1,
-                max: row.Amount,
+                max: row.Amount
               },
               on: {
-                valueChange:v=>{
+                valueChange: v => {
                   // row.ProCount = +v
                   this.data[index].ProCount = +v
                   this.data = JSON.parse(JSON.stringify(this.data))
                 }
               }
             }
-            return (
-              <k-input {...p} />
-            )
+            return <k-input {...p} />
           },
           sum: true
         },
@@ -680,10 +701,7 @@ export default {
       ]
     }
   },
-  watch: {
-    data(d) {
-      console.log(d)
-    }
+  methods: {
   }
 }
 </script>

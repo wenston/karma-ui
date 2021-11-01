@@ -80,9 +80,8 @@ export default {
       )
     },
     prevNextYear(n) {
-      this.showingDate = `${this.showingYear + n}-${this.showingMonth}-${
-        this.showingDay
-      }`
+      this.showingDate = `${this.showingYear + n}-${String(this.showingMonth).padStart(2, 0)}-${this.showingDay
+        }`
       this.$emit("change-ymd", this.showingDate)
     },
     prevNextMonth(n) {
@@ -94,7 +93,8 @@ export default {
       } else if (n > 0 && m < showM) {
         y = y + 1
       }
-      this.showingDate = `${y}-${m}-${this.showingDay}`
+      // this.showingDate = `${y}-${String(m).padStart(2, 0)}-${this.showingDay}`
+      this.showingDate = `${y}-${String(m).padStart(2, 0)}-01`
       this.$emit("change-ymd", this.showingDate)
     },
     _renderBodyTitle() {
@@ -104,23 +104,23 @@ export default {
             {this.range && this.hidePrevNext && this.isEnd
               ? null
               : [
-                  <k-icon
-                    name="k-icon-double-left"
-                    class="k-date-picker-prev-next"
-                    title="上一年"
-                    onClick={e => {
-                      this.prevNextYear(-1)
-                    }}
-                  />,
-                  <k-icon
-                    name="k-icon-arrow-left"
-                    class="k-date-picker-prev-next"
-                    title="上个月"
-                    onClick={e => {
-                      this.prevNextMonth(-1)
-                    }}
-                  />
-                ]}
+                <k-icon
+                  name="k-icon-double-left"
+                  class="k-date-picker-prev-next"
+                  title="上一年"
+                  onClick={e => {
+                    this.prevNextYear(-1)
+                  }}
+                />,
+                <k-icon
+                  name="k-icon-arrow-left"
+                  class="k-date-picker-prev-next"
+                  title="上个月"
+                  onClick={e => {
+                    this.prevNextMonth(-1)
+                  }}
+                />
+              ]}
           </div>
           <div class="k-date-picker-year-month">
             <span class="k-date-picker-item">{this.showingYear}年</span>
@@ -130,23 +130,23 @@ export default {
             {this.range && this.hidePrevNext && this.isStart
               ? null
               : [
-                  <k-icon
-                    name="k-icon-arrow-right"
-                    class="k-date-picker-prev-next"
-                    title="下个月"
-                    onClick={e => {
-                      this.prevNextMonth(1)
-                    }}
-                  />,
-                  <k-icon
-                    name="k-icon-double-right"
-                    class="k-date-picker-prev-next"
-                    title="下一年"
-                    onClick={e => {
-                      this.prevNextYear(1)
-                    }}
-                  />
-                ]}
+                <k-icon
+                  name="k-icon-arrow-right"
+                  class="k-date-picker-prev-next"
+                  title="下个月"
+                  onClick={e => {
+                    this.prevNextMonth(1)
+                  }}
+                />,
+                <k-icon
+                  name="k-icon-double-right"
+                  class="k-date-picker-prev-next"
+                  title="下一年"
+                  onClick={e => {
+                    this.prevNextYear(1)
+                  }}
+                />
+              ]}
           </div>
         </div>
       )
@@ -175,7 +175,10 @@ export default {
       //今天是多少号
       const selectDay = this.showingDay
       //获取某月第一天的对应星期几
-      const w = firstDate.getDay()
+      let w = firstDate.getDay()
+      if (w == 0) {
+        w = 7
+      }
       //获取上个月
       const lastMonth = util.addMonths(month, -1)
       //判断上个月的年份
@@ -199,7 +202,7 @@ export default {
         )
         const curDate = new Date(curFormatDate) - 0
         const inMaxMinRange = this.$_is_in_max_min_range(curDate)
-        
+
         let p = {
           class: {
             "k-date-picker-select-day": (() => {
@@ -350,18 +353,17 @@ export default {
             if (curDate - start < 0) {
               // console.log('变开始为结束')
               this.emitEnd(this.start)
-              this.$emit('change-cache-start',curDate)
+              this.$emit("change-cache-start", curDate)
             } else {
               this.endDate = curDate
               this.$emit("change-cache-end", curDate)
-
             }
             // console.log(this.startDate,this.endDate)
           } else {
             if (curDate - end > 0) {
               // console.log('变结束为开始')
               this.emitStart(this.end)
-              this.$emit('change-cache-end',curDate)
+              this.$emit("change-cache-end", curDate)
               // this.$nextTick(() => {
               //   this.endDate = curDate
               // })
@@ -404,9 +406,8 @@ export default {
       immediate: true,
       handler(d) {
         this.showingDate = d
-        if(this.range)
-        this.$emit("change-showing-date", d)
-        else this.$emit('change-ymd',d)
+        if (this.range) this.$emit("change-showing-date", d)
+        else this.$emit("change-ymd", d)
       }
     },
     showingDate: {

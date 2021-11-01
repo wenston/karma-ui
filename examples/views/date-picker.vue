@@ -7,20 +7,25 @@
         :show.sync="show"
         ref="date1"
         disabled></k-date-picker>
+    </div>
+    <div>
       单个日期：<k-date-picker v-model="value1"
         ref="date2"
         :show.sync="show1"
         :min="value"
         simple
         block></k-date-picker>
+      <k-button @click="value1=''">清空单个日期</k-button>
+    </div>
+    <div>
       日期区间：<k-date-picker :start.sync="start"
         :end.sync="end"
-        :max="max"
-        :min="min"
         range
         ref="dp2"
         nearby
         @getLayerElement="getDatePickerElement"></k-date-picker>
+    </div>
+    <div>
       <k-button @click="start='2018-10-10'">2018-10-10</k-button>
       <k-button @click="end='2019-10-10'">2019-10-10</k-button>
       <k-button @click="show1=!show1">获取焦点</k-button>
@@ -37,7 +42,7 @@ export default {
       show: true,
       show1: false,
       start: new Date(),
-      end: new Date()
+      end: new Date(),
     }
   },
   computed: {
@@ -46,7 +51,7 @@ export default {
     },
     min() {
       return new Date() - 15 * 3600 * 24 * 1000
-    }
+    },
   },
   methods: {
     toggle(e) {
@@ -54,19 +59,19 @@ export default {
     },
     getDatePickerElement(el) {
       console.log(el)
-    }
+    },
   },
   watch: {
     value(v) {
       // console.log(v)
     },
     start(d) {
-      console.log(d)
+      // console.log(d)
     },
     end(d) {
-      console.log(d)
-    }
-  }
+      // console.log(d)
+    },
+  },
 }
 </script>
 

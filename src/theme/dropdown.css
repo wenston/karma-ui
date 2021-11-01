@@ -1,3 +1,11 @@
 .k-dropdown {
   line-height: 1;
+  display: inline-block;
+  &.k-dropdown--block {
+    display: block;
+  }
+  &.k-dropdown--nostyle {
+    display: block;
+    height: 100%;
+  }
 }

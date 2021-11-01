@@ -1,11 +1,12 @@
 .k-option {
-  height: var(--option-height);
-  line-height: var(--option-height);
+  /* height: var(--option-height);
+  line-height: var(--option-height); */
   padding: var(--option-padding);
   transition: var(--transition);
   cursor: pointer;
   text-align: left;
   color: var(--font-color-2);
+  border-radius: var(--option-radius);
   @extend .k-ellipsis;
   &:hover,
   &.k-option--hover {
@@ -19,5 +20,12 @@
       var(--option-selected-bg-gradient-color)
     );
     color: var(--option-selected-color);
+  }
+  @each $name in (huge,large,big,medium,small,mini) {
+    &.k-option--$(name) {
+      height: var(--$(name));
+      line-height: var(--$(name));
+      font-size: var(--option-$(name)-font-size);
+    }
   }
 }
