@@ -1,14 +1,14 @@
 <script>
 const baseStyle = {
   "min-width": "180px",
-  "max-width": "250px"
+  "max-width": "250px",
 }
 const baseContent = "操作完成"
 import KIcon from "karma-ui/packages/icon/icon.jsx"
 import { merge } from "karma-ui/util/object.js"
 export default {
   components: {
-    KIcon
+    KIcon,
   },
   props: {
     icon: {
@@ -16,27 +16,27 @@ export default {
       default: () => ({
         success: {},
         error: {},
-        warning: {}
-      })
-    }
+        warning: {},
+      }),
+    },
   },
   computed: {
     //预置的三种
     success: () => ({
       name: "k-icon-success",
       size: "50px",
-      color: "#409eff"
+      color: "#3673FF",
     }),
     error: () => ({
       name: "k-icon-close-circle",
       size: "50px",
-      color: "#F56C6C"
+      color: "#E40E0E",
     }),
     warning: () => ({
       name: "k-icon-tip",
       size: "50px",
-      color: "#E6A23C"
-    })
+      color: "#F0651C",
+    }),
   },
   data() {
     return {
@@ -47,7 +47,7 @@ export default {
       state_icon: {},
       timer: null,
       manual: true, //是否可以手动关闭
-      callback: () => {} //传入的关闭后的回调
+      callback: () => {}, //传入的关闭后的回调
     }
   },
   render() {
@@ -58,10 +58,10 @@ export default {
       directives: [
         {
           name: "show",
-          value: this.visible
-        }
+          value: this.visible,
+        },
       ],
-      on: {}
+      on: {},
     }
     let obj = {}
     obj.success = { ...this.success, ...this.icon.success }
@@ -147,7 +147,7 @@ export default {
         this.visible = false
       }, time)
       return this
-    }
-  }
+    },
+  },
 }
 </script>
