@@ -34,13 +34,13 @@
   --input-border-color: #e1e1e1;
   --input-focus-border-color: #afc7ff;
   --input-width: 180px;
-  --input-placeholder-color: #bbb;
+  --input-placeholder-color: #ccc;
   --input-padding: 0 0.82em;
   --input-radius: var(--radius);
-  --input-color: var(--font-color-2);
+  --input-color: var(--font-color-1);
 
   /*input组件里包括了textarea*/
-  --input-textarea-padding: 0.5em;
+  --input-textarea-padding: 0.5em 0.82em;
   --input-textarea-line-height: 1.5;
 
   /*input size*/
