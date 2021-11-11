@@ -299,7 +299,7 @@
   > tfoot {
     > tr {
       > td {
-        color: var(--font-color-2);
+        color: var(--font-color-1);
       }
     }
   }

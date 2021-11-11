@@ -1,11 +1,11 @@
 :root {
   /*base color*/
   --default-color: #fafafa;
-  --primary-color: #3673ff;
-  --primary-gradient-color: #3673ff;
-  --danger-color: #f56c6c;
-  --warning-color: #f0651c;
-  --success-color: #04ac14;
+  --primary-color: #3570ff;
+  --primary-gradient-color: #3570ff;
+  --danger-color: #f32525;
+  --warning-color: #ff6818;
+  --success-color: #3a9f07;
   --disabled-color: #e9e9e9;
   --bg-color: #fff;
   /*文本颜色*/
@@ -124,7 +124,7 @@
   --option-height: 30px;
   --option-padding: 0 0.5em;
   --option-radius: var(--radius);
-  --option-hover-color: var(--font-color-2);
+  --option-hover-color: var(--primary-color);
   --option-huge-font-size: 16px;
   --option-large-font-size: 14px;
   --option-big-font-size: 14px;
@@ -132,8 +132,8 @@
   --option-small-font-size: 12px;
   --option-mini-font-size: 12px;
   /* --option-hover-bg-color: color(var(--primary-color) tint(80%)); */
-  --option-hover-bg-color: #f6f9fa;
-  --option-selected-color: var(--font-color-2);
+  --option-hover-bg-color: color(var(--primary-color) tint(90%));
+  --option-selected-color: var(--primary-color);
   --option-selected-bg-color: color(var(--primary-color) tint(90%));
   --option-selected-bg-gradient-color: color(
     var(--primary-gradient-color) tint(90%)

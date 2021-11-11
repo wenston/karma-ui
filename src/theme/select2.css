@@ -51,8 +51,11 @@
   text-align: left;
   border-radius: var(--option-radius);
   &.k-select2-list-item-checked {
-    color: var(--option-selected-color);
+    color: var(--primary-color);
     background-color: var(--option-selected-bg-color);
+    & .k-checkbox__text {
+      color: var(--primary-color);
+    }
   }
   &.k-select2-list-item-disabled {
     cursor: not-allowed;
@@ -61,6 +64,9 @@
   &.k-select2-list-item-hover {
     color: var(--option-hover-color);
     background: var(--option-hover-bg-color);
+    & .k-checkbox__text {
+      color: var(--primary-color);
+    }
   }
   .k-select2-checkbox {
     display: block;
