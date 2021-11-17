@@ -122,7 +122,7 @@ export default {
         icon = (
           <k-icon
             class="k-select-tree-clear"
-            name={this.showDeleteButton ? "k-icon-close" : "k-icon-arrow-down"}
+            name={this.showDeleteButton ? "k-icon-close-circle" : "k-icon-arrow-down"}
             tabindex="-1"
             onFocus={e => {
               e.stopPropagation()
@@ -139,6 +139,7 @@ export default {
                 this.currentText = ""
               }
               this.$emit("toggle", [])
+              this.$emit('clear')
               e.stopPropagation()
             }}
           />
@@ -146,7 +147,7 @@ export default {
       } else {
         icon = (
           <k-icon
-            name={this.showDeleteButton ? "k-icon-close" : "k-icon-arrow-down"}
+            name={this.showDeleteButton ? "k-icon-close-circle" : "k-icon-arrow-down"}
             class="k-select-tree-clear"
             transform={this.visible && "rotateX(180deg)"}
           />
@@ -172,7 +173,10 @@ export default {
             }
           },
           mouseenter: e => {
-            this.showDeleteButton = true;
+            if(this.currentVal || this.checkedData.length || this.checkedKeys.length) {
+
+              this.showDeleteButton = true;
+            }
           },
           mouseleave: e => {
             this.showDeleteButton = false;
