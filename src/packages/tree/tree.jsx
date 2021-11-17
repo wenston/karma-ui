@@ -121,11 +121,14 @@ export default {
       const { sourceData, keyField, textField, childField } = this
       let set = new Set(k.map(t => t + ""))
       let arr = []
-      function fn(data) {
+      const fn = (data) => {
         data.forEach(item => {
           if (set.has(item[keyField] + "")) {
             const { __open__, ...others } = item
             arr.push(others)
+          } else {
+            const _item = this.checkedData.filter(d=>d[keyField]==item[keyField])[0]
+            _item && arr.push({..._item})
           }
           if (item[childField] && item[childField].length) {
             fn(item[childField])
@@ -133,6 +136,18 @@ export default {
         })
       }
       fn(sourceData)
+      this.checkedData.forEach(item => {
+        let bol = false;
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i][keyField] == item[keyField]) {
+                bol = true;
+                break;
+            }
+        }
+        if (!bol) {
+            arr.push(item)
+        }
+    })
       this.checkedData = arr
     },
     isSameKeys(arr1, arr2) {
