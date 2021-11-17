@@ -127,9 +127,32 @@ export default {
         //     fn(sourceData);
         //     this.checkedData = arr;
         // },
-        createCheckedDataByCheckedKeys(k) {
+        createCheckedDataByCheckedKeys(k, oldKeys) {
             const { sourceData, keyField, textField, childField } = this
+
+            let diffK = [];//对比老的，寻找出 在 新的k中没有的，没有说明取消了，然后递归把子集的k都给去掉
+            k.forEach(item => {
+                let bol = false;
+                for (let j = 0; i < oldKeys.length; i++) {
+                    if (oldKeys[i] == item) {
+                        bol = true;
+                        break
+                    }
+                }
+                if (!bol) {
+                    diffK.push(k)
+                }
+            })
+
+            
+
+
+
+
             let set = new Set(k.map(t => t + ""))
+
+
+
             let arr = []
             let me = this
             function fn(data) {
@@ -145,7 +168,8 @@ export default {
             }
             fn(sourceData)
 
-            this.checkedData.forEach(item => {
+            // set 实时的选择的key，checkedData 上次的数据，
+            this.checkedData.filter(item => set.has(item[keyField] + "")).forEach(item => {
                 let bol = false;
                 for (let i = 0; i < arr.length; i++) {
                     if (arr[i][keyField] == item[keyField]) {
@@ -157,6 +181,7 @@ export default {
                     arr.push(item)
                 }
             })
+
             this.checkedData = arr
         },
         isSameKeys(arr1, arr2) {
@@ -366,7 +391,7 @@ export default {
         checkedKeys(k, oldKeys) {
             if (!this.isSameKeys(k, oldKeys)) {
                 this.$emit('update:selectedKeys', k);
-                this.createCheckedDataByCheckedKeys(k);
+                this.createCheckedDataByCheckedKeys(k, oldKeys);
             }
             //todo: 选中的树形数据
         },
