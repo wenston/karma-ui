@@ -118,6 +118,7 @@ export default {
       ld: this.loading,
       pageIndex: 1,
       timer: null,
+      keyupTimer: null,
       visible: false, //是否展示出了下拉列表
       //输入文本时，如果没在下拉列表中选择而直接离开了，
       //noMatch记录有没有匹配到，
@@ -539,6 +540,19 @@ export default {
           },
           keyup: (e) => {
             this.handleKeyup(e)
+            const keyCode = e.keyCode
+            //简单的写一写
+            if(keyCode!=37 && keyCode!=38 && keyCode!=39 && keyCode!=40
+              && keyCode!=27
+              && keyCode!=91
+              && keyCode!=17 && keyCode!=18 && keyCode!=16
+              && keyCode!=33 && keyCode!=34) {
+                clearTimeout(this.keyupTimer)
+                this.keyupTimer = setTimeout(() => {
+                  //专门写个search，为了输入之后手动去控制是否发请求拿数据
+                  this.$emit('search', this.inputText)
+                }, this.debounceTime)
+            }
           },
           keydown: (e) => {
             //阻止光标乱跑。在keyup中阻止不了
