@@ -1,10 +1,10 @@
 :root {
   /*base color*/
   --default-color: #fafafa;
-  --primary-color: #409eff;
-  --primary-gradient-color: #409eff;
-  --danger-color: #f56c6c;
-  --warning-color: #e6a23c;
+  --primary-color: #2189ff;
+  --primary-gradient-color: #2189ff;
+  --danger-color: #f22929;
+  --warning-color: #ff6818;
   --success-color: #67c23a;
   --disabled-color: #e9e9e9;
   --bg-color: #fff;
@@ -32,9 +32,9 @@
   --layer-radius: var(--radius);
   /* input */
   --input-border-color: #e1e1e1;
-  --input-focus-border-color: #9fceff;
+  --input-focus-border-color: #90c4ff;
   --input-width: 180px;
-  --input-placeholder-color: #bbb;
+  --input-placeholder-color: #999;
   --input-padding: 0 0.82em;
   --input-radius: var(--radius);
   --input-color: var(--font-color-2);
