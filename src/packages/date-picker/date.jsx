@@ -53,6 +53,30 @@ export default {
     showingDay() {
       return this.showingFormatDate.getDate();
     },
+    begin() {
+      if (this.range) {
+        const _start = util.toDateType(
+          this.cacheStart || this.startDate || new Date()
+        );
+        return {
+          y: _start.getFullYear(),
+          m: _start.getMonth() + 1,
+          d: _start.getDate(),
+        };
+      }
+    },
+    over() {
+      if (this.range) {
+        const _end = util.toDateType(
+          this.cacheEnd || this.endDate || new Date()
+        );
+        return {
+          y: _end.getFullYear(),
+          m: _end.getMonth() + 1,
+          d: _end.getDate(),
+        };
+      }
+    },
   },
   methods: {
     emitEnd(date) {
@@ -99,6 +123,82 @@ export default {
       this.showingDate = `${y}-${String(m).padStart(2, 0)}-01`;
       this.$emit("change-ymd", this.showingDate);
     },
+    gotoYear(_year, target) {
+      let year = _year;
+      // console.log(_year);
+      // console.log(this.startDate);
+      if (this.range) {
+        if (this.isStart) {
+          if (this.over) {
+            if (this.over.y - _year < 0) {
+              year = this.over.y;
+            }
+            if (this.over.y == year && this.over.m - this.showingMonth < 0) {
+              year -= 1;
+              alert("日期面板开始月份小于了结束月份，将为您重新调整年份");
+            }
+          }
+        } else if (this.isEnd) {
+          if (this.begin) {
+            if (this.begin.y - _year > 0) {
+              year = this.begin.y;
+            }
+
+            if (this.begin.y == year && this.begin.m - this.showingMonth > 0) {
+              year += 1;
+              alert("日期面板开始月份大于了结束月份，将为您重新调整年份");
+            }
+          }
+        }
+
+        target.value = year;
+        this.showingDate = `${year}-${String(this.showingMonth).padStart(
+          2,
+          0
+        )}-${this.showingDay}`;
+        this.$emit("change-ymd", this.showingDate);
+      }
+
+      this.isEditYear = false;
+    },
+    gotoMonth(_month, target) {
+      let month = _month;
+      if (_month > 12 || _month < 1) {
+        month = this.showingMonth;
+      }
+      // console.log(_month);
+      // console.log(this.startDate);
+      if (this.range) {
+        if (this.isStart) {
+          if (this.over) {
+            if (
+              this.over.y - this.showingYear == 0 &&
+              this.over.m - _month < 0
+            ) {
+              month = this.over.m;
+            }
+          }
+        } else if (this.isEnd) {
+          if (this.begin) {
+            if (
+              this.begin.y - this.showingYear == 0 &&
+              this.begin.m - _month > 0
+            ) {
+              month = this.begin.m;
+            }
+          }
+        }
+
+        target.value = month;
+        this.showingDate = `${this.showingYear}-${String(month).padStart(
+          2,
+          0
+        )}-${this.showingDay}`;
+        this.$emit("change-ymd", this.showingDate);
+      }
+
+      this.isEditMonth = false;
+    },
     yearTitle() {
       if (this.isEditYear) {
         const ip = {
@@ -113,7 +213,17 @@ export default {
             keyup: (e) => {
               const v = e.target.value - 0;
               if (e.keyCode == 13) {
+                this.gotoYear(v, e.target);
               }
+            },
+            blur: (e) => {
+              const v = e.target.value - 0;
+              this.gotoYear(v, e.target);
+              this.isEditYear = false;
+            },
+            change: (e) => {
+              const v = e.target.value - 0;
+              this.gotoYear(v, e.target);
             },
           },
         };
@@ -132,6 +242,50 @@ export default {
         },
       };
       return <span {...yp}>{this.showingYear}年</span>;
+    },
+    monthTitle() {
+      if (this.isEditMonth) {
+        const ip = {
+          props: {
+            value: this.showingMonth,
+            size: "mini",
+            inputStyles: { width: "3.5em", padding: "0 0 0 5px" },
+            styles: { width: "4.5em" },
+            type: "number",
+          },
+          on: {
+            keyup: (e) => {
+              const v = e.target.value - 0;
+              if (e.keyCode == 13) {
+                this.gotoMonth(v, e.target);
+              }
+            },
+            blur: (e) => {
+              const v = e.target.value - 0;
+              this.gotoMonth(v, e.target);
+              this.isEditMonth = false;
+            },
+            change: (e) => {
+              const v = e.target.value - 0;
+              this.gotoMonth(v, e.target);
+            },
+          },
+        };
+        return (
+          <span>
+            <k-input {...ip} />月
+          </span>
+        );
+      }
+      const yp = {
+        class: "k-date-picker-item",
+        on: {
+          click: () => {
+            this.isEditMonth = true;
+          },
+        },
+      };
+      return <span {...yp}>{this.showingMonth}月</span>;
     },
     _renderBodyTitle() {
       return (
@@ -160,7 +314,7 @@ export default {
           </div>
           <div class="k-date-picker-year-month">
             {this.yearTitle()}
-            <span class="k-date-picker-item">{this.showingMonth}月</span>
+            {this.monthTitle()}
           </div>
           <div class="k-d-p-p-n-box">
             {this.range && this.hidePrevNext && this.isStart
