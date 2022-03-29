@@ -12,6 +12,7 @@
         placeholder="商品名称"
         @focus="onFocus"
         @toggle="onToggle"
+        @search="toSearch"
         :empty="empty"
         matchFromDatabase
         pageSize="11">
@@ -90,17 +91,17 @@ export default {
   data() {
     return {
       value: "300249",
-      text: '',
+      text: "",
       value1: "100022",
-      text1: '小夜灯',
+      text1: "小夜灯",
       value2: "",
       list: [],
-      empty: '',
+      empty: "",
       list1: [
         {
           Id: 0,
           ProId: 0,
-          Name: "平台"
+          Name: "平台",
         },
         {
           Id: 300038,
@@ -121,7 +122,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 1179,
           AmountCanUsed: 1174,
-          RowId: 1
+          RowId: 1,
         },
         {
           Id: 303525,
@@ -142,7 +143,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 120,
           AmountCanUsed: 120,
-          RowId: 2
+          RowId: 2,
         },
         {
           Id: 300034,
@@ -163,7 +164,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 103,
           AmountCanUsed: 103,
-          RowId: 3
+          RowId: 3,
         },
         {
           Id: 300035,
@@ -184,7 +185,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 100,
           AmountCanUsed: 100,
-          RowId: 4
+          RowId: 4,
         },
         {
           Id: 303964,
@@ -205,7 +206,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 89,
           AmountCanUsed: 89,
-          RowId: 5
+          RowId: 5,
         },
         {
           Id: 300036,
@@ -226,7 +227,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 80,
           AmountCanUsed: 80,
-          RowId: 6
+          RowId: 6,
         },
         {
           Id: 303378,
@@ -247,7 +248,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 80,
           AmountCanUsed: 80,
-          RowId: 7
+          RowId: 7,
         },
         {
           Id: 303515,
@@ -268,7 +269,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 80,
           AmountCanUsed: 78,
-          RowId: 8
+          RowId: 8,
         },
         {
           Id: 303321,
@@ -289,7 +290,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 28,
           AmountCanUsed: 28,
-          RowId: 9
+          RowId: 9,
         },
         {
           Id: 302893,
@@ -310,7 +311,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 19,
           AmountCanUsed: 19,
-          RowId: 10
+          RowId: 10,
         },
         {
           Id: 303375,
@@ -331,7 +332,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 11,
           AmountCanUsed: 11,
-          RowId: 11
+          RowId: 11,
         },
         {
           Id: 303518,
@@ -352,7 +353,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 6,
           AmountCanUsed: 6,
-          RowId: 12
+          RowId: 12,
         },
         {
           Id: 303524,
@@ -373,7 +374,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 6,
           AmountCanUsed: 6,
-          RowId: 13
+          RowId: 13,
         },
         {
           Id: 303519,
@@ -394,7 +395,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 5,
           AmountCanUsed: 5,
-          RowId: 14
+          RowId: 14,
         },
         {
           Id: 303517,
@@ -415,7 +416,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 4,
           AmountCanUsed: 4,
-          RowId: 15
+          RowId: 15,
         },
         {
           Id: 300020,
@@ -436,7 +437,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 2,
           AmountCanUsed: 2,
-          RowId: 16
+          RowId: 16,
         },
         {
           Id: 300029,
@@ -457,7 +458,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 2,
           AmountCanUsed: 2,
-          RowId: 17
+          RowId: 17,
         },
         {
           Id: 303937,
@@ -478,7 +479,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 2,
           AmountCanUsed: 2,
-          RowId: 18
+          RowId: 18,
         },
         {
           Id: 303963,
@@ -499,7 +500,7 @@ export default {
           PurchaseFloorPrice: 1999,
           Amount: 2,
           AmountCanUsed: 2,
-          RowId: 19
+          RowId: 19,
         },
         {
           Id: 100687,
@@ -520,7 +521,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 1,
           AmountCanUsed: 1,
-          RowId: 20
+          RowId: 20,
         },
         {
           Id: 300024,
@@ -541,7 +542,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 1,
           AmountCanUsed: 1,
-          RowId: 21
+          RowId: 21,
         },
         {
           Id: 300025,
@@ -562,7 +563,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 1,
           AmountCanUsed: 1,
-          RowId: 22
+          RowId: 22,
         },
         {
           Id: 300249,
@@ -583,7 +584,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 1,
           AmountCanUsed: 1,
-          RowId: 23
+          RowId: 23,
         },
         {
           Id: 303516,
@@ -604,7 +605,7 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 1,
           AmountCanUsed: 1,
-          RowId: 24
+          RowId: 24,
         },
         {
           Id: 303520,
@@ -625,15 +626,18 @@ export default {
           PurchaseFloorPrice: 0,
           Amount: 1,
           AmountCanUsed: 1,
-          RowId: 25
-        }
-      ]
+          RowId: 25,
+        },
+      ],
     }
   },
   methods: {
+    toSearch(t) {
+      console.log(t)
+    },
     onClear() {
-      this.value1 = ''
-      this.text1 = ''
+      this.value1 = ""
+      this.text1 = ""
     },
     onFresh() {
       this.list = []
@@ -643,7 +647,7 @@ export default {
     },
     clear() {
       this.value = ""
-      this.text = ''
+      this.text = ""
     },
     onFocus() {
       setTimeout(() => {
@@ -651,8 +655,8 @@ export default {
         if (this.list.length === 0) {
           this.$refs.au.emptyTip(() => {
             this.$tips({
-              content: 'Meiyou shujv',
-              type: 'warning'
+              content: "Meiyou shujv",
+              type: "warning",
             }).hide(1000)
           })
         }
@@ -660,7 +664,7 @@ export default {
     },
     onToggle(e) {
       console.log("toggle", e)
-    }
+    },
   },
   mounted() {
     // this.list = this.list1
@@ -668,8 +672,8 @@ export default {
   watch: {
     value(v) {
       console.log(v)
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="postcss">
