@@ -189,13 +189,20 @@ export default {
           }
         }
 
-        target.value = month;
-        this.showingDate = `${this.showingYear}-${String(month).padStart(
-          2,
-          0
-        )}-${this.showingDay}`;
-        this.$emit("change-ymd", this.showingDate);
+        // target.value = month;
+        // this.showingDate = `${this.showingYear}-${String(month).padStart(
+        //   2,
+        //   0
+        // )}-${this.showingDay}`;
+        // this.$emit("change-ymd", this.showingDate);
       }
+
+      target.value = month;
+      this.showingDate = `${this.showingYear}-${String(month).padStart(
+        2,
+        0
+      )}-${this.showingDay}`;
+      this.$emit("change-ymd", this.showingDate);
 
       this.isEditMonth = false;
     },
@@ -294,23 +301,23 @@ export default {
             {this.range && this.hidePrevNext && this.isEnd
               ? null
               : [
-                  <k-icon
-                    name="k-icon-double-left"
-                    class="k-date-picker-prev-next"
-                    title="上一年"
-                    onClick={(e) => {
-                      this.prevNextYear(-1);
-                    }}
-                  />,
-                  <k-icon
-                    name="k-icon-arrow-left"
-                    class="k-date-picker-prev-next"
-                    title="上个月"
-                    onClick={(e) => {
-                      this.prevNextMonth(-1);
-                    }}
-                  />,
-                ]}
+                <k-icon
+                  name="k-icon-double-left"
+                  class="k-date-picker-prev-next"
+                  title="上一年"
+                  onClick={(e) => {
+                    this.prevNextYear(-1);
+                  }}
+                />,
+                <k-icon
+                  name="k-icon-arrow-left"
+                  class="k-date-picker-prev-next"
+                  title="上个月"
+                  onClick={(e) => {
+                    this.prevNextMonth(-1);
+                  }}
+                />,
+              ]}
           </div>
           <div class="k-date-picker-year-month">
             {this.yearTitle()}
@@ -320,23 +327,23 @@ export default {
             {this.range && this.hidePrevNext && this.isStart
               ? null
               : [
-                  <k-icon
-                    name="k-icon-arrow-right"
-                    class="k-date-picker-prev-next"
-                    title="下个月"
-                    onClick={(e) => {
-                      this.prevNextMonth(1);
-                    }}
-                  />,
-                  <k-icon
-                    name="k-icon-double-right"
-                    class="k-date-picker-prev-next"
-                    title="下一年"
-                    onClick={(e) => {
-                      this.prevNextYear(1);
-                    }}
-                  />,
-                ]}
+                <k-icon
+                  name="k-icon-arrow-right"
+                  class="k-date-picker-prev-next"
+                  title="下个月"
+                  onClick={(e) => {
+                    this.prevNextMonth(1);
+                  }}
+                />,
+                <k-icon
+                  name="k-icon-double-right"
+                  class="k-date-picker-prev-next"
+                  title="下一年"
+                  onClick={(e) => {
+                    this.prevNextYear(1);
+                  }}
+                />,
+              ]}
           </div>
         </div>
       );
