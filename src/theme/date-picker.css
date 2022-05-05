@@ -98,10 +98,10 @@
       color: #333;
       .k-date-picker-item {
         transition: var(--transition);
-        /* cursor: pointer; */
-        /* &:hover {
+        cursor: pointer;
+        &:hover {
           color: var(--primary-color);
-        } */
+        }
         &:not(:last-child) {
           margin-right: 5px;
         }
