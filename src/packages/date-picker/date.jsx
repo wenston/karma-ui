@@ -151,13 +151,19 @@ export default {
           }
         }
 
-        target.value = year;
-        this.showingDate = `${year}-${String(this.showingMonth).padStart(
-          2,
-          0
-        )}-${this.showingDay}`;
-        this.$emit("change-ymd", this.showingDate);
+        // target.value = year;
+        // this.showingDate = `${year}-${String(this.showingMonth).padStart(
+        //   2,
+        //   0
+        // )}-${this.showingDay}`;
+        // this.$emit("change-ymd", this.showingDate);
       }
+      target.value = year;
+      this.showingDate = `${year}-${String(this.showingMonth).padStart(
+        2,
+        0
+      )}-${this.showingDay}`;
+      this.$emit("change-ymd", this.showingDate);
 
       this.isEditYear = false;
     },
