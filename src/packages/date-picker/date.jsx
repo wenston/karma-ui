@@ -164,7 +164,7 @@ export default {
         0
       )}-${this.showingDay}`;
       this.$emit("change-ymd", this.showingDate);
-
+      this.emitChange(this.showingDate);
       this.isEditYear = false;
     },
     gotoMonth(_month, target) {
@@ -209,7 +209,7 @@ export default {
         0
       )}-${this.showingDay}`;
       this.$emit("change-ymd", this.showingDate);
-
+      this.emitChange(this.showingDate);
       this.isEditMonth = false;
     },
     yearTitle() {
@@ -220,23 +220,33 @@ export default {
             size: "mini",
             inputStyles: { width: "4.5em", padding: "0 0 0 5px" },
             styles: { width: "4.5em" },
-            type: "number",
+            type: "number"
           },
           on: {
+
             keyup: (e) => {
               const v = e.target.value - 0;
-              if (e.keyCode == 13) {
-                this.gotoYear(v, e.target);
+              if (v.length === 4) {
+
+                if (e.keyCode == 13) {
+                  this.gotoYear(v, e.target);
+                }
               }
             },
             blur: (e) => {
               const v = e.target.value - 0;
-              this.gotoYear(v, e.target);
-              this.isEditYear = false;
+              if (v.length === 4) {
+                this.gotoYear(v, e.target);
+
+                this.isEditYear = false;
+              }
             },
             change: (e) => {
               const v = e.target.value - 0;
-              this.gotoYear(v, e.target);
+              if (v.length === 4) {
+
+                this.gotoYear(v, e.target);
+              }
             },
           },
         };
@@ -264,23 +274,33 @@ export default {
             size: "mini",
             inputStyles: { width: "3.5em", padding: "0 0 0 5px" },
             styles: { width: "4.5em" },
-            type: "number",
+            type: "number"
           },
           on: {
+
             keyup: (e) => {
               const v = e.target.value - 0;
-              if (e.keyCode == 13) {
-                this.gotoMonth(v, e.target);
+              if (v.length < 3) {
+
+                if (e.keyCode == 13) {
+                  this.gotoMonth(v, e.target);
+                }
               }
             },
             blur: (e) => {
               const v = e.target.value - 0;
-              this.gotoMonth(v, e.target);
-              this.isEditMonth = false;
+              if (v.length < 3) {
+
+                this.gotoMonth(v, e.target);
+                this.isEditMonth = false;
+              }
             },
             change: (e) => {
               const v = e.target.value - 0;
-              this.gotoMonth(v, e.target);
+              if (v.length < 3) {
+
+                this.gotoMonth(v, e.target);
+              }
             },
           },
         };
