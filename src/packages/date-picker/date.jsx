@@ -226,7 +226,7 @@ export default {
 
             keyup: (e) => {
               const v = e.target.value - 0;
-              if (v.length === 4) {
+              if (e.target.value.length === 4) {
 
                 if (e.keyCode == 13) {
                   this.gotoYear(v, e.target);
@@ -235,7 +235,7 @@ export default {
             },
             blur: (e) => {
               const v = e.target.value - 0;
-              if (v.length === 4) {
+              if (e.target.value.length === 4) {
                 this.gotoYear(v, e.target);
 
                 this.isEditYear = false;
@@ -243,7 +243,7 @@ export default {
             },
             change: (e) => {
               const v = e.target.value - 0;
-              if (v.length === 4) {
+              if (e.target.value.length === 4) {
 
                 this.gotoYear(v, e.target);
               }
@@ -280,7 +280,7 @@ export default {
 
             keyup: (e) => {
               const v = e.target.value - 0;
-              if (v.length < 3) {
+              if (e.target.value.length < 3) {
 
                 if (e.keyCode == 13) {
                   this.gotoMonth(v, e.target);
@@ -289,7 +289,7 @@ export default {
             },
             blur: (e) => {
               const v = e.target.value - 0;
-              if (v.length < 3) {
+              if (e.target.value.length < 3) {
 
                 this.gotoMonth(v, e.target);
                 this.isEditMonth = false;
@@ -297,7 +297,7 @@ export default {
             },
             change: (e) => {
               const v = e.target.value - 0;
-              if (v.length < 3) {
+              if (e.target.value.length < 3) {
 
                 this.gotoMonth(v, e.target);
               }
