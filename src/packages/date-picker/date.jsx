@@ -170,46 +170,22 @@ export default {
     },
     gotoMonth(_month, target) {
       let month = _month;
-      if (_month > 12 || _month < 1) {
-        month = this.showingMonth;
+      if (_month > 12) {
+        month = 12;
       }
       // console.log(_month);
       // console.log(this.startDate);
-      if (this.range) {
-        // if (this.isStart) {
-        //   if (this.over) {
-        //     if (
-        //       this.over.y - this.showingYear == 0 &&
-        //       this.over.m - _month < 0
-        //     ) {
-        //       month = this.over.m;
-        //     }
-        //   }
-        // } else if (this.isEnd) {
-        //   if (this.begin) {
-        //     if (
-        //       this.begin.y - this.showingYear == 0 &&
-        //       this.begin.m - _month > 0
-        //     ) {
-        //       month = this.begin.m;
-        //     }
-        //   }
-        // }
 
-        // target.value = month;
-        // this.showingDate = `${this.showingYear}-${String(month).padStart(
-        //   2,
-        //   0
-        // )}-${this.showingDay}`;
-        // this.$emit("change-ymd", this.showingDate);
+      if (month) {
+
+        target.value = month;
+        this.showingDate = `${this.showingYear}-${String(month).padStart(
+          2,
+          0
+        )}-${this.showingDay}`;
+        this.$emit("change-ymd", this.showingDate);
       }
 
-      target.value = month;
-      this.showingDate = `${this.showingYear}-${String(month).padStart(
-        2,
-        0
-      )}-${this.showingDay}`;
-      this.$emit("change-ymd", this.showingDate);
       // this.emitChange(this.showingDate);
       // this.isEditMonth = false;
     },
