@@ -1,10 +1,10 @@
 <script>
 // 有关弹框宽度，可以对插入的body宽度进行设置。
-import KButton from "karma-ui/packages/button/button"
-import KIcon from "karma-ui/packages/icon/icon"
-import dnd from "karma-ui/directives/dnd/bind.js"
+import KButton from 'karma-ui/packages/button/button'
+import KIcon from 'karma-ui/packages/icon/icon'
+import dnd from 'karma-ui/directives/dnd/bind.js'
 export default {
-  name: "KPopup",
+  name: 'KPopup',
   components: {
     KButton,
     KIcon,
@@ -12,19 +12,19 @@ export default {
   props: {
     bind: {
       type: String,
-      default: "v-if",
+      default: 'v-if',
     },
     title: {
       type: String,
-      default: "确认",
+      default: '确认',
     },
     okText: {
       type: String,
-      default: "确定",
+      default: '确定',
     },
     cancelText: {
       type: String,
-      default: "取消",
+      default: '取消',
     },
     show: {
       type: Boolean,
@@ -34,11 +34,11 @@ export default {
     //默认全显示
     layout: {
       type: String,
-      default: "header,body,footer,close,mask",
+      default: 'header,body,footer,close,mask',
     },
     buttonSize: {
       type: String,
-      default: "medium",
+      default: 'medium',
     },
     hasBottomLine: {
       type: Boolean,
@@ -55,7 +55,7 @@ export default {
     disabledOk: Boolean,
     okType: {
       type: String,
-      default: "primary",
+      default: 'primary',
     },
     stopPropagation: {
       type: Boolean,
@@ -71,15 +71,15 @@ export default {
     beforeEnter() {
       this.isOk = false
       const container = this.$refs.container
-      container.classList.add("k-popup-container--before-enter")
+      container.classList.add('k-popup-container--before-enter')
     },
     enter() {
       setTimeout(() => {
         const container = this.$refs.container
-        container.classList.add("k-popup-container--enter")
+        container.classList.add('k-popup-container--enter')
       })
       if (!this.allowBodyScroll) {
-        document.body.classList.add("k-overflow-hidden")
+        document.body.classList.add('k-overflow-hidden')
       }
       this.$nextTick().then(() => {
         this.$refs.popup.focus()
@@ -87,38 +87,38 @@ export default {
     },
     afterEnter() {
       const container = this.$refs.container
-      container.classList.remove("k-popup-container--before-enter")
-      container.classList.remove("k-popup-container--enter")
-      this.$emit("after-enter")
+      container.classList.remove('k-popup-container--before-enter')
+      container.classList.remove('k-popup-container--enter')
+      this.$emit('after-enter')
     },
     leave() {
       const container = this.$refs.container
-      container.classList.add("k-popup-container--before-enter")
+      container.classList.add('k-popup-container--before-enter')
     },
     afterLeave() {
       const container = this.$refs.container
       if (container) {
-        container.classList.remove("k-popup-container--before-enter")
+        container.classList.remove('k-popup-container--before-enter')
       }
       if (!this.allowBodyScroll) {
-        document.body.classList.remove("k-overflow-hidden")
+        document.body.classList.remove('k-overflow-hidden')
       }
       if (this.$refs.popup) {
         this.$refs.popup.blur()
       }
-      this.$emit("after-leave", this.isOk)
+      this.$emit('after-leave', this.isOk)
     },
     onOk() {
       if (this.disabledOk) {
         return
       }
       this.isOk = true
-      this.$emit("after-ok")
+      this.$emit('after-ok')
     },
     onCancel() {
       this.isOk = false
-      this.$emit("update:show", false)
-      this.$emit("after-cancel")
+      this.$emit('update:show', false)
+      this.$emit('after-cancel')
     },
     esc(e) {
       if (e.keyCode == 27) {
@@ -153,8 +153,7 @@ export default {
                   <b
                     onMousedown={(e) => {
                       e.stopPropagation()
-                    }}
-                  >
+                    }}>
                     {this.title}
                   </b>
                 </div>
@@ -173,8 +172,7 @@ export default {
               if (this.stopPropagation) {
                 e.stopPropagation()
               }
-            }}
-          >
+            }}>
             <div class="k-popup__content">
               <div class="k-popup__content__main" style={this.bodyStyle}>
                 {this.$slots.body}
@@ -188,23 +186,21 @@ export default {
     r_footer(has) {
       if (has) {
         const p = {
-          class: "k-popup__footer",
+          class: 'k-popup__footer',
         }
         return (
           <div {...p}>
             <div
               class={[
-                "k-popup__footer__con",
-                { "k-popup__footer__con--line": this.hasBottomLine },
-              ]}
-            >
+                'k-popup__footer__con',
+                { 'k-popup__footer__con--line': this.hasBottomLine },
+              ]}>
               <div class="k-popup__footer__between">
                 <div
                   onMousedown={(e) => {
                     if (this.stopPropagation) e.stopPropagation()
-                  }}
-                >
-                  {this.$slots["footer-prepend"]}
+                  }}>
+                  {this.$slots['footer-prepend']}
                 </div>
                 <div>
                   {this.$slots.footer || [
@@ -213,8 +209,7 @@ export default {
                         e.stopPropagation()
                       }}
                       onClick={this.onCancel}
-                      size={this.buttonSize}
-                    >
+                      size={this.buttonSize}>
                       {this.cancelText}
                     </k-button>,
                     <k-button
@@ -224,8 +219,7 @@ export default {
                       disabled={this.disabledOk}
                       type={this.okType}
                       onClick={this.onOk}
-                      size={this.buttonSize}
-                    >
+                      size={this.buttonSize}>
                       {this.okText}
                     </k-button>,
                   ]}
@@ -238,17 +232,17 @@ export default {
     },
     r_wrapper() {
       const { layout } = this
-      const hasHeader = layout.indexOf("header") > -1
+      const hasHeader = layout.indexOf('header') > -1
       const container_p = {
-        class: "k-popup__container",
-        ref: "container",
+        class: 'k-popup__container',
+        ref: 'container',
       }
       if (hasHeader) {
         container_p.directives = [
           {
-            name: "dnd",
+            name: 'dnd',
             value: {
-              handlerClass: "k-popup__header__wrapper",
+              handlerClass: 'k-popup__header__wrapper',
             },
           },
         ]
@@ -256,25 +250,25 @@ export default {
       return (
         <div class="k-popup__wrapper">
           <div {...container_p}>
-            {this.r_close_icon(layout.indexOf("close") > -1)}
+            {this.r_close_icon(layout.indexOf('close') > -1)}
             {this.r_header(hasHeader)}
-            {this.r_body(layout.indexOf("body") > -1)}
-            {this.r_footer(layout.indexOf("footer") > -1)}
+            {this.r_body(layout.indexOf('body') > -1)}
+            {this.r_footer(layout.indexOf('footer') > -1)}
           </div>
         </div>
       )
     },
     r_popup() {
       const p = {
-        ref: "popup",
+        ref: 'popup',
         attrs: {
           tabindex: -1,
         },
         class: [
-          "k-popup",
-          this.layout.indexOf("mask") > -1
-            ? "k-popup--mask"
-            : "k-popup--transparent",
+          'k-popup',
+          this.layout.indexOf('mask') > -1
+            ? 'k-popup--mask'
+            : 'k-popup--transparent',
         ],
         on: {
           click: (e) => {
@@ -284,15 +278,15 @@ export default {
           },
         },
       }
-      if (this.bind === "v-show") {
+      if (this.bind === 'v-show') {
         p.directives = [
           {
-            name: "show",
+            name: 'show',
             value: this.show,
           },
         ]
         return <div {...p}>{this.r_wrapper()}</div>
-      } else if (this.bind === "v-if") {
+      } else if (this.bind === 'v-if') {
         if (this.show) {
           return <div {...p}>{this.r_wrapper()}</div>
         }
@@ -307,17 +301,16 @@ export default {
         onEnter={this.enter}
         onAfter-enter={this.afterEnter}
         onLeave={this.leave}
-        onAfter-leave={this.afterLeave}
-      >
+        onAfter-leave={this.afterLeave}>
         {this.r_popup()}
       </transition>
     )
   },
   mounted() {
-    document.addEventListener("keyup", this.esc)
+    document.addEventListener('keyup', this.esc)
   },
   beforeDestroy() {
-    document.removeEventListener("keyup", this.esc)
+    document.removeEventListener('keyup', this.esc)
   },
   directives: {
     dnd,

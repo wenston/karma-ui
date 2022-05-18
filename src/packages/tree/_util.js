@@ -40,11 +40,10 @@ export function selectChilds(
     if (checked) {
       set.add(item[keyField])
     } else {
-      set.delete(item[keyField]+'')
+      set.delete(item[keyField])
     }
   }
   checkedKeys = [...set]
-  console.log(checkedKeys)
   return checkedKeys
 }
 
@@ -131,7 +130,7 @@ export function selectParent(
     if (checked) {
       set.add(item[keyField])
     } else {
-      set.delete(item[keyField]+'')
+      set.delete(item[keyField])
     }
     checkedKeys = [...set]
   }
@@ -188,3 +187,4 @@ export function cancelChecked(keyField,childField,data, set, rule = "some") {
   }
   return set
 }
+

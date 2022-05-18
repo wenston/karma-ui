@@ -129,37 +129,42 @@ export default {
       // console.log(this.startDate);
       if (this.range) {
         if (this.isStart) {
-          if (this.over) {
-            if (this.over.y - _year < 0) {
-              year = this.over.y;
-            }
-            if (this.over.y == year && this.over.m - this.showingMonth < 0) {
-              year -= 1;
-              alert("日期面板开始月份小于了结束月份，将为您重新调整年份");
-            }
-          }
+          // if (this.over) {
+          //   if (this.over.y - _year < 0) {
+          //     year = this.over.y;
+          //   }
+          //   if (this.over.y == year && this.over.m - this.showingMonth < 0) {
+          //     year -= 1;
+          //     alert("日期面板开始月份小于了结束月份，将为您重新调整年份");
+          //   }
+          // }
         } else if (this.isEnd) {
+          // console.log(year, this.begin.y, this.begin.m, this.showingMonth)
           if (this.begin) {
-            if (this.begin.y - _year > 0) {
-              year = this.begin.y;
-            }
-
-            if (this.begin.y == year && this.begin.m - this.showingMonth > 0) {
-              year += 1;
-              alert("日期面板开始月份大于了结束月份，将为您重新调整年份");
-            }
+            // if (this.begin.y - _year > 0) {
+            //   year = this.begin.y;
+            // }
+            // if (this.begin.y == year && this.begin.m - this.showingMonth > 0) {
+            //   year += 1;
+            //   alert("日期面板开始月份大于了结束月份，将为您重新调整年份");
+            // }
           }
         }
 
-        target.value = year;
-        this.showingDate = `${year}-${String(this.showingMonth).padStart(
-          2,
-          0
-        )}-${this.showingDay}`;
-        this.$emit("change-ymd", this.showingDate);
+        // target.value = year;
+        // this.showingDate = `${year}-${String(this.showingMonth).padStart(
+        //   2,
+        //   0
+        // )}-${this.showingDay}`;
+        // this.$emit("change-ymd", this.showingDate);
       }
-
-      this.isEditYear = false;
+      target.value = year;
+      this.showingDate = `${year}-${String(this.showingMonth).padStart(2, 0)}-${
+        this.showingDay
+      }`;
+      this.$emit("change-ymd", this.showingDate);
+      // this.emitChange(this.showingDate);
+      // this.isEditYear = false;
     },
     gotoMonth(_month, target) {
       let month = _month;
@@ -169,35 +174,40 @@ export default {
       // console.log(_month);
       // console.log(this.startDate);
       if (this.range) {
-        if (this.isStart) {
-          if (this.over) {
-            if (
-              this.over.y - this.showingYear == 0 &&
-              this.over.m - _month < 0
-            ) {
-              month = this.over.m;
-            }
-          }
-        } else if (this.isEnd) {
-          if (this.begin) {
-            if (
-              this.begin.y - this.showingYear == 0 &&
-              this.begin.m - _month > 0
-            ) {
-              month = this.begin.m;
-            }
-          }
-        }
-
-        target.value = month;
-        this.showingDate = `${this.showingYear}-${String(month).padStart(
-          2,
-          0
-        )}-${this.showingDay}`;
-        this.$emit("change-ymd", this.showingDate);
+        // if (this.isStart) {
+        //   if (this.over) {
+        //     if (
+        //       this.over.y - this.showingYear == 0 &&
+        //       this.over.m - _month < 0
+        //     ) {
+        //       month = this.over.m;
+        //     }
+        //   }
+        // } else if (this.isEnd) {
+        //   if (this.begin) {
+        //     if (
+        //       this.begin.y - this.showingYear == 0 &&
+        //       this.begin.m - _month > 0
+        //     ) {
+        //       month = this.begin.m;
+        //     }
+        //   }
+        // }
+        // target.value = month;
+        // this.showingDate = `${this.showingYear}-${String(month).padStart(
+        //   2,
+        //   0
+        // )}-${this.showingDay}`;
+        // this.$emit("change-ymd", this.showingDate);
       }
 
-      this.isEditMonth = false;
+      target.value = month;
+      this.showingDate = `${this.showingYear}-${String(month).padStart(2, 0)}-${
+        this.showingDay
+      }`;
+      this.$emit("change-ymd", this.showingDate);
+      // this.emitChange(this.showingDate);
+      // this.isEditMonth = false;
     },
     yearTitle() {
       if (this.isEditYear) {
@@ -212,18 +222,26 @@ export default {
           on: {
             keyup: (e) => {
               const v = e.target.value - 0;
-              if (e.keyCode == 13) {
+              if (e.target.value.length === 4) {
                 this.gotoYear(v, e.target);
+                if (e.keyCode == 13) {
+                  // this.isEditYear = false;
+                }
               }
             },
             blur: (e) => {
               const v = e.target.value - 0;
-              this.gotoYear(v, e.target);
-              this.isEditYear = false;
+              if (e.target.value.length === 4) {
+                this.gotoYear(v, e.target);
+
+                // this.isEditYear = false;
+              }
             },
             change: (e) => {
               const v = e.target.value - 0;
-              this.gotoYear(v, e.target);
+              if (e.target.value.length === 4) {
+                this.gotoYear(v, e.target);
+              }
             },
           },
         };
@@ -256,18 +274,24 @@ export default {
           on: {
             keyup: (e) => {
               const v = e.target.value - 0;
-              if (e.keyCode == 13) {
+              if (e.target.value.length < 3) {
                 this.gotoMonth(v, e.target);
+                if (e.keyCode == 13) {
+                }
               }
             },
             blur: (e) => {
               const v = e.target.value - 0;
-              this.gotoMonth(v, e.target);
-              this.isEditMonth = false;
+              if (e.target.value.length < 3) {
+                this.gotoMonth(v, e.target);
+                // this.isEditMonth = false;
+              }
             },
             change: (e) => {
               const v = e.target.value - 0;
-              this.gotoMonth(v, e.target);
+              if (e.target.value.length < 3) {
+                this.gotoMonth(v, e.target);
+              }
             },
           },
         };
