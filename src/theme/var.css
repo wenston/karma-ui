@@ -37,10 +37,10 @@
   --input-placeholder-color: #999;
   --input-padding: 0 0.82em;
   --input-radius: var(--radius);
-  --input-color: var(--font-color-2);
+  --input-color: var(--font-color-1);
 
   /*input组件里包括了textarea*/
-  --input-textarea-padding: 0.5em;
+  --input-textarea-padding: 0.5em 0.82em;
   --input-textarea-line-height: 1.5;
 
   /*input size*/
@@ -124,7 +124,7 @@
   --option-height: 30px;
   --option-padding: 0 0.5em;
   --option-radius: var(--radius);
-  --option-hover-color: var(--font-color-2);
+  --option-hover-color: var(--primary-color);
   --option-huge-font-size: 16px;
   --option-large-font-size: 14px;
   --option-big-font-size: 14px;
@@ -132,8 +132,8 @@
   --option-small-font-size: 12px;
   --option-mini-font-size: 12px;
   /* --option-hover-bg-color: color(var(--primary-color) tint(80%)); */
-  --option-hover-bg-color: #f6f9fa;
-  --option-selected-color: var(--font-color-2);
+  --option-hover-bg-color: color(var(--primary-color) tint(90%));
+  --option-selected-color: var(--primary-color);
   --option-selected-bg-color: color(var(--primary-color) tint(90%));
   --option-selected-bg-gradient-color: color(
     var(--primary-gradient-color) tint(90%)
