@@ -13,7 +13,7 @@ export default {
     KCell,
     KCheckbox,
     KRadio,
-    KIcon
+    KIcon,
   },
   props: {
     ...props,
@@ -22,8 +22,8 @@ export default {
     //根据不同表格，有选择的渲染某些数据：复选和单选
     who: {
       type: String,
-      default: "main"
-    }
+      default: "main",
+    },
   },
   inject: ["__index", "__checkbox", "__radio", "__action"],
   data() {
@@ -31,7 +31,7 @@ export default {
       checkedKeys: this.selectedKeys || [], //保存复选的所有key
       checkedRows: this.selectedRows || [], //保存复选的所有行数据
       currentRadioValue: "",
-      currentHighlightKey: ""
+      currentHighlightKey: "",
     };
   },
   computed: {
@@ -40,21 +40,21 @@ export default {
     },
     tableClasses() {
       return ["k-table", "k-tbody", { "k-table--auto": !this.minContent }];
-    }
+    },
   },
   watch: {
     value: {
       immediate: true,
       handler(v) {
         this.currentRadioValue = v;
-      }
+      },
     },
     selectedKeys: {
       immediate: false,
       handler(keys) {
         this.checkedKeys = keys;
         // this.emitSelectChange()
-      }
+      },
     },
     selectedRows: {
       immediate: true,
@@ -62,7 +62,7 @@ export default {
         this.checkedRows = rows;
         //收集keys
         let keys = [];
-        this.checkedRows.forEach(r => {
+        this.checkedRows.forEach((r) => {
           const k = this.$_format_checked_key(r);
           keys.push(k);
         });
@@ -78,8 +78,8 @@ export default {
         // } else {
         // this.emitSelectChange()
         // }
-      }
-    }
+      },
+    },
   },
   methods: {
     //传入row,index，或者只传index都行，或者只传key
@@ -175,7 +175,7 @@ export default {
       } else if (this.radioKey && this.hasRadio) {
         keys = this.radioKey.trim().split(",");
       }
-      keys.forEach(key => {
+      keys.forEach((key) => {
         result.push(row[key]);
       });
       return result.join(",");
@@ -224,12 +224,16 @@ export default {
         }
         cell = [<div class="k-table-td--index">{idx}</div>];
         if (this.hasAction) {
+          let actions =
+            typeof this.actions === "function"
+              ? this.actions(row, index)
+              : this.actions;
           const add = (
             <k-icon
               title="新增行"
               class="k-table-icon-action"
               name="k-icon-add"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.$emit("add-row", { row, index });
               }}
@@ -240,7 +244,7 @@ export default {
               title="删除行"
               class="k-table-icon-action"
               name="k-icon-close-circle"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.$emit("delete-row", { row, index });
               }}
@@ -248,8 +252,8 @@ export default {
           );
           cell.push(
             <div class="k-table-td--actions">
-              {this.actions.indexOf("add") > -1 ? add : null}
-              {this.actions.indexOf("delete") > -1 ? del : null}
+              {actions.indexOf("add") > -1 ? add : null}
+              {actions.indexOf("delete") > -1 ? del : null}
             </div>
           );
         } else {
@@ -316,14 +320,14 @@ export default {
           props: {
             vvv: this.currentRadioValue,
             value: this.$_format_checked_key(row),
-            disabled: !canCk
+            disabled: !canCk,
           },
           on: {
-            vvvChange: value => {
+            vvvChange: (value) => {
               this.currentRadioValue = value;
               this.$emit("toggle-radio-row", { value, row, index });
-            }
-          }
+            },
+          },
         };
         cell = <k-radio {...radioProps} />;
       }
@@ -341,7 +345,7 @@ export default {
       } else if (col.scopedSlots) {
         cont = this.bodyScopedSlots[col.scopedSlots]({
           row,
-          index
+          index,
         });
       } else if (col.field) {
         cont = row[col.field];
@@ -353,10 +357,10 @@ export default {
           [
             col.cellClass
               ? this.$_get_td_class(row, index, col, { thead: true })
-              : ""
-          ]
+              : "",
+          ],
         ],
-        style: this.$_get_td_style(row, index, col)
+        style: this.$_get_td_style(row, index, col),
       };
 
       return <k-cell {...cellProps}>{cont}</k-cell>;
@@ -368,7 +372,7 @@ export default {
       if (keys) {
         arr = (keys + "").trim().split(/\s?\,\s?/);
       }
-      arr.forEach(el => {
+      arr.forEach((el) => {
         if (el.toLowerCase() === "index") {
           k.push(index + "");
         } else if (row[el]) {
@@ -384,8 +388,7 @@ export default {
       const checkboxKey = this.$_format_checked_key(row);
       const curHighlightRowKey = this.getRowKey(row, index, this.highlightKey);
       let tds = [];
-      this.columns.forEach(col => {
-        
+      this.columns.forEach((col) => {
         tds.push(this.renderTd(row, index, col));
       });
       // this.columns.forEach(col => {
@@ -399,7 +402,7 @@ export default {
       let trClass = {};
 
       if (Array.isArray(this.trClass)) {
-        this.trClass.forEach(c => {
+        this.trClass.forEach((c) => {
           trClass[c] = true;
         });
       } else if (typeof this.trClass === "string") {
@@ -410,15 +413,15 @@ export default {
       let trProps = {
         attrs: {
           "data-key": k,
-          "data-highlight": curHighlightRowKey
+          "data-highlight": curHighlightRowKey,
         },
         key: k,
         class: {
           "k-table-tr-checked":
-            ck || this.selectedKeys.some(k => k == checkboxKey),
+            ck || this.selectedKeys.some((k) => k == checkboxKey),
           "k-table-tr-highlight":
             curHighlightRowKey == this.currentHighlightKey,
-          ...trClass
+          ...trClass,
         },
         on: {
           dblclick: () => {
@@ -434,7 +437,7 @@ export default {
               this.$emit("toggle-highlight", {
                 row,
                 index,
-                value: curHighlightRowKey
+                value: curHighlightRowKey,
               });
             }
             //可以在此处理复选单选
@@ -478,19 +481,19 @@ export default {
               }
             }
             this.$emit("click-row", { row, index });
-          }
-        }
+          },
+        },
       };
       if (this.hover) {
-        trProps.on.mouseover = e => {
+        trProps.on.mouseover = (e) => {
           this.$emit("mouseover-tr", e);
         };
-        trProps.on.mouseout = e => {
+        trProps.on.mouseout = (e) => {
           this.$emit("mouseout-tr", e);
         };
       }
       return <tr {...trProps}>{tds}</tr>;
-    }
+    },
   },
   render() {
     const { bodyWrapperClasses, tableClasses } = this;
@@ -502,5 +505,5 @@ export default {
         </table>
       </div>
     );
-  }
+  },
 };

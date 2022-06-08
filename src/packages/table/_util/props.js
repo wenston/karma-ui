@@ -2,12 +2,12 @@ export const props = {
   //点击某一行时，是否支持高亮显示
   canHighlightRow: {
     type: Boolean,
-    default: false
+    default: false,
   },
   //高亮时的唯一标示，如Id
   highlightKey: {
     type: String,
-    default: "index,Id"
+    default: "index,Id",
   },
   //高亮时，highlightKey对应的值
   //可以通过设置此值，来高亮某行
@@ -15,7 +15,7 @@ export const props = {
   //支持sync
   highlightValue: {
     type: [String, Number],
-    default: ""
+    default: "",
   },
   //循环行时的那个key，指的是字段名
   //loopKey可以是以逗号分隔的多个字段名，也可以是单个
@@ -25,16 +25,16 @@ export const props = {
   //比如table2组件，由于此组件需要编辑表格内数据，数据原本是没有的
   //所以从外部用function给每一行一个指定的key是比较合适的
   loopKey: {
-    type: [String, Number,Function],
+    type: [String, Number, Function],
     //index是指的数据行号
-    default: "index,Id"
+    default: "index,Id",
   },
   //原始数据
   data: {
     type: Array,
     default() {
-      return []
-    }
+      return [];
+    },
   },
   //列名及对应的描述
   //field必须要有
@@ -54,64 +54,64 @@ export const props = {
    */
   columns: {
     type: [Array, Function],
-    default: () => []
+    default: () => [],
   },
   //是否有边框
   bordered: {
     type: Boolean,
-    default: true
+    default: true,
   },
   //简易表格，只有下边框
   simple: {
     type: Boolean,
-    default: false
+    default: false,
   },
   //表格尺寸
   size: {
     type: String,
-    default: "medium"
+    default: "medium",
   },
   //是否有斑马线
   stripe: {
     type: Boolean,
-    default: true
+    default: true,
   },
   //是否鼠标滑入变色
   hover: {
     type: Boolean,
-    default: true
+    default: true,
   },
   //是否有序号index
   hasIndex: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  pageIndex: [String,Number],
-  pageSize: [String,Number],
+  pageIndex: [String, Number],
+  pageSize: [String, Number],
   //是否有操作按钮
   //默认只有添加和删除操作
   hasAction: {
     type: Boolean,
-    default: false
+    default: false,
   },
   actions: {
-    type: Array,
-    default: ()=>['add','delete']
+    type: [Array, Function],
+    default: () => ["add", "delete"],
   },
   //是否有表头
   hasThead: {
     type: Boolean,
-    default: true
+    default: true,
   },
   //序号index对应的表头描述
   indexText: {
     type: String,
-    default: "#"
+    default: "#",
   },
   //是否支持复选框，支持复选时，单选就不起作用
   hasCheckbox: {
     type: Boolean,
-    default: false
+    default: false,
   },
   //支持复选的情况下，需指定一个唯一标示的key，默认是Id，可以自定义
   //自定义的情况下，可以是多个key以逗号分隔，如：'ProId,StoreId'
@@ -119,7 +119,7 @@ export const props = {
   //注意：checkboxKey不支持index作为标示！
   checkboxKey: {
     type: String,
-    default: "Id"
+    default: "Id",
   },
   //可否选择某行，返回布尔值数组
   //[当前行是否被选中，当前行是否能被选中操作]的函数，接收两个参数，row、index
@@ -130,45 +130,45 @@ export const props = {
   //两个要同时使用，否则可能会出现问题！
   selectedRows: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
   //支持sync，保存的是checkboxKey作为key 的数组
   selectedKeys: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
   //支持单选的情况下，需指定一个唯一的标示，同checkboxKey
   radioKey: {
     type: String,
-    default: "Id"
+    default: "Id",
   },
   //是否支持单选
   hasRadio: {
     type: Boolean,
-    default: false
+    default: false,
   },
   //单选时，选中的radioKey对应的值
   value: {
-    type: [Number, String]
+    type: [Number, String],
   },
   //表格宽度，true表明是固定宽，false是auto，自动横向拉伸至100%
   minContent: {
     type: Boolean,
-    default: true
+    default: true,
   },
   //表格主题tbody高度，有高度的情况下，可以实现表头固定
   //NOTE: 是给表格主题外部div的高度
   height: {
     type: String,
-    default: ""
+    default: "",
   },
   maxHeight: {
     type: String,
-    default: ""
+    default: "",
   },
   minHeight: {
     type: String,
-    default: ''
+    default: "",
   },
   //是否允许文本换行
   // nowrap: {
@@ -178,26 +178,26 @@ export const props = {
   //tfoot 合计的文本描述
   sumText: {
     type: String,
-    default: "合计"
+    default: "合计",
   },
   //可调整列宽
   resizeWidth: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  trClass: [Array,String,Object],
+  trClass: [Array, String, Object],
   emptyText: {
     type: [String, Function],
-    default: "暂无相关数据"
+    default: "暂无相关数据",
   },
   loadingText: {
-    type: [String,Function],
-    default: ''
+    type: [String, Function],
+    default: "",
   },
   defaultText: {
-    type: [String,Function],
-    default: ''
+    type: [String, Function],
+    default: "",
   },
   //是否支持列拖拽排序
-  draggable: Boolean
-}
+  draggable: Boolean,
+};
