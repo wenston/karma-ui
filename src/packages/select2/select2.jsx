@@ -30,7 +30,7 @@ export default {
     },
     //描述，data中的字段名
     textField: {
-      type:String,
+      type: String,
       default: 'Name'
     },
     placeholder: String,
@@ -135,9 +135,9 @@ export default {
     }
   },
   methods: {
-    canCheck(item,index) {
-      if(this.checkable) {
-        return this.checkable(item,index)
+    canCheck(item, index) {
+      if (this.checkable) {
+        return this.checkable(item, index)
       }
       return true
     },
@@ -147,7 +147,7 @@ export default {
     toArray(v) {
       let arr = []
       if (Array.isArray(v)) {
-        arr = v.map(id=>id+'')
+        arr = v.map(id => id + '')
       } else if (typeof v === "string") {
         arr = v.split(/\s*,\s*/)
       } else if (typeof v === "number") {
@@ -175,7 +175,7 @@ export default {
       return <k-input {...p} >{this.hasIcon && this.rIcon()}</k-input>
     },
     rIcon() {
-      if(this.clearable && this.dataValue.length) {
+      if (this.clearable && this.dataValue.length) {
         return (
           <span
             class="k-select__icon__wrapper"
@@ -188,7 +188,7 @@ export default {
             <k-icon
               size="12"
               class="k-select__clear"
-              name={ "k-icon-close-circle"}
+              name={"k-icon-close-circle"}
             />
           </span>
         )
@@ -204,7 +204,7 @@ export default {
               "k-select__down": true,
               "k-select__down--up": this.visible
             }}
-            name={ "k-icon-arrow-down"}
+            name={"k-icon-arrow-down"}
           />
         </span>
       )
@@ -254,7 +254,7 @@ export default {
                 value: item[this.keyField],
                 checked,
                 // disabled: this.disabledArr.some(id => id == item[this.keyField])
-                disabled: !this.canCheck(item,index)
+                disabled: !this.canCheck(item, index)
               },
               on: {
                 checkedChange: checked => {
@@ -350,15 +350,15 @@ export default {
           )
         })
         return (
-          <ScrollBar speed={10} containerStyle={{cursor:'pointer'}} class="k-select2-checked-list">
+          <ScrollBar speed={10} containerStyle={{ cursor: 'pointer' }} class="k-select2-checked-list">
             <div class="k-select2-checked-box">{list}</div>
           </ScrollBar>
         )
       }
     },
     rCheckedAll() {
-      if(this.dataValue.length) {
-        let len = this.data.filter((d,i)=>this.canCheck(d,i)).length
+      if (this.dataValue.length) {
+        let len = this.data.filter((d, i) => this.canCheck(d, i)).length
         this.isCheckedAll = len === this.dataValue.length
       } else {
         this.isCheckedAll = false
@@ -380,9 +380,9 @@ export default {
                   }
                 })
               } else {
-                if(this.checkable) {
-                  filterData.forEach((el,i) => {
-                    if(this.canCheck(el,i)) {
+                if (this.checkable) {
+                  filterData.forEach((el, i) => {
+                    if (this.canCheck(el, i)) {
                       set.add(el[this.keyField] + "")
 
                     }
@@ -390,7 +390,7 @@ export default {
 
                 } else {
                   filterData.forEach((el) => {
-                    
+
                     set.add(el[this.keyField] + "")
                   })
 
@@ -415,7 +415,7 @@ export default {
     clear() {
       this.dataValue = []
       this.emitValue()
-      this.$emit('toggle',[])
+      this.$emit('toggle', [])
     },
     hideLayer() {
       this.visible = false
@@ -432,12 +432,12 @@ export default {
         this.visible = true
         this.addUpdownEvent()
       }
-      if(!this.layerIns) {
+      if (!this.layerIns) {
         this.initIns(showAndFocusAndBind)
-      }else{
+      } else {
         showAndFocusAndBind()
       }
-      
+
     },
     //实例化option列表
     initIns(callback) {
@@ -640,11 +640,11 @@ export default {
       // console.log('value:',v,ov)
       if (!this.isSame(v, ov)) {
         if (Array.isArray(v)) {
-          this.dataValue = v.map(id=>id+'')
+          this.dataValue = v.map(id => id + '')
         } else if (typeof v === "string") {
-          if(v) {
+          if (v) {
             this.dataValue = v.split(/\s*,\s*/)
-          }else{
+          } else {
             this.dataValue = []
           }
         } else if (typeof v === "number") {
@@ -663,12 +663,12 @@ export default {
     }
   },
   beforeDestroy() {
-    if(this.layerIns)
-    this.layerIns.destroy()
+    if (this.layerIns)
+      this.layerIns.destroy()
   },
   updated() {
-    if(this.layerIns)
-    this.initIns()
+    if (this.layerIns)
+      this.initIns()
   },
   mounted() {
     // this.$nextTick(() => {

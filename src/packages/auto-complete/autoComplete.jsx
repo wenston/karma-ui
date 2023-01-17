@@ -224,18 +224,22 @@ export default {
           if (this.filterData.length) {
             this.currentIndex =
               this.currentHoverIndex == -1 ? 0 : this.currentHoverIndex;
+            //问题修复
+            // if (this.filterData.length === 1 && this.currentIndex > 0) {
+            //   this.currentIndex = 0
+            // }
             this.$emit(
               "input",
-              this.filterData[this.currentIndex][this.keyField][this.valueField]
+              this.data[this.currentIndex][this.keyField][this.valueField]
             );
             this.$emit(
               "valueChange",
-              this.filterData[this.currentIndex][this.keyField]
+              this.data[this.currentIndex][this.keyField]
             );
             this.$emit(
               "toggle",
               {
-                row: this.filterData[this.currentIndex],
+                row: this.data[this.currentIndex],
                 index: this.currentIndex,
               },
               e
@@ -284,6 +288,7 @@ export default {
         // console.log(v, '没有匹配！！')
       } else {
         this.noMatch = false;
+
         this.$emit("valueChange", v);
         this.$emit("toggle", { row, index: i });
       }
@@ -390,8 +395,8 @@ export default {
             typeof this.searchField === "string"
               ? [this.searchField]
               : Array.isArray(this.searchField)
-              ? this.searchField
-              : [];
+                ? this.searchField
+                : [];
           if (arrField.length === 0) {
             console.warn(`${this.$options.name}是否没有传入searchField参数？`);
           }
@@ -430,7 +435,7 @@ export default {
         }
       }
     },
-    handleLayerBodyScroll: debounce(100, function() {
+    handleLayerBodyScroll: debounce(100, function () {
       const body = this.ins.$refs.body;
       let bodyHeight = parseFloat(getStyle(body, "height"));
       let scrollTop = body.scrollTop;
@@ -447,7 +452,7 @@ export default {
       }
     }),
     //TODO:showList时，需判断下拉有没有被实例化，如果没有，则先实例化
-    showList(fn = () => {}) {
+    showList(fn = () => { }) {
       this.$nextTick().then(() => {
         this.ins &&
           this.ins.show(() => {
@@ -455,7 +460,7 @@ export default {
           });
       });
     },
-    hideList(cb = () => {}) {
+    hideList(cb = () => { }) {
       if (!this.disabled) {
         if (this.ins) {
           //remove事件

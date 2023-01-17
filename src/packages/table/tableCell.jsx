@@ -139,7 +139,7 @@ export default {
       }
     },
     handleMouseup_drag(e) {
-      console.log()
+      // console.log()
       const from = this.index - this.presets
       if (this.type && this.toIndex > -1 && this.toIndex !== from) {
         if (!(this.type === 'move' && from - this.toIndex === -1)) {
