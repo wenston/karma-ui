@@ -603,10 +603,13 @@ export default {
       this.$emit("getLayerElement", this.ins.$el);
       this.ins.$on("layer-inited", () => {
         this.$nextTick().then(() => {
-          this.ins.$refs.body.addEventListener(
-            "scroll",
-            this.handleLayerBodyScroll
-          );
+          if (this.ins && this.ins.$refs.body) {
+
+            this.ins.$refs.body.addEventListener(
+              "scroll",
+              this.handleLayerBodyScroll
+            );
+          }
         });
       });
       this.ins.$on("after-show", () => {
