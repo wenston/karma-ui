@@ -225,21 +225,21 @@ export default {
             this.currentIndex =
               this.currentHoverIndex == -1 ? 0 : this.currentHoverIndex;
             //问题修复
-            // if (this.filterData.length === 1 && this.currentIndex > 0) {
-            //   this.currentIndex = 0
-            // }
+            if (this.filterData.length === 1 && this.currentIndex > 0) {
+              this.currentIndex = 0
+            }
             this.$emit(
               "input",
-              this.data[this.currentIndex][this.keyField][this.valueField]
+              this.filterData[this.currentIndex][this.keyField][this.valueField]
             );
             this.$emit(
               "valueChange",
-              this.data[this.currentIndex][this.keyField]
+              this.filterData[this.currentIndex][this.keyField]
             );
             this.$emit(
               "toggle",
               {
-                row: this.data[this.currentIndex],
+                row: this.filterData[this.currentIndex],
                 index: this.currentIndex,
               },
               e
