@@ -60,15 +60,18 @@ export default {
       default: () => [
         {
           name: "今天",
-          day: 0
+          day: 0,
+          index: 1
         },
         {
           name: "昨天",
-          day: -1
+          day: -1,
+          index: 2,
         },
         {
           name: "前天",
-          day: -2
+          day: -2,
+          index: 3
         }
       ]
     },
@@ -79,30 +82,36 @@ export default {
         {
           name: "近3天",
           start: util.addDays(new Date(), -2),
-          end: util.formatDate(util.getNow())
+          end: util.formatDate(util.getNow()),
+          index: 4
         },
         {
           name: "近7天",
           start: util.addDays(new Date(), -6),
-          end: util.formatDate(util.getNow())
+          end: util.formatDate(util.getNow()),
+          index: 5
         },
         {
           name: "本周",
           start: util.getMondayInThisWeek(new Date()),
-          end: util.formatDate(util.getNow())
+          end: util.formatDate(util.getNow()),
+          index: 6
         },
         {
           name: "上周",
-          ...util.getLastWeek()
+          ...util.getLastWeek(),
+          index: 7
         },
         {
           name: "本月",
           start: util.getFirstDayInThisMonth(),
-          end: util.formatDate(util.getNow())
+          end: util.formatDate(util.getNow()),
+          index: 8
         },
         {
           name: "上个月",
-          ...util.getLastMonth()
+          ...util.getLastMonth(),
+          index: 9
         }
       ]
     },
@@ -246,7 +255,10 @@ export default {
                     : this.isSameDate(d)
                 }}
                 onClick={e => {
-                  if (isIn) this.setDateByDay(q.day)
+                  if (isIn) {
+                    this.setDateByDay(q.day)
+                    this.$emit('quick', q)
+                  }
                 }}
               >
                 {q.name}
@@ -271,6 +283,7 @@ export default {
                   if (isIn) {
                     this.startDate = q.start
                     this.endDate = q.end
+                    this.$emit('quick', q)
                   }
                 }}
               >
@@ -353,10 +366,10 @@ export default {
                   {util.formatDate(this.start)}
                 </span>
               ) : (
-                  <span class="k-date-picker-range-item k-d-p-r-p">
-                    {this.startPlaceholder}
-                  </span>
-                )}
+                <span class="k-date-picker-range-item k-d-p-r-p">
+                  {this.startPlaceholder}
+                </span>
+              )}
 
               <span class="k-d-p-r-p">至</span>
               {this.end ? (
@@ -364,10 +377,10 @@ export default {
                   {util.formatDate(this.end)}
                 </span>
               ) : (
-                  <span class="k-date-picker-range-item k-d-p-r-p">
-                    {this.endPlaceholder}
-                  </span>
-                )}
+                <span class="k-date-picker-range-item k-d-p-r-p">
+                  {this.endPlaceholder}
+                </span>
+              )}
               {((this.start || this.end) && !this.disabled) ? (
                 <k-icon
                   name="k-icon-close-circle"
@@ -378,8 +391,8 @@ export default {
                   }}
                 />
               ) : (
-                  <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
-                )}
+                <k-icon name="k-icon-calendar" class="k-date-picker-icon" />
+              )}
             </div>
           </div>
         )
@@ -395,8 +408,8 @@ export default {
               }}
             />
           ) : (
-              <k-icon name="k-icon-calendar" class="k-date-picker-icon k-center" />
-            )}
+            <k-icon name="k-icon-calendar" class="k-date-picker-icon k-center" />
+          )}
         </k-input>
       )
     },
