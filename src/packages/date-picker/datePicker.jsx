@@ -199,6 +199,7 @@ export default {
       } else {
         this.currentDate = this.showingDate = ""
       }
+      this.$emit('clear')
     },
     dateToString() {
       if (this.currentDate) {
