@@ -94,7 +94,7 @@ export default {
         {
           name: "本周",
           start: util.getMondayInThisWeek(new Date()),
-          end: util.formatDate(util.getNow()),
+          end: util.getSundayInThisWeek(),
           index: 6
         },
         {
@@ -105,7 +105,7 @@ export default {
         {
           name: "本月",
           start: util.getFirstDayInThisMonth(),
-          end: util.formatDate(util.getNow()),
+          end: util.getLastDayInThisMonth(),
           index: 8
         },
         {
