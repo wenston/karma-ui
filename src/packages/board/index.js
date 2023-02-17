@@ -1,5 +1,5 @@
-import Comp from "../layer/layer"
-const boardIns = "@@instance@@"
+import Comp from '../layer/layer'
+const boardIns = '@@instance@@'
 export default {
   install(Vue, opts) {
     const LayerConstructor = Vue.extend(Comp)
@@ -13,7 +13,8 @@ export default {
         parent = document.body,
         afterHide = () => {},
         bodyClassName,
-        alignment = 'left'
+        alignment = 'left',
+        transitionType = 'slide-down',
       }
     ) => {
       if (!elem[boardIns]) {
@@ -24,26 +25,27 @@ export default {
       elem[boardIns].init(
         { $el: elem },
         {
-          header: typeof header === "function" ? header() : header,
-          default: typeof body === "function" ? body() : body,
-          footer: typeof footer === "function" ? footer() : footer
+          header: typeof header === 'function' ? header() : header,
+          default: typeof body === 'function' ? body() : body,
+          footer: typeof footer === 'function' ? footer() : footer,
         },
         {
           canCloseByClickoutside: true,
-          width: "auto",
+          width: 'auto',
           bodyClassName,
           alignment,
+          transitionType,
           afterLeave: () => {
             afterHide()
             if (destroyWhenHide) {
               elem[boardIns].destroy()
               elem[boardIns] = null
             }
-          }
+          },
         }
       )
 
       return elem[boardIns]
     }
-  }
+  },
 }
