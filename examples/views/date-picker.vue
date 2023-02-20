@@ -6,7 +6,8 @@
       单个日期：<k-date-picker v-model="value"
         :show.sync="show"
         ref="date1"
-        disabled></k-date-picker>
+        
+        @change="onChange"></k-date-picker>
     </div>
     <div>
       单个日期：<k-date-picker v-model="value1"
@@ -23,7 +24,8 @@
         range
         ref="dp2"
         nearby
-        @getLayerElement="getDatePickerElement"></k-date-picker>
+        @getLayerElement="getDatePickerElement"
+        @change-range="onChangeRange"></k-date-picker>
     </div>
     <div>
       <k-button @click="start='2018-10-10'">2018-10-10</k-button>
@@ -54,6 +56,12 @@ export default {
     },
   },
   methods: {
+    onChange(e) {
+      console.log('日期选择了：',e)
+    },
+    onChangeRange(e) {
+      console.log('日期区间',e)
+    },
     toggle(e) {
       this.show = !this.show
     },

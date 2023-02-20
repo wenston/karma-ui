@@ -199,9 +199,12 @@ export default {
     clearDate() {
       if (this.range) {
         this.startDate = this.endDate = ""
+        this.$emit('change-range', { start: '', end: '' })
       } else {
         this.currentDate = this.showingDate = ""
+        this.$emit('change', '')
       }
+
       this.$emit('clear')
     },
     dateToString() {
@@ -478,6 +481,10 @@ export default {
         this.endDate = this.startDate
         this.startDate = d
       }
+      if (this.startDate && this.endDate) {
+
+        this.$emit('change-range', { start: this.startDate, end: this.endDate })
+      }
     },
     getPrevNextMonth(d, n) {
       const sd = new Date(d)
@@ -517,7 +524,9 @@ export default {
               this.handleStartEndChange(d)
             } else {
               this.currentDate = d
+              this.$emit('change', d)
               this.visible = false
+
             }
           },
           "change-end": d => {
