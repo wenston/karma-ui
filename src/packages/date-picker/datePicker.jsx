@@ -698,6 +698,8 @@ export default {
         if (d) {
           this.startDate = util.formatDate(d)
           this.initStartAndEnd()
+        } else {
+          this.startDate = ''
         }
       }
     },
@@ -707,6 +709,8 @@ export default {
         if (d) {
           this.endDate = util.formatDate(d)
           this.initStartAndEnd()
+        } else {
+          this.endDate = ''
         }
       }
     },

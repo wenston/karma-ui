@@ -25,7 +25,8 @@
         ref="dp2"
         nearby
         @getLayerElement="getDatePickerElement"
-        @change-range="onChangeRange"></k-date-picker>
+        @change-range="onChangeRange"
+        @quick="onQuickRange"></k-date-picker>
     </div>
     <div>
       <k-button @click="start='2018-10-10'">2018-10-10</k-button>
@@ -43,8 +44,8 @@ export default {
       value1: "",
       show: true,
       show1: false,
-      start: new Date(),
-      end: new Date(),
+      start: '',
+      end: '',
     }
   },
   computed: {
@@ -61,6 +62,9 @@ export default {
     },
     onChangeRange(e) {
       console.log('日期区间',e)
+    },
+    onQuickRange(e) {
+      console.log('quick:',e)
     },
     toggle(e) {
       this.show = !this.show
