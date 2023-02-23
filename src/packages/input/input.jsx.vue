@@ -170,7 +170,7 @@ export default {
       //给v-model绑定的属性写入值
       if (eType === "input") {
         // console.log(val)
-        this.$emit('input', e)
+        // this.$emit('input', e)
         this.$emit("valueChange", val)
       }
       //验证用户输入
