@@ -168,11 +168,6 @@ export default {
       let eType = e.type
       let val = e.target.value + ""
       //给v-model绑定的属性写入值
-      if (eType === "input") {
-        // console.log(val)
-        // this.$emit('input', e)
-        this.$emit("valueChange", val)
-      }
       //验证用户输入
       if (
         this.needValidate &&
@@ -189,6 +184,11 @@ export default {
       }
       //向外发自定义事件，input/keyup/change等等类似原生的事件
       // console.log(eType)
+      if (eType === "input") {
+        // console.log(val)
+        // this.$emit('input', e)
+        this.$emit("valueChange", val)
+      }
       this.$emit(eType, e)
     },
     toClear(e) {
