@@ -84,7 +84,7 @@ export default {
     rColGroup() {
       return <template slot="colgroup">{this.colGroup}</template>
     },
-    tdMinWidth:()=>20
+    tdMinWidth: () => 20
   },
   watch: {
     leftFixedNumber(n) {
@@ -103,30 +103,30 @@ export default {
       handler(d) {
         let b = false
         const { thead } = this.$refs
-        if(d.length) {
-          if(thead) {
+        if (d.length) {
+          if (thead) {
             //设置表头的全选复选框状态
-            const keys = [...this.selectedKeys.map(s=>s+'')]
-            if(keys.length) {
-              const ks = d.map(el=>{
-                return el[this.checkboxKey]+''
+            const keys = [...this.selectedKeys.map(s => s + '')]
+            if (keys.length) {
+              const ks = d.map(el => {
+                return el[this.checkboxKey] + ''
               })
-              if(keys.length>=ks.length) {
+              if (keys.length >= ks.length) {
                 let _b = true
                 let i = 0
                 let len = ks.length
-    
-                while(i<len) {
-                  if(!keys.some(k=>k===ks[i])) {
+
+                while (i < len) {
+                  if (!keys.some(k => k === ks[i])) {
                     _b = false
                     break
                   }
                   i++
                 }
-                if(_b) {
+                if (_b) {
                   b = true
                 }
-  
+
               }
             }
           }
@@ -158,6 +158,7 @@ export default {
     },
     toggleCheckedAll(b) {
       const { tbody } = this.$refs
+      this.$emit('select-change-all', b)
       tbody && tbody.onCheckedAll(b)
     },
     emitSelectChange(e) {
@@ -399,7 +400,7 @@ export default {
             : "k-table-fixed-td-right-body"
       if (scrollLeft > 0) {
         // console.log(elems)
-        elems.forEach((el,i) => {
+        elems.forEach((el, i) => {
           el.classList.add(klass_left)
           // el.style.left = `${scrollLeft}px`
         })
@@ -432,30 +433,30 @@ export default {
       })
     },
     setStickLeft() {
-      if(this.leftFixedNumber) {
-        const {thead,tbody,tfoot} = this.$refs
+      if (this.leftFixedNumber) {
+        const { thead, tbody, tfoot } = this.$refs
         // const tds = [...tbody.$el.querySelector('.k-table>thead>tr>td')]
         const tds = [...tbody.$el.querySelectorAll('.k-tbody>tbody>tr:first-child>td')]
           .slice(0, this.leftFixedNumber)
-        tds.forEach(td=>{
+        tds.forEach(td => {
           td.style.removeProperty('position')
           td.style.removeProperty('left')
         })
-        this.leftSticky = tds.map(td=>td.offsetLeft+'px')
-        tbody.$el.querySelectorAll('.k-tbody>tbody>tr').forEach(tr=>{
-          [...tr.querySelectorAll('td')].slice(0,this.leftFixedNumber-0).forEach((td,i)=>{
+        this.leftSticky = tds.map(td => td.offsetLeft + 'px')
+        tbody.$el.querySelectorAll('.k-tbody>tbody>tr').forEach(tr => {
+          [...tr.querySelectorAll('td')].slice(0, this.leftFixedNumber - 0).forEach((td, i) => {
             td.style.position = 'sticky'
             td.style.left = this.leftSticky[i]
           })
         })
-        thead.$el.querySelectorAll('.k-table>thead>tr').forEach(tr=>{
-          [...tr.querySelectorAll('th')].slice(0,this.leftFixedNumber-0).forEach((td,i)=>{
+        thead.$el.querySelectorAll('.k-table>thead>tr').forEach(tr => {
+          [...tr.querySelectorAll('th')].slice(0, this.leftFixedNumber - 0).forEach((td, i) => {
             td.style.position = 'sticky'
             td.style.left = this.leftSticky[i]
           })
         })
-        tfoot.$el.querySelectorAll('.k-tfoot>tfoot>tr').forEach(tr=>{
-          [...tr.querySelectorAll('th')].slice(0,this.leftFixedNumber-0).forEach((td,i)=>{
+        tfoot.$el.querySelectorAll('.k-tfoot>tfoot>tr').forEach(tr => {
+          [...tr.querySelectorAll('th')].slice(0, this.leftFixedNumber - 0).forEach((td, i) => {
             td.style.position = 'sticky'
             td.style.left = this.leftSticky[i]
           })
@@ -463,39 +464,39 @@ export default {
       }
     },
     setStickRight() {
-      if(this.rightFixedNumber) {
-        const {thead,tbody,tfoot} = this.$refs
+      if (this.rightFixedNumber) {
+        const { thead, tbody, tfoot } = this.$refs
         // const tds = [...tbody.$el.querySelector('.k-table>thead>tr>td')]
         const tds = [...tbody.$el.querySelectorAll('.k-tbody>tbody>tr:first-child>td')]
-        .slice(-1*this.rightFixedNumber).reverse()
-        tds.forEach(td=>{
+          .slice(-1 * this.rightFixedNumber).reverse()
+        tds.forEach(td => {
           td.style.removeProperty('position')
           td.style.removeProperty('right')
         })
         this.rightSticky = []
-        let ws = tds.map(td=>td.offsetWidth)
-        tds.forEach((td,i)=>{
-          if(i===0) {
+        let ws = tds.map(td => td.offsetWidth)
+        tds.forEach((td, i) => {
+          if (i === 0) {
             this.rightSticky.push(0)
-          }else{
-            this.rightSticky.push(ws.slice(0,i).reduce((total,num)=>total+num))
+          } else {
+            this.rightSticky.push(ws.slice(0, i).reduce((total, num) => total + num))
           }
         })
         // console.log(this.rightSticky)
-        tbody.$el.querySelectorAll('.k-tbody>tbody>tr').forEach(tr=>{
-          [...tr.querySelectorAll('td')].slice(-1*this.rightFixedNumber).reverse().forEach((td,i)=>{
+        tbody.$el.querySelectorAll('.k-tbody>tbody>tr').forEach(tr => {
+          [...tr.querySelectorAll('td')].slice(-1 * this.rightFixedNumber).reverse().forEach((td, i) => {
             td.style.position = 'sticky'
             td.style.right = this.rightSticky[i] + 'px'
           })
         })
-        thead.$el.querySelectorAll('.k-table>thead>tr').forEach(tr=>{
-          [...tr.querySelectorAll('th')].slice(-1*this.rightFixedNumber).reverse().forEach((td,i)=>{
+        thead.$el.querySelectorAll('.k-table>thead>tr').forEach(tr => {
+          [...tr.querySelectorAll('th')].slice(-1 * this.rightFixedNumber).reverse().forEach((td, i) => {
             td.style.position = 'sticky'
             td.style.right = this.rightSticky[i] + 'px'
           })
         })
-        tfoot.$el.querySelectorAll('.k-tfoot>tfoot>tr').forEach(tr=>{
-          [...tr.querySelectorAll('th')].slice(-1*this.rightFixedNumber).reverse().forEach((td,i)=>{
+        tfoot.$el.querySelectorAll('.k-tfoot>tfoot>tr').forEach(tr => {
+          [...tr.querySelectorAll('th')].slice(-1 * this.rightFixedNumber).reverse().forEach((td, i) => {
             td.style.position = 'sticky'
             td.style.right = this.rightSticky[i] + 'px'
           })
@@ -511,7 +512,7 @@ export default {
       const tdOldWidth = parseFloat(getStyle(el, "width"))
       const totalHeight = getStyle(this.$refs.mainTable, "height")
       const baseLine = this.$refs.baseLine
-      let left = offset(el, this.$el).left + tdOldWidth- scrollLeft
+      let left = offset(el, this.$el).left + tdOldWidth - scrollLeft
       baseLine.style.height = totalHeight
       // console.log(this.leftFixedNumber,index, col.fixed)
       // if (col.fixed) {
@@ -554,10 +555,10 @@ export default {
     },
     resizeColumnWidth(t, e) {
       const { colIndex, startX, tdOldWidth } = this.currentResizeTd
-      const {bodyColumns} = this.machiningColumns
+      const { bodyColumns } = this.machiningColumns
       // const col = bodyColumns[colIndex]
       // const width = col.style&&col.style.width?col.style.width:120
-      
+
       if (t) {
         const head = t.querySelector(".k-theadwrapper"),
           body = t.querySelector(".k-tbodywrapper"),
@@ -567,20 +568,20 @@ export default {
               const cols = el.querySelectorAll("col")
               if (cols) {
                 let w = tdOldWidth + e.clientX - startX
-                const {__index,__level,...col} = bodyColumns[colIndex]
-                if(w!=tdOldWidth) {
-                  if(w<this.tdMinWidth)  {
+                const { __index, __level, ...col } = bodyColumns[colIndex]
+                if (w != tdOldWidth) {
+                  if (w < this.tdMinWidth) {
                     w = this.tdMinWidth
                   }
-                  if(this.minContent) {
+                  if (this.minContent) {
                     // cols[+colIndex].style.width = w + "px"
                     cols[+colIndex].width = w
                   } else {
                     //当宽度是100%时，目前没有好办法精准调整列宽
                     cols[+colIndex].width = w
                   }
-                  if(w!=tdOldWidth) {
-                    this.$emit('resize', {width:w,col,index:colIndex})
+                  if (w != tdOldWidth) {
+                    this.$emit('resize', { width: w, col, index: colIndex })
                   }
                 }
               }
