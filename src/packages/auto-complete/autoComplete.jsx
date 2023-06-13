@@ -92,6 +92,7 @@ export default {
     loading: Boolean,
     empty: [Function, Object, Array, String],
     matchFromDatabase: Boolean,
+    handleEnter: Function
   },
   model: {
     prop: "value",
@@ -221,6 +222,11 @@ export default {
             i = len - 1;
           }
         } else if (code == 13) {
+          //如果传入了此方法，则就使用此方法
+          if (this.handleEnter) {
+            this.handleEnter(e)
+            return
+          }
           if (this.filterData.length) {
             this.currentIndex =
               this.currentHoverIndex == -1 ? 0 : this.currentHoverIndex;
