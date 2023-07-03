@@ -28,7 +28,7 @@ export default {
   inject: ["tree"],
   methods: {
     canCheck(item) {
-      if(this.checkable) {
+      if (this.checkable) {
         return this.checkable(item)
       }
       return true
@@ -130,6 +130,7 @@ export default {
                 this.selectedRule,
                 this.checkable
               )
+
               //选中、取消选中父级所有节点
               // this.selectParent(item, checked)
               this.tree.checkedKeys = selectParent(
@@ -156,8 +157,8 @@ export default {
             }
           }
         }
-        if(this.canck!==undefined) {
-          checkProp.props.disabled=!this.canck
+        if (this.canck !== undefined) {
+          checkProp.props.disabled = !this.canck
         }
         return [<k-checkbox {...checkProp} />, text]
       }
@@ -252,14 +253,14 @@ export default {
           this.$emit("toggle", e)
         }
       },
-      directives: [
-        {
-          name: "show",
-          value: open
-        }
-      ]
+      // directives: [
+      //   {
+      //     name: "show",
+      //     value: open
+      //   }
+      // ]
     }
-    if(this.checkable) {
+    if (this.checkable) {
       child.props.canck = this.checkable(this.item) && this.canck
       // console.log(this.item.Name,child.props.canck)
     }
@@ -277,12 +278,13 @@ export default {
           {this.renderIconWrapper()}
           {this.renderText(this.item)}
         </div>
+
         <k-transition
           onAfter-transition={() => {
             this.tree.$emit("after-transition")
           }}
         >
-          <KTreeList {...child} />
+          {open && <KTreeList {...child} />}
         </k-transition>
       </div>
     )

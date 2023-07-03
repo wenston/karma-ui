@@ -42,7 +42,7 @@ export default {
       // this.$emit('toggle',e)
     },
     canCheck(item) {
-      if(this.checkable) {
+      if (this.checkable) {
         return this.checkable(item)
       }
       return true
@@ -65,7 +65,7 @@ export default {
           "update:spread": (b, el) => {
             // console.log(this.$children)
             item.__open__ = b
-            
+
             if (b) {
               this.$children.forEach(child => {
                 if (child.$el != el) {
@@ -80,21 +80,23 @@ export default {
       }
       //只要父级不能选，则其子级就不能选
       //
-      if(this.checkable) {
+      if (this.checkable) {
         // treeItemProps.props.canck = !this.canCheck(item)
         // let c = this.canck && this.canCheck(item)
         let c
-        if(this.canck!==undefined) {
+        if (this.canck !== undefined) {
           c = this.canck
         }
-        if(c || c === undefined) {
-          if(this.checkable) {
-            c=this.checkable(item)
+        if (c || c === undefined) {
+          if (this.checkable) {
+            c = this.checkable(item)
           }
         }
         treeItemProps.props.canck = c
       }
+
       return <k-tree-item {...treeItemProps} />
+
     })
     return <div {...treeProps}>{root}</div>
   }

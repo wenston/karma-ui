@@ -39,6 +39,7 @@
         :data="bigdata"
         v-model="bigValue"
         @toggle="toggleBig"
+        selected-rule="every"
         hasCheckbox
       />
     </div>
@@ -51,7 +52,7 @@
 </template>
 
 <script>
-import treeData from './treeData'
+import treeData from './treeData1'
 export default {
   data() {
     return {

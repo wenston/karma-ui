@@ -1,9 +1,9 @@
-import getAllParent from "karma-ui/util/getAllParent";
+import getAllParent from 'karma-ui/util/getAllParent'
 function canCheck(checkable, item) {
   if (checkable) {
-    return checkable(item);
+    return checkable(item)
   }
-  return true;
+  return true
 }
 export function selectChilds(
   item, //当前数据
@@ -14,37 +14,36 @@ export function selectChilds(
   selectedRule, //选中规则
   checkable
 ) {
-  let set = new Set(checkedKeys.map((t) => t + ""));
-  if (selectedRule === "some" || selectedRule === "every") {
-    function selectChildren(data, set, type = "add") {
+  let set = new Set(checkedKeys.map((t) => t + ''))
+  if (selectedRule === 'some' || selectedRule === 'every') {
+    function selectChildren(data, set, type = 'add') {
       data.forEach((el) => {
         if (canCheck(checkable, el)) {
-          set[type](el[keyField] + "");
+          set[type](el[keyField] + '')
           if (el[childField] && el[childField].length) {
-            selectChildren(el[childField], set, type);
+            selectChildren(el[childField], set, type)
           }
         }
-      });
+      })
     }
     if (canCheck(checkable, item)) {
       if (item[childField] && item[childField].length) {
         if (checked) {
-          selectChildren(item[childField], set);
+          selectChildren(item[childField], set)
         } else {
-          selectChildren(item[childField], set, "delete");
+          selectChildren(item[childField], set, 'delete')
         }
       }
     }
   } else {
     if (checked) {
-      set.add(item[keyField]);
+      set.add(item[keyField])
     } else {
-      set.delete(item[keyField] + "");
+      set.delete(item[keyField] + '')
     }
   }
-  checkedKeys = [...set];
-  console.log(checkedKeys);
-  return checkedKeys;
+  checkedKeys = [...set]
+  return checkedKeys
 }
 
 export function selectParent(
@@ -57,124 +56,124 @@ export function selectParent(
   selectedRule, //选中规则
   checkable
 ) {
-  let set = new Set(checkedKeys.map((k) => k + ""));
+  let set = new Set(checkedKeys.map((k) => k + ''))
 
-  if (selectedRule === "some" || selectedRule === "every") {
+  if (selectedRule === 'some' || selectedRule === 'every') {
     //将此节点及父级相关的节点push到selectedData
-    let arr = getAllParent(sourceData, item[keyField], keyField, childField);
+    let arr = getAllParent(sourceData, item[keyField], keyField, childField)
     // console.log(arr)
-    let vals = [];
+    let vals = []
     arr.forEach((el) => {
-      vals.push(el[keyField] + "");
-    });
+      vals.push(el[keyField] + '')
+    })
 
     if (checked) {
       //只要有一个子级被选中，则父级就被选中
-      if (selectedRule === "some") {
+      if (selectedRule === 'some') {
         vals.forEach((k) => {
-          set.add(k);
-        });
+          set.add(k)
+        })
         //只有所有的子级都被选中，父级才会被选中
-      } else if (selectedRule === "every") {
+      } else if (selectedRule === 'every') {
         //arr长度是1时代表只选择了一个根节点数据，此时不用向上找父级了
         if (arr.length === 1) {
-          set.add(vals[0]);
+          set.add(vals[0])
         } else {
           function everySelect(arr, set) {
             let len = arr.length,
-              i = len - 1;
+              i = len - 1
             do {
               if (i === len - 1) {
-                set.add(arr[i][keyField] + "");
+                set.add(arr[i][keyField] + '')
               } else {
-                const childs = arr[i][childField];
+                const childs = arr[i][childField]
                 if (childs && childs.length) {
-                  let has = true;
+                  let has = true
                   for (let j = 0; j < childs.length; j++) {
-                    const item = childs[j];
-                    if (!set.has(item[keyField] + "")) {
-                      has = false;
-                      break;
+                    const item = childs[j]
+                    if (!set.has(item[keyField] + '')) {
+                      has = false
+                      break
                     }
                   }
                   if (has) {
-                    everySelect(arr.slice(0, -1), set);
+                    everySelect(arr.slice(0, -1), set)
                   } else {
-                    break;
+                    break
                   }
                 }
               }
-              i = i - 1;
-            } while (i >= 0);
+              i = i - 1
+            } while (i >= 0)
           }
-          everySelect(arr, set);
+          everySelect(arr, set)
         }
       }
     } else {
-      if (selectedRule === "some") {
+      if (selectedRule === 'some') {
         //取消选中此项，
         //并判断同级有没有被选中，如果所有同级都没有被选中，则父级取消选中
-        set = cancelChecked(keyField, childField, arr, set);
-      } else if (selectedRule === "every") {
+        set = cancelChecked(keyField, childField, arr, set)
+      } else if (selectedRule === 'every') {
         //如果有一个没有被选中，则父级取消选中
-        set = cancelChecked(keyField, childField, arr, set, "every");
+        set = cancelChecked(keyField, childField, arr, set, 'every')
       }
     }
-    checkedKeys = [...set];
+    checkedKeys = [...set]
   } else {
     if (checked) {
-      set.add(item[keyField]);
+      set.add(item[keyField])
     } else {
-      set.delete(item[keyField] + "");
+      set.delete(item[keyField] + '')
     }
-    checkedKeys = [...set];
+    checkedKeys = [...set]
   }
-  return checkedKeys;
+  return checkedKeys
 }
 
-export function cancelChecked(keyField, childField, data, set, rule = "some") {
+export function cancelChecked(keyField, childField, data, set, rule = 'some') {
   //data是当前数据及其所有父级，set是selectedKeys
   //如果data只有1，则代表只选择了顶级一层的数据
   if (data.length === 1) {
-    const v = data[0][keyField] + "";
-    set.delete(v);
+    const v = data[0][keyField] + ''
+    set.delete(v)
   } else {
     function deleteFromSet(data, set) {
       let len = data.length,
-        i = len - 1;
+        i = len - 1
       do {
         if (i === len - 1) {
-          set.delete(data[i][keyField] + "");
+          set.delete(data[i][keyField] + '')
         } else {
           //搜集所有同级，判断是否有一个被选中
-          let has = false;
-          if (rule === "every") {
-            has = true;
+          let has = false
+          if (rule === 'every') {
+            has = true
           }
           for (let j = 0, jlen = data[i][childField].length; j < jlen; j++) {
-            const c = data[i][childField][j];
-            if (rule === "some") {
-              if (set.has(c[keyField] + "")) {
-                has = true;
-                break;
+            const c = data[i][childField][j]
+            if (rule === 'some') {
+              if (set.has(c[keyField] + '')) {
+                has = true
+                break
               }
-            } else if (rule === "every") {
-              if (!set.has(c[keyField] + "")) {
-                has = false;
-                break;
+            } else if (rule === 'every') {
+              if (!set.has(c[keyField] + '')) {
+                has = false
+                break
               }
             }
           }
           if (has) {
-            break;
+            break
           } else {
-            deleteFromSet(data.slice(0, -1), set);
+            deleteFromSet(data.slice(0, -1), set)
           }
         }
-        i = i - 1;
-      } while (i >= 0);
+        i = i - 1
+      } while (i >= 0)
     }
-    deleteFromSet(data, set);
+    deleteFromSet(data, set)
   }
-  return set;
+  return set
 }
