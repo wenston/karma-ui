@@ -246,6 +246,7 @@ export default {
         if (Array.isArray(filterData)) {
           list = filterData.map((item, index) => {
             const checked = this.dataValue.some(id => id == item[this.keyField])
+            const canCheck = this.canCheck(item, index)
             const p = {
               ref: "filterDataList" + item[this.keyField],
               class: "k-select2-checkbox",
@@ -254,7 +255,7 @@ export default {
                 value: item[this.keyField],
                 checked,
                 // disabled: this.disabledArr.some(id => id == item[this.keyField])
-                disabled: !this.canCheck(item, index)
+                disabled: !canCheck
               },
               on: {
                 checkedChange: checked => {
@@ -275,6 +276,7 @@ export default {
             const itemClass = {
               "k-select2-list-item": true,
               "k-select2-list-item-hover": this.currentIndex === index,
+              "k-select2-list-item-disabled": !canCheck,
               "k-select2-list-item-checked": checked
             }
             return (

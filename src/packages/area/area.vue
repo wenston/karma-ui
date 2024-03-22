@@ -45,46 +45,46 @@
 <script>
 // import { province, city, county } from "./areaData.js"
 import KSelect from "karma-ui/packages/select/select.vue"
-import KOption from "karma-ui/packages/option/option.vue"
+import KOption from "karma-ui/packages/option/option.jsx"
 export default {
   name: "KArea",
   inheritAttrs: false,
   components: {
     KSelect,
-    KOption
+    KOption,
   },
   props: {
     clearable: {
       type: Boolean,
-      default: false
+      default: false,
     },
     level: {
-      type:[Number,String],
-      default: 3
+      type: [Number, String],
+      default: 3,
     },
     province: {
       type: Array,
-      default: () => [{}]
+      default: () => [{}],
     },
     city: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     county: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     code: [String, Number],
     selectStyle: {
       type: Object,
       default: () => ({
-        width: '90px'
-      })
+        width: "90px",
+      }),
     },
     lastSelectStyle: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   data() {
     return {
@@ -93,37 +93,36 @@ export default {
       qu: this.county,
       curProvince: "",
       curCity: "",
-      curCounty: ""
+      curCounty: "",
     }
   },
   model: {
     prop: "code",
-    event: "codeChange"
+    event: "codeChange",
   },
   computed: {
     numLevel() {
       return +this.level
     },
     lastStyle() {
-      return {...this.selectStyle,...this.lastSelectStyle}
+      return { ...this.selectStyle, ...this.lastSelectStyle }
     },
     sCode() {
       return this.code + ""
-    }
+    },
   },
   methods: {
-    handleChange(e,n) {
-      if(e.k === undefined) {
-        if(n === 1) {
-
-          this.$emit('codeChange','')
-          this.emit('','','')
-        }else if(n===2) {
-          this.$emit('codeChange',this.curProvince)
-          this.emit(this.curProvince,'','')
-        }else{
-          this.$emit('codeChange',this.curCity)
-          this.emit(this.curProvince,this.curCity,'')
+    handleChange(e, n) {
+      if (e.k === undefined) {
+        if (n === 1) {
+          this.$emit("codeChange", "")
+          this.emit("", "", "")
+        } else if (n === 2) {
+          this.$emit("codeChange", this.curProvince)
+          this.emit(this.curProvince, "", "")
+        } else {
+          this.$emit("codeChange", this.curCity)
+          this.emit(this.curProvince, this.curCity, "")
         }
       }
     },
@@ -138,22 +137,22 @@ export default {
       this.$emit("update:area", [
         {
           name: pname,
-          code: provinceCode
+          code: provinceCode,
         },
         {
           name: cityName,
-          code: cityCode
+          code: cityCode,
         },
         {
           name: countyName,
-          code: countyCode
-        }
+          code: countyCode,
+        },
       ])
     },
     getProvinceNameByCode(code) {
       let name = ""
       if (code) {
-        let arr = (this.sheng||[]).filter(item => item.code == code)
+        let arr = (this.sheng || []).filter((item) => item.code == code)
         if (arr && arr.length) {
           name = arr[0].name
         }
@@ -163,7 +162,7 @@ export default {
     getCityNameByCode(cityCode, code) {
       let name = ""
       if (cityCode && code && this.shi && this.shi[cityCode]) {
-        let arr = this.shi[cityCode].filter(item => item.code == code)
+        let arr = this.shi[cityCode].filter((item) => item.code == code)
         if (arr && arr.length) {
           name = arr[0].name
         }
@@ -172,8 +171,8 @@ export default {
     },
     getCountyNameByCode(cityCode, code) {
       let name = ""
-      if (cityCode && code && this.qu &&  this.qu[cityCode]) {
-        let arr = this.qu[cityCode].filter(item => item.code == code)
+      if (cityCode && code && this.qu && this.qu[cityCode]) {
+        let arr = this.qu[cityCode].filter((item) => item.code == code)
         if (arr && arr.length) {
           name = arr[0].name
         }
@@ -194,7 +193,7 @@ export default {
         county = code
       }
       return [province, city, county]
-    }
+    },
   },
   mounted() {
     this.emit(...this.splitCode())
@@ -250,7 +249,7 @@ export default {
       if (n) {
         this.$emit("codeChange", n)
       }
-    }
-  }
+    },
+  },
 }
 </script>

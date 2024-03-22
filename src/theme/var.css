@@ -2,11 +2,12 @@
   /*base color*/
   --default-color: #fafafa;
   --primary-color: #3570ff;
+  --primary-light-color: #e6edff;
   --primary-gradient-color: #3570ff;
   --danger-color: #f32525;
   --warning-color: #ff6818;
   --success-color: #3a9f07;
-  --disabled-color: #e9e9e9;
+  --disabled-color: #bcbcbc;
   --bg-color: #fff;
   /*文本颜色*/
   --font-color-1: #333;
@@ -58,13 +59,11 @@
   --input-medium-font-size: 12px;
   --input-small-font-size: 12px;
   --input-mini-font-size: 12px;
-  --input-focus-active-shadow: 0 0 4px color(var(--primary-color) a(25%));
+  --input-focus-active-shadow: 0 0 4px #b7ccff;
 
   /* input clearable 颜色*/
   --input-clearable-btn-color: #ccc;
-  --input-clearable-btn-hover-color: color(
-    var(--input-clearable-btn-color) b(+50%)
-  );
+  --input-clearable-btn-hover-color: var(--input-clearable-btn-color);
 
   /* autocomplete */
   --auto-complete-icon-color: #ccc;
@@ -109,13 +108,18 @@
   /*button active 内阴影*/
   --button-active-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
   /*button 过渡*/
-  --button-transition: 0.15s ease;
+  --button-transition: 0.2s ease-out;
+  /** button hover颜色 */
+  --button-hover-primary-color: #5889ff;
+  --button-hover-danger-color: #ff5555;
+  --button-hover-warning-color: #ff935a;
+  --button-hover-success-color: #5aa434;
 
   /* select */
   --select-down-size: 14px;
-  --select-down-color: color(var(--input-border-color) b(+20%));
+  --select-down-color: var(--input-border-color);
   --select-clear-size: 14px;
-  --select-clear-hover-color: color(var(--select-down-color) b(+40%));
+  --select-clear-hover-color: var(--select-down-color);
   --select-option-z-index: 99;
   --select-option-box-shadow: var(--box-shadow);
   --select-option-max-height: 28vh;
@@ -131,13 +135,11 @@
   --option-medium-font-size: 12px;
   --option-small-font-size: 12px;
   --option-mini-font-size: 12px;
-  /* --option-hover-bg-color: color(var(--primary-color) tint(80%)); */
-  --option-hover-bg-color: color(var(--primary-color) tint(90%));
+  /* --option-hover-bg-color: var(--primary-color) ; */
+  --option-hover-bg-color: #eaeaea;
   --option-selected-color: var(--primary-color);
-  --option-selected-bg-color: color(var(--primary-color) tint(90%));
-  --option-selected-bg-gradient-color: color(
-    var(--primary-gradient-color) tint(90%)
-  );
+  --option-selected-bg-color: var(--primary-light-color);
+  --option-selected-bg-gradient-color: var(--option-selected-bg-color);
 
   /* select2 */
   --select2-width: var(--input-width);
@@ -147,20 +149,20 @@
   --radio-size: 14px;
   --radio-icon-text-gutter: 5px;
   --radio-gutter: 20px;
-  --radio-border-color: color(var(--input-border-color) shade(10%));
-  --radio-focus-active-shadow: 0 0 4px color(var(--primary-color) a(25%));
+  --radio-border-color: var(--input-border-color);
+  --radio-focus-active-shadow: 0 0 4px var(--primary-color);
   --radio-hover-border-color: var(--primary-color);
   --radio-disabled-bg-color: var(--disabled-color);
 
   /*input-number*/
   --input-number-btn-bg-color: var(--default-color);
-  --input-number-hover-btn-bg-color: color(var(--default-color) b(+5%));
-  --input-number-btn-color: color(var(--input-border-color) b(+40%));
+  --input-number-hover-btn-bg-color: var(--default-color);
+  --input-number-btn-color: var(--input-border-color);
   --input-number-btn-hover-color: var(--primary-color);
 
   /* tips */
   --tips-padding: 30px 20px;
-  --tips-bg-color: color(rgb(255, 255, 255) a(95%));
+  --tips-bg-color: rgb(255, 255, 255);
   --tips-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 5px 8px rgba(0, 0, 0, 0.1);
   --tips-z-index: 10000;
   --tips-radius: calc(var(--radius));
@@ -171,20 +173,18 @@
   /*checkbox*/
   --checkbox-gutter: 20px;
   --checkbox-line-height: normal;
-  --checkbox-border-color: color(var(--input-border-color) shade(10%));
+  --checkbox-border-color: var(--input-border-color);
   --checkbox-bg-color: #fff;
   --checkbox-radius: 2px;
   --checkbox-hover-border-color: var(--primary-color);
   --checkbox-checked-border-color: var(--primary-color);
-  --checkbox-focus-active-shadow: 0 0 4px color(var(--primary-color) a(25%));
+  --checkbox-focus-active-shadow: 0 0 4px var(--primary-color);
   --checkbox-checked-bg-color: var(--primary-color);
-  --checkbox-disabled-border-color: color(var(--disabled-color) b(+5%));
+  --checkbox-disabled-border-color: var(--disabled-color);
   --checkbox-disabled-bg-color: var(--disabled-color);
-  --checkbox-checked-disabled-border-color: color(
-    var(--disabled-color) b(+30%)
-  );
+  --checkbox-checked-disabled-border-color: var(--disabled-color);
 
-  --checkbox-disabled-text-color: color(var(--disabled-color) l(-20%));
+  --checkbox-disabled-text-color: var(--disabled-color);
   --checkbox-text-color: var(--font-color-2);
   --checkbox-text-font-size: 12px;
   --checkbox-checked-text-color: var(--primary-color);
@@ -192,7 +192,7 @@
   /*popup*/
   --popup-z-index: 999;
   --popup-radius: var(--radius);
-  --popup-mask-bg-color: color(rgb(70, 80, 90) a(35%));
+  --popup-mask-bg-color: rgb(70, 80, 90, 0.4);
   --popup-container-width: 300px;
   --popup-container-bg-color: var(--bg-color);
   --popup-box-shadow: 0px 8px 10px -9px rgba(0, 0, 0, 0.25),
@@ -214,7 +214,7 @@
   --popup-close-btn-hover-color: var(--font-color-1);
 
   /*loading*/
-  --loading-bg-color: color(#07192c a(70%));
+  --loading-bg-color: #07192c;
   --loading-z-index: 1000;
   --loading-radius: calc(var(--radius) * 2);
   --loading-width: 120px;
@@ -227,10 +227,10 @@
   --carousel-transition: 0.5s cubic-bezier(0, 0, 0, 1);
   --carousel-button-gutter: 5px;
   --carousel-button-border: 2px solid #ccc;
-  --carousel-button-bg-color: color(#fff a(30%));
+  --carousel-button-bg-color: #fff;
   --carousel-button-size: 14px;
   --carousel-button-active-bg-color: #fff;
-  --carousel-button-active-border: 2px solid color(#ccc shade(20%));
+  --carousel-button-active-border: 2px solid #ccc;
 
   /*css icon*/
   --icon-arrow: #ccc;
@@ -302,5 +302,5 @@
   --table-fixed-right-shadow: -6px 0 3px -3px rgba(0, 0, 0, 0.1);
 
   /** 列宽调整的基准线 */
-  --table-base-line-color: color(var(--danger-color) a(50%));
+  --table-base-line-color: var(--danger-color);
 }

@@ -344,7 +344,7 @@
       top: -3px;
     }
     &:hover {
-      background-color: color(var(--table-head-bg-color) b(12%));
+      background-color: var(--table-head-bg-color);
     }
   }
 }

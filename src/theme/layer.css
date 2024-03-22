@@ -3,13 +3,13 @@
   transition: transform var(--transition);
   transform-origin: 0 0;
   z-index: 9999;
-  border-radius:var(--layer-radius);
-  border: 1px solid color(var(--border-color) tint(50%));
-  box-shadow: 0 1px 9px 0px rgba(0,0,0,.08);
+  border-radius: var(--layer-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 9px 0px rgba(0, 0, 0, 0.08);
   /* overflow: hidden; */
   outline: none;
   &.k-layer-origin-bottom {
-    transform-origin: left bottom; 
+    transform-origin: left bottom;
   }
   & .k-layer-body {
     @extend .k-select__list;
@@ -21,7 +21,7 @@
     /* border-top: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
     border-right: 1px solid var(--border-color); */
-    border-top-left-radius:var(--layer-radius);
+    border-top-left-radius: var(--layer-radius);
     border-top-right-radius: var(--layer-radius);
     background-color: white;
     /* @extend .k-backdrop-filter; */

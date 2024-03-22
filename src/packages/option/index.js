@@ -1,4 +1,4 @@
-import OptionComponent from './option.vue'
+import OptionComponent from './option.jsx'
 OptionComponent.install = function(Vue,opts) {
   Vue.component(OptionComponent.name,OptionComponent)
 }

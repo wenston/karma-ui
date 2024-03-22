@@ -1,25 +1,25 @@
-<script>
+
 export default {
   name: "KOption",
   inject: ["layerComponent"],
   props: {
     size: {
       type: String,
-      default: 'medium'
+      default: "medium",
     },
     tag: {
       type: String,
-      default: "li"
+      default: "li",
     },
     multiple: Boolean, //是不是多选
     selected: Boolean,
     value: [String, Number, Boolean], //等同于option的value的用法，等同于key value中的key
-    label: [String, Number] //实际上保存的是(key, value)中的value
+    label: [String, Number], //实际上保存的是(key, value)中的value
   },
   methods: {
     handleClick(e) {
       this.emitKeyValueToSelect(!this.multiple, true, true)
-      this.$emit('click', e)
+      this.$emit("click", e)
     },
     emitKeyValueToSelect(hide = false, isFocus = false, isEmit = false) {
       // console.log('??')
@@ -32,7 +32,7 @@ export default {
           isFocus,
           isEmit
         )
-    }
+    },
   },
   created() {
     this.layerComponent &&
@@ -45,35 +45,31 @@ export default {
     const { label, value, selected } = this
     const p = {
       attrs: {
-        title: this.label
+        title: this.label,
       },
       class: {
         "k-option": true,
         [`k-option--${this.size}`]: true,
-        "k-option--selected": selected
+        "k-option--selected": selected,
       },
       on: {
         ...this.$listeners,
         click: this.handleClick,
-        mousedown: e => {
+        mousedown: (e) => {
           e.stopPropagation()
           this.layerComponent &&
             this.layerComponent.$data.vm.$emit("inovering", true)
-          this.$emit('mousedown', e)
+          this.$emit("mousedown", e)
         },
-        mouseup: e => {
+        mouseup: (e) => {
           e.stopPropagation()
           this.layerComponent &&
             this.layerComponent.$data.vm.$emit("inovering", false)
-          this.$emit('mouseup', e)
-        }
-      }
+          this.$emit("mouseup", e)
+        },
+      },
     }
-    return (
-      <this.tag {...p}>
-        <span>{this.$slots.default}</span>
-      </this.tag>
-    )
+    return <this.tag {...p}>{this.$slots.default}</this.tag>
   },
   watch: {
     selected: {
@@ -82,8 +78,7 @@ export default {
         if (nv) {
           this.emitKeyValueToSelect()
         }
-      }
-    }
-  }
+      },
+    },
+  },
 }
-</script>

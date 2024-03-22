@@ -52,9 +52,9 @@
       & .k-tree-icon-wrapper {
         &:after {
           position: absolute;
-          content: "";
+          content: '';
           width: 0;
-          border-left: 1px dotted color(var(--border-color) b(40%));
+          border-left: 1px dotted var(--border-color);
           left: 6.5px;
           pointer-events: none;
           top: 1.5em;
@@ -70,11 +70,11 @@
         height: 16px;
         display: inline-block; */
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           width: 0.8em;
           height: 0;
-          border-top: 1px dotted color(var(--border-color) b(40%));
+          border-top: 1px dotted var(--border-color);
           left: -0.85em;
           top: 10px;
         }
@@ -91,7 +91,7 @@
     }
     & .k-tree-icon {
       font-size: 14px;
-      color: color(var(--border-color) b(70%));
+      color: var(--border-color);
       cursor: pointer;
       &:hover {
         color: var(--primary-color);
@@ -110,7 +110,7 @@
         color: var(--primary-color);
       }
       &.k-tree-text--active {
-        background-color: color(var(--primary-color) a(12%));
+        background-color: var(--primary-color);
         color: var(--primary-color);
       }
     }
