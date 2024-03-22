@@ -78,6 +78,7 @@
 }
 .k-tablebox {
   border: var(--table-head-border-color) 1px solid;
+  border-radius: var(--radius);
   background-color: var(--table-wrapper-bg-color);
   position: relative;
   overflow: auto;
