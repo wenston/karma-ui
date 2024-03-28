@@ -1,8 +1,7 @@
 .k-date-picker-cell {
-  font-size: 12px;
   font-weight: normal;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   text-align: center;
   line-height: 1;
   padding: 1px;
@@ -10,11 +9,11 @@
 .k-date-picker-icon {
   width: 14px;
   height: 14px;
-  font-size: 12px !important;
   color: #ccc;
 }
 .k-date-picker-icon-close {
   cursor: pointer;
+  font-size: 12px;
   @extend .k-date-picker-icon;
   &:hover {
     color: #666;
@@ -28,6 +27,7 @@
 .k-date-picker-range {
   position: relative;
   cursor: pointer;
+  width: var(--input-width);
   @extend .k-like-input;
   &.k-date-picker-range-simple {
     border-top: none;
@@ -48,7 +48,6 @@
   }
 }
 .k-date-picker-range-placeholder {
-  font-size: 12px;
   color: #666;
   position: absolute;
   width: 100%;
@@ -66,6 +65,7 @@
   }
 }
 .k-date-picker {
+  border-radius: var(--radius);
   background-color: white;
   /* @supports (backdrop-filter: blur()) {
     background-color: rgba(255,255,255,.7);
@@ -85,7 +85,6 @@
       width: 32px;
     }
     .k-date-picker-prev-next {
-      font-size: 14px;
       cursor: pointer;
       color: #666;
       transition: var(--transition);
@@ -94,7 +93,6 @@
       }
     }
     .k-date-picker-year-month {
-      font-size: 14px;
       color: #333;
       .k-date-picker-item {
         transition: var(--transition);
@@ -163,16 +161,15 @@
     padding: 7px 0;
     .k-date-picker-quick-item {
       color: #666;
-      font-size: 12px;
+
       padding: 5px 15px;
       line-height: 1.2;
       white-space: nowrap;
       transition: var(--transition);
       text-decoration: none;
       &:hover {
-        &:not(.k-date-picker-quick-disabled) {
+        &:not(.k-date-picker-quick-disabled):not(.k-d-p-q-active) {
           color: var(--primary-color);
-          background-color: var(--primary-color);
         }
       }
       &.k-date-picker-quick-disabled {
@@ -198,6 +195,7 @@
   }
 }
 .k-date-picker-cursor-pointer {
+  width: var(--input-width);
   &.k-input-section {
     cursor: pointer;
   }

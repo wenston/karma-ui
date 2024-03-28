@@ -19,7 +19,7 @@
     background-color: transparent;
     box-shadow: none;
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       bottom: -1px;
       left: 50%;
@@ -56,7 +56,7 @@
   line-height: normal;
   padding: 10px 12px;
   background-color: white;
-  min-width: 250px;
+  min-width: 200px;
   max-height: 60vh;
   min-height: 200px;
   overflow-y: auto;

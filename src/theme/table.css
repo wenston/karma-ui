@@ -1,5 +1,8 @@
 .k-tableouter {
   position: relative;
+  border-radius: var(--radius);
+  min-height: 0;
+  flex: 1;
 }
 
 .k-table-fixed-td-head,
@@ -54,13 +57,30 @@
     border-right: 1px solid var(--table-border-color);
   }
 }
-.k-table-fixed-td-body {
+td.k-table-fixed-td-body,
+th.k-table-fixed-td-head,
+th.k-table-fixed-td-foot {
   box-shadow: 3px 0 3px -3px rgba(0, 0, 0, 0.13);
+  &:not(:first-child) {
+    overflow: visible !important;
+
+    &:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 100%;
+      top: 0;
+      right: -1px;
+      /* border-right: 1px solid red; */
+      box-shadow: 1px 0 5px rgba(0, 0, 0, 0.35);
+    }
+  }
 }
-.k-table-fixed-td-right-head,
-.k-table-fixed-td-right-foot,
-.k-table-fixed-td-right-body {
-  border-right: none !important;
+th.k-table-fixed-td-right-head,
+th.k-table-fixed-td-right-foot,
+td.k-table-fixed-td-right-body {
+  /* border-right: none !important;
+
   &:after {
     content: '';
     position: absolute;
@@ -68,7 +88,26 @@
     height: 100%;
     top: 0;
     left: 0px;
+
     border-right: 1px solid var(--table-border-color);
+  } */
+
+  overflow: visible !important;
+  &:before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    pointer-events: none;
+    height: 100%;
+    top: 0;
+    left: -10px;
+    background-image: linear-gradient(
+      to left,
+      rgba(0, 0, 0, 0.08) 5%,
+      transparent 100%
+    );
+    /* background-color: #ccc; */
+    /* box-shadow: -1px 0 5px rgba(0, 0, 0, 0.35); */
   }
 }
 .k-table-fixed-td-right-head {
@@ -91,9 +130,7 @@
       & .k-table > tfoot > tr > td,
       & .k-table > tfoot > tr > th {
         height: var(--table-$(name));
-        /* line-height: calc(var(--table-$(name)) - 1px); */
         line-height: normal;
-        /* @extend .k-ellipsis; */
       }
       & .k-table > thead > tr > th {
         &.k-table-th-dragging {
@@ -128,14 +165,7 @@
           > th {
             &:last-child {
               border-right: none;
-              box-shadow: 1px 0 0 0 var(--table-border-color);
-            }
-          }
-          &:last-child {
-            > td {
-              border-bottom: none;
-              box-shadow: 0px 1px 0 0 var(--table-border-color),
-                1px 1px 0 0 var(--table-border-color);
+              box-shadow: inset -1px 0 0 0 var(--table-border-color);
             }
           }
         }
@@ -147,7 +177,7 @@
             border-bottom: 1px solid var(--table-head-border-color);
             border-right: 1px solid var(--table-head-border-color);
             &:last-child {
-              box-shadow: 1px 0 0 0 var(--table-head-border-color);
+              box-shadow: inset -1px 0 0 0 var(--table-head-border-color);
             }
           }
         }
@@ -184,11 +214,15 @@
           & .k-table-td--actions {
             display: none;
           }
+          & .k-table-td--index {
+            color: var(--font-color-3);
+          }
 
           transition: background-color var(--transition);
         }
         &.k-table-tr-checked {
           > td {
+            background-color: var(--table-tr-checked-bg-color);
           }
         }
         &.k-table-tr-hover {
@@ -202,6 +236,7 @@
             background-color: var(--table-tr-highlight-color);
           }
         }
+
         &:hover {
           > td {
             & .k-table-td--index {
@@ -250,6 +285,7 @@
   width: 100%;
   & .k-tbody {
     background-color: white;
+    /* box-shadow: 1px 0 0 var(--table-border-color); */
   }
 }
 
@@ -262,11 +298,14 @@
   z-index: 11;
   bottom: 0;
   position: sticky;
+  box-shadow: 0 1px 0 var(--table-head-border-color);
   & .k-tfoot {
+    box-shadow: 0 -1px 0 var(--table-head-border-color);
     background-color: white;
     /* box-shadow: inset 0 1px 0 #ccc; */
     &.k-tfootshadow {
-      box-shadow: inset 0 1px 0 #ddd, 0 -1px 3px 0 rgba(0, 0, 0, 0.09);
+      box-shadow: 0 -1px 0 var(--table-head-border-color),
+        0 -3px 5px rgba(0, 0, 0, 0.1);
     }
   }
   &.k-tfoot-sticky {
@@ -293,6 +332,9 @@
     @extend .k-ellipsis;
     & .k-checkbox {
       margin-top: 3px;
+    }
+    &.k-table-empty {
+      padding: 0;
     }
   }
 

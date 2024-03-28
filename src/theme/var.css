@@ -1,13 +1,15 @@
 :root {
   /*base color*/
-  --default-color: #fafafa;
-  --primary-color: #3570ff;
-  --primary-light-color: #e6edff;
-  --primary-gradient-color: #3570ff;
-  --danger-color: #f32525;
+  --default-color: #f1f5f9;
+  --primary-color: #3b82f6;
+  --primary-light-color: #eff6ff;
+  --primary-gradient-color: #3b82f6;
+  --danger-color: #f43f5e;
   --warning-color: #ff6818;
-  --success-color: #3a9f07;
-  --disabled-color: #bcbcbc;
+  --success-color: #10b981;
+  --disabled-color: #e7e5e4;
+  --clear-btn-color: #cbd5e1;
+  --clear-btn-hover-color: #94a3b8;
   --bg-color: #fff;
   /*文本颜色*/
   --font-color-1: #333;
@@ -18,23 +20,23 @@
   --huge: 50px;
   --large: 40px;
   --big: 34px;
-  --medium: 30px;
+  --medium: 32px;
   --small: 28px;
   --mini: 24px;
   /*边框颜色，form表单相关控件的边框、分页器按钮边框*/
-  --border-color: #e1e1e1;
+  --border-color: #cbd5e1;
 
   /*过渡*/
   --transition: 0.25s ease-out;
   /*box-shadow*/
   --box-shadow: 0 2px 5px rgba(60, 70, 80, 0.15);
   /*圆角弧度*/
-  --radius: 2px;
+  --radius: 6px;
   --layer-radius: var(--radius);
   /* input */
-  --input-border-color: #e1e1e1;
-  --input-focus-border-color: #afc7ff;
-  --input-width: 180px;
+  --input-border-color: var(--border-color);
+  --input-focus-border-color: #3b82f6;
+  --input-width: 200px;
   --input-placeholder-color: #ccc;
   --input-padding: 0 0.82em;
   --input-radius: var(--radius);
@@ -53,17 +55,18 @@
   --input-mini: var(--mini);
 
   /*input font-size*/
-  --input-huge-font-size: 14px;
-  --input-large-font-size: 14px;
-  --input-big-font-size: 12px;
-  --input-medium-font-size: 12px;
+  --input-huge-font-size: 16px;
+  --input-large-font-size: 16px;
+  --input-big-font-size: 16px;
+  --input-medium-font-size: 14px;
   --input-small-font-size: 12px;
   --input-mini-font-size: 12px;
-  --input-focus-active-shadow: 0 0 4px #b7ccff;
+  --input-focus-active-shadow: 0 0 2px #60a5fa,
+    inset 1px 1px 2px rgba(0, 0, 0, 0.1);
 
   /* input clearable 颜色*/
-  --input-clearable-btn-color: #ccc;
-  --input-clearable-btn-hover-color: var(--input-clearable-btn-color);
+  --input-clearable-btn-color: var(--clear-btn-color);
+  --input-clearable-btn-hover-color: var(--clear-btn-hover-color);
 
   /* autocomplete */
   --auto-complete-icon-color: #ccc;
@@ -74,8 +77,8 @@
   --button-huge: 0 30px;
   --button-large: 0 24px;
   --button-big: 0 18px;
-  --button-medium: 0 12px;
-  --button-small: 0 8px;
+  --button-medium: 0 15px;
+  --button-small: 0 11px;
   --button-mini: 0 8px;
   /*button height*/
   --button-huge-height: var(--huge);
@@ -99,7 +102,7 @@
   --button-huge-font-size: 18px;
   --button-large-font-size: 16px;
   --button-big-font-size: 14px;
-  --button-medium-font-size: 12px;
+  --button-medium-font-size: 14px;
   --button-small-font-size: 12px;
   --button-mini-font-size: 12px;
   /*默认按钮*/
@@ -111,7 +114,7 @@
   --button-transition: 0.2s ease-out;
   /** button hover颜色 */
   --button-hover-primary-color: #5889ff;
-  --button-hover-danger-color: #ff5555;
+  --button-hover-danger-color: #fb7185;
   --button-hover-warning-color: #ff935a;
   --button-hover-success-color: #5aa434;
 
@@ -125,14 +128,14 @@
   --select-option-max-height: 28vh;
   --select-option-bg-color: var(--bg-color);
   /* option */
-  --option-height: 30px;
+  --option-height: 34px;
   --option-padding: 0 0.5em;
   --option-radius: var(--radius);
   --option-hover-color: var(--primary-color);
   --option-huge-font-size: 16px;
-  --option-large-font-size: 14px;
+  --option-large-font-size: 16px;
   --option-big-font-size: 14px;
-  --option-medium-font-size: 12px;
+  --option-medium-font-size: 14px;
   --option-small-font-size: 12px;
   --option-mini-font-size: 12px;
   /* --option-hover-bg-color: var(--primary-color) ; */
@@ -145,7 +148,7 @@
   --select2-width: var(--input-width);
 
   /* radio */
-  --radio-font-size: 12px;
+  --radio-font-size: 14px;
   --radio-size: 14px;
   --radio-icon-text-gutter: 5px;
   --radio-gutter: 20px;
@@ -175,10 +178,10 @@
   --checkbox-line-height: normal;
   --checkbox-border-color: var(--input-border-color);
   --checkbox-bg-color: #fff;
-  --checkbox-radius: 2px;
+  --checkbox-radius: 4px;
   --checkbox-hover-border-color: var(--primary-color);
   --checkbox-checked-border-color: var(--primary-color);
-  --checkbox-focus-active-shadow: 0 0 4px var(--primary-color);
+  --checkbox-focus-active-shadow: 0 0 5px var(--primary-color);
   --checkbox-checked-bg-color: var(--primary-color);
   --checkbox-disabled-border-color: var(--disabled-color);
   --checkbox-disabled-bg-color: var(--disabled-color);
@@ -186,22 +189,22 @@
 
   --checkbox-disabled-text-color: var(--disabled-color);
   --checkbox-text-color: var(--font-color-2);
-  --checkbox-text-font-size: 12px;
+  --checkbox-text-font-size: 14px;
   --checkbox-checked-text-color: var(--primary-color);
 
   /*popup*/
   --popup-z-index: 999;
   --popup-radius: var(--radius);
-  --popup-mask-bg-color: rgb(70, 80, 90, 0.4);
+  --popup-mask-bg-color: rgb(70, 80, 90, 0.5);
   --popup-container-width: 300px;
   --popup-container-bg-color: var(--bg-color);
   --popup-box-shadow: 0px 8px 10px -9px rgba(0, 0, 0, 0.25),
     0 2px 10px 0 rgba(0, 0, 0, 0.15);
-  --popup-header-bg-color-1: #fafafa;
-  --popup-header-bg-color-2: #fafafa;
+  --popup-header-bg-color-1: #f8fafc;
+  --popup-header-bg-color-2: #f8fafc;
   --popup-header-border-color: #f0f0f0;
   --popup-header-padding: 0 15px;
-  --popup-header-height: 36px;
+  --popup-header-height: 40px;
   --popup-header-title-font-size: 14px;
   --popup-header-title-color: var(--font-color-2);
   --popup-content-min-height: 70px;
@@ -246,7 +249,7 @@
   --to-top-icon-size: 12px;
 
   /*pagination*/
-  --pagi-default-border-color: #e1e1e1;
+  --pagi-default-border-color: var(--border-color);
   --pagi-hover-border-color: var(--font-color-4);
   --pagi-hover-background-color: white;
   --pagi-text-color: var(--font-color-2);
@@ -264,43 +267,50 @@
   --dp-calendar-border: 1px solid var(--border-color);
 
   /* table */
-  --table-wrapper-bg-color: var(--default-color);
-  --table-border-color: #eff1f7;
+  --table-wrapper-bg-color: #f8fafc;
+  --table-border-color: #dbeafe;
   --table-border: 1px solid var(--table-border-color);
 
   /* 表头 */
-  --table-head-bg-color: #e7ebf4;
-  --table-head-border-color: #dee1e6;
-  --table-head-bottom-border-color: #dee1e6;
+  --table-head-bg-color: #dbeafe;
+  --table-head-border-color: #bfdbfe;
+  --table-head-bottom-border-color: #bfdbfe;
   /* 尺寸 */
-  --table-huge: var(--huge);
+  --tb-huge: 54px;
+  --tb-large: 50px;
+  --tb-big: 46px;
+  --tb-medium: 42px;
+  --tb-small: 38px;
+  --tb-mini: 34px;
+  --table-huge: var(--tb-huge);
   --table-huge-font-size: 14px;
   --table-huge-padding: 10px 12px;
-  --table-large: var(--large);
+  --table-large: var(--tb-large);
   --table-large-font-size: 14px;
   --table-large-padding: 10px;
-  --table-big: var(--big);
+  --table-big: var(--tb-big);
   --table-big-font-size: 14px;
   --table-big-padding: 8px 10px;
-  --table-medium: var(--medium);
-  --table-medium-font-size: 12px;
+  --table-medium: var(--tb-medium);
+  --table-medium-font-size: 14px;
   --table-medium-padding: 8px;
-  --table-small: var(--small);
+  --table-small: var(--tb-small);
   --table-small-font-size: 12px;
   --table-small-padding: 3px 5px;
-  --table-mini: var(--mini);
+  --table-mini: var(--tb-mini);
   --table-mini-font-size: 12px;
   --table-mini-padding: 3px;
-  --table-tr-highlight-color: #eef2ff;
+  --table-tr-highlight-color: #fef9c3;
 
   /* 斑马线和滑入变色 */
-  --table-stripe-bg-color: #fbfcfd;
-  --table-hover-bg-color: #fff5e6;
+  --table-stripe-bg-color: #f1f5f9;
+  --table-hover-bg-color: #e2e8f0;
+  --table-tr-checked-bg-color: #bfdbfe;
 
   /* 固定列时，左右移动时的固定列阴影 */
   --table-fixed-left-shadow: 6px 0 3px -3px rgba(0, 0, 0, 0.1);
   --table-fixed-right-shadow: -6px 0 3px -3px rgba(0, 0, 0, 0.1);
 
   /** 列宽调整的基准线 */
-  --table-base-line-color: var(--danger-color);
+  --table-base-line-color: var(--warning-color);
 }

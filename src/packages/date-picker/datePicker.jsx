@@ -1,10 +1,10 @@
-import KDate from "./date"
-import KInput from "karma-ui/packages/input/input.jsx.vue"
-import KDropdown from "karma-ui/packages/dropdown/dropdown"
-import KButton from "karma-ui/packages/button/button"
-import KIcon from "karma-ui/packages/icon/icon"
-import util from "./util/date"
-import mixins from "./util/mixins"
+import KDate from './date'
+import KInput from 'karma-ui/packages/input/input.jsx.vue'
+import KDropdown from 'karma-ui/packages/dropdown/dropdown'
+import KButton from 'karma-ui/packages/button/button'
+import KIcon from 'karma-ui/packages/icon/icon'
+import util from './util/date'
+import mixins from './util/mixins'
 export default {
   mixins: [mixins],
   components: {
@@ -12,19 +12,19 @@ export default {
     KDate,
     KInput,
     KDropdown,
-    KButton
+    KButton,
   },
-  name: "KDatePicker",
+  name: 'KDatePicker',
   props: {
     ...KInput.props,
     ...KDropdown.props,
     lazy: {
       type: Boolean,
-      default: true
+      default: true,
     },
     placeholder: {
       type: String,
-      default: "选择日期"
+      default: '选择日期',
     },
     value: [Number, String, Date],
     start: [Number, String, Date],
@@ -33,98 +33,98 @@ export default {
     max: [Number, String, Date],
     startPlaceholder: {
       type: String,
-      default: "开始日期"
+      default: '开始日期',
     },
     endPlaceholder: {
       type: String,
-      default: "结束日期"
+      default: '结束日期',
     },
     styles: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     range: {
       type: Boolean,
-      default: false
+      default: false,
     },
     hasActions: {
       type: Boolean,
-      default: true
+      default: true,
     },
     hasQuick: {
       type: Boolean,
-      default: true
+      default: true,
     },
     quick: {
       type: [Array, Boolean],
       default: () => [
         {
-          name: "今天",
+          name: '今天',
           day: 0,
-          index: 1
+          index: 1,
         },
         {
-          name: "昨天",
+          name: '昨天',
           day: -1,
           index: 2,
         },
         {
-          name: "前天",
+          name: '前天',
           day: -2,
-          index: 3
-        }
-      ]
+          index: 3,
+        },
+      ],
     },
     //快捷选择区间
     quickRange: {
       type: [Array, Boolean],
       default: () => [
         {
-          name: "近3天",
+          name: '近3天',
           start: util.addDays(new Date(), -2),
           end: util.formatDate(util.getNow()),
-          index: 4
+          index: 4,
         },
         {
-          name: "近7天",
+          name: '近7天',
           start: util.addDays(new Date(), -6),
           end: util.formatDate(util.getNow()),
-          index: 5
+          index: 5,
         },
         {
-          name: "本周",
+          name: '本周',
           start: util.getMondayInThisWeek(new Date()),
           // end: util.getSundayInThisWeek(),
           end: util.formatDate(util.getNow()),
 
-          index: 6
+          index: 6,
         },
         {
-          name: "上周",
+          name: '上周',
           ...util.getLastWeek(),
-          index: 7
+          index: 7,
         },
         {
-          name: "本月",
+          name: '本月',
           start: util.getFirstDayInThisMonth(),
           // end: util.getLastDayInThisMonth(),
           end: util.formatDate(util.getNow()),
-          index: 8
+          index: 8,
         },
         {
-          name: "上个月",
+          name: '上个月',
           ...util.getLastMonth(),
-          index: 9
-        }
-      ]
+          index: 9,
+        },
+      ],
     },
     scrollElement: Element,
     nearby: Boolean,
-    alignment: String
+    alignment: String,
   },
   model: {
-    prop: "value",
-    event: "valueChange"
+    prop: 'value',
+    event: 'valueChange',
   },
   data() {
     let start = this.start
@@ -143,10 +143,10 @@ export default {
       endDate: end,
       cacheStart: start,
       cacheEnd: end,
-      initStartDate: "",
-      initEndDate: "",
-      startShowingDate: "",
-      endShowingDate: ""
+      initStartDate: '',
+      initEndDate: '',
+      startShowingDate: '',
+      endShowingDate: '',
     }
   },
   computed: {
@@ -180,7 +180,7 @@ export default {
     },
     formatDate() {
       let now = util.toDateType(this.currentDate)
-      if (now == "Invalid Date") {
+      if (now == 'Invalid Date') {
         now = new Date()
       }
       return now
@@ -193,15 +193,15 @@ export default {
     },
     currentDay() {
       return this.formatDate.getDate()
-    }
+    },
   },
   methods: {
     clearDate() {
       if (this.range) {
-        this.startDate = this.endDate = ""
+        this.startDate = this.endDate = ''
         this.$emit('change-range', { start: '', end: '' })
       } else {
-        this.currentDate = this.showingDate = ""
+        this.currentDate = this.showingDate = ''
         this.$emit('change', '')
       }
 
@@ -219,7 +219,7 @@ export default {
         const w = util.formatDate(this.currentDate)
         return w
       } else {
-        return ""
+        return ''
       }
     },
     setDateByDay(day) {
@@ -248,33 +248,32 @@ export default {
         let listQuick = [],
           listQuickRange = []
         if (this.quick && this.quick.length) {
-          listQuick = this.quick.map(q => {
+          listQuick = this.quick.map((q) => {
             const d = util.formatDate(new Date() - 0 + q.day * 86400000)
             const isIn = this.$_is_in_max_min_range(d)
             return (
               <a
                 href="javascript:;"
                 class={{
-                  "k-date-picker-quick-item": true,
-                  "k-date-picker-quick-disabled": !isIn,
-                  "k-d-p-q-active": this.range
+                  'k-date-picker-quick-item': true,
+                  'k-date-picker-quick-disabled': !isIn,
+                  'k-d-p-q-active': this.range
                     ? this.isSameDate(d, d)
-                    : this.isSameDate(d)
+                    : this.isSameDate(d),
                 }}
-                onClick={e => {
+                onClick={(e) => {
                   if (isIn) {
                     this.setDateByDay(q.day)
                     this.$emit('quick', q)
                   }
-                }}
-              >
+                }}>
                 {q.name}
               </a>
             )
           })
         }
         if (this.range && this.quickRange && this.quickRange.length) {
-          listQuickRange = this.quickRange.map(q => {
+          listQuickRange = this.quickRange.map((q) => {
             const isIn =
               this.$_is_in_max_min_range(q.start) &&
               this.$_is_in_max_min_range(q.end)
@@ -282,18 +281,17 @@ export default {
               <a
                 href="javascript:;"
                 class={{
-                  "k-date-picker-quick-item": true,
-                  "k-date-picker-quick-disabled": !isIn,
-                  "k-d-p-q-active": this.isSameDate(q.start, q.end)
+                  'k-date-picker-quick-item': true,
+                  'k-date-picker-quick-disabled': !isIn,
+                  'k-d-p-q-active': this.isSameDate(q.start, q.end),
                 }}
-                onClick={e => {
+                onClick={(e) => {
                   if (isIn) {
                     this.startDate = q.start
                     this.endDate = q.end
                     this.$emit('quick', q)
                   }
-                }}
-              >
+                }}>
                 {q.name}
               </a>
             )
@@ -312,13 +310,12 @@ export default {
       if (n > 9) {
         return n
       }
-      return "0" + n
+      return '0' + n
     },
     renderTitle() {
       const p = {
         style: {
-          width: this.block ? "" : "180px",
-          ...this.styles
+          ...this.styles,
         },
         class: 'k-date-picker-cursor-pointer',
         props: {
@@ -333,36 +330,40 @@ export default {
           noStyle: this.noStyle,
           capsule: this.capsule,
           readonly: true,
-          value: this.dateToString()
+          value: this.dateToString(),
         },
         on: {
           clear: () => {
             this.clearDate()
           },
-          keyup: e => {
+          keyup: (e) => {
             if (e.keyCode == 13) this.visible = true
-          }
-        }
+          },
+        },
       }
       if (this.range) {
         let rangeP = {
-          class: ["k-date-picker-range", [`k-date-picker-range--${this.size}`], {
-            'k-date-picker-range-simple': this.simple,
-            'k-date-picker-range-disabled': this.disabled
-          }],
+          class: [
+            'k-date-picker-range',
+            [`k-date-picker-range--${this.size}`],
+            {
+              'k-date-picker-range-simple': this.simple,
+              'k-date-picker-range-disabled': this.disabled,
+            },
+          ],
 
           on: {
-            keyup: e => {
+            keyup: (e) => {
               if (e.keyCode == 13) {
                 this.visible = true
               }
-            }
+            },
           },
-          style: { width: this.block ? "100%" : "180px", ...this.styles }
+          style: { width: this.block ? '100%' : '', ...this.styles },
         }
         if (!this.disabled) {
           rangeP.attrs = {
-            tabindex: 1
+            tabindex: 1,
           }
         }
         return (
@@ -388,11 +389,11 @@ export default {
                   {this.endPlaceholder}
                 </span>
               )}
-              {((this.start || this.end) && !this.disabled) ? (
+              {(this.start || this.end) && !this.disabled ? (
                 <k-icon
                   name="k-icon-close-circle"
                   class="k-date-picker-icon-close"
-                  onClick={e => {
+                  onClick={(e) => {
                     this.clearDate()
                     e.stopPropagation()
                   }}
@@ -410,12 +411,15 @@ export default {
             <k-icon
               name="k-icon-close-circle"
               class="k-date-picker-icon-close k-center"
-              onClick={e => {
+              onClick={(e) => {
                 this.clearDate()
               }}
             />
           ) : (
-            <k-icon name="k-icon-calendar" class="k-date-picker-icon k-center" />
+            <k-icon
+              name="k-icon-calendar"
+              class="k-date-picker-icon k-center"
+            />
           )}
         </k-input>
       )
@@ -427,18 +431,16 @@ export default {
             size="mini"
             onClick={() => {
               this.clearDate()
-            }}
-          >
+            }}>
             清空
           </k-button>,
           <k-button
             size="mini"
-            onClick={e => {
+            onClick={(e) => {
               this.visible = false
-            }}
-          >
+            }}>
             关闭
-          </k-button>
+          </k-button>,
         ]
         if (this.range) {
         } else {
@@ -449,12 +451,13 @@ export default {
               size="mini"
               type="primary"
               disabled={disabled}
-              onClick={e => {
-                if (disabled) { return }
+              onClick={(e) => {
+                if (disabled) {
+                  return
+                }
                 this.currentDate = this.showingDate
                 this.visible = false
-              }}
-            >
+              }}>
               确定
             </k-button>
           )
@@ -474,7 +477,7 @@ export default {
         } else {
           //重新选择
           this.startDate = d
-          this.endDate = ""
+          this.endDate = ''
         }
       }
       if (new Date(this.startDate) - new Date(this.endDate) > 0) {
@@ -482,7 +485,6 @@ export default {
         this.startDate = d
       }
       if (this.startDate && this.endDate) {
-
         this.$emit('change-range', { start: this.startDate, end: this.endDate })
       }
     },
@@ -502,7 +504,9 @@ export default {
       return `${next_y}-${next_m}-01`
     },
     renderBody() {
-      if (this.readonly || this.disabled) { return }
+      if (this.readonly || this.disabled) {
+        return
+      }
       const startProps = {
         props: {
           value: this.initStartDate,
@@ -515,41 +519,40 @@ export default {
           cacheStart: this.cacheStart,
           cacheEnd: this.cacheEnd,
           isStart: true,
-          hidePrevNext: this.hidePrevNext
+          hidePrevNext: this.hidePrevNext,
         },
         on: {
           ...this.$listeners,
-          change: d => {
+          change: (d) => {
             if (this.range) {
               this.handleStartEndChange(d)
             } else {
               this.currentDate = d
               this.$emit('change', d)
               this.visible = false
-
             }
           },
-          "change-end": d => {
+          'change-end': (d) => {
             this.endDate = d
-            this.startDate = ""
+            this.startDate = ''
           },
-          "change-start": d => {
+          'change-start': (d) => {
             this.startDate = d
-            this.endDate = ""
+            this.endDate = ''
           },
-          "change-cache-start": d => {
+          'change-cache-start': (d) => {
             this.cacheStart = util.formatDate(d)
           },
-          "change-cache-end": d => {
+          'change-cache-end': (d) => {
             this.cacheEnd = util.formatDate(d)
           },
-          "change-showing-date": d => {
+          'change-showing-date': (d) => {
             this.startShowingDate = d
           },
-          "change-ymd": d => {
+          'change-ymd': (d) => {
             this.showingDate = d
-          }
-        }
+          },
+        },
       }
       const endProps = {
         props: {
@@ -563,37 +566,37 @@ export default {
           cacheStart: this.cacheStart,
           cacheEnd: this.cacheEnd,
           isEnd: true,
-          hidePrevNext: this.hidePrevNext
+          hidePrevNext: this.hidePrevNext,
         },
         on: {
           ...this.$listeners,
-          change: d => {
+          change: (d) => {
             this.handleStartEndChange(d)
           },
-          "change-end": d => {
+          'change-end': (d) => {
             this.endDate = d
             this.cacheEnd = d
-            this.startDate = ""
+            this.startDate = ''
           },
-          "change-start": d => {
+          'change-start': (d) => {
             this.startDate = d
             this.cacheStart = d
-            this.endDate = ""
+            this.endDate = ''
           },
-          "change-cache-start": d => {
+          'change-cache-start': (d) => {
             this.cacheStart = util.formatDate(d)
           },
-          "change-cache-end": d => {
+          'change-cache-end': (d) => {
             this.cacheEnd = util.formatDate(d)
           },
-          "change-showing-date": d => {
+          'change-showing-date': (d) => {
             this.endShowingDate = d
           },
-          "change-ymd": d => {
+          'change-ymd': (d) => {
             // this.showingDate = d
             // console.log(d)
-          }
-        }
+          },
+        },
       }
       return [
         this._renderQuick(),
@@ -605,14 +608,14 @@ export default {
               : null}
           </div>
           {this._renderActions()}
-        </div>
+        </div>,
       ]
     },
     initStartAndEnd() {
       const start = this.startDate,
         end = this.endDate
       let start1 = this.range ? start : this.currentDate
-      let start2 = this.range ? end : ""
+      let start2 = this.range ? end : ''
       if (this.range) {
         if (start && end) {
           if (util.isSameMonth(start, end)) {
@@ -633,7 +636,7 @@ export default {
       }
       this.initEndDate = start2
       this.initStartDate = start1 || util.formatDate(new Date())
-    }
+    },
   },
   render() {
     const p = {
@@ -641,22 +644,22 @@ export default {
         lazy: this.lazy,
         show: this.visible,
         trigger: this.trigger,
-        bodyClassName: "k-date-picker",
+        bodyClassName: 'k-date-picker',
         title: this.renderTitle(),
         body: this.renderBody(),
         scrollElement: this.scrollElement,
         nearby: this.nearby,
         block: this.block,
-        alignment: this.alignment
+        alignment: this.alignment,
       },
       on: {
-        "update:show": v => {
+        'update:show': (v) => {
           this.visible = v
         },
-        "getLayerElement": el => {
+        getLayerElement: (el) => {
           this.$emit('getLayerElement', el)
-        }
-      }
+        },
+      },
     }
     if (this.disabled) {
       return this.renderTitle()
@@ -682,8 +685,8 @@ export default {
     },
     currentDate(d) {
       d = new Date(d) - 0
-      if (d) this.$emit("valueChange", util.formatDate(d))
-      else this.$emit("valueChange", "")
+      if (d) this.$emit('valueChange', util.formatDate(d))
+      else this.$emit('valueChange', '')
     },
     value(d) {
       if (d) {
@@ -701,7 +704,7 @@ export default {
         } else {
           this.startDate = ''
         }
-      }
+      },
     },
     end: {
       immediate: false,
@@ -712,29 +715,29 @@ export default {
         } else {
           this.endDate = ''
         }
-      }
+      },
     },
     startDate(d) {
       this.$nextTick(() => {
         if (d && this.endDate) {
-          this.$emit("update:end", util.formatDate(this.endDate))
-          this.$emit("update:start", util.formatDate(d))
+          this.$emit('update:end', util.formatDate(this.endDate))
+          this.$emit('update:start', util.formatDate(d))
           this.visible = false
           return
         }
-        this.$emit("update:start", "")
+        this.$emit('update:start', '')
       })
     },
     endDate(d) {
       this.$nextTick(() => {
         if (d && this.startDate) {
-          this.$emit("update:start", util.formatDate(this.startDate))
-          this.$emit("update:end", util.formatDate(d))
+          this.$emit('update:start', util.formatDate(this.startDate))
+          this.$emit('update:end', util.formatDate(d))
           this.visible = false
           return
         }
-        this.$emit("update:end", "")
+        this.$emit('update:end', '')
       })
-    }
-  }
+    },
+  },
 }

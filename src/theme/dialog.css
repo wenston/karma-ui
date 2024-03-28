@@ -1,6 +1,7 @@
 .k-dialog {
   display: flex;
-  min-height: 60px;
+  min-height: 45px;
+  min-width: 400px;
   align-items: flex-start;
   line-height: 24px;
   font-size: 14px;

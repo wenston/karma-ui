@@ -38,7 +38,7 @@
 
 .k-popup__close {
   position: absolute;
-  right: 8px;
+  right: 10px;
   user-select: none;
   color: var(--popup-close-btn-color) !important;
   cursor: pointer;
@@ -67,7 +67,7 @@
   .k-popup__header__title {
     height: var(--popup-header-height);
     line-height: var(--popup-header-height);
-    padding-left: 12px;
+    padding-left: 14px;
 
     b {
       font-size: var(--popup-header-title-font-size);

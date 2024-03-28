@@ -9,6 +9,10 @@
     display: block;
     background-color: transparent;
   }
+  &.k-block {
+    width: 100%;
+    display: block;
+  }
   .k-input {
     cursor: pointer;
   }
@@ -73,8 +77,8 @@
 
   .k-select2-checkbox {
     display: block;
-    height: 28px;
-    line-height: 28px;
+    height: 34px;
+    line-height: 34px;
     cursor: pointer;
     @extend .k-ellipsis;
   }
@@ -100,7 +104,8 @@
   display: inline-block;
   line-height: 1;
   border: 1px solid var(--border-color);
-  border-radius: 2px;
+  border-radius: var(--radius);
+  overflow: hidden;
   .k-select2-checked-name {
     background-color: #fafafa;
     height: 20px;
