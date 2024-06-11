@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     bodyWrapperClasses() {
-      return ['k-tbodywrapper']
+      return ['k-tbodywrapper', this.data.length === 0 ? 'k-tbody-empty' : '']
     },
     tableClasses() {
       return ['k-table', 'k-tbody', { 'k-table--auto': !this.minContent }]
@@ -207,6 +207,19 @@ export default {
           )
         }
       }
+    },
+    renderTable() {
+      if (this.data.length) {
+        return (
+          <table class={this.tableClasses}>
+            {this.$slots.colgroup}
+            <tbody>{this.renderTBody()}</tbody>
+          </table>
+        )
+      }
+      let text =
+        typeof this.emptyText === 'function' ? this.emptyText() : this.emptyText
+      return text
     },
 
     //处理序号列、操作列、多选或者单选的情况
@@ -403,6 +416,8 @@ export default {
         })
       } else if (typeof this.trClass === 'string') {
         trClass[this.trClass] = true
+      } else if (typeof this.trClass === 'function') {
+        trClass = this.trClass(row, index)
       } else {
         trClass = this.trClass
       }
@@ -492,14 +507,7 @@ export default {
     },
   },
   render() {
-    const { bodyWrapperClasses, tableClasses } = this
-    return (
-      <div class={bodyWrapperClasses}>
-        <table class={tableClasses}>
-          {this.$slots.colgroup}
-          <tbody>{this.renderTBody()}</tbody>
-        </table>
-      </div>
-    )
+    const { bodyWrapperClasses } = this
+    return <div class={bodyWrapperClasses}>{this.renderTable()}</div>
   },
 }

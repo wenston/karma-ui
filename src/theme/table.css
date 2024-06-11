@@ -283,6 +283,11 @@ td.k-table-fixed-td-right-body {
 .k-tbodywrapper {
   min-width: min-content;
   width: 100%;
+  &.k-tbody-empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   & .k-tbody {
     background-color: white;
     /* box-shadow: 1px 0 0 var(--table-border-color); */
