@@ -1,36 +1,36 @@
 <script>
-import { offset, getStyle, scrollIntoViewIfNeed } from "karma-ui/util/dom"
-import KInput from "karma-ui/packages/input/input.jsx.vue"
-import esc from "karma-ui/util/esc.js"
-import { layer } from "karma-ui/packages/layer/index"
-import KIcon from "karma-ui/packages/icon/icon"
+import { offset, getStyle, scrollIntoViewIfNeed } from 'karma-ui/util/dom'
+import KInput from 'karma-ui/packages/input/input.jsx.vue'
+import esc from 'karma-ui/util/esc.js'
+import { layer } from 'karma-ui/packages/layer/index'
+import KIcon from 'karma-ui/packages/icon/icon'
 // todo:数据异步加载，即：点击的时候再加载数据
 export default {
-  name: "KSelect",
+  name: 'KSelect',
   components: {
     KInput,
-    KIcon
+    KIcon,
   },
   model: {
-    prop: "modelKey",
-    event: "modelKeyChange"
+    prop: 'modelKey',
+    event: 'modelKeyChange',
   },
   props: {
     size: {
       type: String,
-      default: 'medium'
+      default: 'medium',
     },
     value: {
       type: [Number, String, Boolean],
-      default: void 0
+      default: void 0,
     },
     modelKey: {
       type: [Number, String],
-      default: void 0
+      default: void 0,
     },
     placeholder: {
       type: String,
-      default: "请选择"
+      default: '请选择',
     },
     styles: Object,
     noStyle: Boolean,
@@ -40,43 +40,43 @@ export default {
     block: Boolean,
     icon: {
       type: Array,
-      default: () => ["k-icon-arrow-down", "k-icon-close-circle"]
+      default: () => ['k-icon-arrow-down', 'k-icon-close-circle'],
     },
     scrollElement: {
       type: Element,
-      default: null
+      default: null,
     },
     nearby: Boolean,
     layerWidth: {
       type: [Boolean, String],
-      default: false
+      default: false,
     },
-    layerMinWidthEqual: Boolean
+    layerMinWidthEqual: Boolean,
   },
   data() {
     return {
-      modelValue: "",
+      modelValue: '',
       showOptionList: false,
       showDelete: false,
       //optionWrapper实例及里边包含的option列表实例
       ins: null,
       options: [], //收集本组件下属的所有option组件
-      optionCompName: "",
+      optionCompName: '',
       isMouseDownOption: false,
-      timer: null
+      timer: null,
     }
   },
   computed: {
     ifOptionList() {
       return this.showOptionList && this.$slots.default
-    }
+    },
   },
   methods: {
     focus() {
       this.$refs.input.focus()
     },
     focusAndScrollIntoView() {
-      this.$el.scrollIntoView({ behavior: "smooth" })
+      this.$el.scrollIntoView({ behavior: 'smooth' })
       this.$refs.input.focus()
       this.toggleList()
     },
@@ -89,7 +89,7 @@ export default {
     showDeleteBtn() {
       if (
         this.clearable &&
-        this.modelKey !== "" &&
+        this.modelKey !== '' &&
         this.modelKey !== undefined
       ) {
         this.showDelete = true
@@ -98,7 +98,7 @@ export default {
     hideDeleteBtn() {
       if (
         this.clearable &&
-        this.modelKey !== "" &&
+        this.modelKey !== '' &&
         this.modelKey !== undefined
       ) {
         this.showDelete = false
@@ -123,14 +123,13 @@ export default {
     _change(obj, hide, isFocus) {
       this.modelValue = obj.v
       isFocus && this.$refs.input.focus()
-      this.$emit("modelKeyChange", obj.k)
+      this.$emit('modelKeyChange', obj.k)
       hide && this.hideList()
     },
     emit(obj) {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.$emit('change', obj)
-
       }, 50)
     },
     rIcon() {
@@ -139,15 +138,14 @@ export default {
           <span
             class="k-select__icon__wrapper"
             slot="append"
-            onClick={e => {
+            onClick={(e) => {
               this.clear()
               e.stopPropagation()
-            }}
-          >
+            }}>
             <k-icon
               size="12"
               class="k-select__clear"
-              name={this.icon[1] || "k-icon-close-circle"}
+              name={this.icon[1] || 'k-icon-close-circle'}
             />
           </span>
         )
@@ -156,19 +154,18 @@ export default {
           <span
             class="k-select__icon__wrapper"
             slot="append"
-            onClick={e => {
+            onClick={(e) => {
               this.$refs.input.focus()
               this.toggleList()
               e.stopPropagation()
-            }}
-          >
+            }}>
             <k-icon
               size="12"
               class={{
-                "k-select__down": true,
-                "k-select__down--up": this.ifOptionList
+                'k-select__down': true,
+                'k-select__down--up': this.ifOptionList,
               }}
-              name={this.icon[0] || "k-icon-arrow-down"}
+              name={this.icon[0] || 'k-icon-arrow-down'}
             />
           </span>
         )
@@ -178,20 +175,20 @@ export default {
     initIns() {
       this.$nextTick(() => {
         this.ins.init(this, this.$slots.default, {
-          bodyClassName: "k-select__list",
-          tag: "div",
-          bodyTag: "ul",
+          bodyClassName: 'k-select__list',
+          tag: 'div',
+          bodyTag: 'ul',
           width: this.layerWidth,
           layerMinWidthEqual: this.layerMinWidthEqual,
           canCloseByClickoutside: true,
           scrollElement: this.scrollElement,
-          nearby: this.nearby
+          nearby: this.nearby,
         })
       })
     },
     scrollIntoViewIfNeed(index) {
       let i = 0
-      if (typeof index === "number") {
+      if (typeof index === 'number') {
         i = index
       } else {
         i = this.getSelectedOptionIndex()
@@ -236,11 +233,7 @@ export default {
         return
       }
       const obj = { k: this.options[i].value, v: this.options[i].label }
-      this._change(
-        obj,
-        false,
-        true
-      )
+      this._change(obj, false, true)
       this.emit(obj)
       this.scrollIntoViewIfNeed(i)
 
@@ -251,17 +244,17 @@ export default {
       if (code == 13 || code == 40 || code == 38) e.preventDefault()
     },
     addUpDownEvent() {
-      document.addEventListener("keyup", this.handleKeyup)
-      document.addEventListener("keydown", this.handleKeydown)
+      document.addEventListener('keyup', this.handleKeyup)
+      document.addEventListener('keydown', this.handleKeydown)
     },
     removeUpDownEvent() {
-      document.removeEventListener("keyup", this.handleKeyup)
-      document.removeEventListener("keydown", this.handleKeydown)
+      document.removeEventListener('keyup', this.handleKeyup)
+      document.removeEventListener('keydown', this.handleKeydown)
     },
     getAllOptionsComponent() {
       let arr = []
-      const fn = Comp => {
-        Comp.$children.forEach(child => {
+      const fn = (Comp) => {
+        Comp.$children.forEach((child) => {
           if (child.$options.name === this.optionCompName) {
             arr.push(child)
           } else {
@@ -271,10 +264,12 @@ export default {
       }
       fn(this.ins)
       this.options = arr
-    }
+    },
   },
   beforeDestroy() {
-    this.ins.destroy()
+    if (this.ins) {
+      this.ins.destroy()
+    }
   },
   updated() {
     this.initIns()
@@ -287,32 +282,32 @@ export default {
         this.ins = layer()
       }
       this.initIns()
-      this.ins.$on("layer-inited", () => {
-        this.$emit("getLayerElement", this.ins)
+      this.ins.$on('layer-inited', () => {
+        this.$emit('getLayerElement', this.ins)
       })
-      this.ins.$on("after-hide", () => {
+      this.ins.$on('after-hide', () => {
         this.hideList()
       })
-      this.ins.$on("mousedown", () => {
+      this.ins.$on('mousedown', () => {
         this.isMouseDownOption = true
       })
-      this.ins.$on("mouseout", () => {
+      this.ins.$on('mouseout', () => {
         this.isMouseDownOption = false
       })
     })
   },
   created() {
-    this.$on("getKeyValueFromOption", (k, v, hide, isFocus, isEmit) => {
+    this.$on('getKeyValueFromOption', (k, v, hide, isFocus, isEmit) => {
       this._change({ k, v }, hide, isFocus)
       // console.log('select组件', k, v)
       if (isEmit) {
         this.emit({ k, v })
       }
     })
-    this.$on("getOptionComponentName", name => {
+    this.$on('getOptionComponentName', (name) => {
       this.optionCompName = name
     })
-    this.$on("inovering", isMouseDownOption => {
+    this.$on('inovering', (isMouseDownOption) => {
       this.isMouseDownOption = isMouseDownOption
       //如果鼠标离开列表，且当前焦点不是此组件的input，则隐藏列表
       if (!isMouseDownOption) {
@@ -324,7 +319,7 @@ export default {
   },
   watch: {
     modelKey(n) {
-      if (n === undefined || n === "") {
+      if (n === undefined || n === '') {
         this._change({ k: '', v: '' }, false, false)
       }
     },
@@ -340,25 +335,25 @@ export default {
         this.ins.hide()
         this.removeUpDownEvent()
       }
-    }
+    },
   },
   directives: {
     // clickoutside,
-    esc
+    esc,
   },
   render() {
     const inputProps = {
       directives: [
         {
-          name: "esc",
-          value: this.hideList
-        }
+          name: 'esc',
+          value: this.hideList,
+        },
       ],
-      ref: "input",
+      ref: 'input',
       class: {
-        "k-select": true,
-        "k-select-events-none": !(this.showDelete && this.clearable),
-        "k-select__active": this.ifOptionList
+        'k-select': true,
+        'k-select-events-none': !(this.showDelete && this.clearable),
+        'k-select__active': this.ifOptionList,
       },
       props: {
         placeholder: this.placeholder,
@@ -368,38 +363,38 @@ export default {
         disabled: this.disabled,
         simple: this.simple,
         block: this.block,
-        noStyle: this.noStyle
+        noStyle: this.noStyle,
       },
       on: {
-        focus: e => {
+        focus: (e) => {
           // this.showList()
-          this.$emit("focus", e)
+          this.$emit('focus', e)
           e.stopPropagation()
         },
-        blur: e => {
+        blur: (e) => {
           //失去焦点的时候，如果鼠标还在列表中呈现mousedown状态，则不隐藏
           if (!this.isMouseDownOption) {
             this.hideList()
           }
           this.$emit('blur', e)
         },
-        keyup: e => {
+        keyup: (e) => {
           if (e.keyCode == 40) {
             if (!this.showOptionList) {
               this.toggleList()
               e.stopPropagation()
             }
           }
-        }
+        },
       },
       nativeOn: {
         click: this.toggleList,
         mouseover: this.showDeleteBtn,
-        mouseout: this.hideDeleteBtn
+        mouseout: this.hideDeleteBtn,
       },
-      style: this.styles
+      style: this.styles,
     }
     return <k-input {...inputProps}>{this.rIcon()}</k-input>
-  }
+  },
 }
 </script>
