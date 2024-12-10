@@ -1,40 +1,41 @@
-import { scrollIntoViewIfNeed } from "karma-ui/util/dom"
-import KDropdown from "karma-ui/packages/dropdown/dropdown"
-import KTree from "karma-ui/packages/tree/tree"
-import KIcon from "karma-ui/packages/icon/icon"
-import loading from "karma-ui/directives/loading/index"
-import ScrollBar from "karma-ui/packages/scrollbar/Scrollbar"
+import { scrollIntoViewIfNeed } from 'karma-ui/util/dom'
+import KDropdown from 'karma-ui/packages/dropdown/dropdown'
+import KTree from 'karma-ui/packages/tree/tree'
+import KIcon from 'karma-ui/packages/icon/icon'
+import loading from 'karma-ui/directives/loading/index'
+import ScrollBar from 'karma-ui/packages/scrollbar/Scrollbar'
 //TODO: 需增加clearable
 export default {
-  name: "KSelectTree",
+  name: 'KSelectTree',
   components: {
     KDropdown,
     KTree,
-    KIcon
+    KIcon,
   },
   //根据hasCheckbox判断是否是多选
   props: {
     ...KTree.props,
-    size: {//是title框的高度大小
+    size: {
+      //是title框的高度大小
       type: String,
-      default: 'medium'
+      default: 'medium',
     },
     show: {
       type: Boolean,
-      default: false
+      default: false,
     },
     placeholder: {
       type: String,
-      default: "请选择分类"
+      default: '请选择分类',
     },
     block: {
       type: Boolean,
-      default: false
+      default: false,
     },
     noStyle: Boolean,
     simple: {
       type: Boolean,
-      default: false
+      default: false,
     },
     clearable: Boolean,
     //textField对应的值，text参数的作用是在树形数据懒加载时用的。因为懒加载
@@ -42,46 +43,56 @@ export default {
     text: [String, Number],
     hasActions: {
       type: Boolean,
-      default: true
+      default: true,
     },
     lazyTree: Boolean,
     lazyLayer: {
       type: Boolean,
-      default: true
+      default: true,
     },
     nearby: Boolean,
     whiteList: Array,
     layerWidth: {
       type: String,
-      default: 'auto'
+      default: 'auto',
     },
-    layerMinWidthEqual: Boolean
+    layerMinWidthEqual: Boolean,
+    fullPath: Boolean,
+    connector: {
+      type: String,
+      default: '/',
+    },
+    //是否自动关闭，当点选完成后，如果选择有效的节点，则自动关闭
+    autoClose: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       visible: this.show,
       showDeleteButton: false,
       checkedData: this.selectedData,
-      checkedKeys: this.selectedKeys.join(","),
+      checkedKeys: this.selectedKeys.join(','),
       list: [],
       currentVal: this.value,
       currentText: this.text, //currentVal对应的具体值
       isSearching: false,
-      layerElem: null
+      layerElem: null,
     }
   },
   model: {
-    prop: "value",
-    event: "valueChange"
+    prop: 'value',
+    event: 'valueChange',
   },
   methods: {
     isSameKeys(arr1, arr2) {
       const a1 = JSON.parse(JSON.stringify(arr1))
         .sort((x, y) => x - y)
-        .join(",")
+        .join(',')
       const a2 = JSON.parse(JSON.stringify(arr2))
         .sort((x, y) => x - y)
-        .join(",")
+        .join(',')
       return a1 === a2
     },
     checkedList() {
@@ -95,7 +106,7 @@ export default {
           checkedData = this.checkedData
         if (checkedData && checkedData.length) {
           list = checkedData.map((item, i) => {
-            return item[textField] + (i === checkedData.length - 1 ? "" : "，")
+            return item[textField] + (i === checkedData.length - 1 ? '' : '，')
           })
         }
         return (
@@ -116,29 +127,34 @@ export default {
       if (
         (this.checkedData && this.checkedData.length) ||
         (this.clearable &&
-          this.currentVal !== "" &&
+          this.currentVal !== '' &&
           this.currentVal !== undefined)
       ) {
         icon = (
           <k-icon
             class="k-select-tree-clear"
-            name={this.showDeleteButton ? "k-icon-close-circle" : "k-icon-arrow-down"}
+            name={
+              this.showDeleteButton
+                ? 'k-icon-close-circle'
+                : 'k-icon-arrow-down'
+            }
             tabindex="-1"
-            onFocus={e => {
+            onFocus={(e) => {
               e.stopPropagation()
             }}
-            onClick={e => {
+            onClick={(e) => {
               if (this.checkedData && this.checkedData.length) {
-                this.checkedKeys = ""
-              } else if (
-                this.currentVal !== "" &&
+                this.checkedKeys = ''
+              }
+              if (
+                this.currentVal !== '' &&
                 this.currentVal !== undefined &&
                 this.clearable
               ) {
-                this.currentVal = ""
-                this.currentText = ""
+                this.currentVal = ''
+                this.currentText = ''
               }
-              this.$emit("toggle", [])
+              this.$emit('toggle', [])
               this.$emit('clear')
               e.stopPropagation()
             }}
@@ -147,39 +163,46 @@ export default {
       } else {
         icon = (
           <k-icon
-            name={this.showDeleteButton ? "k-icon-close-circle" : "k-icon-arrow-down"}
+            name={
+              this.showDeleteButton
+                ? 'k-icon-close-circle'
+                : 'k-icon-arrow-down'
+            }
             class="k-select-tree-clear"
-            transform={this.visible && "rotateX(180deg)"}
+            transform={this.visible && 'rotateX(180deg)'}
           />
         )
       }
       const p = {
         attrs: {
-          tabindex: 1
+          tabindex: 1,
         },
         class: [
-          "k-select-tree",
+          'k-select-tree',
           [`k-select-tree--${this.size}`],
           {
-            ["k-select-tree--block"]: this.block,
-            ["k-select-tree--simple"]: this.simple,
-            ["k-select-tree--nostyle"]: this.noStyle
-          }
+            ['k-select-tree--block']: this.block,
+            ['k-select-tree--simple']: this.simple,
+            ['k-select-tree--nostyle']: this.noStyle,
+          },
         ],
         on: {
-          keyup: e => {
+          keyup: (e) => {
             if (e.keyCode == 13 || e.keyCode == 40) {
               this.visible = true
             }
           },
-          mouseenter: e => {
-            if(this.currentVal || this.checkedData.length || this.checkedKeys.length) {
-
-              this.showDeleteButton = true;
+          mouseenter: (e) => {
+            if (
+              this.currentVal ||
+              this.checkedData.length ||
+              this.checkedKeys.length
+            ) {
+              this.showDeleteButton = true
             }
           },
-          mouseleave: e => {
-            this.showDeleteButton = false;
+          mouseleave: (e) => {
+            this.showDeleteButton = false
           },
         },
       }
@@ -193,7 +216,7 @@ export default {
     scrollIntoView() {
       //滚动到可视区内
       this.$nextTick(() => {
-        const bodyElem = this.layerElem.querySelector(".k-select-tree-body")
+        const bodyElem = this.layerElem.querySelector('.k-select-tree-body')
         const el = bodyElem.querySelector(
           `[data-tree-key="${this.currentVal}"]`
         )
@@ -208,63 +231,83 @@ export default {
         textField = this.textField
       let list = this.list
       let p = {
-        ref: "tree",
+        ref: 'tree',
         props: {
           ...this.$props,
           value: this.currentVal,
           selectedData: this.checkedData,
           lazy: this.lazyTree,
-          noStyle: false
+          noStyle: false,
         },
         on: {
           ...this.$listeners,
-          searching: b => {
+          searching: (b) => {
             this.isSearching = b
           },
-          "after-transition": () => {
+          'after-transition': () => {
             this.scrollIntoView()
           },
-          valueChange: v => {
+          valueChange: (v) => {
             this.scrollIntoView()
             this.currentVal = v
             if (!this.hasCheckbox) {
-              if (v !== "" && v !== undefined) {
-                if (!this.isSearching) this.visible = false
+              if (v !== '' && v !== undefined) {
+                if (!this.isSearching) {
+                  if (this.autoClose) {
+                    this.visible = false
+                  }
+                }
               }
             }
           },
           reconfirm: () => {
-            if (!this.hasCheckbox) this.visible = false
+            if (!this.hasCheckbox) {
+              if (this.autoClose) {
+                this.visible = false
+              }
+            }
           },
-          toggle: arr => {
+          toggle: (arr) => {
             if (arr.length) {
               const item = arr[arr.length - 1]
-              if (item)
-                this.currentText = item[textField]
-              else {
+              if (item) {
+                if (this.fullPath) {
+                  this.currentText = arr
+                    .map((item) => item[textField])
+                    .join(this.connector)
+                } else {
+                  this.currentText = item[textField]
+                }
+              } else {
                 this.currentText = ''
               }
             }
             //TODO:有时返回的arr为[undefined]
-            this.$emit("toggle", arr)
+            this.$emit('toggle', arr)
           },
-          "update:selectedData": d => {
+          'update:selectedData': (d) => {
             this.checkedData = d
-          }
-        }
+          },
+        },
       }
       if (this.visible) {
         p.directives = [
           {
-            name: "loading",
+            name: 'loading',
             value: {
               loading: this.data.length === 0,
-            }
-          }
+            },
+          },
         ]
       }
       return <KTree {...p} />
-    }
+    },
+    clear() {
+      this.currentText = ''
+      this.currentVal = ''
+      this.checkedData = []
+      this.checkedKeys = ''
+    },
   },
   render() {
     const title = this.title()
@@ -276,25 +319,25 @@ export default {
         show: this.visible,
         title,
         body,
-        bodyClassName: "k-select-tree-body",
+        bodyClassName: 'k-select-tree-body',
         lazy: this.lazyLayer,
         nearby: this.nearby,
         whiteList: this.whiteList,
         layerWidth: this.layerWidth,
-        layerMinWidthEqual: this.layerMinWidthEqual
+        layerMinWidthEqual: this.layerMinWidthEqual,
       },
       on: {
-        "update:show": v => {
+        'update:show': (v) => {
           this.visible = v
         },
-        getLayerElement: elem => {
+        getLayerElement: (elem) => {
           this.layerElem = elem
-          this.$emit("getLayerElement", elem)
-        }
-      }
+          this.$emit('getLayerElement', elem)
+        },
+      },
     }
     return (
-      <KDropdown {...p} >
+      <KDropdown {...p}>
         <template slot="header">{this.$slots.header}</template>
         <template slot="footer">{this.$slots.footer}</template>
       </KDropdown>
@@ -305,13 +348,13 @@ export default {
       this.currentText = t
     },
     currentVal(v) {
-      this.$emit("valueChange", v)
+      this.$emit('valueChange', v)
     },
     value(v) {
       this.currentVal = v
     },
     visible(v) {
-      this.$emit("update:show", v)
+      this.$emit('update:show', v)
       this.$nextTick(() => {
         if (this.$refs.tree) this.$refs.tree.onSelect()
       })
@@ -323,24 +366,24 @@ export default {
       this.checkedData = d
     },
     checkedData(d) {
-      this.$emit("update:selectedData", d)
+      this.$emit('update:selectedData', d)
     },
     checkedKeys(v, oldv) {
-      let arr = v.split(",")
+      let arr = v.split(',')
       if (arr && arr.length && !arr[0]) {
         arr = []
       }
       if (!this.isSameKeys(this.selectedKeys, arr)) {
-        this.$emit("update:selectedKeys", arr)
+        this.$emit('update:selectedKeys', arr)
       }
     },
     selectedKeys(v, oldv) {
       if (!this.isSameKeys(v, oldv)) {
-        this.checkedKeys = v.join(",")
+        this.checkedKeys = v.join(',')
       }
-    }
+    },
   },
   directives: {
-    loading
-  }
+    loading,
+  },
 }
