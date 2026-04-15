@@ -1,36 +1,36 @@
-import Vue from "vue"
-import { getStyle, setStyle } from "karma-ui/util/dom"
-import LoadingComponent from "karma-ui/packages/loading/Loading.vue"
-const timeout = t => {
-  return new Promise((resolve,reject)=>{
-    setTimeout(()=>{
+import Vue from 'vue'
+import { getStyle, setStyle } from 'karma-ui/util/dom'
+import LoadingComponent from 'karma-ui/packages/loading/Loading.vue'
+const timeout = (t) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
       console.warn(`v-loading指令：超时（${t}ms）自动关闭`)
       resolve()
-    },t)
+    }, t)
   })
 }
-const instance = "@@instance"
+const instance = '@@instance'
 let settings = {
-  content: "",
-  position: "absolute",
+  content: '',
+  position: 'absolute',
   isFullScreen: true,
-  color: "#409eff",
-  backgroundColor: "rgba(255,255,255,.4)",
-  iconColor: "#409eff",
-  timeout: -1,//-1代表没有超时自动关闭的功能
-  afterTimeout: () => {}
+  color: 'var(--color-primary)',
+  backgroundColor: 'rgba(255,255,255,.4)',
+  iconColor: 'var(--color-primary)',
+  timeout: -1, //-1代表没有超时自动关闭的功能
+  afterTimeout: () => {},
 }
 export default {
   bind(el, binding) {
     const LoadingConstructor = Vue.extend(LoadingComponent)
     el[instance] = new LoadingConstructor().$mount()
-    const position = getStyle(el, "position")
+    const position = getStyle(el, 'position')
     if (
-      position !== "fixed" &&
-      position !== "relative" &&
-      position !== "absolute"
+      position !== 'fixed' &&
+      position !== 'relative' &&
+      position !== 'absolute'
     ) {
-      setStyle(el, "position", "relative")
+      setStyle(el, 'position', 'relative')
     }
     el.appendChild(el[instance].$el)
   },
@@ -38,7 +38,7 @@ export default {
     let isShow = false,
       v = binding.value,
       opts = {}
-    if (typeof v === "boolean") {
+    if (typeof v === 'boolean') {
       isShow = v
     } else {
       isShow = v.loading
@@ -47,10 +47,12 @@ export default {
     }
     if (isShow) {
       el[instance].show()
-      opts.timeout && opts.timeout>-1 && timeout(opts.timeout).then(()=>{
-        el[instance].hide(true)
-        opts.afterTimeout()
-      })
+      opts.timeout &&
+        opts.timeout > -1 &&
+        timeout(opts.timeout).then(() => {
+          el[instance].hide(true)
+          opts.afterTimeout()
+        })
     } else {
       el[instance].hide(true)
     }
@@ -59,7 +61,7 @@ export default {
     let isShow = false,
       v = binding.value,
       opts = {}
-    if (typeof v === "boolean") {
+    if (typeof v === 'boolean') {
       isShow = v
     } else {
       isShow = v.loading
@@ -70,10 +72,12 @@ export default {
       Vue.nextTick(() => {
         if (el[instance]) el[instance].show()
       })
-      opts.timeout && opts.timeout>-1 && timeout(opts.timeout).then(()=>{
-        el[instance].hide(true)
-        opts.afterTimeout()
-      })
+      opts.timeout &&
+        opts.timeout > -1 &&
+        timeout(opts.timeout).then(() => {
+          el[instance].hide(true)
+          opts.afterTimeout()
+        })
     } else {
       Vue.nextTick(() => {
         if (el[instance]) el[instance].hide(true)
@@ -82,5 +86,5 @@ export default {
   },
   unbind(el, binding) {
     el[instance] = null
-  }
+  },
 }
